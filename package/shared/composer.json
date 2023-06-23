@@ -1,0 +1,25 @@
+{
+    "name": "epush/shared",
+    "description": "E-push service that contains all common features required by all other services or a group of them.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Shared\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Shared\\Infra\\Provider\\SharedServiceProvider"
+            ]
+        }
+    }
+}

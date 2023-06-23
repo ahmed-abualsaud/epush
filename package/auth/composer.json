@@ -1,0 +1,21 @@
+{
+    "name": "epush/auth",
+    "description": "E-push service to handle authentication and authorization routines",
+    "type": "library",
+    "require": {
+        "spatie/laravel-route-attributes": "^1.18",
+        "rap2hpoutre/fast-excel": "*"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Auth\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud"
+        }
+    ],
+    "minimum-stability": "stable"
+}
