@@ -38,13 +38,13 @@
 
         .fl-table thead th {
             color: #ffffff;
-            background: #4FC3A1;
+            background: #063F30;
         }
 
 
         .fl-table thead th:nth-child(odd) {
             color: #ffffff;
-            background: #324960;
+            background: #070020;
         }
 
         .fl-table tr:nth-child(even) {
