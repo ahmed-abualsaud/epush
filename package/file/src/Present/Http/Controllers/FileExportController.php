@@ -10,7 +10,7 @@ use Epush\File\Domain\DTOs\DataDto;
 use Epush\File\Domain\UseCases\Excel\ExportExcelUseCase;
 use Epush\File\Domain\UseCases\PDF\ExportPDFUseCase;
 
-#[Prefix('export')]
+#[Prefix('api/export')]
 class FileExportController
 {
     #[Get('pdf')]
