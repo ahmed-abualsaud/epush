@@ -8,7 +8,7 @@
             -moz-box-sizing: border-box;
         }
         body{
-            font-family: Helvetica;
+            font-family: DejaVu Sans, sans-serif; 
             -webkit-font-smoothing: antialiased;
             background: #bbbfc4;
         }
@@ -22,7 +22,6 @@
             font-size: 12px;
             font-weight: normal;
             width: 100%;
-            white-space: nowrap;
             background-color: white;
         }
 
@@ -34,6 +33,7 @@
         .fl-table td {
             border-right: 1px solid #e7e6e6;
             font-size: 12px;
+            word-wrap: break-word;
         }
 
         .fl-table thead th {

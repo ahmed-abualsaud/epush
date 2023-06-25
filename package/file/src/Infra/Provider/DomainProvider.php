@@ -25,7 +25,16 @@ class DomainProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(DataDto::class, function () {
-            return new DataDto($this->app->make('request')->all());
+            $data = $this->app->make('request')->all();
+
+            if (array_key_exists('columns', $data) && gettype($data['columns']) === 'string') {
+                $data['columns'] = json_decode($data['columns']);
+            }
+            if (array_key_exists('rows', $data) && gettype($data['rows']) === 'string') {
+                $data['rows'] = json_decode($data['rows']);
+            }
+
+            return new DataDto($data);
         });
     }
 }

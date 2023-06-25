@@ -17,6 +17,7 @@
     "require": {
         "maatwebsite/excel": "3.1.48",
         "barryvdh/laravel-dompdf": "^2.0",
+        "khaled.alshamaa/ar-php": "^6.3",
         "spatie/laravel-route-attributes": "^1.18"
         
     },

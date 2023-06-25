@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "epush/file": "dev-main",
-        "epush/shared": "dev-main",
+        "epush/file": "dev-master",
+        "epush/shared": "dev-master",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
