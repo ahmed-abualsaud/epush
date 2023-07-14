@@ -4,11 +4,11 @@ namespace Epush\File\Infra\Provider;
 
 use Illuminate\Support\ServiceProvider;
 
-use Epush\File\App\Services\PDF\PDFService;
-use Epush\File\App\Contracts\PDF\PDFServiceContract;
+use Epush\File\App\Service\PDF\PDFService;
+use Epush\File\App\Contract\PDF\PDFServiceContract;
 
-use Epush\File\App\Services\Excel\ExcelService;
-use Epush\File\App\Contracts\Excel\ExcelServiceContract;
+use Epush\File\App\Service\Excel\ExcelService;
+use Epush\File\App\Contract\Excel\ExcelServiceContract;
 
 class AppProvider extends ServiceProvider
 {

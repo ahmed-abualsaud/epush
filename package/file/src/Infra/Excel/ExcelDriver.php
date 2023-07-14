@@ -2,9 +2,7 @@
 
 namespace Epush\File\Infra\Excel;
 
-use Epush\File\Domain\DTOs\DataDto;
-use Epush\Shared\Present\Response;
-use Epush\Shared\Present\ResponseContract;
+use Epush\Shared\Domain\Entity\FileDownload;
 
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\FromArray;
@@ -13,28 +11,24 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 class ExcelDriver implements ExcelDriverContract
 {
 
-    public function download(DataDto $data, string $fileName): ResponseContract
+    public function download(array $data, string $fileName): FileDownload
     {
-        return new Response(Excel::download(new DataExport($data), $fileName));
+        return new FileDownload($fileName, Excel::raw(new DataExport($data), 'Xlsx'));
     }
 }
 
 class DataExport implements FromArray, WithHeadings
 {
-    protected $data;
 
-    public function __construct(DataDto $data)
-    {
-        $this->data = $data;
-    }
+    public function __construct(private array $data) {}
 
     public function array(): array
     {
-        return $this->data->getRows();
+        return $this->data['rows']?? [];
     }
 
     public function headings(): array
     {
-        return $this->data->getColumns();
+        return $this->data['columns']?? [];
     }
 }

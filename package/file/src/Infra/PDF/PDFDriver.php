@@ -5,15 +5,13 @@ namespace Epush\File\Infra\PDF;
 use PDF;
 
 use ArPHP\I18N\Arabic;
-use Epush\File\Domain\DTOs\DataDto;
-use Epush\Shared\Present\Response;
-use Epush\Shared\Present\ResponseContract;
+use Epush\Shared\Domain\Entity\FileDownload;
 
 class PDFDriver implements PDFDriverContract
 {
-    public function download(DataDto $data, string $fileName): ResponseContract
+    public function download(array $data, string $fileName): FileDownload
     {
-        $reportHtml = view('file::data', $data->toArray())->render();
+        $reportHtml = view('file::data', $data)->render();
         
         $arabic = new Arabic();
         $p = $arabic->arIdentify($reportHtml);
@@ -22,8 +20,7 @@ class PDFDriver implements PDFDriverContract
             $utf8ar = $arabic->utf8Glyphs(substr($reportHtml, $p[$i-1], $p[$i] - $p[$i-1]));
             $reportHtml = substr_replace($reportHtml, $utf8ar, $p[$i-1], $p[$i] - $p[$i-1]);
         }
-        $pdf = PDF::loadHTML($reportHtml);
 
-        return new Response($pdf->download($fileName));
+        return new FileDownload($fileName, PDF::loadHTML($reportHtml)->output());
     }
 }

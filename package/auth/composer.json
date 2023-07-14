@@ -3,8 +3,8 @@
     "description": "E-push service to handle authentication and authorization routines",
     "type": "library",
     "require": {
-        "spatie/laravel-route-attributes": "^1.18",
-        "rap2hpoutre/fast-excel": "*"
+        "tymon/jwt-auth": "^2.0",
+        "spatie/laravel-route-attributes": "^1.18"
     },
     "license": "MIT",
     "autoload": {
@@ -17,5 +17,12 @@
             "name": "Ahmed Mohamed Abu Al-Saud"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Auth\\Infra\\Provider\\AuthServiceProvider"
+            ]
+        }
+    }
 }

@@ -6,7 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "epush/auth": "dev-master",
         "epush/file": "dev-master",
+        "epush/orchi": "dev-master",
         "epush/shared": "dev-master",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",

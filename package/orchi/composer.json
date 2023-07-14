@@ -1,0 +1,27 @@
+{
+    "name": "epush/orchi",
+    "description": "orchistration service to manage the application",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Orchi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "spatie/laravel-route-attributes": "^1.18"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Orchi\\Infra\\Provider\\OrchiServiceProvider"
+            ]
+        }
+    }
+}

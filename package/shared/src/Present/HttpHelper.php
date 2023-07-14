@@ -35,6 +35,11 @@ function failureJSONResponse($error, $status = 500)
         );
 }
 
+function fileDownloadResponse(Epush\Shared\Domain\Entity\FileDownload $fileDownload)
+{
+    return response()->streamDownload(function () use ($fileDownload) { echo $fileDownload->getFileContent(); }, $fileDownload->getFileName());
+}
+
 function buildException($status, $error = null)
 {
     $message = getCodeMessage($status);

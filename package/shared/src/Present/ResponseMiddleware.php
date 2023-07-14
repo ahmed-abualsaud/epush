@@ -1,6 +1,6 @@
 <?php
  
- namespace Epush\Shared\Present;
+namespace Epush\Shared\Present;
  
 use Closure;
 use Illuminate\Http\Request;

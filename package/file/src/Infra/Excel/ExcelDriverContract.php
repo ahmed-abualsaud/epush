@@ -2,10 +2,9 @@
 
 namespace Epush\File\Infra\Excel;
 
-use Epush\File\Domain\DTOs\DataDTO;
-use Epush\Shared\Present\ResponseContract;
+use Epush\Shared\Domain\Entity\FileDownload;
 
 interface ExcelDriverContract
 {
-    public function download(DataDTO $dataDto, string $fileName): ResponseContract;
+    public function download(array $data, string $fileName): FileDownload;
 }

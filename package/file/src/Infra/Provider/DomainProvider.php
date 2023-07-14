@@ -2,7 +2,7 @@
 
 namespace Epush\File\Infra\Provider;
 
-use Epush\File\Domain\DTOs\DataDto;
+use Epush\File\Domain\DTO\DataDto;
 use Illuminate\Support\ServiceProvider;
 
 class DomainProvider extends ServiceProvider
@@ -28,10 +28,10 @@ class DomainProvider extends ServiceProvider
             $data = $this->app->make('request')->all();
 
             if (array_key_exists('columns', $data) && gettype($data['columns']) === 'string') {
-                $data['columns'] = json_decode($data['columns']);
+                $data['columns'] = json_decode($data['columns'], true);
             }
             if (array_key_exists('rows', $data) && gettype($data['rows']) === 'string') {
-                $data['rows'] = json_decode($data['rows']);
+                $data['rows'] = json_decode($data['rows'], true);
             }
 
             return new DataDto($data);

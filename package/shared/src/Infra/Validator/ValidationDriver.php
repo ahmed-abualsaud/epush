@@ -4,16 +4,15 @@ namespace Epush\Shared\Infra\Validator;
 
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Validator;
-use Epush\Shared\Domain\Contract\DtoContract;
 use Epush\Shared\Infra\Exception\ExceptionContract;
 
 class ValidationDriver implements ValidationDriverContract
 {
     private $validator;
 
-    public function validate(DtoContract $input, array $rules): void
+    public function validate(array $input, array $rules): void
     {
-        $this->validator = Validator::make($input->toArray(), $rules);
+        $this->validator = Validator::make($input, $rules);
     }
 
     public function fails(): bool
