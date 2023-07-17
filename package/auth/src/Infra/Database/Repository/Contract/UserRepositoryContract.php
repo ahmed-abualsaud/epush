@@ -4,6 +4,8 @@ namespace Epush\Auth\Infra\Database\Repository\Contract;
 
 interface UserRepositoryContract
 {
+    public function all(int $take): array;
+
     public function create(array $data): array;
 
     public function updateByID(string $userID, array $data): array;

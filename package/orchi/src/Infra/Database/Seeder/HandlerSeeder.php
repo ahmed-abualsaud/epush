@@ -134,6 +134,38 @@ class HandlerSeeder extends Seeder
             'description' => 'get user assigned permissions',
             'enabled' => true,
         ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'signout',
+            'endpoint' => 'POST|http://localhost:8000/api/auth/signout',
+            'description' => 'log out the current authenticated user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'listUsers',
+            'endpoint' => 'GET|http://localhost:8000/api/auth/user',
+            'description' => 'get all users',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'listRoles',
+            'endpoint' => 'GET|http://localhost:8000/api/auth/role',
+            'description' => 'get all roles',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'listPermissions',
+            'endpoint' => 'GET|http://localhost:8000/api/auth/permission',
+            'description' => 'get all permissions',
+            'enabled' => true,
+        ]);
     }
 }
 

@@ -14,6 +14,15 @@ class PermissionRepository implements PermissionRepositoryContract
 
     ) {}
 
+    public function all(int $take): array
+    {
+        return DB::transaction(function () use ($take) {
+
+            return $this->permission->paginate($take)->toArray();
+
+        });
+    }
+
     public function getUserPermissions(string $id): array
     {
         return DB::transaction(function () use ($id) {

@@ -7,7 +7,7 @@ namespace Epush\Auth\Infra\Database\Seeder;
 use Epush\Auth\Infra\Database\Model\Permission;
 use Illuminate\Database\Seeder;
 
-class PermissonSeeder extends Seeder
+class PermissionSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -83,6 +83,31 @@ class PermissonSeeder extends Seeder
         Permission::create([
             'name' => 'export-pdf',
             'handler_id' => '14'
+        ]);
+
+        Permission::create([
+            'name' => 'get-all-user-permissions',
+            'handler_id' => '15'
+        ]);
+
+        Permission::create([
+            'name' => 'signout',
+            'handler_id' => '16'
+        ]);
+
+        Permission::create([
+            'name' => 'list-users',
+            'handler_id' => '17'
+        ]);
+
+        Permission::create([
+            'name' => 'list-roles',
+            'handler_id' => '18'
+        ]);
+
+        Permission::create([
+            'name' => 'list-permissions',
+            'handler_id' => '19'
         ]);
     }
 }

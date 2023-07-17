@@ -13,6 +13,11 @@ class UserService implements UserServiceContract
 
     ) {}
 
+    public function list(int $take): array
+    {
+        return $this->authDatabaseService->paginateUsers($take);
+    }
+
     public function signup(array $data, string $roleName): void
     {
         $user = $this->authDatabaseService->addUser($data);

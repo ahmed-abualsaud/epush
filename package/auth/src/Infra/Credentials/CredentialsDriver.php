@@ -38,4 +38,9 @@ class CredentialsDriver implements CredentialsDriverContract
     {
         return app('tymon.jwt.provider.jwt')->decode($token);
     }
+
+    public function signout(): void
+    {
+        Auth::logout();
+    }
 }

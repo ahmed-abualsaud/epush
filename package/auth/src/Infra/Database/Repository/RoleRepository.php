@@ -14,6 +14,15 @@ class RoleRepository implements RoleRepositoryContract
 
     ) {}
 
+    public function all(int $take): array
+    {
+        return DB::transaction(function () use ($take) {
+
+            return $this->role->paginate($take)->toArray();
+
+        });
+    }
+
     public function getAllUserRolePermissions(string $id): array
     {
         return DB::transaction(function () use ($id) {

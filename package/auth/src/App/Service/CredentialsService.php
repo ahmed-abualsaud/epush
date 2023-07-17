@@ -46,4 +46,9 @@ class CredentialsService implements CredentialsServiceContract
         return $this->credentialsDriver->decodeToken($token);
     }
 
+    public function signout(): bool
+    {
+        $this->credentialsDriver->signout();
+        return true;
+    }
 }

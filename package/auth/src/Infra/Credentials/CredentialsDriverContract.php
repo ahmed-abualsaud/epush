@@ -13,4 +13,6 @@ interface CredentialsDriverContract
     public function getAuthenticatedUser(): array;
 
     public function decodeToken(string $token): array;
+
+    public function signout(): void;
 }

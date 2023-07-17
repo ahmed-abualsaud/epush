@@ -19,6 +19,15 @@ class UserRepository implements UserRepositoryContract
 
     ) {}
 
+    public function all(int $take): array
+    {
+        return DB::transaction(function () use ($take) {
+
+            return $this->user->paginate($take)->toArray();
+
+        });
+    }
+
     public function create(array $data): array
     {
 

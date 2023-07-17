@@ -11,4 +11,6 @@ interface CredentialsServiceContract
     public function signin(string $username, string $password): array;
 
     public function decodeToken(string $token): array;
+
+    public function signout(): bool;
 }
