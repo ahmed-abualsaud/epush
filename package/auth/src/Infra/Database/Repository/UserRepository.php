@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Epush\Auth\Infra\Database\Model\User;
 use Epush\Auth\Infra\Database\Model\UserRole;
+use Epush\Auth\Infra\Database\Model\UserPermission;
 
 use Epush\Auth\Infra\Database\Repository\Contract\UserRepositoryContract;
 
@@ -15,7 +16,8 @@ class UserRepository implements UserRepositoryContract
     public function __construct(
 
         private User $user,
-        private UserRole $userRole
+        private UserRole $userRole,
+        private UserPermission $userPermission
 
     ) {}
 
@@ -33,14 +35,19 @@ class UserRepository implements UserRepositoryContract
 
         return DB::transaction(function () use ($data) {
 
-            if (! empty($data)) {
-                return $this->user->create($data)->toArray();
-            }
-
-            return [];
-
+            return $this->user->blindCreate($data);
         });
+    }
 
+    public function delete(string $id): bool
+    {
+        return DB::transaction(function () use ($id) {
+
+            $this->userRole->where('user_id', $id)->delete();
+            $this->userPermission->where('user_id', $id)->delete();
+            return $this->user->where('id', $id)->delete();
+
+        }); 
     }
 
     public function updateByID(string $id, array $data): array
@@ -99,9 +106,88 @@ class UserRepository implements UserRepositoryContract
     {
         return DB::transaction(function () use ($id) {
 
-            return $this->userRole->join('roles', 'roles.id', '=', 'users_roles.user_id')
-                ->where('user_id', $id)
-                ->get()->pluck('name')->toArray();
+            return $this->user->select('roles.name', 'roles.id')
+                ->join('users_roles', 'users.id', '=', 'users_roles.user_id')
+                ->join('roles', 'users_roles.role_id', '=', 'roles.id')
+                ->where('users_roles.user_id', $id)
+                ->get()
+                ->toArray();
+        });
+    }
+
+    public function assignRoles(string $userID, array $rolesID): bool
+    {
+        return DB::transaction(function () use ($userID, $rolesID) {
+
+            foreach ($rolesID as $roleID) {
+                $input = [
+                    'user_id' => $userID, 
+                    'role_id' => $roleID,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s"),
+                ];
+
+                $this->userRole->updateOrCreate([
+                    'user_id' => $userID, 
+                    'role_id' => $roleID
+                ], $input);
+            }
+
+            return true;
+
+        });
+    }
+
+    public function assignPermissions(string $userID, array $permissionsID): bool
+    {
+        return DB::transaction(function () use ($userID, $permissionsID) {
+
+            foreach ($permissionsID as $permissionID) {
+                $input = [
+                    'user_id' => $userID, 
+                    'permission_id' => $permissionID,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s"),
+                ];
+
+                $this->userPermission->updateOrCreate([
+                    'user_id' => $userID, 
+                    'permission_id' => $permissionID
+                ], $input);
+            }
+
+            return true;
+
+        });
+    }
+
+    public function unassignRoles(string $userID, array $rolesID): bool
+    {
+        return DB::transaction(function () use ($userID, $rolesID) {
+
+            return $this->userRole->where('user_id', $userID)->whereIn('role_id', $rolesID)->delete();
+
+        });
+    }
+
+    public function unassignPermissions(string $userID, array $permissionsID): bool
+    {
+        return DB::transaction(function () use ($userID, $permissionsID) {
+
+            return $this->userPermission->where('user_id', $userID)->whereIn('permission_id', $permissionsID)->delete();
+
+        });
+    }
+
+    public function checkUserEnabledOrFail(string $userName): bool
+    {
+        return DB::transaction(function () use ($userName) {
+
+            $user = $this->user->where('username', $userName)->where('enabled', true)->get()->toArray();
+            if (empty($user)) {
+                throw new Exception("{$userName}'s account has been disabled");
+            }
+            return true;
         });
     }
 }

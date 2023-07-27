@@ -43,3 +43,14 @@ function sortTableArrayByColumn($array, $column): array
     });
     return $array;
 }
+
+function subAssociativeArray($keys, $array): array
+{
+    $subArray = [];
+    foreach ($keys as $key) {
+        if (isset($array[$key])) {
+            $subArray[$key] = $array[$key];
+        }
+    }
+    return $subArray;
+}

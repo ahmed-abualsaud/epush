@@ -1,6 +1,6 @@
 {
     "name": "epush/file",
-    "description": "E-push service that handle file importing and exporting routines",
+    "description": "E-push service that handle file uploading, downloading, importing and exporting routines",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -10,7 +10,8 @@
     },
     "authors": [
         {
-            "name": "Ahmed Mohamed Abu Al-Saud"
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
         }
     ],
     "minimum-stability": "stable",

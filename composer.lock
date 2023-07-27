@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dce17fc0052f6a064e24c94fdc0cbea9",
+    "content-hash": "47b32fb9cfcceeae7d6d7dc2a2d55afe",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -658,7 +658,7 @@
             "dist": {
                 "type": "path",
                 "url": "./package/auth",
-                "reference": "889dc2c5df4881b728287157b54f2de63be21c51"
+                "reference": "7228d8cb75443f562941b76b632c8b4d5282b909"
             },
             "require": {
                 "spatie/laravel-route-attributes": "^1.18",
@@ -682,7 +682,8 @@
             ],
             "authors": [
                 {
-                    "name": "Ahmed Mohamed Abu Al-Saud"
+                    "name": "Ahmed Mohamed Abu Al-Saud",
+                    "email": "ahmed.m.abualsaud@gmail.com"
                 }
             ],
             "description": "E-push service to handle authentication and authorization routines",
@@ -696,7 +697,7 @@
             "dist": {
                 "type": "path",
                 "url": "./package/file",
-                "reference": "9175db003f37aec31689e32c5dac526636b1cbed"
+                "reference": "92f9218bb852b7d281bf30a6e538b751ba4f10c3"
             },
             "require": {
                 "barryvdh/laravel-dompdf": "^2.0",
@@ -722,7 +723,8 @@
             ],
             "authors": [
                 {
-                    "name": "Ahmed Mohamed Abu Al-Saud"
+                    "name": "Ahmed Mohamed Abu Al-Saud",
+                    "email": "ahmed.m.abualsaud@gmail.com"
                 }
             ],
             "description": "E-push service that handle file importing and exporting routines",
@@ -736,7 +738,7 @@
             "dist": {
                 "type": "path",
                 "url": "./package/orchi",
-                "reference": "55fa3947af9ec0ffc43c267ff598663e67c20fb2"
+                "reference": "41b8746bbee462b9d56a2538692ac52907566bc3"
             },
             "require": {
                 "spatie/laravel-route-attributes": "^1.18"
@@ -759,7 +761,8 @@
             ],
             "authors": [
                 {
-                    "name": "Ahmed Mohamed Abu Al-Saud"
+                    "name": "Ahmed Mohamed Abu Al-Saud",
+                    "email": "ahmed.m.abualsaud@gmail.com"
                 }
             ],
             "description": "orchistration service to manage the application",
@@ -773,7 +776,7 @@
             "dist": {
                 "type": "path",
                 "url": "./package/shared",
-                "reference": "9e6793f784c62402ffdab46ce3dd572abc2951ac"
+                "reference": "ce1fff2b9901fd85541c49c0f2a4a474527e3484"
             },
             "type": "library",
             "extra": {
@@ -793,10 +796,46 @@
             ],
             "authors": [
                 {
-                    "name": "Ahmed Mohamed Abu Al-Saud"
+                    "name": "Ahmed Mohamed Abu Al-Saud",
+                    "email": "ahmed.m.abualsaud@gmail.com"
                 }
             ],
             "description": "E-push service that contains all common features required by all other services or a group of them.",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "epush/sms",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./package/sms",
+                "reference": "eb0f64a3e84da5dda4dfaf60831ca4e65d799c1c"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Epush\\SMS\\Infra\\Provider\\SMSServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Epush\\SMS\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmed Mohamed Abu Al-Saud",
+                    "email": "ahmed.m.abualsaud@gmail.com"
+                }
+            ],
+            "description": "sms microservice",
             "transport-options": {
                 "relative": true
             }
@@ -9356,7 +9395,8 @@
         "epush/auth": 20,
         "epush/file": 20,
         "epush/orchi": 20,
-        "epush/shared": 20
+        "epush/shared": 20,
+        "epush/sms": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

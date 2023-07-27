@@ -4,17 +4,39 @@ namespace Epush\Auth\Present\Http\Middleware;
  
 use Closure;
 use Exception;
+
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Epush\Auth\App\Contract\PermissionServiceContract;
 use Epush\Auth\App\Contract\CredentialsServiceContract;
+use Epush\Shared\App\Contract\OrchiServiceContract;
+use Epush\Shared\App\Contract\FileServiceContract;
 
 class AuthMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $method = $request->method();
+        $url = $request->url();
         $path = $request->path();
+        $method = $request->method();
+
+        $assetsUrl = app(FileServiceContract::class)->localeStorageBaseUrl().'/storage/avatars';
+
+        if (Str::contains($url, $assetsUrl)) {
+            return $next($request);
+        }
+
+        $handler = app(OrchiServiceContract::class)->getHandlerByEndpoint($method . "|" . $url);
+
+        if (empty($handler)) {
+            return failureJSONResponse('the requested feature needs to be registered in the database', 403);
+        }
+
+        if (! $handler['enabled']) {
+            return failureJSONResponse('The requested feature has been disabled', 403);
+        }
 
         if ($method === 'POST' && in_array($path, [
                 'api/auth/signin', 
@@ -64,12 +86,6 @@ class AuthMiddleware
 
         if (empty($permissions)) {
             return failureJSONResponse('You don\'t have access to the requested feature', 403);
-        }
-
-        foreach ($permissions as $permission) {
-            if (! $permission['handler_enabled']) {
-                return failureJSONResponse('The requested feature has been disabled', 403);
-            }
         }
 
         return $next($request);

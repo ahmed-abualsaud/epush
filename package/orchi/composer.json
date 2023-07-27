@@ -1,6 +1,6 @@
 {
     "name": "epush/orchi",
-    "description": "orchistration service to manage the application",
+    "description": "E-push orchistration service to manage all the application services, contexts, handle groups and handlers",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -10,7 +10,8 @@
     },
     "authors": [
         {
-            "name": "Ahmed Mohamed Abu Al-Saud"
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
         }
     ],
     "minimum-stability": "stable",

@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'phone' => '01126999840',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'religion' => 'muslim',
-            'contact_name' => 'ahmed',
+            'avatar' => 'https://mdbcdn.b-cdn.net/img/new/avatars/1.webp',
         ]);
     }
 }

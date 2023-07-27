@@ -10,7 +10,8 @@
     },
     "authors": [
         {
-            "name": "Ahmed Mohamed Abu Al-Saud"
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
         }
     ],
     "minimum-stability": "stable",

@@ -1,0 +1,26 @@
+{
+    "name": "epush/sms",
+    "description": "E-push service that handle sms sending and receiving routines",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\SMS\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\SMS\\Infra\\Provider\\SMSServiceProvider"
+            ]
+        }
+    }
+}

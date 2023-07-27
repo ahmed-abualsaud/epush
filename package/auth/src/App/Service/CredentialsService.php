@@ -51,4 +51,9 @@ class CredentialsService implements CredentialsServiceContract
         $this->credentialsDriver->signout();
         return true;
     }
+
+    public function hashPassword(string $password): string
+    {
+        return $this->credentialsDriver->hashPassword($password);
+    }
 }

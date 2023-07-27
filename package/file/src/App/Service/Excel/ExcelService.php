@@ -12,7 +12,12 @@ use Epush\Shared\Domain\Entity\FileDownload;
 class ExcelService implements ExcelServiceContract
 {
 
-    public function __construct(public ExcelDriverContract $excelDriver) {}
+    public function __construct(
+
+        private ExcelDriverContract $excelDriver
+
+    ) {}
+
 
     public function export(array $data): FileDownload
     {

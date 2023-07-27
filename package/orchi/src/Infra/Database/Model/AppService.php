@@ -3,6 +3,7 @@
 namespace Epush\Orchi\Infra\Database\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class AppService extends Model
 {
@@ -12,4 +13,9 @@ class AppService extends Model
         'enabled' => 'boolean',
         'online' => 'boolean'
     ];
+
+    public function contexts(): HasMany
+    {
+        return $this->hasMany(Context::class, 'service_id');
+    }
 }

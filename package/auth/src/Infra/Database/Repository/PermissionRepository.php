@@ -23,6 +23,28 @@ class PermissionRepository implements PermissionRepositoryContract
         });
     }
 
+    public function update(string $permissionID, array $data): array
+    {
+        return DB::transaction(function () use ($permissionID, $data) {
+
+            if (! empty($data)) {
+                $this->permission->where("id", $permissionID)->update($data);
+            }
+
+            return $this->permission->where('id', $permissionID)->firstOrFail()->toArray();
+
+        });
+    }
+
+    public function delete(string $permissionID): bool
+    {
+        return DB::transaction(function () use ($permissionID) {
+
+            return $this->permission->where('id', $permissionID)->delete();
+
+        });
+    }
+
     public function getUserPermissions(string $id): array
     {
         return DB::transaction(function () use ($id) {

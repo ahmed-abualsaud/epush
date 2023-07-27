@@ -11,7 +11,12 @@ use Epush\File\App\Contract\PDF\PDFServiceContract;
 class PDFService implements PDFServiceContract
 {
 
-    public function __construct(public PDFDriverContract $PDFDriver) {}
+    public function __construct(
+
+        private PDFDriverContract $PDFDriver
+
+    ) {}
+
 
     public function export(array $data): FileDownload
     {

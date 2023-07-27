@@ -25,4 +25,6 @@ interface OrchiDatabaseServiceContract
     public function updateHandler(string $handlerID, array $data): array;
 
     public function getHandlers(array $handersID): array;
+
+    public function getHandlerByEndpoint(string $endpoint): array;
 }

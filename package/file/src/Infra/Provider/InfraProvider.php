@@ -10,6 +10,9 @@ use Epush\File\Infra\PDF\PDFDriverContract;
 use Epush\File\Infra\Excel\ExcelDriver;
 use Epush\File\Infra\Excel\ExcelDriverContract;
 
+use Epush\File\Infra\File\FileDriver;
+use Epush\File\Infra\File\FileDriverContract;
+
 class InfraProvider extends ServiceProvider
 {
     /**
@@ -31,5 +34,6 @@ class InfraProvider extends ServiceProvider
     {
         $this->app->bind(PDFDriverContract::class, PDFDriver::class);
         $this->app->bind(ExcelDriverContract::class, ExcelDriver::class);
+        $this->app->bind(FileDriverContract::class, FileDriver::class);
     }
 }

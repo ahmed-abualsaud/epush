@@ -67,4 +67,9 @@ class OrchiDatabaseService implements OrchiDatabaseServiceContract
     {
         return $this->orchiDatabaseDriver->handlerRepository()->getHandlers($handersID);
     }
+
+    public function getHandlerByEndpoint(string $endpoint): array
+    {
+        return $this->orchiDatabaseDriver->handlerRepository()->getHandlerByEndpoint($endpoint);
+    }
 }

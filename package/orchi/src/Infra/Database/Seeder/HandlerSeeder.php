@@ -130,8 +130,8 @@ class HandlerSeeder extends Seeder
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'getAllUserPermissions',
-            'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}/permissions',
-            'description' => 'get user assigned permissions',
+            'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}/all-permissions',
+            'description' => 'get all permissions (roles permissions + standalone permissions) assigned to a specific user',
             'enabled' => true,
         ]);
 
@@ -164,6 +164,135 @@ class HandlerSeeder extends Seeder
             'name' => 'listPermissions',
             'endpoint' => 'GET|http://localhost:8000/api/auth/permission',
             'description' => 'get all permissions',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'getUserRules',
+            'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}/roles',
+            'description' => 'get the roles for a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'getRolePermissions',
+            'endpoint' => 'GET|http://localhost:8000/api/auth/role/{role_id}/permissions',
+            'description' => 'get permissions for a specific role',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'getUserPermissions',
+            'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}/permissions',
+            'description' => 'get permissions for a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'updateUser',
+            'endpoint' => 'PUT|http://localhost:8000/api/auth/user/{user_id}',
+            'description' => 'update user data',
+            'enabled' => true,
+        ]);
+
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'unassignUserRoles',
+            'endpoint' => 'PUT|http://localhost:8000/api/auth/user/{user_id}/roles',
+            'description' => 'unassign a group of roles to a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'unassignUserPermissions',
+            'endpoint' => 'PUT|http://localhost:8000/api/auth/user/{user_id}/permissions',
+            'description' => 'unassign a group of permissions to a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'deleteUser',
+            'endpoint' => 'DELETE|http://localhost:8000/api/auth/user/{user_id}',
+            'description' => 'delete a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'assignUserRoles',
+            'endpoint' => 'POST|http://localhost:8000/api/auth/user/{user_id}/roles',
+            'description' => 'assign a group of roles to a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'assignUserPermissions',
+            'endpoint' => 'POST|http://localhost:8000/api/auth/user/{user_id}/permissions',
+            'description' => 'assign a group of permissions to a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'updateRole',
+            'endpoint' => 'PUT|http://localhost:8000/api/auth/role/{role_id}',
+            'description' => 'update a specific role',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'deleteRole',
+            'endpoint' => 'DELETE|http://localhost:8000/api/auth/role/{role_id}',
+            'description' => 'delete a specific role',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'updatePermission',
+            'endpoint' => 'PUT|http://localhost:8000/api/auth/permission/{permission_id}',
+            'description' => 'update a specific permission',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'deletePermission',
+            'endpoint' => 'DELETE|http://localhost:8000/api/auth/permission/{permission_id}',
+            'description' => 'delete a specific permission',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'addRole',
+            'endpoint' => 'POST|http://localhost:8000/api/auth/role',
+            'description' => 'add new role',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'assignRolePermissions',
+            'endpoint' => 'POST|http://localhost:8000/api/auth/role/{role_id}/permissions',
+            'description' => 'assign a group of permissions to a specific role',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'unassignRolePermissions',
+            'endpoint' => 'PUT|http://localhost:8000/api/auth/role/{role_id}/permissions',
+            'description' => 'unassign a group of permissions to a specific role',
             'enabled' => true,
         ]);
     }

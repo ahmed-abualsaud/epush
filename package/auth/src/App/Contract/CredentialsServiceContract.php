@@ -13,4 +13,6 @@ interface CredentialsServiceContract
     public function decodeToken(string $token): array;
 
     public function signout(): bool;
+
+    public function hashPassword(string $password): string;
 }

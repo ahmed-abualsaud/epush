@@ -10,6 +10,9 @@ use Epush\File\App\Contract\PDF\PDFServiceContract;
 use Epush\File\App\Service\Excel\ExcelService;
 use Epush\File\App\Contract\Excel\ExcelServiceContract;
 
+use Epush\File\App\Service\File\FileService;
+use Epush\File\App\Contract\File\FileServiceContract;
+
 class AppProvider extends ServiceProvider
 {
     /**
@@ -31,5 +34,6 @@ class AppProvider extends ServiceProvider
     {
         $this->app->bind(PDFServiceContract::class, PDFService::class);
         $this->app->bind(ExcelServiceContract::class, ExcelService::class);
+        $this->app->bind(FileServiceContract::class, FileService::class);
     }
 }

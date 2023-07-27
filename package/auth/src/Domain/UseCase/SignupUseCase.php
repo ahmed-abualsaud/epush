@@ -15,10 +15,9 @@ class SignupUseCase
 
     ) {}
 
-    public function execute(SignupDto $signupDto): string
+    public function execute(SignupDto $signupDto): array
     {
         $this->validationService->validate($signupDto->toArray(), SignupDto::rules());
-        $this->userService->signup($signupDto->toTableArray(), $signupDto->getRole());
-        return 'User has been added successfully';
+        return $this->userService->signup($signupDto->toTableArray(), $signupDto->getRole());
     }
 }

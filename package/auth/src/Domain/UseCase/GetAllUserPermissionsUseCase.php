@@ -15,10 +15,10 @@ class GetAllUserPermissionsUseCase
 
     ) {}
 
-    public function execute(UserDto $signupDto): array
+    public function execute(UserDto $userDto): array
     {
-        $this->validationService->validate($signupDto->toArray(), UserDto::rules());
-        $permissions = $this->permissionService->getAllUserPermissions($signupDto->getUserId());
+        $this->validationService->validate($userDto->toArray(), UserDto::rules());
+        $permissions = $this->permissionService->getAllUserPermissions($userDto->getUserId());
         return $permissions;
     }
 }

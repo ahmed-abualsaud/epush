@@ -8,6 +8,8 @@ interface UserRepositoryContract
 
     public function create(array $data): array;
 
+    public function delete(string $id): bool;
+
     public function updateByID(string $userID, array $data): array;
 
     public function updateByEmail(string $userEmail, array $data): array;
@@ -18,4 +20,13 @@ interface UserRepositoryContract
 
     public function getUserRoles(string $userID): array;
 
+    public function assignRoles(string $userID, array $rolesID): bool;
+
+    public function unassignRoles(string $userID, array $rolesID): bool;
+
+    public function assignPermissions(string $userID, array $permissionsID): bool;
+
+    public function unassignPermissions(string $userID, array $permissionsID): bool;
+
+    public function checkUserEnabledOrFail(string $userName): bool;
 }

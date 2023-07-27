@@ -11,35 +11,49 @@ class SignupDto implements DtoContract
     public static function rules(): array
     {
         return [
-            'username' => 'unique:users|required|string',
-            'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
-            'email' => 'unique:users|required|email',
-            'phone' => 'unique:users|required|string|regex:/^\d{3}-?\d{3}-?\d{5}$/',
-            'contact_name' => 'unique:users|required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'username' => 'unique:users,username,NULL,id,deleted_at,NULL|required|string',
+            'password' => 'string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'email' => 'unique:users,email,NULL,id,deleted_at,NULL|required|email',
+            'phone' => 'unique:users,phone,NULL,id,deleted_at,NULL|required|string|regex:/^\d{10,16}$/',
             'religion' => 'required|string',
-            'role' => 'required|exists:roles,name'
+            'enabled' => 'boolean',
+            'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
+            'notes' => 'string',
+            'role' => 'exists:roles,name'
         ];
     }
 
     public function toArray(): array
     {
+        ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
         return $this->data;
     }
 
     public function toTableArray(): array
     {
-        return array_intersect_key($this->data, array_flip([
+        ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
+        $this->data['password'] = $this->data['password'] ?? '';
+
+        return subAssociativeArray([
+
+            'first_name',
+            'last_name',
             'username',
             'password',
             'email',
             'phone',
-            'contact_name',
             'religion',
-        ]));
+            'enabled',
+            'notes',
+            'avatar',
+
+        ], $this->data);
     }
 
     public function getRole(): string
     {
-        return $this->data['role'];
+        return $this->data['role'] ?? '';
     }
 }

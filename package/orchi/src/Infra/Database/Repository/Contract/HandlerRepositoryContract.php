@@ -9,4 +9,6 @@ interface HandlerRepositoryContract
     public function update(string $id, array $data): array;
 
     public function getHandlers(array $handersID): array;
+
+    public function getHandlerByEndpoint(string $endpoint): array;
 }

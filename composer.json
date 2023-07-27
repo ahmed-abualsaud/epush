@@ -10,6 +10,7 @@
         "epush/file": "dev-master",
         "epush/orchi": "dev-master",
         "epush/shared": "dev-master",
+        "epush/sms": "dev-master",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",

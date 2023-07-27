@@ -12,9 +12,14 @@ class OrchiService implements OrchiServiceContract
         private OrchiDatabaseServiceContract $orchiDatabaseService
 
     ) {}
+
     public function getHandlers(array $handlersID): array
     {
         return $this->orchiDatabaseService->getHandlers($handlersID);
     }
 
+    public function getHandlerByEndpoint(string $endpoint): array
+    {
+        return $this->orchiDatabaseService->getHandlerByEndpoint($endpoint);
+    }
 }
