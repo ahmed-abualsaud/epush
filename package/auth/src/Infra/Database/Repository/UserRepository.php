@@ -21,6 +21,15 @@ class UserRepository implements UserRepositoryContract
 
     ) {}
 
+    public function get(string $userID): array
+    {
+        return DB::transaction(function () use ($userID) {
+
+            return $this->user->where('id', $userID)->firstOrFail()->toArray();
+
+        });
+    }
+
     public function all(int $take): array
     {
         return DB::transaction(function () use ($take) {

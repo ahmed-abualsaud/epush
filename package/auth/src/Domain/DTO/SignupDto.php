@@ -21,7 +21,7 @@ class SignupDto implements DtoContract
             'enabled' => 'boolean',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
             'notes' => 'string',
-            'role' => 'exists:roles,name'
+            'role' => 'exists:roles,name',
         ];
     }
 
@@ -48,6 +48,7 @@ class SignupDto implements DtoContract
             'enabled',
             'notes',
             'avatar',
+            'websites'
 
         ], $this->data);
     }

@@ -67,6 +67,15 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 2,
             'num_of_enabled_handlers' => 2
         ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'ClientController',
+            'description' => 'Controller holds all client endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
     }
 }
 

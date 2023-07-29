@@ -295,6 +295,14 @@ class HandlerSeeder extends Seeder
             'description' => 'unassign a group of permissions to a specific role',
             'enabled' => true,
         ]);
+
+        Handler::create([
+            'handle_group_id' => 7,
+            'name' => 'getClient',
+            'endpoint' => 'PUT|http://localhost:8000/api/client/{client_id}',
+            'description' => 'get a specific client',
+            'enabled' => true,
+        ]);
     }
 }
 

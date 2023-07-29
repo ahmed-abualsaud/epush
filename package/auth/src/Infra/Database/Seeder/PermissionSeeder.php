@@ -224,6 +224,12 @@ class PermissionSeeder extends Seeder
             'description' => 'unassign a group of permissions to a specific role',
             'handler_id' => '35'
         ]);
+
+        Permission::create([
+            'name' => 'get-client',
+            'description' => 'get a specific client',
+            'handler_id' => '36'
+        ]);
     }
 }
 

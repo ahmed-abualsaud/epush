@@ -13,6 +13,11 @@ class AuthDatabaseService implements AuthDatabaseServiceContract
 
     ) {}
 
+    public function getUser(string $userID): array
+    {
+        return $this->authDatabaseDriver->userRepository()->get($userID);
+    }
+
     public function paginateUsers(int $take): array
     {
         return $this->authDatabaseDriver->userRepository()->all($take);

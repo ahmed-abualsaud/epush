@@ -1,0 +1,26 @@
+{
+    "name": "epush/core",
+    "description": "E-push service to handle the core features of the application",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Core\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Core\\Infra\\Provider\\CoreServiceProvider"
+            ]
+        }
+    }
+}

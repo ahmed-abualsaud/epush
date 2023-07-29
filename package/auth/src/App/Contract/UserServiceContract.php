@@ -4,6 +4,8 @@ namespace Epush\Auth\App\Contract;
 
 interface UserServiceContract
 {
+    public function get(string $userID): array;
+
     public function list(int $take): array;
 
     public function update(string $userID ,array $data): array;

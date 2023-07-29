@@ -4,6 +4,8 @@ namespace Epush\Auth\App\Contract;
 
 interface AuthDatabaseServiceContract
 {
+    public function getUser(string $userID): array;
+
     public function addUser(array $data): array;
 
     public function deleteUser(string $userID): bool;

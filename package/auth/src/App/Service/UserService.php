@@ -7,6 +7,7 @@ use Epush\Auth\App\Contract\CredentialsServiceContract;
 use Epush\Auth\App\Contract\AuthDatabaseServiceContract;
 
 use Epush\Shared\App\Contract\SMSServiceContract;
+use Epush\Shared\App\Contract\CoreServiceContract;
 use Epush\Shared\App\Contract\FileServiceContract;
 
 class UserService implements UserServiceContract
@@ -15,10 +16,16 @@ class UserService implements UserServiceContract
 
         private SMSServiceContract $smsService,
         private FileServiceContract $fileService,
+        private CoreServiceContract $coreService,
         private CredentialsServiceContract $credentialsService,
         private AuthDatabaseServiceContract $authDatabaseService
 
     ) {}
+
+    public function get(string $userID): array
+    {
+        return $this->authDatabaseService->getUser($userID);
+    }
 
     public function list(int $take): array
     {
@@ -37,11 +44,19 @@ class UserService implements UserServiceContract
         $avatar = $this->fileService->localStore('avatar', 'avatars');
         $avatar && $data['avatar'] = $avatar;
 
+        ! empty($data['websites']) && $websites = json_decode($data['websites'], true);
+        unset($data['websites']);
+
         $user = $this->authDatabaseService->addUser($data);
         $password = $this->credentialsService->generatePassword($user['id']);
+
+        $client = $this->coreService->addClient(['user_id' => $user['id']]);
+        ! empty($websites) && $this->coreService->addClientWebsites($client['id'], $websites);
+
         $this->smsService->sendMessage($user['phone'], 'Your password is: '.$password);
 
         ! empty($roleName) && $this->authDatabaseService->assignUserRole($user['id'], $roleName);
+
         return $user;
     }
 

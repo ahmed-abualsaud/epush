@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "47b32fb9cfcceeae7d6d7dc2a2d55afe",
+    "content-hash": "c47b452594f95f7526003d5e5f82dcc8",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -692,12 +692,47 @@
             }
         },
         {
+            "name": "epush/core",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./package/core",
+                "reference": "5c7fc22158d3426bbe5e9452b07a1c0ab5d3818e"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Epush\\Core\\Infra\\Provider\\CoreServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Epush\\Core\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmed Mohamed Abu Al-Saud",
+                    "email": "ahmed.m.abualsaud@gmail.com"
+                }
+            ],
+            "description": "E-push service to handle the core features of the application",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "epush/file",
             "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "./package/file",
-                "reference": "92f9218bb852b7d281bf30a6e538b751ba4f10c3"
+                "reference": "e9edd3049ad06c323ae8476ef46e873c4ee015ce"
             },
             "require": {
                 "barryvdh/laravel-dompdf": "^2.0",
@@ -727,7 +762,7 @@
                     "email": "ahmed.m.abualsaud@gmail.com"
                 }
             ],
-            "description": "E-push service that handle file importing and exporting routines",
+            "description": "E-push service that handle file uploading, downloading, importing and exporting routines",
             "transport-options": {
                 "relative": true
             }
@@ -738,7 +773,7 @@
             "dist": {
                 "type": "path",
                 "url": "./package/orchi",
-                "reference": "41b8746bbee462b9d56a2538692ac52907566bc3"
+                "reference": "a87f295adbffb3a228bb0f185d4891778ddb2f8b"
             },
             "require": {
                 "spatie/laravel-route-attributes": "^1.18"
@@ -765,7 +800,7 @@
                     "email": "ahmed.m.abualsaud@gmail.com"
                 }
             ],
-            "description": "orchistration service to manage the application",
+            "description": "E-push orchistration service to manage all the application services, contexts, handle groups and handlers",
             "transport-options": {
                 "relative": true
             }
@@ -811,7 +846,7 @@
             "dist": {
                 "type": "path",
                 "url": "./package/sms",
-                "reference": "eb0f64a3e84da5dda4dfaf60831ca4e65d799c1c"
+                "reference": "2b12149a0f870c1d9e12649b8180f9e734e5fc26"
             },
             "type": "library",
             "extra": {
@@ -835,7 +870,7 @@
                     "email": "ahmed.m.abualsaud@gmail.com"
                 }
             ],
-            "description": "sms microservice",
+            "description": "E-push service that handle sms sending and receiving routines",
             "transport-options": {
                 "relative": true
             }
@@ -9393,6 +9428,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "epush/auth": 20,
+        "epush/core": 20,
         "epush/file": 20,
         "epush/orchi": 20,
         "epush/shared": 20,
