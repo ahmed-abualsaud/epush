@@ -13,14 +13,12 @@ class SignupDto implements DtoContract
         return [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'username' => 'unique:users,username,NULL,id,deleted_at,NULL|required|string',
-            'password' => 'string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
-            'email' => 'unique:users,email,NULL,id,deleted_at,NULL|required|email',
-            'phone' => 'unique:users,phone,NULL,id,deleted_at,NULL|required|string|regex:/^\d{10,16}$/',
-            'religion' => 'required|string',
+            'username' => 'required|unique:client,username,NULL,id,deleted_at,NULL|string',
+            'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'email' => 'required|unique:client,email,NULL,id,deleted_at,NULL|email',
+            'phone' => 'required|unique:client,phone,NULL,id,deleted_at,NULL|string|regex:/^\d{10,16}$/',
             'enabled' => 'boolean',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
-            'notes' => 'string',
             'role' => 'exists:roles,name',
         ];
     }
@@ -34,7 +32,6 @@ class SignupDto implements DtoContract
     public function toTableArray(): array
     {
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
-        $this->data['password'] = $this->data['password'] ?? '';
 
         return subAssociativeArray([
 
@@ -44,11 +41,8 @@ class SignupDto implements DtoContract
             'password',
             'email',
             'phone',
-            'religion',
             'enabled',
-            'notes',
             'avatar',
-            'websites'
 
         ], $this->data);
     }

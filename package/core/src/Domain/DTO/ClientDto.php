@@ -11,7 +11,7 @@ class ClientDto implements DtoContract
     public static function rules(): array
     {
         return [
-            'client_id' => 'exists:clients,id'
+            'user_id' => 'exists:client,id'
         ];
     }
 
@@ -22,6 +22,6 @@ class ClientDto implements DtoContract
 
     public function getClientID(): string
     {
-        return $this->data['client_id']?? '';
+        return $this->data['user_id']?? '';
     }
 }

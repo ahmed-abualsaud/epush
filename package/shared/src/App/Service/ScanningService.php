@@ -12,7 +12,7 @@ class ScanningService implements ScanningServiceContract
         $files = scandir($modulesPath);
 
         $packages = array_values(array_filter($files, function ($file) use ($modulesPath) {
-            return !in_array($file, ['.', '..', 'shared', 'sms'], true) && is_dir($modulesPath.'/'.$file);
+            return !in_array($file, ['.', '..', 'shared', 'sms', 'mail'], true) && is_dir($modulesPath.'/'.$file);
         }));
 
         if (empty($packages)) { return []; }

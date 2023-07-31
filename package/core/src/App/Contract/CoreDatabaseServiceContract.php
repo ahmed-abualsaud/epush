@@ -4,7 +4,7 @@ namespace Epush\Core\App\Contract;
 
 interface CoreDatabaseServiceContract
 {
-    public function getClient(string $clientID): array;
+    public function getClient(string $userID): array;
 
     public function addClient(array $client): array;
 

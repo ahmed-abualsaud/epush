@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "epush/sms": "dev-master",
+        "epush/mail": "dev-master",
         "epush/auth": "dev-master",
         "epush/core": "dev-master",
         "epush/file": "dev-master",

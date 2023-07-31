@@ -41,6 +41,7 @@ class SendSMSJob implements ShouldQueue
 
         $this->onQueue('sms');
         $this->onConnection('database');
+        $this->afterCommit();
 
     }
     

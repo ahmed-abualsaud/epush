@@ -18,15 +18,16 @@ class ClientRepository implements ClientRepositoryContract
         
     ) {}
 
-    public function get(string $clientID): array
+    public function get(string $userID): array
     {
-        return DB::transaction(function () use ($clientID) {
+        return DB::transaction(function () use ($userID) {
 
-            return $this->client->with('websites')->where('id', $clientID)->firstOrFail()->toArray();
+            $client =  $this->client->with('websites')->where('user_id', $userID)->first();
+            return empty($client) ? [] : $client->toArray();
         });
     }
     
-    public function add(array $client): array
+    public function create(array $client): array
     {
         return DB::transaction(function () use ($client) {
 

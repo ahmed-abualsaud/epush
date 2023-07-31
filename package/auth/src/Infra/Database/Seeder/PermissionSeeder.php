@@ -230,6 +230,12 @@ class PermissionSeeder extends Seeder
             'description' => 'get a specific client',
             'handler_id' => '36'
         ]);
+
+        Permission::create([
+            'name' => 'add-client',
+            'description' => 'add new client',
+            'handler_id' => '37'
+        ]);
     }
 }
 

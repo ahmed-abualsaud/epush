@@ -4,9 +4,9 @@ namespace Epush\Core\App\Contract;
 
 interface ClientServiceContract
 {
-    public function get(string $clientID): array;
+    public function get(string $userID): array;
 
-    public function addClient(array $client): array;
+    public function add(array $client, array $user): array;
 
     public function addClientWebsites(string $clientID, array $websites): array;
 }

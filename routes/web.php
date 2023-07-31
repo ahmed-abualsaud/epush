@@ -1,5 +1,6 @@
 <?php
 
+use Epush\Mail\Infra\Mail\ClientAdded;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return (new ClientAdded(['username' => 'ahmed', 'phone' => '01126999840']));
+
     return view('welcome');
 });

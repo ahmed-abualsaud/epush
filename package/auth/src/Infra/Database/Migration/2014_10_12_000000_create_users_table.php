@@ -19,12 +19,10 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('phone')->unique();
-            $table->string('religion');
             $table->boolean('enabled')->default(true);
             $table->text('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->text('notes')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

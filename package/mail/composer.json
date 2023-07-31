@@ -1,0 +1,26 @@
+{
+    "name": "epush/mail",
+    "description": "E-push service that handle email sending and receiving routines",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Mail\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ahmed-abualsaud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Mail\\Infra\\Provider\\MailServiceProvider"
+            ]
+        }
+    }
+}

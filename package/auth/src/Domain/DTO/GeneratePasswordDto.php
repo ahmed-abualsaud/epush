@@ -11,7 +11,7 @@ class GeneratePasswordDto implements DtoContract
     public static function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id'
+            'user_id' => 'required|exists:client,id'
         ];
     }
 

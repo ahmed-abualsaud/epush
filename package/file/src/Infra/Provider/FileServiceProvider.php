@@ -10,7 +10,7 @@ class FileServiceProvider extends ServiceProvider
 {
     public function boot() 
     {
-        $this->loadViewsFrom(__DIR__.'/../../Present/Views', 'file');
+        $this->loadViewsFrom(__DIR__.'/../../Present/View', 'file');
     }
 
     public function register()

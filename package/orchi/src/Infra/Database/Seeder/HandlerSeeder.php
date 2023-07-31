@@ -299,8 +299,16 @@ class HandlerSeeder extends Seeder
         Handler::create([
             'handle_group_id' => 7,
             'name' => 'getClient',
-            'endpoint' => 'PUT|http://localhost:8000/api/client/{client_id}',
+            'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}',
             'description' => 'get a specific client',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 7,
+            'name' => 'addClient',
+            'endpoint' => 'POST|http://localhost:8000/api/client',
+            'description' => 'add new client',
             'enabled' => true,
         ]);
     }

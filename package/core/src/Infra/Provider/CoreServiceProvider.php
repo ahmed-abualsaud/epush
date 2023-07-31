@@ -3,6 +3,7 @@
 namespace Epush\Core\Infra\Provider;
 
 use Illuminate\Contracts\Foundation\CachesConfiguration;
+
 use Illuminate\Support\ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider

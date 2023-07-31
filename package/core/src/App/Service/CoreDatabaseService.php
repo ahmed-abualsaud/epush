@@ -13,14 +13,14 @@ class CoreDatabaseService implements CoreDatabaseServiceContract
 
     ) {}
 
-    public function getClient(string $clientID): array
+    public function getClient(string $userID): array
     {
-        return $this->coreDatabaseDriver->clientRepository()->get($clientID);
+        return $this->coreDatabaseDriver->clientRepository()->get($userID);
     }
 
     public function addClient(array $client): array
     {
-        return $this->coreDatabaseDriver->clientRepository()->add($client);
+        return $this->coreDatabaseDriver->clientRepository()->create($client);
     }
 
     public function addClientWebsites(string $clientID, array $websites): array

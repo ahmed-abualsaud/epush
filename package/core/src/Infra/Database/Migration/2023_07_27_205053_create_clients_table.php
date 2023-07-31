@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('company_name')->unique();
+            $table->string('religion');
+            $table->string('address');
+            $table->text('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -10,7 +10,7 @@ interface UserServiceContract
 
     public function update(string $userID ,array $data): array;
 
-    public function signup(array $data, string $roleName): array;
+    public function signup(array $data, string $roleName = null): array;
 
     public function delete(string $userID): bool;
 
