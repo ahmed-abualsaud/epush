@@ -11,10 +11,10 @@ class AddClientDto
         return [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'username' => 'unique:client,username,NULL,id,deleted_at,NULL|required|string',
+            'username' => 'unique:users,username,NULL,id,deleted_at,NULL|required|string',
             'password' => 'string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
-            'email' => 'unique:client,email,NULL,id,deleted_at,NULL|required|email',
-            'phone' => 'unique:client,phone,NULL,id,deleted_at,NULL|required|string|regex:/^\d{10,16}$/',
+            'email' => 'unique:users,email,NULL,id,deleted_at,NULL|required|email',
+            'phone' => 'unique:users,phone,NULL,id,deleted_at,NULL|required|string|regex:/^\d{10,16}$/',
             'religion' => 'required|string',
             'address' => 'required|string',
             'enabled' => 'boolean',

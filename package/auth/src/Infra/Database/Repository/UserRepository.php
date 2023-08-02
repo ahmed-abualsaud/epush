@@ -116,7 +116,7 @@ class UserRepository implements UserRepositoryContract
         return DB::transaction(function () use ($id) {
 
             return $this->user->select('roles.name', 'roles.id')
-                ->join('users_roles', 'client.id', '=', 'users_roles.user_id')
+                ->join('users_roles', 'users.id', '=', 'users_roles.user_id')
                 ->join('roles', 'users_roles.role_id', '=', 'roles.id')
                 ->where('users_roles.user_id', $id)
                 ->get()

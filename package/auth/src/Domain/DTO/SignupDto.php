@@ -13,10 +13,10 @@ class SignupDto implements DtoContract
         return [
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'username' => 'required|unique:client,username,NULL,id,deleted_at,NULL|string',
+            'username' => 'required|unique:users,username,NULL,id,deleted_at,NULL|string',
             'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
-            'email' => 'required|unique:client,email,NULL,id,deleted_at,NULL|email',
-            'phone' => 'required|unique:client,phone,NULL,id,deleted_at,NULL|string|regex:/^\d{10,16}$/',
+            'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL|email',
+            'phone' => 'required|unique:users,phone,NULL,id,deleted_at,NULL|string|regex:/^\d{10,16}$/',
             'enabled' => 'boolean',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
             'role' => 'exists:roles,name',

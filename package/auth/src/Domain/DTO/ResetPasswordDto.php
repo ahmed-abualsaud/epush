@@ -11,7 +11,7 @@ class ResetPasswordDto implements DtoContract
     public static function rules(): array
     {
         return [
-            'email' => 'required|exists:client',
+            'email' => 'required|exists:users',
             'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
         ];
     }

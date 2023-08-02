@@ -11,7 +11,7 @@ class SigninDto implements DtoContract
     public static function rules(): array
     {
         return [
-            'username' => 'required|string|exists:client'
+            'username' => 'required|string|exists:users'
         ];
     }
 

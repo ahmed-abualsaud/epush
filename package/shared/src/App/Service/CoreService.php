@@ -14,9 +14,9 @@ class CoreService implements CoreServiceContract
 
     ) {}
 
-    public function addClient(array $client): array
+    public function addClient(array $client,  array $user): array
     {
-        return $this->clientService->addClient($client);
+        return $this->clientService->add($client, $user);
     }
 
     public function addClientWebsites(string $clientID, array $websites): array
