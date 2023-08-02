@@ -37,7 +37,7 @@ class ClientService implements ClientServiceContract
 
     public function add(array $client, array $user): array
     {
-        $avatar = $this->fileService->localStore('avatar', 'avatars');
+        $avatar = $this->fileService->localStore('avatar', $client['username'].'-avatar', 'avatars');
         $avatar && $user['avatar'] = $avatar;
 
         ! empty($client['websites']) && $websites = json_decode($client['websites'], true);

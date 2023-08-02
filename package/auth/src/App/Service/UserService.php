@@ -32,7 +32,8 @@ class UserService implements UserServiceContract
 
     public function update(string $userID ,array $data): array
     {
-        $avatar = $this->fileService->localStore('avatar', 'avatars');
+        $user = $this->authDatabaseService->getUser($userID);
+        $avatar = $this->fileService->localStore('avatar', $user['username'].'-avatar', 'avatars');
         $avatar && $data['avatar'] = $avatar;
         return $this->authDatabaseService->updateUserByID($userID, $data);
     }
@@ -40,7 +41,7 @@ class UserService implements UserServiceContract
 
     public function signup(array $data, string $roleName = null): array
     {   
-        $avatar = $this->fileService->localStore('avatar', 'avatars');
+        $avatar = $this->fileService->localStore('avatar', $data['username'].'-avatar', 'avatars');
         $avatar && $data['avatar'] = $avatar;
 
         $data['password'] = $this->credentialsService->hashPassword($data['password']);
@@ -54,6 +55,8 @@ class UserService implements UserServiceContract
 
     public function delete(string $userID): bool
     {
+        $user = $this->authDatabaseService->getUser($userID);
+        $this->fileService->deleteLocalFile($user['avatar'], 'avatars');
         return $this->authDatabaseService->deleteUser($userID);
     }
 

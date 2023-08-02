@@ -17,9 +17,14 @@ class FileService implements FileServiceContract
     ) {}
 
 
-    public function localStore(string $fileAttributeName, string $folder): string
+    public function localStore(string $fileAttributeName, string $fileName, string $folder): string
     {
-        return $this->fileDriver->localStore($fileAttributeName, $folder);
+        return $this->fileDriver->localStore($fileAttributeName, $fileName, $folder);
+    }
+
+    public function deleteLocalFile(string $fileName, string $folder = null): void
+    {
+        $this->fileDriver->deleteLocalFile($fileName, $folder);
     }
 
     public function localeStorageBaseUrl(): string

@@ -13,15 +13,32 @@ class FileDriver implements FileDriverContract
         
     ) {}
 
-    public function localStore(string $fileAttributeName, string $folder): string
+    public function localStore(string $fileAttributeName, string $fileName, string $folder): string
     {
         if ($this->request->hasFile($fileAttributeName)) {
 
-            $path = $this->request->file($fileAttributeName)->store('public/'.$folder, 'local');
-            return $this->localeStorageBaseUrl() . Storage::url($path);
+            if ($this->request->hasFile($fileAttributeName)) {
+
+                $uploadedFile = $this->request->file($fileAttributeName);
+                $extension = $uploadedFile->getClientOriginalExtension();
+                $path = $uploadedFile->storeAs('public/'.$folder, $fileName.'.'.$extension, 'local');
+                return $this->localeStorageBaseUrl() . Storage::url($path);
+            }
+        
+            return '';
         }
 
         return '';
+    }
+
+    public function deleteLocalFile(string $fileName, string $folder = null): void
+    {
+        if ( empty($fileName) ) return;
+
+        $path = empty($folder) ? 'public/'.basename($fileName) : 'public/'.$folder.'/'.basename($fileName);
+        if (Storage::disk('local')->exists($path)) {
+            Storage::disk('local')->delete($path);
+        }
     }
 
     public function localeStorageBaseUrl(): string
