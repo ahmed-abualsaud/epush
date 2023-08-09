@@ -20,7 +20,7 @@ class GetContextHandleGroupsUseCase
     public function execute(ContextDto $contextDto): array
     {
         $this->validationService->validate($contextDto->toArray(), ContextDto::rules());
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $contextHandleGroups = $this->orchiDatabaseService->getContextHandleGroups($contextDto->getContextID());
         return $contextHandleGroups;
     }

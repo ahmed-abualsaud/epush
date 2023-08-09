@@ -17,6 +17,7 @@ class SignupDto implements DtoContract
             'password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
             'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL|email',
             'phone' => 'required|unique:users,phone,NULL,id,deleted_at,NULL|string|regex:/^\d{10,16}$/',
+            'address' => 'required|string',
             'enabled' => 'boolean',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
             'role' => 'exists:roles,name',
@@ -41,6 +42,7 @@ class SignupDto implements DtoContract
             'password',
             'email',
             'phone',
+            'address',
             'enabled',
             'avatar',
 

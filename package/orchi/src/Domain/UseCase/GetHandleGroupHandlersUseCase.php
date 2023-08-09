@@ -20,7 +20,7 @@ class GetHandleGroupHandlersUseCase
     public function execute(HandleGroupDto $handleGroupDto): array
     {
         $this->validationService->validate($handleGroupDto->toArray(), HandleGroupDto::rules());
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $handleGroupHandlers = $this->orchiDatabaseService->getHandleGroupHandlers($handleGroupDto->getHandleGroupID());
         return $handleGroupHandlers;
     }

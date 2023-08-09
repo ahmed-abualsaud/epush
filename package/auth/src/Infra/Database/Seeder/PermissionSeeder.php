@@ -226,15 +226,201 @@ class PermissionSeeder extends Seeder
         ]);
 
         Permission::create([
-            'name' => 'get-client',
-            'description' => 'get a specific client',
+            'name' => 'get-admin',
+            'description' => 'get a specific admin',
             'handler_id' => '36'
         ]);
 
         Permission::create([
-            'name' => 'add-client',
-            'description' => 'add new client',
+            'name' => 'add-admin',
+            'description' => 'add new admin',
             'handler_id' => '37'
+        ]);
+
+        Permission::create([
+            'name' => 'list-admins',
+            'description' => 'list all admins',
+            'handler_id' => '38'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-admin',
+            'description' => 'delete a specific admin',
+            'handler_id' => '39'
+        ]);
+
+        Permission::create([
+            'name' => 'update-admin',
+            'description' => 'update a specific admin',
+            'handler_id' => '40'
+        ]);
+
+        Permission::create([
+            'name' => 'search-admin-column',
+            'description' => 'find a specific value for a column of the admins table',
+            'handler_id' => '41'
+        ]);
+
+        Permission::create([
+            'name' => 'search-user-column',
+            'description' => 'find a specific value for a column of the users table',
+            'handler_id' => '42'
+        ]);
+
+        Permission::create([
+            'name' => 'list-pricelists',
+            'description' => 'list all pricelists',
+            'handler_id' => '43'
+        ]);
+
+        Permission::create([
+            'name' => 'get-pricelist',
+            'description' => 'get a specific pricelist',
+            'handler_id' => '44'
+        ]);
+
+        Permission::create([
+            'name' => 'add-pricelist',
+            'description' => 'add new pricelist',
+            'handler_id' => '45'
+        ]);
+
+        Permission::create([
+            'name' => 'update-pricelist',
+            'description' => 'update a specific pricelist',
+            'handler_id' => '46'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-pricelist',
+            'description' => 'delete a specific pricelist',
+            'handler_id' => '47'
+        ]);
+
+        Permission::create([
+            'name' => 'list-business-fields',
+            'description' => 'list all business fields',
+            'handler_id' => '48'
+        ]);
+
+        Permission::create([
+            'name' => 'get-business-field',
+            'description' => 'get a specific business field',
+            'handler_id' => '49'
+        ]);
+
+        Permission::create([
+            'name' => 'add-business-field',
+            'description' => 'add new business field',
+            'handler_id' => '50'
+        ]);
+
+        Permission::create([
+            'name' => 'update-business-field',
+            'description' => 'update a specific business field',
+            'handler_id' => '51'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-business-field',
+            'description' => 'delete a specific business field',
+            'handler_id' => '52'
+        ]);
+
+        Permission::create([
+            'name' => 'list-payment-methods',
+            'description' => 'list all payment methods',
+            'handler_id' => '53'
+        ]);
+
+        Permission::create([
+            'name' => 'get-payment-method',
+            'description' => 'get a specific payment method',
+            'handler_id' => '54'
+        ]);
+
+        Permission::create([
+            'name' => 'add-payment-method',
+            'description' => 'add new payment method',
+            'handler_id' => '55'
+        ]);
+
+        Permission::create([
+            'name' => 'update-payment-method',
+            'description' => 'update a specific payment method',
+            'handler_id' => '56'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-payment-method',
+            'description' => 'delete a specific payment method',
+            'handler_id' => '57'
+        ]);
+
+        Permission::create([
+            'name' => 'get-admin',
+            'description' => 'get a specific admin',
+            'handler_id' => '58'
+        ]);
+
+        Permission::create([
+            'name' => 'add-admin',
+            'description' => 'add new admin',
+            'handler_id' => '59'
+        ]);
+
+        Permission::create([
+            'name' => 'list-admins',
+            'description' => 'list all admins',
+            'handler_id' => '60'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-admin',
+            'description' => 'delete a specific admin',
+            'handler_id' => '61'
+        ]);
+
+        Permission::create([
+            'name' => 'update-admin',
+            'description' => 'update a specific admin',
+            'handler_id' => '62'
+        ]);
+
+        Permission::create([
+            'name' => 'search-admin-column',
+            'description' => 'find a specific value for a column of the admins table',
+            'handler_id' => '63'
+        ]);
+
+        Permission::create([
+            'name' => 'get-sales',
+            'description' => 'get a specific sales',
+            'handler_id' => '64'
+        ]);
+
+        Permission::create([
+            'name' => 'add-sales',
+            'description' => 'add new sales',
+            'handler_id' => '65'
+        ]);
+
+        Permission::create([
+            'name' => 'list-sales',
+            'description' => 'list all sales',
+            'handler_id' => '66'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-sales',
+            'description' => 'delete a specific sales',
+            'handler_id' => '67'
+        ]);
+
+        Permission::create([
+            'name' => 'update-sales',
+            'description' => 'update a specific sales',
+            'handler_id' => '68'
         ]);
     }
 }

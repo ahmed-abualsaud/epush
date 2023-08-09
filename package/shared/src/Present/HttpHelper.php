@@ -35,9 +35,15 @@ function failureJSONResponse($error, $status = 500)
         );
 }
 
-function fileDownloadResponse(Epush\Shared\Domain\Entity\FileDownload $fileDownload)
+function fileDownloadResponse(Epush\Shared\Domain\Entity\FileDownload $fileDownload, array $headers = [])
 {
-    return response()->streamDownload(function () use ($fileDownload) { echo $fileDownload->getFileContent(); }, $fileDownload->getFileName());
+    return response()->streamDownload(
+        function () use ($fileDownload) { echo $fileDownload->getFileContent(); }, 
+        $fileDownload->getFileName(),
+        array_merge($headers, [
+            'Access-Control-Expose-Headers' => 'Content-Disposition'
+        ])
+    );
 }
 
 function buildException($status, $error = null)

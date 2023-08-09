@@ -1,0 +1,26 @@
+{
+    "name": "epush/expense",
+    "description": "E-push service to track expenses and manage all expense related feature",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Expense\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Expense\\ExpenseServiceProvider"
+            ]
+        }
+    }
+}

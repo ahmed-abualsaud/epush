@@ -18,8 +18,8 @@
         }
 
         .fl-table {
+            table-layout: fixed;
             border-radius: 5px;
-            font-size: 12px;
             font-weight: normal;
             width: 100%;
             background-color: white;
@@ -32,13 +32,18 @@
 
         .fl-table td {
             border-right: 1px solid #e7e6e6;
-            font-size: 12px;
             word-wrap: break-word;
+            font-size: 5px;
+        }
+
+        .fl-table .td-break {
+            word-break: break-all;
         }
 
         .fl-table thead th {
             color: #ffffff;
             background: #063F30;
+            font-size: 5px;
         }
 
 
@@ -48,7 +53,11 @@
         }
 
         .fl-table tr:nth-child(even) {
-            background: rgb(236, 236, 236);
+            background: #eee;
+        }
+
+        .fl-table tr:nth-child(even) td {
+            border-right: 1px solid #fff;
         }
     </style>
 </head>
@@ -66,7 +75,7 @@
                 @foreach ($rows as $row)
                     <tr>
                         @foreach ($row as $cell)
-                            <td>{{ $cell }}</td>
+                            <td class="td-break">{{ $cell }}</td>
                         @endforeach
                     </tr>
                 @endforeach

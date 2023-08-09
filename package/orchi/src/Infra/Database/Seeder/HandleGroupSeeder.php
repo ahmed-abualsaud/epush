@@ -76,6 +76,51 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'PricelistController',
+            'description' => 'Controller holds all pricelist endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'BusinessFieldController',
+            'description' => 'Controller holds all business field endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 5,
+            'name' => 'PaymentMethodController',
+            'description' => 'Controller holds all payment method endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'AdminController',
+            'description' => 'Controller holds all admin endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'SalesController',
+            'description' => 'Controller holds all sales endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
     }
 }
 

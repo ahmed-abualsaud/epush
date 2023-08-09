@@ -22,7 +22,7 @@ class UpdateHandlerUseCase
     {
         $this->validationService->validate($handlerDto->toArray(), HandlerDto::rules());
         $this->validationService->validate($updateHandlerDto->toArray(), UpdateHandlerDto::rules());
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $handler = $this->orchiDatabaseService->updateHandler($handlerDto->getHandlerID(), $updateHandlerDto->toArray());
         return $handler;
     }

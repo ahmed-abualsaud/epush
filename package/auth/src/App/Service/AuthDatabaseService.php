@@ -18,6 +18,11 @@ class AuthDatabaseService implements AuthDatabaseServiceContract
         return $this->authDatabaseDriver->userRepository()->get($userID);
     }
 
+    public function getUsers(array $usersID): array
+    {
+        return $this->authDatabaseDriver->userRepository()->getUsers($usersID);
+    }
+
     public function paginateUsers(int $take): array
     {
         return $this->authDatabaseDriver->userRepository()->all($take);
@@ -149,5 +154,10 @@ class AuthDatabaseService implements AuthDatabaseServiceContract
     public function unassignRolePermissions(string $roleID, array $permissionsID): bool
     {
         return $this->authDatabaseDriver->roleRepository()->unassignPermissions($roleID, $permissionsID);
+    }
+
+    public function searchUserColumn(string $column, string $value, int $take = 10, array $usersID = null): array
+    {
+        return $this->authDatabaseDriver->userRepository()->searchColumn($column, $value, $take, $usersID);
     }
 }

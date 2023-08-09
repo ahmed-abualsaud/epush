@@ -3,7 +3,7 @@
 
 namespace Epush\Shared\App\Service;
 
-use Epush\Core\App\Contract\ClientServiceContract;
+use Epush\Core\Client\App\Contract\ClientServiceContract;
 use Epush\Shared\App\Contract\CoreServiceContract;
 
 class CoreService implements CoreServiceContract

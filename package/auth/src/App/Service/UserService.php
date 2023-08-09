@@ -30,12 +30,18 @@ class UserService implements UserServiceContract
     }
 
 
+    public function getUsers(array $usersID): array
+    {
+        return $this->authDatabaseService->getUsers($usersID);
+    }
+
+
     public function update(string $userID ,array $data): array
     {
-        $user = $this->authDatabaseService->getUser($userID);
-        $avatar = $this->fileService->localStore('avatar', $user['username'].'-avatar', 'avatars');
-        $avatar && $data['avatar'] = $avatar;
-        return $this->authDatabaseService->updateUserByID($userID, $data);
+        $updatedUser = $this->authDatabaseService->updateUserByID($userID, $data);
+        array_key_exists("avatar", $data) && $data['avatar'] && $avatar = $this->fileService->localStore('avatar', $updatedUser['username'].'-avatar', 'avatars');
+        ! empty($avatar) && $updatedUser = $this->authDatabaseService->updateUserByID($userID, ['avatar' => $avatar]);
+        return $updatedUser;
     }
 
 
@@ -56,7 +62,7 @@ class UserService implements UserServiceContract
     public function delete(string $userID): bool
     {
         $user = $this->authDatabaseService->getUser($userID);
-        $this->fileService->deleteLocalFile($user['avatar'], 'avatars');
+        $user['avatar'] && $this->fileService->deleteLocalFile($user['avatar'], 'avatars');
         return $this->authDatabaseService->deleteUser($userID);
     }
 
@@ -64,5 +70,10 @@ class UserService implements UserServiceContract
     public function checkUserEnabledOrFail(string $userName): bool
     {
         return $this->authDatabaseService->checkUserEnabledOrFail($userName);
+    }
+
+    public function searchColumn(string $column, string $value, int $take = 10, array $usersID = null): array
+    {
+        return $this->authDatabaseService->searchUserColumn($column, $value, $take, $usersID);
     }
 }

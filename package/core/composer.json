@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Epush\\Core\\Infra\\Provider\\CoreServiceProvider"
+                "Epush\\Core\\CoreServiceProvider"
             ]
         }
     }

@@ -12,6 +12,8 @@ interface UserRepositoryContract
 
     public function delete(string $id): bool;
 
+    public function getUsers(array $usersID): array;
+
     public function updateByID(string $userID, array $data): array;
 
     public function updateByEmail(string $userEmail, array $data): array;
@@ -31,4 +33,6 @@ interface UserRepositoryContract
     public function unassignPermissions(string $userID, array $permissionsID): bool;
 
     public function checkUserEnabledOrFail(string $userName): bool;
+
+    public function searchColumn(string $column, string $value, int $take = 10, array $usersID = null): array;
 }

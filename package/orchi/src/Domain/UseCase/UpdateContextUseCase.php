@@ -22,7 +22,7 @@ class UpdateContextUseCase
     {
         $this->validationService->validate($contextDto->toArray(), ContextDto::rules());
         $this->validationService->validate($updateContextDto->toArray(), UpdateContextDto::rules());
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $context = $this->orchiDatabaseService->updateContext($contextDto->getContextID(), $updateContextDto->toArray());
         return $context;
     }

@@ -20,7 +20,7 @@ class GetAppServiceContextsUseCase
     public function execute(AppServiceDto $appServiceDto): array
     {
         $this->validationService->validate($appServiceDto->toArray(), AppServiceDto::rules());
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $appServiceContexts = $this->orchiDatabaseService->getAppServiceContexts($appServiceDto->getServiceID());
         return $appServiceContexts;
     }

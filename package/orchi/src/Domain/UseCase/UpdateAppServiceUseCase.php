@@ -22,7 +22,7 @@ class UpdateAppServiceUseCase
     {
         $this->validationService->validate($appServiceDto->toArray(), AppServiceDto::rules());
         $this->validationService->validate($updateAppServiceDto->toArray(), UpdateAppServiceDto::rules());
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $appService = $this->orchiDatabaseService->updateAppService($appServiceDto->getServiceID(), $updateAppServiceDto->toArray());
         return $appService;
     }

@@ -1,5 +1,12 @@
 <?php
 
+use Illuminate\Support\Str;
+
+function stringContains($haystack, $needles, $ignoreCase = false): bool
+{
+    return Str::contains($haystack, $needles, $ignoreCase);
+}
+
 function andWhereTableArray($records, $conditions) {
     return array_filter($records, function ($record) use ($conditions) {
         foreach ($conditions as $key => $value) {
@@ -20,6 +27,21 @@ function innerJoinTableArrays(array $a, array $b, string $on): array
 
     return array_filter(array_map(function ($element1, $element2) use ($on) {
         if ($element1[$on] == $element2[$on]) {
+            return array_merge($element1, $element2);
+        }
+        return null;
+    }, $a, $b));
+}
+
+function innerJoinTableArraysOnColumns(array $a, array $b, string $on1, string $on2): array
+{
+    if (empty($a) || empty($b)) { return array_merge($a, $b); }
+
+    $a = sortTableArrayByColumn($a, $on1);
+    $b = sortTableArrayByColumn($b, $on2);
+
+    return array_filter(array_map(function ($element1, $element2) use ($on1, $on2) {
+        if ($element1[$on1] == $element2[$on2]) {
             return array_merge($element1, $element2);
         }
         return null;

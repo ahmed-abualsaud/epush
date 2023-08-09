@@ -59,15 +59,26 @@ class UserRepository implements UserRepositoryContract
         }); 
     }
 
+    public function getUsers(array $usersID): array
+    {
+        return DB::transaction(function () use ($usersID) {
+
+            return $this->user->whereIn('id', $usersID)->get()->toArray();
+
+        }); 
+    }
+
     public function updateByID(string $id, array $data): array
     {
         return DB::transaction(function () use ($id, $data) {
 
+            $user = $this->user->where('id', $id)->firstOrFail();
+
             if (! empty($data)) {
-                $this->user->where('id', $id)->update($data);
+                $user->update($data);
             }
 
-            return $this->user->where('id', $id)->firstOrFail()->toArray();
+            return $user->toArray();
 
         });
     }
@@ -76,11 +87,13 @@ class UserRepository implements UserRepositoryContract
     {
         return DB::transaction(function () use ($email, $data) {
 
+            $user = $this->user->where('email', $email)->firstOrFail();
+
             if (! empty($data)) {
-                $this->user->where('email', $email)->update($data);
+                $user->update($data);
             }
 
-            return $this->user->where('email', $email)->firstOrFail()->toArray();
+            return $user->toArray();
 
         });
     }
@@ -197,6 +210,21 @@ class UserRepository implements UserRepositoryContract
                 throw new Exception("{$userName}'s account has been disabled");
             }
             return true;
+
+        });
+    }
+
+    public function searchColumn(string $column, string $value, int $take = 10, array $usersID = null): array
+    {
+        return DB::transaction(function () use ($column, $value, $take, $usersID) {
+
+            $users = $usersID ? $this->user->whereIn('id', $usersID) : $this->user;
+
+            if ($column === "enabled") {
+                return $users->where($column, $value)->paginate($take)->toArray();
+            }
+            return $users->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")->paginate($take)->toArray();
+
         });
     }
 }

@@ -12,6 +12,8 @@ interface AuthDatabaseServiceContract
 
     public function paginateUsers(int $take): array;
 
+    public function getUsers(array $usersID): array;
+
     public function paginateRoles(int $take): array;
 
     public function paginatePermissions(int $take): array;
@@ -55,4 +57,6 @@ interface AuthDatabaseServiceContract
     public function assignRolePermissions(string $roleID, array $permissionsID): bool;
 
     public function unassignRolePermissions(string $roleID, array $permissionsID): bool;
+
+    public function searchUserColumn(string $column, string $value, int $take = 10, array $usersID = null): array;
 }

@@ -16,7 +16,7 @@ class ListAppServicesUseCase
 
     public function execute(): array
     {
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $appServices = $this->orchiDatabaseService->getAllAppServices();
         return $appServices;
     }

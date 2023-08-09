@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('phone')->unique();
+            $table->string('address');
             $table->boolean('enabled')->default(true);
             $table->text('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();

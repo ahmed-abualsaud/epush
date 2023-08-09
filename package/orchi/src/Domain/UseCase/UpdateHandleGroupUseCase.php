@@ -22,7 +22,7 @@ class UpdateHandleGroupUseCase
     {
         $this->validationService->validate($handlegroupDto->toArray(), HandleGroupDto::rules());
         $this->validationService->validate($updateHandleGroupDto->toArray(), UpdateHandleGroupDto::rules());
-        $this->monitoringService->sync();
+        // $this->monitoringService->sync();
         $handleGroup = $this->orchiDatabaseService->updateHandleGroup($handlegroupDto->getHandleGroupID(), $updateHandleGroupDto->toArray());
         return $handleGroup;
     }

@@ -12,6 +12,7 @@ use Epush\Auth\Domain\DTO\ListRolesDto;
 use Epush\Auth\Domain\DTO\PermissionDto;
 use Epush\Auth\Domain\DTO\UpdateUserDto;
 use Epush\Auth\Domain\DTO\UpdateRoleDto;
+use Epush\Auth\Domain\DTO\SearchUserDto;
 use Epush\Auth\Domain\DTO\ResetPasswordDto;
 use Epush\Auth\Domain\DTO\ListPermissionsDto;
 use Epush\Auth\Domain\DTO\AssignUserRolesDto;
@@ -122,6 +123,10 @@ class DomainProvider extends ServiceProvider
 
         $this->app->bind(UnassignRolePermissionsDto::class, function () {
             return new UnassignRolePermissionsDto($this->app->make('request')->all());
+        });
+
+        $this->app->bind(SearchUserDto::class, function () {
+            return new SearchUserDto($this->app->make('request')->all());
         });
     }
 }

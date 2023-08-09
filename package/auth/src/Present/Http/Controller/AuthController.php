@@ -28,6 +28,7 @@ use Epush\Auth\Domain\DTO\UpdatePermissionDto;
 use Epush\Auth\Domain\DTO\UnassignUserRolesDto;
 use Epush\Auth\Domain\DTO\AssignUserPermissionsDto;
 use Epush\Auth\Domain\DTO\AssignRolePermissionsDto;
+use Epush\Auth\Domain\DTO\SearchUserDto;
 use Epush\Auth\Domain\DTO\UnassignRolePermissionsDto;
 use Epush\Auth\Domain\DTO\UnassignUserPermissionsDto;
 
@@ -54,6 +55,7 @@ use Epush\Auth\Domain\UseCase\GetRolePermissionsUseCase;
 use Epush\Auth\Domain\UseCase\GetAllUserPermissionsUseCase;
 use Epush\Auth\Domain\UseCase\AssignUserPermissionsUseCase;
 use Epush\Auth\Domain\UseCase\AssignRolePermissionsUseCase;
+use Epush\Auth\Domain\UseCase\SearchUserUseCase;
 use Epush\Auth\Domain\UseCase\UnassignUserPermissionsUseCase;
 use Epush\Auth\Domain\UseCase\UnassignRolePermissionsUseCase;
 
@@ -208,5 +210,11 @@ class AuthController
     public function deletePermission(PermissionDto $permissionDto, DeletePermissionUseCase $deletePermissionUseCase): Response
     {
         return successJSONResponse($deletePermissionUseCase->execute($permissionDto));
+    }
+
+    #[Post('/user/search')]
+    public function searchUserColumn(SearchUserDto $searchUserDto, SearchUserUseCase $searchUserUseCase): Response
+    {
+        return successJSONResponse($searchUserUseCase->execute($searchUserDto));
     }
 }

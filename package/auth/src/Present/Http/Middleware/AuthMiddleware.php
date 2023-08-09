@@ -22,11 +22,11 @@ class AuthMiddleware
         $path = $request->path();
         $method = $request->method();
 
-        $assetsUrl = app(FileServiceContract::class)->localeStorageBaseUrl().'/storage/avatars';
+        // $assetsUrl = app(FileServiceContract::class)->localeStorageBaseUrl().'/storage/avatars';
 
-        if (Str::contains($url, $assetsUrl)) {
-            return $next($request);
-        }
+        // if (Str::contains($url, $assetsUrl)) {
+        //     return $next($request);
+        // }
 
         $handler = app(OrchiServiceContract::class)->getHandlerByEndpoint($method . "|" . $url);
 
