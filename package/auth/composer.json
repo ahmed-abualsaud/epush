@@ -22,7 +22,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Epush\\Auth\\Infra\\Provider\\AuthServiceProvider"
+                "Epush\\Auth\\AuthServiceProvider"
             ]
         }
     }

@@ -16,8 +16,26 @@ class HandleGroupSeeder extends Seeder
     {
         HandleGroup::create([
             'context_id' => 1,
-            'name' => 'AuthController',
-            'description' => 'Controller holds all authentication service endpoints',
+            'name' => 'UserController',
+            'description' => 'Controller holds all user endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 4,
+            'num_of_enabled_handlers' => 4
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 1,
+            'name' => 'RoleController',
+            'description' => 'Controller holds all role endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 4,
+            'num_of_enabled_handlers' => 4
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 1,
+            'name' => 'PermissionController',
+            'description' => 'Controller holds all permission endpoints',
             'enabled' => true,
             'num_of_handlers' => 4,
             'num_of_enabled_handlers' => 4
@@ -70,6 +88,15 @@ class HandleGroupSeeder extends Seeder
 
         HandleGroup::create([
             'context_id' => 4,
+            'name' => 'AdminController',
+            'description' => 'Controller holds all admin endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
             'name' => 'ClientController',
             'description' => 'Controller holds all client endpoints',
             'enabled' => true,
@@ -96,27 +123,18 @@ class HandleGroupSeeder extends Seeder
         ]);
 
         HandleGroup::create([
-            'context_id' => 5,
-            'name' => 'PaymentMethodController',
-            'description' => 'Controller holds all payment method endpoints',
-            'enabled' => true,
-            'num_of_handlers' => 1,
-            'num_of_enabled_handlers' => 1
-        ]);
-
-        HandleGroup::create([
-            'context_id' => 4,
-            'name' => 'AdminController',
-            'description' => 'Controller holds all admin endpoints',
-            'enabled' => true,
-            'num_of_handlers' => 1,
-            'num_of_enabled_handlers' => 1
-        ]);
-
-        HandleGroup::create([
             'context_id' => 4,
             'name' => 'SalesController',
             'description' => 'Controller holds all sales endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 5,
+            'name' => 'PaymentMethodController',
+            'description' => 'Controller holds all payment method endpoints',
             'enabled' => true,
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1

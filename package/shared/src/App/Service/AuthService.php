@@ -2,9 +2,9 @@
 
 namespace Epush\Shared\App\Service;
 
-use Epush\Auth\App\Contract\UserServiceContract;
 use Epush\Shared\App\Contract\AuthServiceContract;
-use Epush\Auth\App\Contract\CredentialsServiceContract;
+use Epush\Auth\User\App\Contract\UserServiceContract;
+use Epush\Auth\User\App\Contract\CredentialsServiceContract;
 
 class AuthService implements AuthServiceContract
 {
