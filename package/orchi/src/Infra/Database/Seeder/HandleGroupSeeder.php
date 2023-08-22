@@ -139,6 +139,69 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
+
+        HandleGroup::create([
+            'context_id' => 5,
+            'name' => 'OrderController',
+            'description' => 'Controller holds all order endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'CountryController',
+            'description' => 'Controller holds all country endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'SMSCController',
+            'description' => 'Controller holds all smsc endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'OperatorController',
+            'description' => 'Controller holds all operator endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'SMSCBindingController',
+            'description' => 'Controller holds all smsc binding endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'SenderController',
+            'description' => 'Controller holds all sender endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'SenderConnectionController',
+            'description' => 'Controller holds all sender connection endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
     }
 }
 

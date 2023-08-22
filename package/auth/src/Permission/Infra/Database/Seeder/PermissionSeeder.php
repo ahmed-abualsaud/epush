@@ -467,6 +467,285 @@ class PermissionSeeder extends Seeder
             'description' => 'delete a specific payment method',
             'handler_id' => '69'
         ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-order',
+            'description' => 'get a specific order',
+            'handler_id' => '70'
+        ]);
+
+        Permission::create([
+            'name' => 'add-order',
+            'description' => 'add new order',
+            'handler_id' => '71'
+        ]);
+
+        Permission::create([
+            'name' => 'list-orders',
+            'description' => 'list all orders',
+            'handler_id' => '72'
+        ]);
+
+        Permission::create([
+            'name' => 'search-order-column',
+            'description' => 'find a specific value for a column of the orders table',
+            'handler_id' => '73'
+        ]);
+
+        Permission::create([
+            'name' => 'get-client-orders',
+            'description' => 'get a specific client\'s orders',
+            'handler_id' => '74'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-country',
+            'description' => 'get a specific country',
+            'handler_id' => '75'
+        ]);
+
+        Permission::create([
+            'name' => 'add-country',
+            'description' => 'add new country',
+            'handler_id' => '76'
+        ]);
+
+        Permission::create([
+            'name' => 'list-countries',
+            'description' => 'list all countries',
+            'handler_id' => '77'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-country',
+            'description' => 'delete a specific country',
+            'handler_id' => '78'
+        ]);
+
+        Permission::create([
+            'name' => 'update-country',
+            'description' => 'update a specific country',
+            'handler_id' => '79'
+        ]);
+
+        Permission::create([
+            'name' => 'search-country-column',
+            'description' => 'find a specific value for a column of the countries table',
+            'handler_id' => '80'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-smsc',
+            'description' => 'get a specific smsc',
+            'handler_id' => '81'
+        ]);
+
+        Permission::create([
+            'name' => 'add-smsc',
+            'description' => 'add new smsc',
+            'handler_id' => '82'
+        ]);
+
+        Permission::create([
+            'name' => 'list-smscs',
+            'description' => 'list all smscs',
+            'handler_id' => '83'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-smsc',
+            'description' => 'delete a specific smsc',
+            'handler_id' => '84'
+        ]);
+
+        Permission::create([
+            'name' => 'update-smsc',
+            'description' => 'update a specific smsc',
+            'handler_id' => '85'
+        ]);
+
+        Permission::create([
+            'name' => 'search-smsc-column',
+            'description' => 'find a specific value for a column of the smscs table',
+            'handler_id' => '86'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-operator',
+            'description' => 'get a specific operator',
+            'handler_id' => '87'
+        ]);
+
+        Permission::create([
+            'name' => 'add-operator',
+            'description' => 'add new operator',
+            'handler_id' => '88'
+        ]);
+
+        Permission::create([
+            'name' => 'list-operators',
+            'description' => 'list all operators',
+            'handler_id' => '89'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-operator',
+            'description' => 'delete a specific operator',
+            'handler_id' => '90'
+        ]);
+
+        Permission::create([
+            'name' => 'update-operator',
+            'description' => 'update a specific operator',
+            'handler_id' => '91'
+        ]);
+
+        Permission::create([
+            'name' => 'search-operator-column',
+            'description' => 'find a specific value for a column of the operators table',
+            'handler_id' => '92'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-smsc-binding',
+            'description' => 'get a specific smsc binding',
+            'handler_id' => '93'
+        ]);
+
+        Permission::create([
+            'name' => 'add-smsc-binding',
+            'description' => 'add new smsc binding',
+            'handler_id' => '94'
+        ]);
+
+        Permission::create([
+            'name' => 'list-smsc-bindings',
+            'description' => 'list all smsc bindings',
+            'handler_id' => '95'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-smsc-binding',
+            'description' => 'delete a specific smsc binding',
+            'handler_id' => '96'
+        ]);
+
+        Permission::create([
+            'name' => 'update-smsc-binding',
+            'description' => 'update a specific smsc binding',
+            'handler_id' => '97'
+        ]);
+
+        Permission::create([
+            'name' => 'search-smsc-binding-column',
+            'description' => 'find a specific value for a column of the smsc bindings table',
+            'handler_id' => '98'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-sender',
+            'description' => 'get a specific sender',
+            'handler_id' => '99'
+        ]);
+
+        Permission::create([
+            'name' => 'add-sender',
+            'description' => 'add new sender',
+            'handler_id' => '100'
+        ]);
+
+        Permission::create([
+            'name' => 'list-senders',
+            'description' => 'list all senders',
+            'handler_id' => '101'
+        ]);
+
+        Permission::create([
+            'name' => 'get-client-senders',
+            'description' => 'get client senders',
+            'handler_id' => '102'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-sender',
+            'description' => 'delete a specific sender',
+            'handler_id' => '103'
+        ]);
+
+        Permission::create([
+            'name' => 'update-sender',
+            'description' => 'update a specific sender',
+            'handler_id' => '104'
+        ]);
+
+        Permission::create([
+            'name' => 'search-sender-column',
+            'description' => 'find a specific value for a column of the senders table',
+            'handler_id' => '105'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-sender-connection',
+            'description' => 'get a specific sender connection',
+            'handler_id' => '106'
+        ]);
+
+        Permission::create([
+            'name' => 'add-sender-connection',
+            'description' => 'add new sender connection',
+            'handler_id' => '107'
+        ]);
+
+        Permission::create([
+            'name' => 'list-senders-connections',
+            'description' => 'list all sender connections',
+            'handler_id' => '108'
+        ]);
+
+        Permission::create([
+            'name' => 'get-sender-connections',
+            'description' => 'get sender connections',
+            'handler_id' => '109'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-sender-connection',
+            'description' => 'delete a specific sender connection',
+            'handler_id' => '110'
+        ]);
+
+        Permission::create([
+            'name' => 'update-sender-connection',
+            'description' => 'update a specific sender connection',
+            'handler_id' => '111'
+        ]);
+
+        Permission::create([
+            'name' => 'search-sender-connection-column',
+            'description' => 'find a specific value for a column of the sender connections table',
+            'handler_id' => '112'
+        ]);
     }
 }
 

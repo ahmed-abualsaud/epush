@@ -16,6 +16,7 @@ use Epush\Shared\App\Contract\CoreServiceContract;
 
 use Epush\Shared\App\Service\FileService;
 use Epush\Shared\App\Contract\FileServiceContract;
+
 use Epush\Shared\App\Service\OrchiService;
 use Epush\Shared\App\Contract\OrchiServiceContract;
 
@@ -24,6 +25,9 @@ use Epush\Shared\App\Contract\ScanningServiceContract;
 
 use Epush\Shared\App\Service\ValidationService;
 use Epush\Shared\App\Contract\ValidationServiceContract;
+
+use Epush\Shared\App\Service\ExpenseService;
+use Epush\Shared\App\Contract\ExpenseServiceContract;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -56,6 +60,7 @@ class AppProvider extends ServiceProvider
         $this->app->bind(CoreServiceContract::class, CoreService::class);
         $this->app->bind(AuthServiceContract::class, AuthService::class);
         $this->app->bind(OrchiServiceContract::class, OrchiService::class);
+        $this->app->bind(ExpenseServiceContract::class, ExpenseService::class);
 
     }
 }

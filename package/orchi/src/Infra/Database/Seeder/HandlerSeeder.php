@@ -608,6 +608,371 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific payment method',
             'enabled' => true,
         ]);
+
+
+        // Order Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 15,
+            'name' => 'getOrder',
+            'endpoint' => 'GET|http://localhost:8000/api/order/{user_id}',
+            'description' => 'get a specific order',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 15,
+            'name' => 'addOrder',
+            'endpoint' => 'POST|http://localhost:8000/api/order',
+            'description' => 'add new order',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 15,
+            'name' => 'listOrders',
+            'endpoint' => 'GET|http://localhost:8000/api/order',
+            'description' => 'list all orders',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 15,
+            'name' => 'searchOrderColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/order/search',
+            'description' => 'find a specific value for a column of the orders table',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 15,
+            'name' => 'getClientOrders',
+            'endpoint' => 'GET|http://localhost:8000/api/client/{client_id}/orders',
+            'description' => 'get a specific client\'s orders',
+            'enabled' => true,
+        ]);
+
+
+        // Country Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 16,
+            'name' => 'getCountry',
+            'endpoint' => 'GET|http://localhost:8000/api/country/{country_id}',
+            'description' => 'get a specific country',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 16,
+            'name' => 'addCountry',
+            'endpoint' => 'POST|http://localhost:8000/api/country',
+            'description' => 'add new country',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 16,
+            'name' => 'listCountries',
+            'endpoint' => 'GET|http://localhost:8000/api/country',
+            'description' => 'list all countries',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 16,
+            'name' => 'deleteCountry',
+            'endpoint' => 'DELETE|http://localhost:8000/api/country/{country_id}',
+            'description' => 'delete a specific country',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 16,
+            'name' => 'updateCountry',
+            'endpoint' => 'PUT|http://localhost:8000/api/country/{country_id}',
+            'description' => 'update a specific country',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 16,
+            'name' => 'searchCountryColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/country/search',
+            'description' => 'find a specific value for a column of the countries table',
+            'enabled' => true,
+        ]);
+
+
+        // SMSC Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 17,
+            'name' => 'getSMSC',
+            'endpoint' => 'GET|http://localhost:8000/api/smsc/{smsc_id}',
+            'description' => 'get a specific smsc',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 17,
+            'name' => 'addSMSC',
+            'endpoint' => 'POST|http://localhost:8000/api/smsc',
+            'description' => 'add new smsc',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 17,
+            'name' => 'listSMSCs',
+            'endpoint' => 'GET|http://localhost:8000/api/smsc',
+            'description' => 'list all smscs',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 17,
+            'name' => 'deleteSMSC',
+            'endpoint' => 'DELETE|http://localhost:8000/api/smsc/{smsc_id}',
+            'description' => 'delete a specific smsc',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 17,
+            'name' => 'updateSMSC',
+            'endpoint' => 'PUT|http://localhost:8000/api/smsc/{smsc_id}',
+            'description' => 'update a specific smsc',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 17,
+            'name' => 'searchSMSCColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/smsc/search',
+            'description' => 'find a specific value for a column of the smscs table',
+            'enabled' => true,
+        ]);
+
+
+        // Operator Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 18,
+            'name' => 'getOperator',
+            'endpoint' => 'GET|http://localhost:8000/api/operator/{operator_id}',
+            'description' => 'get a specific operator',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 18,
+            'name' => 'addOperator',
+            'endpoint' => 'POST|http://localhost:8000/api/operator',
+            'description' => 'add new operator',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 18,
+            'name' => 'listOperators',
+            'endpoint' => 'GET|http://localhost:8000/api/operator',
+            'description' => 'list all operators',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 18,
+            'name' => 'deleteOperator',
+            'endpoint' => 'DELETE|http://localhost:8000/api/operator/{operator_id}',
+            'description' => 'delete a specific operator',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 18,
+            'name' => 'updateOperator',
+            'endpoint' => 'PUT|http://localhost:8000/api/operator/{operator_id}',
+            'description' => 'update a specific operator',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 18,
+            'name' => 'searchOperatorColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/operator/search',
+            'description' => 'find a specific value for a column of the operators table',
+            'enabled' => true,
+        ]);
+
+
+        // SMSC Binding Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 19,
+            'name' => 'getSMSCBinding',
+            'endpoint' => 'GET|http://localhost:8000/api/smsc-binding/{smsc_binding_id}',
+            'description' => 'get a specific smsc binding',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 19,
+            'name' => 'addSMSCBinding',
+            'endpoint' => 'POST|http://localhost:8000/api/smsc-binding',
+            'description' => 'add new smsc binding',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 19,
+            'name' => 'listSMSCBindings',
+            'endpoint' => 'GET|http://localhost:8000/api/smsc-binding',
+            'description' => 'list all smsc bindings',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 19,
+            'name' => 'deleteSMSCBinding',
+            'endpoint' => 'DELETE|http://localhost:8000/api/smsc-binding/{smsc_binding_id}',
+            'description' => 'delete a specific smsc binding',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 19,
+            'name' => 'updateSMSCBinding',
+            'endpoint' => 'PUT|http://localhost:8000/api/smsc-binding/{smsc_binding_id}',
+            'description' => 'update a specific smsc binding',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 19,
+            'name' => 'searchSMSCBindingColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/smsc-binding/search',
+            'description' => 'find a specific value for a column of the smsc bindings table',
+            'enabled' => true,
+        ]);
+
+
+        // Sender Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 20,
+            'name' => 'getSender',
+            'endpoint' => 'GET|http://localhost:8000/api/sender/{sender_id}',
+            'description' => 'get a specific sender',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 20,
+            'name' => 'addSender',
+            'endpoint' => 'POST|http://localhost:8000/api/sender',
+            'description' => 'add new sender',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 20,
+            'name' => 'listSenders',
+            'endpoint' => 'GET|http://localhost:8000/api/sender',
+            'description' => 'list all senders',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 20,
+            'name' => 'getClientSenders',
+            'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/senders',
+            'description' => 'get client senders',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 20,
+            'name' => 'deleteSender',
+            'endpoint' => 'DELETE|http://localhost:8000/api/sender/{sender_id}',
+            'description' => 'delete a specific sender',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 20,
+            'name' => 'updateSender',
+            'endpoint' => 'PUT|http://localhost:8000/api/sender/{sender_id}',
+            'description' => 'update a specific sender',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 20,
+            'name' => 'searchSenderColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/sender/search',
+            'description' => 'find a specific value for a column of the senders table',
+            'enabled' => true,
+        ]);
+
+
+        // Sender Connection Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'getSenderConnection',
+            'endpoint' => 'GET|http://localhost:8000/api/sender-connection/{sender_connection_id}',
+            'description' => 'get a specific sender connection',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'addSenderConnection',
+            'endpoint' => 'POST|http://localhost:8000/api/sender-connection',
+            'description' => 'add new sender connection',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'listSendersConnections',
+            'endpoint' => 'GET|http://localhost:8000/api/sender-connection',
+            'description' => 'list all senders connections',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'getSenderConnections',
+            'endpoint' => 'GET|http://localhost:8000/api/sender/{sender_id}/connections',
+            'description' => 'get sender connections',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'deleteSenderConnection',
+            'endpoint' => 'DELETE|http://localhost:8000/api/sender-connection/{sender_connection_id}',
+            'description' => 'delete a specific sender connection',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'updateSenderConnection',
+            'endpoint' => 'PUT|http://localhost:8000/api/sender-connection/{sender_connection_id}',
+            'description' => 'update a specific sender connection',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'searchSenderConnectionColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/sender-connection/search',
+            'description' => 'find a specific value for a column of the sender connections table',
+            'enabled' => true,
+        ]);
     }
 }
 

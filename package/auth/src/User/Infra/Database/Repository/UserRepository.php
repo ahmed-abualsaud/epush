@@ -232,9 +232,13 @@ class UserRepository implements UserRepositoryContract
             $users = $usersID ? $this->user->whereIn('id', $usersID) : $this->user;
 
             if ($column === "enabled") {
-                return $users->where($column, $value)->paginate($take)->toArray();
+                $users = $users->where($column, $value);
+            } else {
+                $users = $users->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'");
             }
-            return $users->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")->paginate($take)->toArray();
+            
+            $users = $take >= 1000000000000 ? $users->paginate($take, ['*'], 'page', 1) : $users->paginate($take);
+            return $users->toArray();
 
         });
     }

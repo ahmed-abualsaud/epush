@@ -52,7 +52,7 @@ class PaymentMethodRepository implements PaymentMethodRepositoryContract
 
             return $client->toArray();
 
-        }); 
+        });
     }
 
     public function delete(string $id): bool
@@ -62,5 +62,24 @@ class PaymentMethodRepository implements PaymentMethodRepositoryContract
             return $this->paymentMethod->where('id', $id)->delete();
 
         }); 
+    }
+
+    public function getPaymentMethods(array $paymentMethodsID): array
+    {
+        return DB::transaction(function () use ($paymentMethodsID) {
+
+            return $this->paymentMethod->whereIn('id', $paymentMethodsID)->get()->toArray();
+
+        });
+    }
+
+    public function searchColumn(string $column, string $value, int $take = 10): array
+    {
+        return DB::transaction(function () use ($column, $value, $take) {
+
+            $paymentMethod = $this->paymentMethod->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'");
+            $paymentMethod = $take >= 1000000000000 ? $paymentMethod->paginate($take, ['*'], 'page', 1) : $paymentMethod->paginate($take);
+            return $paymentMethod->toArray();
+        });
     }
 }

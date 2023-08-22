@@ -38,9 +38,19 @@ class ClientDatabaseService implements ClientDatabaseServiceContract
         return $this->clientDatabaseDriver->clientRepository()->update($userID, $client);
     }
 
+    public function updateClientWallet(string $userID, float $cost, string $action): array
+    {
+        return $this->clientDatabaseDriver->clientRepository()->updateWallet($userID, $cost, $action);
+    }
+
     public function deleteClient(string $userID): bool
     {
         return $this->clientDatabaseDriver->clientRepository()->delete($userID);
+    }
+
+    public function getClientsBySalesID(array $salesID): array
+    {
+        return $this->clientDatabaseDriver->clientRepository()->getClientsBySalesID($salesID);
     }
 
     public function addClientWebsites(string $clientID, array $websites): array

@@ -2,8 +2,10 @@
 
 namespace Epush\Mail\Infra\EpushMail;
 
-use Epush\Mail\Infra\Mail\ClientAdded;
 use Illuminate\Support\Facades\Mail;
+
+use Epush\Mail\Infra\Mail\OrderAdded;
+use Epush\Mail\Infra\Mail\ClientAdded;
 
 
 class EpushMailDriver implements EpushMailDriverContract
@@ -13,6 +15,10 @@ class EpushMailDriver implements EpushMailDriverContract
         switch ($template) {
             case 'client-added':
                 Mail::to($to)->send(new ClientAdded($data));
+                break;
+            
+            case 'order-added':
+                Mail::to($to)->send(new OrderAdded($data));
                 break;
             
             default:

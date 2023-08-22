@@ -37,4 +37,9 @@ class SalesDatabaseService implements SalesDatabaseServiceContract
     {
         return $this->salesDatabaseDriver->salesRepository()->delete($salesID);
     }
+
+    public function searchSalesColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->salesDatabaseDriver->salesRepository()->searchColumn($column, $value, $take);
+    }
 }

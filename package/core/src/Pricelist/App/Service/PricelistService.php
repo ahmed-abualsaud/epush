@@ -37,4 +37,14 @@ class PricelistService implements PricelistServiceContract
     {
         return $this->pricelistDatabaseService->deletePricelist($pricelistID);
     }
+
+    public function getPricelists(array $pricelistsID): array
+    {
+        return $this->pricelistDatabaseService->getPricelists($pricelistsID);
+    }
+
+    public function searchColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->pricelistDatabaseService->searchPricelistColumn($column, $value, $take);
+    }
 }

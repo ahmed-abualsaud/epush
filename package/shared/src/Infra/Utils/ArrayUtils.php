@@ -76,3 +76,17 @@ function subAssociativeArray($keys, $array): array
     }
     return $subArray;
 }
+
+function tableWith(array $tableArray, array $foreignTableArray, string $foreignKeyName, string $ownerKeyName = null, string $newKeyName = null): array
+{
+    $foreignTableLookup = array_column($foreignTableArray, null, $ownerKeyName ?? 'id');
+    
+    foreach ($tableArray as &$tableRow) {
+        $foreignKeyValue = $tableRow[$foreignKeyName];
+        if (isset($foreignTableLookup[$foreignKeyValue])) {
+            $tableRow[$newKeyName ?? str_replace("_id", "", $foreignKeyName)] = $foreignTableLookup[$foreignKeyValue];
+        }
+    }
+    
+    return $tableArray;
+}

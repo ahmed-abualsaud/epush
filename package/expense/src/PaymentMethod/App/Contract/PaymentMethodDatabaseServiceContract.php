@@ -13,4 +13,8 @@ interface PaymentMethodDatabaseServiceContract
     public function updatePaymentMethod(string $paymentMethodID, array $data): array;
 
     public function deletePaymentMethod(string $paymentMethodID): bool;
+
+    public function getPaymentMethods(array $paymentMethodsID): array;
+
+    public function searchPaymentMethodColumn(string $column, string $value, int $take = 10): array;
 }

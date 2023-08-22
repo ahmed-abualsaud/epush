@@ -17,4 +17,9 @@ class EpushMailService implements EpushMailServiceContract
     {
         $this->epushMailDriver->sendMail($to, 'client-added', $data);
     }
-} 
+
+    public function sendOrderAddedMail(string $to, array $data): void
+    {
+        $this->epushMailDriver->sendMail($to, 'order-added', $data);
+    }
+}

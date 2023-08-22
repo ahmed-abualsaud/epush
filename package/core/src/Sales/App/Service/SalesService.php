@@ -37,4 +37,9 @@ class SalesService implements SalesServiceContract
     {
         return $this->salesDatabaseService->deleteSales($salesID);
     }
+
+    public function searchColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->salesDatabaseService->searchSalesColumn($column, $value, $take);
+    }
 }

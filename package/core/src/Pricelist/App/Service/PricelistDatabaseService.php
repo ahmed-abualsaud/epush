@@ -37,4 +37,14 @@ class PricelistDatabaseService implements PricelistDatabaseServiceContract
     {
         return $this->pricelistDatabaseDriver->pricelistRepository()->delete($pricelistID);
     }
+
+    public function getPricelists(array $pricelistsID): array
+    {
+        return $this->pricelistDatabaseDriver->pricelistRepository()->getPricelists($pricelistsID);
+    }
+
+    public function searchPricelistColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->pricelistDatabaseDriver->pricelistRepository()->searchColumn($column, $value, $take);
+    }
 }

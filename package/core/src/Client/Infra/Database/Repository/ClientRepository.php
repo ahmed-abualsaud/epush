@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Epush\Core\Client\Infra\Database\Model\Client;
 use Epush\Core\Client\Infra\Database\Model\ClientWebsite;
 use Epush\Core\Client\Infra\Database\Repository\Contract\ClientRepositoryContract;
+use Epush\Shared\Infra\Utils\WalletActions;
+use Exception;
 
 class ClientRepository implements ClientRepositoryContract
 {
@@ -22,7 +24,9 @@ class ClientRepository implements ClientRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->client->with(['websites', 'sales', 'businessField'])->paginate($take)->toArray();
+            $client = $this->client->with(['websites', 'sales', 'businessField']);
+            $client = $take >= 1000000000000 ? $client->paginate($take, ['*'], 'page', 1) : $client->paginate($take);
+            return $client->toArray();
 
         });
     }
@@ -70,6 +74,35 @@ class ClientRepository implements ClientRepositoryContract
         }); 
     }
 
+    public function updateWallet(string $userID, float $cost, string $action): array
+    {
+        return DB::transaction(function () use ($userID, $cost, $action) {
+
+            $client = $this->client->with(['websites', 'sales', 'businessfield'])->where('user_id', $userID)->firstOrFail();
+
+
+            if ($action === WalletActions::SET->value)
+            {
+                $client->update(['balance' => $cost]);
+            }
+
+            if ($action === WalletActions::REFUND->value)
+            {
+                $client->update(['balance' => $client->balance + $cost]);
+            }
+
+            if ($action === WalletActions::DEDUCT->value)
+            {
+                $client->balance - $cost < 0 ?
+                throw new Exception("Client balance can't be less than zero") :
+                $client->update(['balance' => $client->balance - $cost]);
+            }
+
+            return $client->toArray();
+
+        }); 
+    }
+
     public function getClients(array $usersID): array
     {
         return DB::transaction(function () use ($usersID) {
@@ -77,6 +110,15 @@ class ClientRepository implements ClientRepositoryContract
             return $this->client->with(['websites', 'sales', 'businessfield'])->whereIn('user_id', $usersID)->get()->toArray();
 
         }); 
+    }
+
+    public function getClientsBySalesID(array $salesID): array
+    {
+        return DB::transaction(function () use ($salesID) {
+
+            return $this->client->with(['websites', 'sales', 'businessfield'])->whereIn('sales_id', $salesID)->get()->toArray();
+
+        });
     }
 
     public function addClientWebsites(string $clientID, array $websites): array
@@ -131,15 +173,15 @@ class ClientRepository implements ClientRepositoryContract
 
             $client = $this->client->with(['websites', 'sales', 'businessfield']);
             if (in_array($column, ["website", 'websites'])) {
-                return $client->whereHas('websites', function ($query) use ($value) {
-                        $query->whereRaw("LOWER(url) LIKE ?", ['%' . strtolower($value) . '%']);
-                    })
-                    ->paginate($take)
-                    ->toArray();
+                $client = $client->whereHas('websites', function ($query) use ($value) {
+                    $query->whereRaw("LOWER(url) LIKE ?", ['%' . strtolower($value) . '%']);
+                });
+            } else {
+                $client = $client->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'");
             }
 
-            return $client->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
-                ->paginate($take)->toArray();
+            $client = $take >= 1000000000000 ? $client->paginate($take, ['*'], 'page', 1) : $client->paginate($take);
+            return $client->toArray();
         });
     }
 }

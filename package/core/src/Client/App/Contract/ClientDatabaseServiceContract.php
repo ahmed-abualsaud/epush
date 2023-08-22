@@ -14,7 +14,11 @@ interface ClientDatabaseServiceContract
 
     public function updateClient(string $userID, array $client): array;
 
+    public function updateClientWallet(string $userID, float $cost, string $action): array;
+
     public function paginateClients(int $take): array;
+
+    public function getClientsBySalesID(array $salesID): array;
 
     public function addClientWebsites(string $clientID, array $websites): array;
 

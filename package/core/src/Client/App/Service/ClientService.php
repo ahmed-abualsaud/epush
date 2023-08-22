@@ -10,6 +10,7 @@ use Epush\Shared\App\Contract\SMSServiceContract;
 use Epush\Shared\App\Contract\AuthServiceContract;
 use Epush\Shared\App\Contract\FileServiceContract;
 use Epush\Shared\App\Contract\MailServiceContract;
+use Epush\Shared\App\Contract\ExpenseServiceContract;
 
 class ClientService implements ClientServiceContract
 {
@@ -19,6 +20,7 @@ class ClientService implements ClientServiceContract
         private MailServiceContract $mailService,
         private FileServiceContract $fileService,
         private AuthServiceContract $authService,
+        private ExpenseServiceContract $expenseService,
         private ClientDatabaseServiceContract $clientDatabaseService
 
     ) {}
@@ -77,9 +79,29 @@ class ClientService implements ClientServiceContract
         return innerJoinTableArraysOnColumns([$user], [$client], "id", "user_id")[0];
     }
 
+    public function updateWallet(string $userID, float $cost, string $action): array
+    {
+        return $this->clientDatabaseService->updateClientWallet($userID, $cost, $action);
+    }
+
     public function delete(string $userID): bool
     {
         return $this->clientDatabaseService->deleteClient($userID) && $this->authService->deleteUser($userID);
+    }
+
+    public function getClients(array $usersID): array
+    {
+        return $this->clientDatabaseService->getClients($usersID);
+    }
+
+    public function getClientsBySalesID(array $salesID): array
+    {
+        return $this->clientDatabaseService->getClientsBySalesID($salesID);
+    }
+
+    public function getClientOrders(string $userID): array
+    {
+        return $this->expenseService->getClientOrders($userID);
     }
 
     public function addClientWebsites(string $clientID, array $websites): array

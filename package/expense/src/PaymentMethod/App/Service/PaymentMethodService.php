@@ -37,4 +37,14 @@ class PaymentMethodService implements PaymentMethodServiceContract
     {
         return $this->paymentMethodDatabaseService->deletePaymentMethod($paymentMethodID);
     }
+
+    public function getPaymentMethods(array $paymentMethodsID): array
+    {
+        return $this->paymentMethodDatabaseService->getPaymentMethods($paymentMethodsID);
+    }
+
+    public function searchColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->paymentMethodDatabaseService->searchPaymentMethodColumn($column, $value, $take);
+    }
 }

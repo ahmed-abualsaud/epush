@@ -63,4 +63,14 @@ class SalesRepository implements SalesRepositoryContract
 
         }); 
     }
+
+    public function searchColumn(string $column, string $value, int $take = 10): array
+    {
+        return DB::transaction(function () use ($column, $value, $take) {
+
+            $sales = $this->sales->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'");
+            $sales = $take >= 1000000000000 ? $sales->paginate($take, ['*'], 'page', 1) : $sales->paginate($take);
+            return $sales->toArray();
+        });
+    }
 }

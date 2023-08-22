@@ -63,4 +63,24 @@ class PricelistRepository implements PricelistRepositoryContract
 
         }); 
     }
+
+    public function getPricelists(array $pricelistsID): array
+    {
+        return DB::transaction(function () use ($pricelistsID) {
+
+            return $this->pricelist->whereIn('id', $pricelistsID)->get()->toArray();
+
+        }); 
+    }
+
+    public function searchColumn(string $column, string $value, int $take = 10): array
+    {
+        return DB::transaction(function () use ($column, $value, $take) {
+
+            $pricelist = $this->pricelist->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'");
+            $pricelist = $take >= 1000000000000 ? $pricelist->paginate($take, ['*'], 'page', 1) : $pricelist->paginate($take);
+            return $pricelist->toArray();
+
+        });
+    }
 }

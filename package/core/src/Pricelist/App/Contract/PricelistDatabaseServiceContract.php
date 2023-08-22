@@ -13,4 +13,8 @@ interface PricelistDatabaseServiceContract
     public function updatePricelist(string $pricelistID, array $data): array;
 
     public function deletePricelist(string $pricelistID): bool;
+
+    public function getPricelists(array $pricelistsID): array;
+
+    public function searchPricelistColumn(string $column, string $value, int $take = 10): array;
 }

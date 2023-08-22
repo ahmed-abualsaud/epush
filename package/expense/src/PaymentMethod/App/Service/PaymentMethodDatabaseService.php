@@ -37,4 +37,14 @@ class PaymentMethodDatabaseService implements PaymentMethodDatabaseServiceContra
     {
         return $this->paymentMethodDatabaseDriver->paymentMethodRepository()->delete($paymentMethodID);
     }
+
+    public function getPaymentMethods(array $paymentMethodsID): array
+    {
+        return $this->paymentMethodDatabaseDriver->paymentMethodRepository()->getPaymentMethods($paymentMethodsID);
+    }
+
+    public function searchPaymentMethodColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->paymentMethodDatabaseDriver->paymentMethodRepository()->searchColumn($column, $value, $take);
+    }
 }

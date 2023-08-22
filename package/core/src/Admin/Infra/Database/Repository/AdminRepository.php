@@ -19,7 +19,8 @@ class AdminRepository implements AdminRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->admin->paginate($take)->toArray();
+            return $take >= 1000000000000 ?  $this->admin->paginate($take, ['*'], 'page', 1)->toArray() : 
+                $this->admin->paginate($take)->toArray();
 
         });
     }

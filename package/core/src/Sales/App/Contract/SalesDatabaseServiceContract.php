@@ -13,4 +13,6 @@ interface SalesDatabaseServiceContract
     public function updateSales(string $salesID, array $data): array;
 
     public function deleteSales(string $salesID): bool;
+
+    public function searchSalesColumn(string $column, string $value, int $take = 10): array;
 }

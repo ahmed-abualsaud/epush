@@ -12,9 +12,13 @@ interface ClientRepositoryContract
 
     public function update(string $userID, array $client): array;
 
+    public function updateWallet(string $userID, float $cost, string $action): array;
+
     public function delete(string $id): bool;
 
     public function getClients(array $usersID): array;
+
+    public function getClientsBySalesID(array $salesID): array;
 
     public function addClientWebsites(string $clientID, array $websites): array;
 

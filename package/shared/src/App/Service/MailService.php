@@ -17,4 +17,9 @@ class MailService implements MailServiceContract
     {
         $this->epushMailService->sendClientAddedMail($to, $data);
     }
+
+    public function sendOrderAddedMail(string $to, array $data): void
+    {
+        $this->epushMailService->sendOrderAddedMail($to, $data);
+    }
 }
