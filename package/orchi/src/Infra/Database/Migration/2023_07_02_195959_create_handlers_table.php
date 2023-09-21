@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('endpoint');
             $table->text('description')->nullable();
             $table->boolean('enabled')->default(false);
+            $table->boolean('access_user')->default(false);
             $table->timestamps();
 
             $table->foreign('handle_group_id')->references('id')->on('handle_groups')->onDelete('cascade');

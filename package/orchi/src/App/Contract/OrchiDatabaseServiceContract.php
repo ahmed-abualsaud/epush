@@ -22,6 +22,8 @@ interface OrchiDatabaseServiceContract
 
     public function updateHandleGroup(string $handleGroupID, array $data): array;
 
+    public function getAllHandlers(): array;
+
     public function updateHandler(string $handlerID, array $data): array;
 
     public function getHandlers(array $handersID): array;

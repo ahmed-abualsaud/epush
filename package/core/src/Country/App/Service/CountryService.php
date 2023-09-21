@@ -6,11 +6,6 @@ namespace Epush\Core\Country\App\Service;
 use Epush\Core\Country\App\Contract\CountryServiceContract;
 use Epush\Core\Country\App\Contract\CountryDatabaseServiceContract;
 
-use Epush\Shared\App\Contract\SMSServiceContract;
-use Epush\Shared\App\Contract\AuthServiceContract;
-use Epush\Shared\App\Contract\FileServiceContract;
-use Epush\Shared\App\Contract\MailServiceContract;
-
 class CountryService implements CountryServiceContract
 {
     public function __construct(

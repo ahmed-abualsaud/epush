@@ -15,6 +15,25 @@ class HandlerRepository implements HandlerRepositoryContract
 
     ) {}
 
+    public function all(): array
+    {
+        return DB::transaction(function () {
+
+            return $this->handler->all()->toArray();
+
+        });
+    }
+
+    public function getHandler(string $handlerID): array
+    {
+        return DB::transaction(function () use ($handlerID) {
+
+            $handler = $this->handler->where('id', $handlerID)->first();
+            return empty($handler) ? [] : $handler->toArray();
+
+        });
+    }
+
     public function getHandleGroupHandlers(string $handle_group_id): array
     {
         return DB::transaction(function () use ($handle_group_id) {

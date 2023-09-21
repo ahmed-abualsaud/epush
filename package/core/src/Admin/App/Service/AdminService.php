@@ -6,20 +6,14 @@ namespace Epush\Core\Admin\App\Service;
 use Epush\Core\Admin\App\Contract\AdminServiceContract;
 use Epush\Core\Admin\App\Contract\AdminDatabaseServiceContract;
 
-use Epush\Shared\App\Contract\SMSServiceContract;
-use Epush\Shared\App\Contract\AuthServiceContract;
-use Epush\Shared\App\Contract\FileServiceContract;
-use Epush\Shared\App\Contract\MailServiceContract;
+use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class AdminService implements AdminServiceContract
 {
     public function __construct(
 
-        private SMSServiceContract $smsService,
-        private MailServiceContract $mailService,
-        private FileServiceContract $fileService,
-        private AuthServiceContract $authService,
-        private AdminDatabaseServiceContract $adminDatabaseService
+        private AdminDatabaseServiceContract $adminDatabaseService,
+        private InterprocessCommunicationEngineContract $communicationEngine
 
     ) {}
 
@@ -28,7 +22,7 @@ class AdminService implements AdminServiceContract
     {
         $admins = $this->adminDatabaseService->paginateAdmins($take);
         $usersID = array_column($admins['data'], 'user_id');
-        $users = $this->authService->getUsers($usersID);
+        $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
         $admins['data'] = innerJoinTableArraysOnColumns($users, $admins['data'], "id", "user_id");
         return $admins;
     }
@@ -36,7 +30,7 @@ class AdminService implements AdminServiceContract
     public function get(string $userID): array
     {
         $admin = $this->adminDatabaseService->getAdmin($userID);
-        $user = $this->authService->getUser($userID);
+        $user = $this->communicationEngine->broadcast("auth:user:get-user", $userID)[0];
         $result =  array_replace_recursive($user, $admin);
         $result['id'] = $userID;
         $result['admin_id'] = $admin['id'] ?? null;
@@ -46,14 +40,16 @@ class AdminService implements AdminServiceContract
 
     public function add(array $admin, array $user): array
     {
-        $user = $this->authService->addUser($user, 'admin');
-        $password = $this->authService->generatePassword($user['id']);
+        $user = $this->communicationEngine->broadcast("auth:user:add-user", $user, 'admin')[0];
+        $password = $this->communicationEngine->broadcast("auth:credentials:generate-password", $user['id'])[0];
 
         $admin['user_id'] = $user['id'];
         $admin = $this->adminDatabaseService->addAdmin($admin);
 
-        $this->smsService->sendMessage($user['phone'], 'Your password is: '.$password);
-        $this->mailService->sendClientAddedMail($user['email'], $user);
+        $this->communicationEngine->broadcast("sms:send", $user['phone'], 'Your password is: '.$password);
+        $this->communicationEngine->broadcast("mail:send", $user['email'], $user);
+
+        // $this->mailService->sendClientAddedMail($user['email'], $user);
 
         $result =  array_replace_recursive($user, $admin);
         $result['id'] = $admin['user_id'];
@@ -63,14 +59,14 @@ class AdminService implements AdminServiceContract
 
     public function update(string $userID, array $admin, array $user): array
     {
-        $user = $this->authService->updateUser($userID, $user);
+        $user = $this->communicationEngine->broadcast("auth:user:update-user", $userID, $user)[0];
         $admin = $this->adminDatabaseService->updateAdmin($userID, $admin);
         return innerJoinTableArraysOnColumns([$user], [$admin], "id", "user_id")[0];
     }
 
     public function delete(string $userID): bool
     {
-        return $this->adminDatabaseService->deleteAdmin($userID) && $this->authService->deleteUser($userID);
+        return $this->adminDatabaseService->deleteAdmin($userID) && $this->communicationEngine->broadcast("auth:user:delete-user", $userID)[0];
     }
 
     public function searchColumn(string $column, string $value, bool $searchAdmin = true, int $take = 10): array
@@ -78,13 +74,13 @@ class AdminService implements AdminServiceContract
         if ($searchAdmin) {
             $admins = $this->adminDatabaseService->searchAdminColumn($column, $value, $take);
             $usersID = array_column($admins['data'], 'user_id');
-            $users = $this->authService->getUsers($usersID);
+            $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
             $admins['data'] = innerJoinTableArraysOnColumns($users, $admins['data'], "id", "user_id");
             return $admins;
         } else {
             $admins = $this->adminDatabaseService->paginateAdmins(1000000000000);
             $usersID = array_column($admins['data'], 'user_id');
-            $users = $this->authService->searchUserColumn($column, $value, $take, $usersID);
+            $users = $this->communicationEngine->broadcast("auth:user:search-column", $column, $value, $take, $usersID)[0];
             $usersID = array_column($users['data'], 'id');
             $admins = $this->adminDatabaseService->getAdmins($usersID);
             $users['data'] = innerJoinTableArraysOnColumns($users['data'], $admins, "id", "user_id");

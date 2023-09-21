@@ -14,22 +14,22 @@ use Epush\Orchi\Domain\UseCase\ListAppServicesUseCase;
 use Epush\Orchi\Domain\UseCase\UpdateAppServiceUseCase;
 use Epush\Orchi\Domain\UseCase\GetAppServiceContextsUseCase;
 
-#[Prefix('api/orchi')]
+#[Prefix('api/orchi/service')]
 class AppServiceController
 {
-    #[Get('service')]
+    #[Get('/')]
     public function listAppServices(ListAppServicesUseCase $listAppServicesUseCase): Response
     {
         return successJSONResponse($listAppServicesUseCase->execute());
     }
 
-    #[Get('service/{service_id}/contexts')]
+    #[Get('{service_id}/contexts')]
     public function getAppServiceContexts(AppServiceDto $appServiceDto, GetAppServiceContextsUseCase $getAppServiceContextsUseCase): Response
     {
         return successJSONResponse($getAppServiceContextsUseCase->execute($appServiceDto));
     }
 
-    #[Put('service/{service_id}')]
+    #[Put('{service_id}')]
     public function updateAppService(AppServiceDto $appServiceDto, UpdateAppServiceDto $updateAppServiceDto, UpdateAppServiceUseCase $updateAppServiceUseCase): Response
     {
         return successJSONResponse($updateAppServiceUseCase->execute($appServiceDto, $updateAppServiceDto));

@@ -15,7 +15,8 @@ class AddOrderDto implements DtoContract
             'action' => 'required|in:Add,Refund,Deduct',
             'user_id' => 'required|exists:clients,user_id',
             'pricelist_id' => 'required|exists:pricelists,id',
-            'payment_method_id' => 'required|exists:payment_methods,id'
+            'payment_method_id' => 'required|exists:payment_methods,id',
+            'collection_date' => 'date'
         ];
     }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pricelist_id');
             $table->unsignedBigInteger('payment_method_id');
+            $table->timestamp('collection_date');
             $table->timestamps();
         });
     }

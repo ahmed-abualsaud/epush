@@ -11,7 +11,7 @@
         <tr style="background-color: #063F30;">
           <td style="padding: 40px!important; font-size: 30px; text-align: center; color: white;">
             <img src="{{ asset("logo.png") }}" alt="Logo" style="max-width: 100%; height: auto;" />
-            <p style="padding-left: 20px;">Welcome to E-push Agency</p>
+            <p style="padding-left: 20px;">E-push Agency</p>
           </td>
         </tr>
         <tr>

@@ -80,7 +80,6 @@ class ClientRepository implements ClientRepositoryContract
 
             $client = $this->client->with(['websites', 'sales', 'businessfield'])->where('user_id', $userID)->firstOrFail();
 
-
             if ($action === WalletActions::SET->value)
             {
                 $client->update(['balance' => $cost]);

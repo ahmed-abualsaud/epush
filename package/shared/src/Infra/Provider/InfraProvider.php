@@ -5,6 +5,7 @@ namespace Epush\Shared\Infra\Provider;
 use Illuminate\Support\ServiceProvider;
 use Epush\Shared\Infra\Validator\ValidationDriver;
 use Epush\Shared\Infra\Validator\ValidationDriverContract;
+use Epush\Shared\Infra\InterprocessCommunication\InterprocessCommunicationServiceProvider;
 
 class InfraProvider extends ServiceProvider
 {
@@ -26,5 +27,8 @@ class InfraProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ValidationDriverContract::class, ValidationDriver::class);
+
+        $this->app->register(InterprocessCommunicationServiceProvider::class);
+
     }
 }

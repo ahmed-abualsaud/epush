@@ -58,6 +58,15 @@ class ContextSeeder extends Seeder
             'num_of_handle_groups' => 1,
             'num_of_enabled_handle_groups' => 1
         ]);
+
+        Context::create([
+            'service_id' => 6,
+            'name' => 'http',
+            'online' => true,
+            'enabled' => true,
+            'num_of_handle_groups' => 1,
+            'num_of_enabled_handle_groups' => 1
+        ]);
     }
 }
 

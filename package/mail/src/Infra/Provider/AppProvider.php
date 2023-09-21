@@ -2,8 +2,11 @@
 
 namespace Epush\Mail\Infra\Provider;
 
-use Epush\Mail\App\Service\EpushMailService;
-use Epush\Mail\App\Contract\EpushMailServiceContract;
+use Epush\Mail\App\Service\MailService;
+use Epush\Mail\App\Service\MailDatabaseService;
+
+use Epush\Mail\App\Contract\MailServiceContract;
+use Epush\Mail\App\Contract\MailDatabaseServiceContract;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +29,7 @@ class AppProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(EpushMailServiceContract::class, EpushMailService::class);
+        $this->app->bind(MailServiceContract::class, MailService::class);
+        $this->app->bind(MailDatabaseServiceContract::class, MailDatabaseService::class);
     }
 }

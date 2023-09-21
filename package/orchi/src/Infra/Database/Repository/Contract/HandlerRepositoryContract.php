@@ -4,6 +4,10 @@ namespace Epush\Orchi\Infra\Database\Repository\Contract;
 
 interface HandlerRepositoryContract
 {
+    public function all(): array;
+
+    public function getHandler(string $handlerID): array;
+
     public function getHandleGroupHandlers(string $handle_group_id): array;
 
     public function update(string $id, array $data): array;

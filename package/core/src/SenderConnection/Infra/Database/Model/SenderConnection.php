@@ -3,7 +3,6 @@
 namespace Epush\Core\SenderConnection\Infra\Database\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Epush\Core\Sender\Infra\Database\Model\Sender;
 use Epush\Core\SMSCBinding\Infra\Database\Model\SMSCBinding;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

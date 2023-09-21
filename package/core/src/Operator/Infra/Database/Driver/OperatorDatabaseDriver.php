@@ -12,7 +12,7 @@ class OperatorDatabaseDriver implements OperatorDatabaseDriverContract
 
     ) {}
 
-    public function OperatorRepository(): OperatorRepositoryContract
+    public function operatorRepository(): OperatorRepositoryContract
     {
         return $this->operatorRepository;
     }

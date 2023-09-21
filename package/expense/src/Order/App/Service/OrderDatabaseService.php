@@ -28,9 +28,24 @@ class OrderDatabaseService implements OrderDatabaseServiceContract
         return $this->orderDatabaseDriver->orderRepository()->create($order);
     }
 
+    public function updateOrder(string $orderID, array $order): array
+    {
+        return $this->orderDatabaseDriver->orderRepository()->update($orderID, $order);
+    }
+
     public function getClientOrders(string $userID): array
     {
         return $this->orderDatabaseDriver->orderRepository()->getClientOrders($userID);
+    }
+
+    public function getClientLatestOrder(string $userID): array
+    {
+        return $this->orderDatabaseDriver->orderRepository()->getClientLatestOrder($userID);
+    }
+
+    public function getOrdersByID(array $ordersID, int $take = 10): array
+    {
+        return $this->orderDatabaseDriver->orderRepository()->getOrdersByID($ordersID, $take);
     }
 
     public function getOrdersByUsersID(array $usersID, int $take = 10): array

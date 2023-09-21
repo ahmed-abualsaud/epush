@@ -18,6 +18,7 @@ use Epush\Core\Client\Domain\UseCase\GetClientUseCase;
 use Epush\Core\Client\Domain\UseCase\AddClientUseCase;
 use Epush\Core\Client\Domain\UseCase\ListClientsUseCase;
 use Epush\Core\Client\Domain\UseCase\DeleteClientUseCase;
+use Epush\Core\Client\Domain\UseCase\GetClientLatestOrderUseCase;
 use Epush\Core\Client\Domain\UseCase\SearchClientUseCase;
 use Epush\Core\Client\Domain\UseCase\UpdateClientUseCase;
 use Epush\Core\Client\Domain\UseCase\GetClientOrdersUseCase;
@@ -62,6 +63,12 @@ class ClientController
     public function getClientOrders(ClientDto $clientDto, GetClientOrdersUseCase $getClientOrdersUseCase): Response
     {
         return successJSONResponse($getClientOrdersUseCase->execute($clientDto));
+    }
+
+    #[Get('{user_id}/latest-order')]
+    public function getClientLatestOrder(ClientDto $clientDto, GetClientLatestOrderUseCase $getClientLatestOrderUseCase): Response
+    {
+        return successJSONResponse($getClientLatestOrderUseCase->execute($clientDto));
     }
 
     #[Post('/search')]

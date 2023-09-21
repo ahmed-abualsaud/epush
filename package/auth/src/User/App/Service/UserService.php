@@ -2,13 +2,12 @@
 
 namespace Epush\Auth\User\App\Service;
 
-use Epush\Shared\App\Contract\OrchiServiceContract;
 use Epush\Auth\Role\App\Contract\RoleServiceContract;
 use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
 use Epush\Auth\User\App\Contract\UserDatabaseServiceContract;
 
-use Epush\Shared\App\Contract\FileServiceContract;
+use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class UserService implements UserServiceContract
 {
@@ -16,10 +15,9 @@ class UserService implements UserServiceContract
 
         
         private RoleServiceContract $roleService,
-        private FileServiceContract $fileService,
-        private OrchiServiceContract $orchiService,
         private CredentialsServiceContract $credentialsService,
-        private UserDatabaseServiceContract $userDatabaseService
+        private UserDatabaseServiceContract $userDatabaseService,
+        private InterprocessCommunicationEngineContract $communicationEngine
 
     ) {}
 
@@ -44,7 +42,7 @@ class UserService implements UserServiceContract
     public function update(string $userID ,array $data): array
     {
         $updatedUser = $this->userDatabaseService->updateUserByID($userID, $data);
-        array_key_exists("avatar", $data) && $data['avatar'] && $avatar = $this->fileService->localStore('avatar', $updatedUser['username'].'-avatar', 'avatars');
+        array_key_exists("avatar", $data) && $data['avatar'] && $avatar = $this->communicationEngine->broadcast('file:store', 'avatar', $updatedUser['username'].'-avatar', 'avatars')[0];
         ! empty($avatar) && $updatedUser = $this->userDatabaseService->updateUserByID($userID, ['avatar' => $avatar]);
         return $updatedUser;
     }
@@ -52,7 +50,7 @@ class UserService implements UserServiceContract
 
     public function signup(array $data, string $roleName = null): array
     {   
-        $avatar = $this->fileService->localStore('avatar', $data['username'].'-avatar', 'avatars');
+        $avatar = $this->communicationEngine->broadcast('file:store', 'avatar', $data['username'].'-avatar', 'avatars')[0];
         $avatar && $data['avatar'] = $avatar;
 
         $data['password'] = $this->credentialsService->hashPassword($data['password']);
@@ -67,7 +65,7 @@ class UserService implements UserServiceContract
     public function delete(string $userID): bool
     {
         $user = $this->userDatabaseService->getUser($userID);
-        $user['avatar'] && $this->fileService->deleteLocalFile($user['avatar'], 'avatars');
+        $user['avatar'] && $this->communicationEngine->broadcast('file:delete', $user['avatar'], 'avatars')[0];
         return $this->userDatabaseService->deleteUser($userID);
     }
 
@@ -90,7 +88,7 @@ class UserService implements UserServiceContract
         $permissions = $this->roleService->getRolesPermissions($userRolesID);
 
         $handlersID = array_column($permissions, 'handler_id');
-        $handlers = $this->orchiService->getHandlers($handlersID);
+        $handlers = $this->communicationEngine->broadcast("orchi:handler:get-handlers-by-id", $handlersID)[0];
 
         $detailedPermissions = innerJoinTableArrays($permissions, $handlers, 'handler_id');
         return $detailedPermissions;

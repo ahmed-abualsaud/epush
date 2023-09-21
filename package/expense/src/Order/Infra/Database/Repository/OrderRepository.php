@@ -43,11 +43,46 @@ class OrderRepository implements OrderRepositoryContract
         });
     }
 
+    public function update(string $orderID, array $data): array
+    {
+        return DB::transaction(function () use ($orderID, $data) {
+
+            $order = $this->order->where('id', $orderID)->firstOrFail();
+
+            if (! empty($data)) {
+                $order->update($data);
+            }
+
+            return $order->toArray();
+
+        });
+    }
+
     public function getClientOrders(string $userID): array
     {
         return DB::transaction(function () use ($userID) {
 
             return $this->order->where('user_id', $userID)->get()->toArray();
+
+        });
+    }
+    
+    public function getClientLatestOrder(string $userID): array
+    {
+        return DB::transaction(function () use ($userID) {
+
+            $latestOrder =  $this->order->where('user_id', $userID)->latest()->first();
+            return empty($latestOrder)? [] : $latestOrder->toArray();
+        });
+    }
+
+    public function getOrdersByID(array $ordersID, int $take = 10): array
+    {
+        return DB::transaction(function () use ($ordersID, $take) {
+
+            $orders = $this->order->whereIn('id', $ordersID); 
+            $orders = $take >= 1000000000000 ? $orders->paginate($take, ['*'], 'page', 1) : $orders->paginate($take);
+            return $orders->toArray();
 
         });
     }

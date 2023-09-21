@@ -12,16 +12,16 @@ use Epush\Orchi\Domain\DTO\UpdateHandleGroupDto;
 use Epush\Orchi\Domain\UseCase\UpdateHandleGroupUseCase;
 use Epush\Orchi\Domain\UseCase\GetHandleGroupHandlersUseCase;
 
-#[Prefix('api/orchi')]
+#[Prefix('api/orchi/handle-group')]
 class HandleGroupController
 {
-    #[Get('handle-group/{handle_group_id}/handlers')]
+    #[Get('{handle_group_id}/handlers')]
     public function getHandleGroupHandlers(HandleGroupDto $handleGroupDto, GetHandleGroupHandlersUseCase $getHandleGroupHandlersUseCase): Response
     {
         return successJSONResponse($getHandleGroupHandlersUseCase->execute($handleGroupDto));
     }
 
-    #[Put('handle-group/{handle_group_id}')]
+    #[Put('{handle_group_id}')]
     public function updateHandleGroup(HandleGroupDto $handleGroupDto, UpdateHandleGroupDto $updateHandleGroupDto, UpdateHandleGroupUseCase $updateHandleGroupUseCase): Response
     {
         return successJSONResponse($updateHandleGroupUseCase->execute($handleGroupDto, $updateHandleGroupDto));

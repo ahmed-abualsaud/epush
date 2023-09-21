@@ -15,31 +15,31 @@ class OperatorDatabaseService implements OperatorDatabaseServiceContract
 
     public function getOperator(string $operatorID): array
     {
-        return $this->operatorDatabaseDriver->OperatorRepository()->get($operatorID);
+        return $this->operatorDatabaseDriver->operatorRepository()->get($operatorID);
     }
 
     public function paginateOperators(int $take): array
     {
-        return $this->operatorDatabaseDriver->OperatorRepository()->all($take);
+        return $this->operatorDatabaseDriver->operatorRepository()->all($take);
     }
 
     public function addOperator(array $operator): array
     {
-        return $this->operatorDatabaseDriver->OperatorRepository()->create($operator);
+        return $this->operatorDatabaseDriver->operatorRepository()->create($operator);
     }
 
     public function updateOperator(string $operatorID, array $operator): array
     {
-        return $this->operatorDatabaseDriver->OperatorRepository()->update($operatorID, $operator);
+        return $this->operatorDatabaseDriver->operatorRepository()->update($operatorID, $operator);
     }
 
     public function deleteOperator(string $operatorID): bool
     {
-        return $this->operatorDatabaseDriver->OperatorRepository()->delete($operatorID);
+        return $this->operatorDatabaseDriver->operatorRepository()->delete($operatorID);
     }
 
     public function searchOperatorColumn(string $column, string $value, int $take = 10): array
     {
-        return $this->operatorDatabaseDriver->OperatorRepository()->searchColumn($column, $value, $take);
+        return $this->operatorDatabaseDriver->operatorRepository()->searchColumn($column, $value, $take);
     }
 }

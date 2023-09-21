@@ -10,7 +10,13 @@ interface OrderServiceContract
 
     public function add(string $action, array $order): array;
 
+    public function update(string $orderID, array $order): array;
+
     public function getClientOrders(string $userID): array;
+
+    public function getClientLatestOrder(string $userID): array;
+
+    public function getOrdersByID(array $ordersID, int $take = 10): array;
 
     public function getOrdersByUsersID(array $usersID, int $take = 10): array;
 

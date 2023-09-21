@@ -5,21 +5,18 @@ namespace Epush\Expense\Order\App\Service;
 
 use Epush\Shared\Infra\Utils\WalletActions;
 
-use Epush\Shared\App\Contract\CoreServiceContract;
-use Epush\Shared\App\Contract\ExpenseServiceContract;
-
-use Epush\Shared\App\Contract\MailServiceContract;
 use Epush\Expense\Order\App\Contract\OrderServiceContract;
 use Epush\Expense\Order\App\Contract\OrderDatabaseServiceContract;
+use Epush\Expense\PaymentMethod\App\Contract\PaymentMethodServiceContract;
+use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class OrderService implements OrderServiceContract
 {
     public function __construct(
 
-        private MailServiceContract $mailService,
-        private CoreServiceContract $coreService,
-        private ExpenseServiceContract $expenseService,
-        private OrderDatabaseServiceContract $orderDatabaseService
+        private PaymentMethodServiceContract $paymentMethodService,
+        private OrderDatabaseServiceContract $orderDatabaseService,
+        private InterprocessCommunicationEngineContract $communicationEngine
 
     ) {}
 
@@ -29,15 +26,17 @@ class OrderService implements OrderServiceContract
         $orders = $this->orderDatabaseService->paginateOrders($take);
 
         $usersID = array_unique(array_column($orders['data'], 'user_id'));
-        $clients = $this->coreService->getClients($usersID);
+        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+
         $orders['data'] = tableWith($orders['data'], $clients, "user_id", "user_id", "client");
 
         $pricelistsID = array_unique(array_column($orders['data'], 'pricelist_id'));
-        $pricelists = $this->coreService->getPricelists($pricelistsID);
+        $pricelists = $this->communicationEngine->broadcast("core:pricelist:get-pricelists", $pricelistsID)[0];
+
         $orders['data'] = tableWith($orders['data'], $pricelists, "pricelist_id");
 
         $paymentMethodsID = array_unique(array_column($orders['data'], 'payment_method_id'));
-        $paymentMethods = $this->expenseService->getPaymentMethods($paymentMethodsID);
+        $paymentMethods = $this->paymentMethodService->getPaymentMethods($paymentMethodsID);
         $orders['data'] = tableWith($orders['data'], $paymentMethods, "payment_method_id");
 
         return $orders;
@@ -48,15 +47,16 @@ class OrderService implements OrderServiceContract
         $order = [$this->orderDatabaseService->getOrder($orderID)];
         
         $usersID = array_unique(array_column($order, 'user_id'));
-        $clients = $this->coreService->getClients($usersID);
+        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+
         $order = tableWith($order, $clients, "user_id", "user_id", "client");
 
         $pricelistsID = array_unique(array_column($order, 'pricelist_id'));
-        $pricelists = $this->coreService->getPricelists($pricelistsID);
+        $pricelists = $this->communicationEngine->broadcast("core:pricelist:get-pricelists", $pricelistsID)[0];
         $order = tableWith($order, $pricelists, "pricelist_id");
 
         $paymentMethodsID = array_unique(array_column($order, 'payment_method_id'));
-        $paymentMethods = $this->expenseService->getPaymentMethods($paymentMethodsID);
+        $paymentMethods = $this->paymentMethodService->getPaymentMethods($paymentMethodsID);
         $order = tableWith($order, $paymentMethods, "payment_method_id");
 
         return $order[0];
@@ -65,20 +65,48 @@ class OrderService implements OrderServiceContract
     public function add(string $action, array $order): array
     {
         $action =  in_array(strtolower($action), ["add", "refund"]) ? WalletActions::REFUND : WalletActions::DEDUCT;
-        $this->coreService->updateClientWallet($order["user_id"], $order["credit"], $action->value);
+        $this->communicationEngine->broadcast("core:client:update-client-wallet", $order["user_id"], $order["credit"], $action->value);
         $order = $this->orderDatabaseService->addOrder($order);
-        $client = $this->coreService->getClient($order['user_id']);
+        $client = $this->communicationEngine->broadcast("core:client:get-client", $order['user_id'])[0];
         $order['balance'] = $client['balance'];
-        $pricelist = $this->coreService->getPricelist($order['pricelist_id']);
+        $pricelist = $this->communicationEngine->broadcast("core:pricelist:get-pricelist", $order['pricelist_id'])[0];
         $order['price'] = $pricelist['price'];
         $order['messages_count'] = floor($order['balance'] / $order['price']);
-        $this->mailService->sendOrderAddedMail($client['email'], $order);
         return $order;
+    }
+
+    public function update(string $orderID, array $order): array
+    {
+        return $this->orderDatabaseService->updateOrder($orderID, $order);
     }
 
     public function getClientOrders(string $userID): array
     {
         return $this->orderDatabaseService->getClientOrders($userID);
+    }
+
+    public function getClientLatestOrder(string $userID): array
+    {
+        return $this->orderDatabaseService->getClientLatestOrder($userID);
+    }
+
+    public function getOrdersByID(array $ordersID, int $take = 10): array
+    {
+        $orders = $this->orderDatabaseService->getOrdersByID($ordersID, $take);
+
+        $usersID = array_unique(array_column($orders['data'], 'user_id'));
+        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+        $orders['data'] = tableWith($orders['data'], $clients, "user_id", "user_id", "client");
+
+        $pricelistsID = array_unique(array_column($orders['data'], 'pricelist_id'));
+        $pricelists = $this->communicationEngine->broadcast("core:pricelist:get-pricelists", $pricelistsID)[0];
+        $orders['data'] = tableWith($orders['data'], $pricelists, "pricelist_id");
+
+        $paymentMethodsID = array_unique(array_column($orders['data'], 'payment_method_id'));
+        $paymentMethods = $this->paymentMethodService->getPaymentMethods($paymentMethodsID);
+        $orders['data'] = tableWith($orders['data'], $paymentMethods, "payment_method_id");
+
+        return $orders;
     }
 
     public function getOrdersByUsersID(array $usersID, int $take = 10): array
@@ -101,30 +129,30 @@ class OrderService implements OrderServiceContract
         switch ($column) {
             case "sales":
             case "sales_name":
-                $sales = $this->coreService->searchSalesColumn("name", $value, 1000000000000);
+                $sales = $this->communicationEngine->broadcast("core:sales:search-column", "name", $value, 1000000000000)[0];
                 $salesID = array_column($sales['data'], 'id');
-                $clients = $this->coreService->getClientsBySalesID($salesID);
+                $clients = $this->communicationEngine->broadcast("core:client:get-clients-by-sales-id", $salesID)[0];
                 $usersID = array_column($clients, 'user_id');
                 $orders = $this->getOrdersByUsersID($usersID, $take);
                 break;
 
             case "company":
             case "company_name":
-                $clients = $this->coreService->searchClientColumn("company_name", $value, 1000000000000);
+                $clients = $this->communicationEngine->broadcast("core:client:search-column", "company_name", $value, true, 1000000000000)[0];
                 $usersID = array_column($clients['data'], 'user_id');
                 $orders = $this->getOrdersByUsersID($usersID, $take);
                 break;
 
             case "pricelist":
             case "pricelist_name":
-                $pricelists = $this->coreService->searchPricelistColumn("name", $value, 1000000000000);
+                $pricelists = $this->communicationEngine->broadcast("core:pricelist:search-column", "name", $value, 1000000000000)[0];
                 $pricelistsID = array_column($pricelists['data'], 'id');
                 $orders = $this->getOrdersByPricelistsID($pricelistsID, $take);
                 break;
         
             case "payment_method":
             case "payment_method_name":
-                $paymentMethods = $this->expenseService->searchPaymentMehtodColumn("name", $value, 1000000000000);
+                $paymentMethods = $this->paymentMethodService->searchColumn("name", $value, 1000000000000);
                 $paymentMethodsID = array_column($paymentMethods['data'], 'id');
                 $orders = $this->getOrdersByPaymentMethodsID($paymentMethodsID, $take);
                 break;
@@ -134,15 +162,15 @@ class OrderService implements OrderServiceContract
         }
 
         $usersID = array_unique(array_column($orders['data'], 'user_id'));
-        $clients = $this->coreService->getClients($usersID);
+        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
         $orders['data'] = tableWith($orders['data'], $clients, "user_id", "user_id", "client");
 
         $pricelistsID = array_unique(array_column($orders['data'], 'pricelist_id'));
-        $pricelists = $this->coreService->getPricelists($pricelistsID);
+        $pricelists = $this->communicationEngine->broadcast("core:pricelist:get-pricelists", $pricelistsID)[0];
         $orders['data'] = tableWith($orders['data'], $pricelists, "pricelist_id");
 
         $paymentMethodsID = array_unique(array_column($orders['data'], 'payment_method_id'));
-        $paymentMethods = $this->expenseService->getPaymentMethods($paymentMethodsID);
+        $paymentMethods = $this->paymentMethodService->getPaymentMethods($paymentMethodsID);
         $orders['data'] = tableWith($orders['data'], $paymentMethods, "payment_method_id");
 
         return $orders;

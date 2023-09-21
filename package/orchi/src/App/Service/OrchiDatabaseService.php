@@ -58,6 +58,16 @@ class OrchiDatabaseService implements OrchiDatabaseServiceContract
         return $this->orchiDatabaseDriver->handlegroupRepository()->update($handleGroupID, $data);
     }
 
+    public function getHandler(string $handlerID): array
+    {
+        return $this->orchiDatabaseDriver->handlerRepository()->getHandler($handlerID);
+    }
+
+    public function getAllHandlers(): array
+    {
+        return $this->orchiDatabaseDriver->handlerRepository()->all();
+    }
+
     public function updateHandler(string $handlerID, array $data): array
     {
         return $this->orchiDatabaseDriver->handlerRepository()->update($handlerID, $data);

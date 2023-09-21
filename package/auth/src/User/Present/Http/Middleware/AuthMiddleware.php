@@ -8,10 +8,9 @@ use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use Epush\Shared\App\Contract\OrchiServiceContract;
 use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
-
+use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class AuthMiddleware
 {
@@ -21,7 +20,7 @@ class AuthMiddleware
         $path = $request->path();
         $method = $request->method();
 
-        $handler = app(OrchiServiceContract::class)->getHandlerByEndpoint($method . "|" . $url);
+        $handler = app(InterprocessCommunicationEngineContract::class)->broadcast("orchi:handler:get-handler-by-endpoint", $method . "|" . $url)[0];
 
         if (empty($handler)) {
             return failureJSONResponse('the requested feature needs to be registered in the database', 403);
@@ -37,7 +36,7 @@ class AuthMiddleware
                 'api/auth/user/reset-password',
             ])) {
 
-            return $next($request);
+            return app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $request, $next($request))[0];
         }
 
         $access_token = $request->header('Authorization');
@@ -80,6 +79,6 @@ class AuthMiddleware
             return failureJSONResponse('You don\'t have access to the requested feature', 403);
         }
 
-        return $next($request);
+        return app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $request, $next($request))[0];
     }
 }

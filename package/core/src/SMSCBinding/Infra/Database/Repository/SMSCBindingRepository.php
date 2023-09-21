@@ -76,6 +76,11 @@ class SMSCBindingRepository implements SMSCBindingRepositoryContract
             $smscBinding = $this->smscBinding->where('id', $smscBindingID)->firstOrFail();
 
             if (! empty($data)) {
+                if ($data["default"]) {
+                    $this->smscBinding->where('country_id', $smscBinding['country_id'])
+                        ->where('operator_id', $smscBinding['operator_id'])
+                        ->update(['default' => false]);
+                }
                 $smscBinding->update($data);
             }
 

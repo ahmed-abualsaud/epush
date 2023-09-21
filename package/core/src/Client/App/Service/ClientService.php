@@ -6,22 +6,14 @@ namespace Epush\Core\Client\App\Service;
 use Epush\Core\Client\App\Contract\ClientServiceContract;
 use Epush\Core\Client\App\Contract\ClientDatabaseServiceContract;
 
-use Epush\Shared\App\Contract\SMSServiceContract;
-use Epush\Shared\App\Contract\AuthServiceContract;
-use Epush\Shared\App\Contract\FileServiceContract;
-use Epush\Shared\App\Contract\MailServiceContract;
-use Epush\Shared\App\Contract\ExpenseServiceContract;
+use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class ClientService implements ClientServiceContract
 {
     public function __construct(
 
-        private SMSServiceContract $smsService,
-        private MailServiceContract $mailService,
-        private FileServiceContract $fileService,
-        private AuthServiceContract $authService,
-        private ExpenseServiceContract $expenseService,
-        private ClientDatabaseServiceContract $clientDatabaseService
+        private ClientDatabaseServiceContract $clientDatabaseService,
+        private InterprocessCommunicationEngineContract $communicationEngine
 
     ) {}
 
@@ -30,7 +22,7 @@ class ClientService implements ClientServiceContract
     {
         $clients = $this->clientDatabaseService->paginateClients($take);
         $usersID = array_column($clients['data'], 'user_id');
-        $users = $this->authService->getUsers($usersID);
+        $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
         $clients['data'] = innerJoinTableArraysOnColumns($users, $clients['data'], "id", "user_id");
         return $clients;
     }
@@ -38,7 +30,7 @@ class ClientService implements ClientServiceContract
     public function get(string $userID): array
     {
         $client = $this->clientDatabaseService->getClient($userID);
-        $user = $this->authService->getUser($userID);
+        $user = $this->communicationEngine->broadcast("auth:user:get-user", $userID)[0];
         $result =  array_replace_recursive($user, $client);
         $result['id'] = $userID;
         $result['client_id'] = $client['id'] ?? null;
@@ -51,15 +43,14 @@ class ClientService implements ClientServiceContract
         array_key_exists("websites", $client) && ! empty($client['websites']) && $websites = json_decode($client['websites'], true);
         unset($client['websites']);
 
-        $user = $this->authService->addUser($user, 'client');
-        $password = $this->authService->generatePassword($user['id']);
+        $user = $this->communicationEngine->broadcast("auth:user:add-user", $user, 'client')[0];
+        $password = $this->communicationEngine->broadcast("auth:credentials:generate-password", $user['id'])[0];
 
         $client['user_id'] = $user['id'];
         $client = $this->clientDatabaseService->addClient($client);
         ! empty($websites) && $this->clientDatabaseService->addClientWebsites($client['id'], $websites);
 
-        $this->smsService->sendMessage($user['phone'], 'Your password is: '.$password);
-        $this->mailService->sendClientAddedMail($user['email'], $user);
+        $this->communicationEngine->broadcast("sms:send", $user['phone'], 'Your password is: '.$password);
 
         $result =  array_replace_recursive($user, $client);
         $result['id'] = $client['user_id'];
@@ -74,7 +65,7 @@ class ClientService implements ClientServiceContract
         isset($websites) && $this->clientDatabaseService->updateClientWebsites($this->get($userID)['client_id'], $websites, $sync_websites);
         unset($client['websites'], $client['sync_websites']);
 
-        $user = $this->authService->updateUser($userID, $user);
+        $user = $this->communicationEngine->broadcast("auth:user:update-user", $userID, $user)[0];
         $client = $this->clientDatabaseService->updateClient($userID, $client);
         return innerJoinTableArraysOnColumns([$user], [$client], "id", "user_id")[0];
     }
@@ -86,7 +77,7 @@ class ClientService implements ClientServiceContract
 
     public function delete(string $userID): bool
     {
-        return $this->clientDatabaseService->deleteClient($userID) && $this->authService->deleteUser($userID);
+        return $this->clientDatabaseService->deleteClient($userID) && $this->communicationEngine->broadcast("auth:user:delete-user", $userID)[0];
     }
 
     public function getClients(array $usersID): array
@@ -101,7 +92,12 @@ class ClientService implements ClientServiceContract
 
     public function getClientOrders(string $userID): array
     {
-        return $this->expenseService->getClientOrders($userID);
+        return $this->communicationEngine->broadcast("expense:order:get-client-orders", $userID)[0];
+    }
+
+    public function getClientLatestOrder(string $userID): array
+    {
+        return $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $userID)[0];
     }
 
     public function addClientWebsites(string $clientID, array $websites): array
@@ -114,13 +110,13 @@ class ClientService implements ClientServiceContract
         if ($searchClient) {
             $clients = $this->clientDatabaseService->searchClientColumn($column, $value, $take);
             $usersID = array_column($clients['data'], 'user_id');
-            $users = $this->authService->getUsers($usersID);
+            $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
             $clients['data'] = innerJoinTableArraysOnColumns($users, $clients['data'], "id", "user_id");
             return $clients;
         } else {
             $clients = $this->clientDatabaseService->paginateClients(1000000000000);
             $usersID = array_column($clients['data'], 'user_id');
-            $users = $this->authService->searchUserColumn($column, $value, $take, $usersID);
+            $users = $this->communicationEngine->broadcast("auth:user:search-column", $column, $value, $take, $usersID)[0];
             $usersID = array_column($users['data'], 'id');
             $clients = $this->clientDatabaseService->getClients($usersID);
             $users['data'] = innerJoinTableArraysOnColumns($users['data'], $clients, "id", "user_id");

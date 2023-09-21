@@ -1,5 +1,38 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+
+function getResponseData($response)
+{
+    if (! is_array($response)) {
+        return [];
+    }
+
+    if (array_key_exists("data", $response)) {
+        return getResponseData($response["data"]);
+    }
+
+    return $response;
+}
+
+function getSubArrayRecursively($array, $keys, &$results) 
+{    
+    $result = [];
+    foreach ($array as $key => $value) {
+        if (is_array($value) || is_object($value)) {
+
+            getSubArrayRecursively((array)$value, $keys, $results);
+        } 
+        elseif (in_array($key, $keys)) {
+            $result[$key] = $value;
+        }
+    }
+
+    if (!empty($result)) {
+        $results[] = $result;
+    }
+}
+
 function jsonResponse($data, $status = 200)
 {
     if (! isException($data)) {
@@ -12,27 +45,27 @@ function jsonResponse($data, $status = 200)
 function successJSONResponse($data, $status = 200)
 {
     return response()->json(
-            [
-                'success' => true,
-                'status' => $status,
-                'message' => getCodeMessage($status),
-                'data' => $data
-            ], 
-            $status
-        );
+        [
+            'success' => true,
+            'status' => $status,
+            'message' => getCodeMessage($status),
+            'data' => $data
+        ], 
+        $status
+    );
 }
 
 function failureJSONResponse($error, $status = 500)
 {
     return response()->json(
-            [
-                'success' => false,
-                'status' => $status,
-                'message' => getCodeMessage($status),
-                'error' => $error
-            ], 
-            $status
-        );
+        [
+            'success' => false,
+            'status' => $status,
+            'message' => getCodeMessage($status),
+            'error' => $error
+        ], 
+        $status
+    );
 }
 
 function fileDownloadResponse(Epush\Shared\Domain\Entity\FileDownload $fileDownload, array $headers = [])
