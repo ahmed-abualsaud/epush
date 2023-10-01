@@ -19,9 +19,9 @@ class AddMessageUseCase
     {
         $this->validationService->validate($addMessageDto->toArray(), AddMessageDto::rules());
         return $this->messageService->add(
-            $addMessageDto->getUserID(), 
+            $addMessageDto->getUserID(),
             $addMessageDto->getMessage(), 
-            $addMessageDto->getRecipients(), 
+            $addMessageDto->getMessageGroupRecipients(),
             $addMessageDto->getSegments()
         );
     }

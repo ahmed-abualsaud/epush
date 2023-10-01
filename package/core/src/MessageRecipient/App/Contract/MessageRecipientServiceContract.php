@@ -6,7 +6,7 @@ interface MessageRecipientServiceContract
 {
     public function list(int $take): array;
 
-    public function add(string $messageID, array $messageRecipients): array;
+    public function add(string $messageID, array $messageGroupRecipientIDs): array;
 
     public function delete(string $messageID): bool;
 

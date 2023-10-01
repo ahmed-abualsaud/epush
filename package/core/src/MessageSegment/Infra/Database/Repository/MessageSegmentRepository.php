@@ -19,7 +19,7 @@ class MessageSegmentRepository implements MessageSegmentRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->messageSegment->paginate($take)->toArray();
+            return $this->messageSegment->with(['message'])->paginate($take)->toArray();
 
         });
     }
@@ -42,7 +42,7 @@ class MessageSegmentRepository implements MessageSegmentRepositoryContract
     
             $this->messageSegment->insert($messageSegments);
     
-            return $this->messageSegment->where('message_id', $messageID)->get()->toArray();
+            return $this->messageSegment->with(['message'])->where('message_id', $messageID)->get()->toArray();
 
         });
     }
@@ -60,9 +60,19 @@ class MessageSegmentRepository implements MessageSegmentRepositoryContract
     {
         return DB::transaction(function () use ($column, $value, $take) {
 
-            return $this->messageSegment
-                ->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
-                ->paginate($take)->toArray();
+            $messageSegment = $this->messageSegment->with(['message']);
+
+            $messageSegment = match ($column)
+            {
+                "message", "content", "message_content" => 
+                $messageSegment->whereHas('message', function ($query) use ($value) {
+                    $query->whereRaw("LOWER(content) LIKE ?", ['%' . strtolower($value) . '%']);
+                }),
+
+                default => $messageSegment->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
+            };
+
+            return $messageSegment->paginate($take)->toArray();
         });
     }
 }

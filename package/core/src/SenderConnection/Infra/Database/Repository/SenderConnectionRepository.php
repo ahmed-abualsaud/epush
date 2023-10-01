@@ -3,10 +3,10 @@
 namespace Epush\Core\SenderConnection\Infra\Database\Repository;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use Epush\Core\SenderConnection\Infra\Database\Model\SenderConnection;
 use Epush\Core\SenderConnection\Infra\Database\Repository\Contract\SenderConnectionRepositoryContract;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class SenderConnectionRepository implements SenderConnectionRepositoryContract
 {

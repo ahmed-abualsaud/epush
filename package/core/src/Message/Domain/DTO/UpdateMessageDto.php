@@ -16,12 +16,21 @@ class UpdateMessageDto implements DtoContract
     public static function rules(): array
     {
         return [
-            'sender_id' => 'required|exists:senders,id',
-            'order_id' => 'required|exists:orders,id',
-            'message_language_id' => 'required|exists:message_languages,id',
-            'content' => 'required|string',
+            'sender_id' => 'exists:senders,id',
+            'user_id' => 'exists:users,id',
+            'order_id' => 'exists:orders,id',
+            'message_language_id' => 'exists:message_languages,id',
+            'content' => 'string',
             'notes' => 'string',
-            'scheduled_at' => 'integer',
+            'scheduled_at' => 'string',
+            'group_recipients' => 'array',
+            'group_recipients.*.name' => 'string',
+            'group_recipients.*.recipients' => 'array',
+            'group_recipients.*.recipients.*.number' => 'string',
+            'group_recipients.*.recipients.*.attributes' => 'string|nullable',
+            'segments' => 'array',
+            'segments.*.number' => 'integer',
+            'segments.*.content' => 'string',
         ];
     }
 

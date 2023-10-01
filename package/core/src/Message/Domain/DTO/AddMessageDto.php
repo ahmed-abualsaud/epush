@@ -17,9 +17,15 @@ class AddMessageDto implements DtoContract
             'message_language_id' => 'required|exists:message_languages,id',
             'content' => 'required|string',
             'notes' => 'string',
-            'scheduled_at' => 'integer',
-            'recipients' => 'array|required',
-            'segments' => 'array|required'
+            'scheduled_at' => 'string',
+            'group_recipients' => 'required|array',
+            'group_recipients.*.name' => 'required|string',
+            'group_recipients.*.recipients' => 'required|array',
+            'group_recipients.*.recipients.*.number' => 'required|string',
+            'group_recipients.*.recipients.*.attributes' => 'string|nullable',
+            'segments' => 'required|array',
+            'segments.*.number' => 'required|integer',
+            'segments.*.content' => 'required|string',
         ];
     }
 
@@ -28,10 +34,15 @@ class AddMessageDto implements DtoContract
         return $this->data;
     }
 
+    public function getUserID(): string
+    {
+        return $this->data['user_id'];
+    }
+
     public function getMessage(): array
     {
         $this->data['number_of_segments'] = count($this->getSegments());
-        $this->data['number_of_recipients'] = count($this->getRecipients());
+        $this->data['number_of_recipients'] = $this->getNumberOfRecipients();
 
         return subAssociativeArray([
 
@@ -46,18 +57,24 @@ class AddMessageDto implements DtoContract
         ], $this->data);
     }
 
-    public function getUserID(): string
+    public function getMessageGroupRecipients(): array
     {
-        return $this->data['user_id'];
-    }
-
-    public function getRecipients(): array
-    {
-        return $this->data['recipients'];
+        return $this->data['group_recipients'];
     }
 
     public function getSegments(): array
     {
         return $this->data['segments'];
+    }
+
+    public function getNumberOfRecipients(): int
+    {
+        $numOfRecipients = 0;
+
+        foreach ($this->data['group_recipients'] as $groupRecipient) {
+            $numOfRecipients += count($groupRecipient['recipients']);
+        };
+
+        return $numOfRecipients;
     }
 }

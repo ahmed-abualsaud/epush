@@ -6,7 +6,7 @@ interface MessageRecipientRepositoryContract
 {
     public function all(int $take): array;
 
-    public function insert(string $messageID, array $messageRecipients): array;
+    public function insert(string $messageID, array $messageGroupRecipientIDs): array;
 
     public function delete(string $messageID): bool;
 

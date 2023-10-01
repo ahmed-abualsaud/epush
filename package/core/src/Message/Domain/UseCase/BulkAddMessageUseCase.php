@@ -19,9 +19,9 @@ class BulkAddMessageUseCase
     {
         $this->validationService->validate($bulkAddMessageDto->toArray(), BulkAddMessageDto::rules());
         return $this->messageService->bulkAdd(
-            $bulkAddMessageDto->getUserID(), 
+            $bulkAddMessageDto->getUserID(),
             $bulkAddMessageDto->getMessage(), 
-            $bulkAddMessageDto->getRecipients(), 
+            $bulkAddMessageDto->getMessageGroupRecipients(),
             $bulkAddMessageDto->getSegments()
         );
     }

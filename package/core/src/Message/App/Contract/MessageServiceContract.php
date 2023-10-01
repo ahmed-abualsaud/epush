@@ -10,9 +10,9 @@ interface MessageServiceContract
 
     public function getMessagesBySendersID(array $sendersID, int $take = 10): array;
 
-    public function add(string $userID, array $message, array $recipients, array $segments): array;
+    public function add(string $userID, array $messageGroupRecipients, array $message, array $segments): array;
 
-    public function bulkAdd(string $userID, array $messages, array $recipients, array $segments): array;
+    public function bulkAdd(string $userID, array $messageGroupRecipients, array $message, array $segments): array;
 
     public function update(string $messageID, array $message): array;
 

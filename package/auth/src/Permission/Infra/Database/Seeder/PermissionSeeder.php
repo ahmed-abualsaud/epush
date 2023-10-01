@@ -814,39 +814,117 @@ class PermissionSeeder extends Seeder
 
 
         Permission::create([
-            'name' => 'list-message-receivers',
-            'description' => 'list all message receivers handlers',
+            'name' => 'list-message-recipients',
+            'description' => 'list all message recipients handlers',
             'handler_id' => '123'
         ]);
 
         Permission::create([
-            'name' => 'add-message-receiver',
-            'description' => 'add new message receiver',
+            'name' => 'add-message-recipient',
+            'description' => 'add new message recipient',
             'handler_id' => '124'
         ]);
 
         Permission::create([
-            'name' => 'get-message-receiver',
-            'description' => 'get a specific message receiver',
+            'name' => 'get-message-recipient',
+            'description' => 'get a specific message recipient',
             'handler_id' => '125'
         ]);
 
         Permission::create([
-            'name' => 'update-message-receiver',
-            'description' => 'update a specific message receiver',
+            'name' => 'update-message-recipient',
+            'description' => 'update a specific message recipient',
             'handler_id' => '126'
         ]);
 
         Permission::create([
-            'name' => 'delete-message-receiver',
-            'description' => 'delete a specific message receiver',
+            'name' => 'delete-message-recipient',
+            'description' => 'delete a specific message recipient',
             'handler_id' => '127'
         ]);
 
         Permission::create([
-            'name' => 'search-message-receiver-column',
-            'description' => 'find a specific value for a column of the message receivers table',
+            'name' => 'search-message-recipient-column',
+            'description' => 'find a specific value for a column of the message recipients table',
             'handler_id' => '128'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'list-message-groups',
+            'description' => 'list all message groups handlers',
+            'handler_id' => '129'
+        ]);
+
+        Permission::create([
+            'name' => 'add-message-group',
+            'description' => 'add new message group',
+            'handler_id' => '130'
+        ]);
+
+        Permission::create([
+            'name' => 'get-message-group',
+            'description' => 'get a specific message group',
+            'handler_id' => '131'
+        ]);
+
+        Permission::create([
+            'name' => 'update-message-group',
+            'description' => 'update a specific message group',
+            'handler_id' => '132'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-message-group',
+            'description' => 'delete a specific message group',
+            'handler_id' => '133'
+        ]);
+
+        Permission::create([
+            'name' => 'search-message-group-column',
+            'description' => 'find a specific value for a column of the message groups table',
+            'handler_id' => '134'
+        ]);
+
+
+
+
+        Permission::create([
+            'name' => 'list-message-group-recipients',
+            'description' => 'list all message group recipients handlers',
+            'handler_id' => '135'
+        ]);
+
+        Permission::create([
+            'name' => 'add-message-group-recipient',
+            'description' => 'add new message group recipient',
+            'handler_id' => '136'
+        ]);
+
+        Permission::create([
+            'name' => 'get-message-group-recipient',
+            'description' => 'get a specific message group recipient',
+            'handler_id' => '137'
+        ]);
+
+        Permission::create([
+            'name' => 'update-message-group-recipient',
+            'description' => 'update a specific message group recipient',
+            'handler_id' => '138'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-message-group-recipient',
+            'description' => 'delete a specific message group recipient',
+            'handler_id' => '139'
+        ]);
+
+        Permission::create([
+            'name' => 'search-message-group-recipient-column',
+            'description' => 'find a specific value for a column of the message group recipients table',
+            'handler_id' => '140'
         ]);
 
 
@@ -855,31 +933,31 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'list-payment-methods',
             'description' => 'list all payment methods',
-            'handler_id' => '129'
+            'handler_id' => '141'
         ]);
 
         Permission::create([
             'name' => 'add-payment-method',
             'description' => 'add new payment method',
-            'handler_id' => '130'
+            'handler_id' => '142'
         ]);
 
         Permission::create([
             'name' => 'get-payment-method',
             'description' => 'get a specific payment method',
-            'handler_id' => '131'
+            'handler_id' => '143'
         ]);
 
         Permission::create([
             'name' => 'update-payment-method',
             'description' => 'update a specific payment method',
-            'handler_id' => '132'
+            'handler_id' => '144'
         ]);
 
         Permission::create([
             'name' => 'delete-payment-method',
             'description' => 'delete a specific payment method',
-            'handler_id' => '133'
+            'handler_id' => '145'
         ]);
 
 
@@ -888,43 +966,43 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'get-order',
             'description' => 'get a specific order',
-            'handler_id' => '134'
+            'handler_id' => '146'
         ]);
 
         Permission::create([
             'name' => 'add-order',
             'description' => 'add new order',
-            'handler_id' => '135'
+            'handler_id' => '147'
         ]);
 
         Permission::create([
             'name' => 'list-orders',
             'description' => 'list all orders',
-            'handler_id' => '136'
+            'handler_id' => '148'
         ]);
 
         Permission::create([
             'name' => 'update-order',
             'description' => 'update a specific order',
-            'handler_id' => '137'
+            'handler_id' => '149'
         ]);
 
         Permission::create([
             'name' => 'search-order-column',
             'description' => 'find a specific value for a column of the orders table',
-            'handler_id' => '138'
+            'handler_id' => '150'
         ]);
 
         Permission::create([
             'name' => 'get-client-orders',
             'description' => 'get a specific client\'s orders',
-            'handler_id' => '139'
+            'handler_id' => '151'
         ]);
 
         Permission::create([
             'name' => 'get-client-latest-order',
             'description' => 'get the latest created order of a specific client',
-            'handler_id' => '140'
+            'handler_id' => '152'
         ]);
 
 
@@ -933,31 +1011,31 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'list-mail-templates',
             'description' => 'list all mail templates',
-            'handler_id' => '141'
+            'handler_id' => '153'
         ]);
 
         Permission::create([
             'name' => 'add-mail-template',
             'description' => 'add new mail template',
-            'handler_id' => '142'
+            'handler_id' => '154'
         ]);
 
         Permission::create([
             'name' => 'get-mail-template',
             'description' => 'get a specific mail template',
-            'handler_id' => '143'
+            'handler_id' => '155'
         ]);
 
         Permission::create([
             'name' => 'update-mail-template',
             'description' => 'update a specific mail template',
-            'handler_id' => '144'
+            'handler_id' => '156'
         ]);
 
         Permission::create([
             'name' => 'delete-mail-template',
             'description' => 'delete a specific mail template',
-            'handler_id' => '145'
+            'handler_id' => '157'
         ]);
 
 
@@ -966,31 +1044,31 @@ class PermissionSeeder extends Seeder
         Permission::create([
             'name' => 'list-mail-sending-handlers',
             'description' => 'list all mail sending handlers',
-            'handler_id' => '146'
+            'handler_id' => '158'
         ]);
 
         Permission::create([
             'name' => 'add-mail-sending-handler',
             'description' => 'add new mail sending handler',
-            'handler_id' => '147'
+            'handler_id' => '159'
         ]);
 
         Permission::create([
             'name' => 'get-mail-sending-handler',
             'description' => 'get a specific mail sending handler',
-            'handler_id' => '148'
+            'handler_id' => '160'
         ]);
 
         Permission::create([
             'name' => 'update-mail-sending-handler',
             'description' => 'update a specific mail sending handler',
-            'handler_id' => '149'
+            'handler_id' => '161'
         ]);
 
         Permission::create([
             'name' => 'delete-mail-sending-handler',
             'description' => 'delete a specific mail sending handler',
-            'handler_id' => '150'
+            'handler_id' => '162'
         ]);
 
     }

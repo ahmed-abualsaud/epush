@@ -8,9 +8,12 @@ use Epush\Core\Client\App\Contract\ClientServiceContract;
 use Epush\Core\Sender\App\Contract\SenderServiceContract;
 use Epush\Core\Message\App\Contract\MessageServiceContract;
 use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
+use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageSegment\App\Contract\MessageSegmentServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
+use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
+
 
 class MessageService implements MessageServiceContract
 {
@@ -18,10 +21,13 @@ class MessageService implements MessageServiceContract
 
         private ClientServiceContract $clientService,
         private SenderServiceContract $senderService,
+        private MessageGroupServiceContract $messageGroupService,
         private MessageSegmentServiceContract $messageSegmentService,
         private MessageDatabaseServiceContract $messageDatabaseService,
         private MessageRecipientServiceContract $messageRecipientService,
-        private InterprocessCommunicationEngineContract $communicationEngine
+        private InterprocessCommunicationEngineContract $communicationEngine,
+        private MessageGroupRecipientServiceContract $messageGroupRecipientService
+
 
     ) {}
 
@@ -66,7 +72,7 @@ class MessageService implements MessageServiceContract
         return $this->messageDatabaseService->getMessagesBySendersID($sendersID, $take);
     }
 
-    public function add(string $userID, array $message, array $recipients, array $segments): array
+    public function add(string $userID, array $message, array $messageGroupRecipients, array $segments): array
     {
         $lastOrder = $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $userID)[0];
         $message['single_message_cost'] = $lastOrder['pricelist']['price'];
@@ -74,8 +80,12 @@ class MessageService implements MessageServiceContract
         $message['total_cost'] = $totalCost;
 
         $message =  $this->messageDatabaseService->addMessage($message);
-        $this->messageRecipientService->add($message['id'], $recipients);
         $this->messageSegmentService->add($message['id'], $segments);
+
+        foreach ($messageGroupRecipients as $messageGroupRecipient) {
+            $msgrcp = $this->messageGroupService->add(['name' => $messageGroupRecipient['name']], $messageGroupRecipient['recipients']);
+            $this->messageRecipientService->add($message['id'], array_column($msgrcp, 'id'));
+        }
 
         $this->communicationEngine->broadcast(
             "core:client:update-client-wallet", 
@@ -87,11 +97,18 @@ class MessageService implements MessageServiceContract
         return $this->get($message['id']);
     }
 
-    public function bulkAdd(string $userID, array $messages, array $recipients, array $segments): array
+    public function bulkAdd(string $userID, array $messages, array $messageGroupRecipients, array $segments): array
     {
         $lastOrder = $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $userID)[0];
         $messages['single_message_cost'] = $lastOrder['pricelist']['price'];
         $totalCost = $messages['single_message_cost'] * count($segments);
+
+        $recipients = [];
+
+        foreach ($messageGroupRecipients as $messageGroupRecipient) {
+            $msgrcp = $this->messageGroupService->add(['name' => $messageGroupRecipient['name']], $messageGroupRecipient['recipients']);
+            array_push($recipients, ...$msgrcp);
+        }
 
         foreach ($messages['content']['messages'] as $message) {
             $insertedMessage =  $this->messageDatabaseService->addMessage([
@@ -107,8 +124,11 @@ class MessageService implements MessageServiceContract
                 'number_of_recipients' => 1
             ]);
 
-            $this->messageRecipientService->add($insertedMessage['id'], [['number' => $message['title']]]);
             $this->messageSegmentService->add($insertedMessage['id'], $message['segments']);
+
+            $this->messageRecipientService->add($insertedMessage['id'], [arrayFind($recipients, function ($recipient) use ($message) {
+                return $recipient['number'] === $message['title'];
+            })['id']]);
         }
 
         $this->communicationEngine->broadcast(

@@ -16,16 +16,34 @@ class BulkAddMessageDto implements DtoContract
             'order_id' => 'required|exists:orders,id',
             'message_language_id' => 'required|exists:message_languages,id',
             'content' => 'required|array',
+            'content.content' => 'required|string',
+            'content.messages' => 'required|array',
+            'content.messages.*.content' => 'required|string',
+            'content.messages.*.title' => 'required|string',
+            'content.messages.*.segments' => 'required|array',
+            'content.messages.*.segments.*.number' => 'required|integer',
+            'content.messages.*.segments.*.content' => 'required|string',
             'notes' => 'string',
-            'scheduled_at' => 'integer',
-            'recipients' => 'array|required',
-            'segments' => 'array|required'
+            'scheduled_at' => 'string',
+            'group_recipients' => 'required|array',
+            'group_recipients.*.name' => 'required|string',
+            'group_recipients.*.recipients' => 'required|array',
+            'group_recipients.*.recipients.*.number' => 'required|string',
+            'group_recipients.*.recipients.*.attributes' => 'string|nullable',
+            'segments' => 'required|array',
+            'segments.*.number' => 'required|integer',
+            'segments.*.content' => 'required|string',
         ];
     }
 
     public function toArray(): array
     {
         return $this->data;
+    }
+
+    public function getUserID(): string
+    {
+        return $this->data['user_id'];
     }
 
     public function getMessage(): array
@@ -43,14 +61,9 @@ class BulkAddMessageDto implements DtoContract
         ], $this->data);
     }
 
-    public function getUserID(): string
+    public function getMessageGroupRecipients(): array
     {
-        return $this->data['user_id'];
-    }
-
-    public function getRecipients(): array
-    {
-        return $this->data['recipients'];
+        return $this->data['group_recipients'];
     }
 
     public function getSegments(): array

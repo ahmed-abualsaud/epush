@@ -1238,10 +1238,124 @@ class HandlerSeeder extends Seeder
         ]);
 
 
+        // Message Group Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 24,
+            'name' => 'getMessageGroup',
+            'endpoint' => 'GET|http://localhost:8000/api/message-group/{message_group_id}',
+            'description' => 'get a specific message group',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 24,
+            'name' => 'addMessageGroup',
+            'endpoint' => 'POST|http://localhost:8000/api/message-group',
+            'description' => 'add new message group',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 24,
+            'name' => 'listMessageGroups',
+            'endpoint' => 'GET|http://localhost:8000/api/message-group',
+            'description' => 'list all message groups',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 24,
+            'name' => 'deleteMessageGroup',
+            'endpoint' => 'DELETE|http://localhost:8000/api/message-group/{message_group_id}',
+            'description' => 'delete a specific message group',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 24,
+            'name' => 'updateMessageGroup',
+            'endpoint' => 'PUT|http://localhost:8000/api/message-group/{message_group_id}',
+            'description' => 'update a specific message group',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 24,
+            'name' => 'searchMessageGroupColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/message-group/search',
+            'description' => 'find a specific value for a column of the message groups table',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+
+        // Message Group Recipient Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 25,
+            'name' => 'getMessageGroupRecipient',
+            'endpoint' => 'GET|http://localhost:8000/api/message-group-recipient/{message_group_recipient_id}',
+            'description' => 'get a specific message group recipient',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 25,
+            'name' => 'addMessageGroupRecipient',
+            'endpoint' => 'POST|http://localhost:8000/api/message-group-recipient',
+            'description' => 'add new message group recipient',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 25,
+            'name' => 'listMessageGroupRecipients',
+            'endpoint' => 'GET|http://localhost:8000/api/message-group-recipient',
+            'description' => 'list all message group recipients',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 25,
+            'name' => 'deleteMessageGroupRecipient',
+            'endpoint' => 'DELETE|http://localhost:8000/api/message-group-recipient/{message_group_recipient_id}',
+            'description' => 'delete a specific message group recipient',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 25,
+            'name' => 'updateMessageGroupRecipient',
+            'endpoint' => 'PUT|http://localhost:8000/api/message-group-recipient/{message_group_recipient_id}',
+            'description' => 'update a specific message group recipient',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 25,
+            'name' => 'searchMessageGroupRecipientColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/message-group-recipient/search',
+            'description' => 'find a specific value for a column of the message group recipients table',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+
         // PaymentMethod Controller Handlers =================================================================================================================
         
         Handler::create([
-            'handle_group_id' => 24,
+            'handle_group_id' => 26,
             'name' => 'listPaymentMethods',
             'endpoint' => 'GET|http://localhost:8000/api/expense/payment-method',
             'description' => 'list all payment methods',
@@ -1250,7 +1364,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 24,
+            'handle_group_id' => 26,
             'name' => 'addPaymentMethod',
             'endpoint' => 'POST|http://localhost:8000/api/expense/payment-method',
             'description' => 'add new payment method',
@@ -1259,7 +1373,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 24,
+            'handle_group_id' => 26,
             'name' => 'getPaymentMethod',
             'endpoint' => 'GET|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'get a specific payment method',
@@ -1268,7 +1382,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 24,
+            'handle_group_id' => 26,
             'name' => 'updatePaymentMethod',
             'endpoint' => 'PUT|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'update a specific payment method',
@@ -1277,7 +1391,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 24,
+            'handle_group_id' => 26,
             'name' => 'deletePaymentMethod',
             'endpoint' => 'DELETE|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'delete a specific payment method',
@@ -1289,7 +1403,7 @@ class HandlerSeeder extends Seeder
         // Order Controller Handlers =================================================================================================================
 
         Handler::create([
-            'handle_group_id' => 25,
+            'handle_group_id' => 27,
             'name' => 'getOrder',
             'endpoint' => 'GET|http://localhost:8000/api/expense/order/{user_id}',
             'description' => 'get a specific order',
@@ -1298,7 +1412,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 25,
+            'handle_group_id' => 27,
             'name' => 'addOrder',
             'endpoint' => 'POST|http://localhost:8000/api/expense/order',
             'description' => 'add new order',
@@ -1307,7 +1421,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 25,
+            'handle_group_id' => 27,
             'name' => 'listOrders',
             'endpoint' => 'GET|http://localhost:8000/api/expense/order',
             'description' => 'list all orders',
@@ -1316,7 +1430,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 25,
+            'handle_group_id' => 27,
             'name' => 'updateOrder',
             'endpoint' => 'PUT|http://localhost:8000/api/expense/order/{order_id}',
             'description' => 'update a specific order',
@@ -1325,7 +1439,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 25,
+            'handle_group_id' => 27,
             'name' => 'searchOrderColumn',
             'endpoint' => 'POST|http://localhost:8000/api/expense/order/search',
             'description' => 'find a specific value for a column of the orders table',
@@ -1355,7 +1469,7 @@ class HandlerSeeder extends Seeder
         // MailTemplateController Handlers =================================================================================================================
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 28,
             'name' => 'listMailTemplates',
             'endpoint' => 'GET|http://localhost:8000/api/mail/template',
             'description' => 'list all mail templates',
@@ -1364,7 +1478,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 28,
             'name' => 'addMailTemplate',
             'endpoint' => 'POST|http://localhost:8000/api/mail/template',
             'description' => 'add new mail template',
@@ -1373,7 +1487,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 28,
             'name' => 'getMailTemplate',
             'endpoint' => 'GET|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'get a specific mail template',
@@ -1382,7 +1496,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 28,
             'name' => 'updateMailTemplate',
             'endpoint' => 'PUT|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'update a specific mail template',
@@ -1391,7 +1505,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 28,
             'name' => 'deleteMailTemplate',
             'endpoint' => 'DELETE|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'delete a specific mail template',
@@ -1403,7 +1517,7 @@ class HandlerSeeder extends Seeder
         // MailSendingHandlerController Handlers =================================================================================================================
 
         Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 29,
             'name' => 'listMailSendingHandlers',
             'endpoint' => 'GET|http://localhost:8000/api/mail/sending-handler',
             'description' => 'list all mail sending handlers',
@@ -1412,7 +1526,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 29,
             'name' => 'addMailSendingHandler',
             'endpoint' => 'POST|http://localhost:8000/api/mail/sending-handler',
             'description' => 'add new mail sending handler',
@@ -1421,7 +1535,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 29,
             'name' => 'getMailSendingHandler',
             'endpoint' => 'GET|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'get a specific mail sending handler',
@@ -1430,7 +1544,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 29,
             'name' => 'updateMailSendingHandler',
             'endpoint' => 'PUT|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'update a specific mail sending handler',
@@ -1439,7 +1553,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 29,
             'name' => 'deleteMailSendingHandler',
             'endpoint' => 'DELETE|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'delete a specific mail sending handler',
