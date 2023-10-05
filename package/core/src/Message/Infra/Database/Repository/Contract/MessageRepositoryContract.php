@@ -8,6 +8,10 @@ interface MessageRepositoryContract
 
     public function get(string $messageID): array;
 
+    public function getClientMessages(string $userID): array;
+
+    public function getMessagesByUsersID(array $usersID, int $take = 10): array;
+
     public function getMessagesByOrdersID(array $ordersID, int $take = 10): array;
 
     public function getMessagesBySendersID(array $sendersID, int $take = 10): array;

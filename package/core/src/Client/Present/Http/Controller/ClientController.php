@@ -18,10 +18,12 @@ use Epush\Core\Client\Domain\UseCase\GetClientUseCase;
 use Epush\Core\Client\Domain\UseCase\AddClientUseCase;
 use Epush\Core\Client\Domain\UseCase\ListClientsUseCase;
 use Epush\Core\Client\Domain\UseCase\DeleteClientUseCase;
-use Epush\Core\Client\Domain\UseCase\GetClientLatestOrderUseCase;
 use Epush\Core\Client\Domain\UseCase\SearchClientUseCase;
 use Epush\Core\Client\Domain\UseCase\UpdateClientUseCase;
 use Epush\Core\Client\Domain\UseCase\GetClientOrdersUseCase;
+use Epush\Core\Client\Domain\UseCase\GetClientMessagesUseCase;
+use Epush\Core\Client\Domain\UseCase\GetClientLatestOrderUseCase;
+use Epush\Core\Client\Domain\UseCase\GetClientMessageGroupsUseCase;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -63,6 +65,18 @@ class ClientController
     public function getClientOrders(ClientDto $clientDto, GetClientOrdersUseCase $getClientOrdersUseCase): Response
     {
         return successJSONResponse($getClientOrdersUseCase->execute($clientDto));
+    }
+
+    #[Get('{user_id}/messages')]
+    public function getClientMessages(ClientDto $clientDto, GetClientMessagesUseCase $getClientMessagesUseCase): Response
+    {
+        return successJSONResponse($getClientMessagesUseCase->execute($clientDto));
+    }
+
+    #[Get('{user_id}/message-groups')]
+    public function getClientMessageGroups(ClientDto $clientDto, GetClientMessageGroupsUseCase $getClientMessageGroupsUseCase): Response
+    {
+        return successJSONResponse($getClientMessageGroupsUseCase->execute($clientDto));
     }
 
     #[Get('{user_id}/latest-order')]

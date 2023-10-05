@@ -18,14 +18,24 @@ class MessageDatabaseService implements MessageDatabaseServiceContract
         return $this->messageDatabaseDriver->messageRepository()->get($messageID);
     }
 
+    public function getClientMessages(string $userID): array
+    {
+        return $this->messageDatabaseDriver->messageRepository()->getClientMessages($userID);
+    }
+
+    public function getMessagesByUsersID(array $usersID, int $take = 10): array
+    {
+        return $this->messageDatabaseDriver->messageRepository()->getMessagesByUsersID($usersID, $take);
+    }
+
     public function getMessagesByOrdersID(array $ordersID, int $take = 10): array
     {
-        return $this->messageDatabaseDriver->messageRepository()->getMessagesByOrdersID($ordersID);
+        return $this->messageDatabaseDriver->messageRepository()->getMessagesByOrdersID($ordersID, $take);
     }
 
     public function getMessagesBySendersID(array $sendersID, int $take = 10): array
     {
-        return $this->messageDatabaseDriver->messageRepository()->getMessagesBySendersID($sendersID);
+        return $this->messageDatabaseDriver->messageRepository()->getMessagesBySendersID($sendersID, $take);
     }
 
     public function paginateMessages(int $take): array

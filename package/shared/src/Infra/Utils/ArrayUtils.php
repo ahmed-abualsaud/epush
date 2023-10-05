@@ -96,3 +96,34 @@ function arrayFind(array $array, ?callable $callback, int $mode = 0): array
     $result = array_values(array_filter($array, $callback, $mode));
     return empty($result) ? [] : $result[0];
 }
+
+function castVariable($variable, $type) {
+    switch ($type) {
+        case 'int':
+        case 'integer':
+            return (int) $variable;
+        case 'float':
+            return (float) $variable;
+        case 'double':
+            return (double) $variable;
+        case 'string':
+            return (string) $variable;
+        case 'bool':
+        case 'boolean':
+                return (bool) $variable;
+        case 'array':
+            return (array) $variable;
+        case 'json':
+            return json_encode($variable);
+        case 'object':
+            return (object) $variable;
+        case 'binary':
+            return pack('H*', bin2hex($variable));
+        default:
+            return $variable;
+    }
+}
+
+function castSettings($settings) {
+    return castVariable($settings['value'], $settings['type']);
+}

@@ -15,4 +15,7 @@ interface MessageGroupServiceContract
     public function delete(string $messageGroupID): bool;
 
     public function searchColumn(string $column, string $value, int $take = 10): array;
+
+    public function getMessageGroupsByUsersID(array $usersID, int $take): array;
+
 }

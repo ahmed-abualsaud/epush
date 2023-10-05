@@ -20,6 +20,7 @@ class AddMessageDto implements DtoContract
             'scheduled_at' => 'string',
             'group_recipients' => 'required|array',
             'group_recipients.*.name' => 'required|string',
+            'group_recipients.*.user_id' => 'required|exists:users,id',
             'group_recipients.*.recipients' => 'required|array',
             'group_recipients.*.recipients.*.number' => 'required|string',
             'group_recipients.*.recipients.*.attributes' => 'string|nullable',
@@ -46,6 +47,7 @@ class AddMessageDto implements DtoContract
 
         return subAssociativeArray([
 
+            'user_id',
             'sender_id',
             'order_id',
             'message_language_id',

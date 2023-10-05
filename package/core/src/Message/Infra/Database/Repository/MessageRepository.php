@@ -20,7 +20,13 @@ class MessageRepository implements MessageRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->message->with(['language', 'recipients', 'segments'])->paginate($take)->toArray();
+            return $this->message->with([
+                'segments',
+                'language', 
+                'recipients' => function (Builder $query) {
+                    $query->with(['messageGroupRecipient']);
+                },
+            ])->paginate($take)->toArray();
 
         });
     }
@@ -29,8 +35,32 @@ class MessageRepository implements MessageRepositoryContract
     {
         return DB::transaction(function () use ($messageID) {
 
-            $message =  $this->message->with(['language', 'recipients', 'segments'])->where('id', $messageID)->first();
+            $message =  $this->message->with([
+                'segments',
+                'language', 
+                'recipients' => function (Builder $query) {
+                    $query->with(['messageGroupRecipient']);
+                },
+            ])->where('id', $messageID)->first();
             return empty($message) ? [] : $message->toArray();
+        });
+    }
+
+    public function getClientMessages(string $userID): array
+    {
+        return DB::transaction(function () use ($userID) {
+
+            return $this->message->where('user_id', $userID)->get()->toArray();
+
+        });
+    }
+
+    public function getMessagesByUsersID(array $usersID, int $take = 10): array
+    {
+        return DB::transaction(function () use ($usersID, $take) {
+
+            return $this->message->whereIn('user_id', $usersID)->paginate($take)->toArray();
+
         });
     }
 
@@ -68,6 +98,7 @@ class MessageRepository implements MessageRepositoryContract
 
             foreach ($messages['content'] as $content) {
                 $input[] = [
+                    'user_id' => $messages['user_id'],
                     'sender_id' => $messages['sender_id'],
                     'order_id' => $messages['order_id'],
                     'message_language_id' => $messages['message_language_id'],
@@ -117,10 +148,17 @@ class MessageRepository implements MessageRepositoryContract
         return DB::transaction(function () use ($column, $value, $take) {
 
             $languageColumn = in_array($column, ["language", "language_name"])? "name" : $column;
-            $message = $this->message->with(['language', 'recipients', 'segments']);
+            $message = $this->message->with([
+                'segments',
+                'language', 
+                'recipients' => function (Builder $query) {
+                    $query->with(['messageGroupRecipient']);
+                },
+            ]);
 
             $message = match ($column) 
             {
+                'approved' => $message->where("approved", $value),
                 "language", "language_name", "max_characters_length", "split_characters_length" => 
                 $message->whereHas('language', function ($query) use ($languageColumn, $value) {
                     $query->whereRaw("LOWER(".$languageColumn.") LIKE ?", ['%' . strtolower($value) . '%']);

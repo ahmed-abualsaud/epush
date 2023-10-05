@@ -1065,6 +1065,15 @@ class HandlerSeeder extends Seeder
             'access_user' => false,
         ]);
 
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'getClientMessages',
+            'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/messages',
+            'description' => 'get a specific client\'s messages',
+            'enabled' => true,
+            'access_user' => true,
+        ]);
+
 
         // Message Language Controller Handlers =================================================================================================================
 
@@ -1294,6 +1303,15 @@ class HandlerSeeder extends Seeder
             'access_user' => false,
         ]);
 
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'getClientMessageGroups',
+            'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/message-groups',
+            'description' => 'get a specific client\'s message groups',
+            'enabled' => true,
+            'access_user' => true,
+        ]);
+
 
         // Message Group Recipient Controller Handlers =================================================================================================================
 
@@ -1352,10 +1370,67 @@ class HandlerSeeder extends Seeder
         ]);
 
 
+        // Message Filter Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 26,
+            'name' => 'getMessageFilter',
+            'endpoint' => 'GET|http://localhost:8000/api/message-filter/{message_filter_id}',
+            'description' => 'get a specific message filter',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 26,
+            'name' => 'addMessageFilter',
+            'endpoint' => 'POST|http://localhost:8000/api/message-filter',
+            'description' => 'add new message filter',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 26,
+            'name' => 'listMessageFilters',
+            'endpoint' => 'GET|http://localhost:8000/api/message-filter',
+            'description' => 'list all message filters',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 26,
+            'name' => 'deleteMessageFilter',
+            'endpoint' => 'DELETE|http://localhost:8000/api/message-filter/{message_filter_id}',
+            'description' => 'delete a specific message filter',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 26,
+            'name' => 'updateMessageFilter',
+            'endpoint' => 'PUT|http://localhost:8000/api/message-filter/{message_filter_id}',
+            'description' => 'update a specific message filter',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 26,
+            'name' => 'searchMessageFilterColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/message-filter/search',
+            'description' => 'find a specific value for a column of the message filters table',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+
         // PaymentMethod Controller Handlers =================================================================================================================
         
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 27,
             'name' => 'listPaymentMethods',
             'endpoint' => 'GET|http://localhost:8000/api/expense/payment-method',
             'description' => 'list all payment methods',
@@ -1364,7 +1439,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 27,
             'name' => 'addPaymentMethod',
             'endpoint' => 'POST|http://localhost:8000/api/expense/payment-method',
             'description' => 'add new payment method',
@@ -1373,7 +1448,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 27,
             'name' => 'getPaymentMethod',
             'endpoint' => 'GET|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'get a specific payment method',
@@ -1382,7 +1457,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 27,
             'name' => 'updatePaymentMethod',
             'endpoint' => 'PUT|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'update a specific payment method',
@@ -1391,7 +1466,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 26,
+            'handle_group_id' => 27,
             'name' => 'deletePaymentMethod',
             'endpoint' => 'DELETE|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'delete a specific payment method',
@@ -1403,25 +1478,7 @@ class HandlerSeeder extends Seeder
         // Order Controller Handlers =================================================================================================================
 
         Handler::create([
-            'handle_group_id' => 27,
-            'name' => 'getOrder',
-            'endpoint' => 'GET|http://localhost:8000/api/expense/order/{user_id}',
-            'description' => 'get a specific order',
-            'enabled' => true,
-            'access_user' => true,
-        ]);
-
-        Handler::create([
-            'handle_group_id' => 27,
-            'name' => 'addOrder',
-            'endpoint' => 'POST|http://localhost:8000/api/expense/order',
-            'description' => 'add new order',
-            'enabled' => true,
-            'access_user' => true,
-        ]);
-
-        Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 28,
             'name' => 'listOrders',
             'endpoint' => 'GET|http://localhost:8000/api/expense/order',
             'description' => 'list all orders',
@@ -1430,7 +1487,25 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 28,
+            'name' => 'addOrder',
+            'endpoint' => 'POST|http://localhost:8000/api/expense/order',
+            'description' => 'add new order',
+            'enabled' => true,
+            'access_user' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 28,
+            'name' => 'getOrder',
+            'endpoint' => 'GET|http://localhost:8000/api/expense/order/{user_id}',
+            'description' => 'get a specific order',
+            'enabled' => true,
+            'access_user' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 28,
             'name' => 'updateOrder',
             'endpoint' => 'PUT|http://localhost:8000/api/expense/order/{order_id}',
             'description' => 'update a specific order',
@@ -1439,7 +1514,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 27,
+            'handle_group_id' => 28,
             'name' => 'searchOrderColumn',
             'endpoint' => 'POST|http://localhost:8000/api/expense/order/search',
             'description' => 'find a specific value for a column of the orders table',
@@ -1469,7 +1544,7 @@ class HandlerSeeder extends Seeder
         // MailTemplateController Handlers =================================================================================================================
 
         Handler::create([
-            'handle_group_id' => 28,
+            'handle_group_id' => 29,
             'name' => 'listMailTemplates',
             'endpoint' => 'GET|http://localhost:8000/api/mail/template',
             'description' => 'list all mail templates',
@@ -1478,7 +1553,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 28,
+            'handle_group_id' => 29,
             'name' => 'addMailTemplate',
             'endpoint' => 'POST|http://localhost:8000/api/mail/template',
             'description' => 'add new mail template',
@@ -1487,7 +1562,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 28,
+            'handle_group_id' => 29,
             'name' => 'getMailTemplate',
             'endpoint' => 'GET|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'get a specific mail template',
@@ -1496,7 +1571,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 28,
+            'handle_group_id' => 29,
             'name' => 'updateMailTemplate',
             'endpoint' => 'PUT|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'update a specific mail template',
@@ -1505,7 +1580,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 28,
+            'handle_group_id' => 29,
             'name' => 'deleteMailTemplate',
             'endpoint' => 'DELETE|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'delete a specific mail template',
@@ -1517,7 +1592,7 @@ class HandlerSeeder extends Seeder
         // MailSendingHandlerController Handlers =================================================================================================================
 
         Handler::create([
-            'handle_group_id' => 29,
+            'handle_group_id' => 30,
             'name' => 'listMailSendingHandlers',
             'endpoint' => 'GET|http://localhost:8000/api/mail/sending-handler',
             'description' => 'list all mail sending handlers',
@@ -1526,7 +1601,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 29,
+            'handle_group_id' => 30,
             'name' => 'addMailSendingHandler',
             'endpoint' => 'POST|http://localhost:8000/api/mail/sending-handler',
             'description' => 'add new mail sending handler',
@@ -1535,7 +1610,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 29,
+            'handle_group_id' => 30,
             'name' => 'getMailSendingHandler',
             'endpoint' => 'GET|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'get a specific mail sending handler',
@@ -1544,7 +1619,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 29,
+            'handle_group_id' => 30,
             'name' => 'updateMailSendingHandler',
             'endpoint' => 'PUT|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'update a specific mail sending handler',
@@ -1553,10 +1628,68 @@ class HandlerSeeder extends Seeder
         ]);
 
         Handler::create([
-            'handle_group_id' => 29,
+            'handle_group_id' => 30,
             'name' => 'deleteMailSendingHandler',
             'endpoint' => 'DELETE|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'delete a specific mail sending handler',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+
+        // Settings Controller Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'listSettings',
+            'endpoint' => 'GET|http://localhost:8000/api/settings',
+            'description' => 'list all settings',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'addSettings',
+            'endpoint' => 'POST|http://localhost:8000/api/settings',
+            'description' => 'add new settings',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'getSettings',
+            'endpoint' => 'GET|http://localhost:8000/api/settings/{settings_id}',
+            'description' => 'get a specific settings',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'deleteSettings',
+            'endpoint' => 'DELETE|http://localhost:8000/api/settings/{settings_id}',
+            'description' => 'delete a specific settings',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'updateSettings',
+            'endpoint' => 'PUT|http://localhost:8000/api/settings/{settings_id}',
+            'description' => 'update a specific settings',
+            'enabled' => true,
+            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'searchSettingsColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/settings/search',
+            'description' => 'find a specific value for a column of the settings table',
             'enabled' => true,
             'access_user' => false,
         ]);

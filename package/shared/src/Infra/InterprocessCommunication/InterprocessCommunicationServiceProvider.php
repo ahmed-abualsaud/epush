@@ -16,12 +16,16 @@ use Epush\SMS\App\Contract\EpushSMSServiceContract;
 use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\File\App\Contract\File\FileServiceContract;
 use Epush\Core\Sales\App\Contract\SalesServiceContract;
+use Epush\Settings\App\Contract\SettingsServiceContract;
 use Epush\Core\Client\App\Contract\ClientServiceContract;
 use Epush\Expense\Order\App\Contract\OrderServiceContract;
 use Epush\Orchi\App\Contract\OrchiDatabaseServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
+use Epush\Core\MessageGroup\App\Service\MessageGroupService;
 use Epush\Core\Pricelist\App\Contract\PricelistServiceContract;
 use Epush\Expense\Order\App\Contract\OrderDatabaseServiceContract;
+use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
+use Epush\Core\MessageGroup\App\Contract\MessageGroupDatabaseServiceContract;
 
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AddUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUserMicroprocess;
@@ -33,22 +37,26 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteFileMicropro
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSettingsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetPricelistMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetOrdersByIDMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetPricelistsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendSMSMessageMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetAllSettingsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientOrdersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GeneratePasswordMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchUserColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSystemHandlersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchSalesColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchOrderColumnMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMessagesMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchClientColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateClientWalletMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsBySalesIDMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetHandlerByEndpointMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientLatestOrderMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchPricelistColumnMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMessageGroupsMicroprocess;
 
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
@@ -121,6 +129,8 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
                 $engine->attach(new DeleteUserMicroprocess(app(UserServiceContract::class)), "auth:user:delete-user");
                 $engine->attach(new SearchUserColumnMicroprocess(app(UserServiceContract::class)), "auth:user:search-column");
                 $engine->attach(new GetClientOrdersMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-orders");
+                $engine->attach(new GetClientMessagesMicroprocess(app(MessageDatabaseServiceContract::class)), "core:message:get-client-messages");
+                $engine->attach(new GetClientMessageGroupsMicroprocess(app(MessageGroupDatabaseServiceContract::class)), "core:message-group:get-client-message-groups");
                 $engine->attach(new GetClientLatestOrderMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-latest-order");
                 $engine->attach(new GeneratePasswordMicroprocess(app(CredentialsServiceContract::class)), "auth:credentials:generate-password");
                 $engine->attach(new SendSMSMessageMicroprocess(app(EpushSMSServiceContract::class)), "sms:send");
@@ -157,10 +167,30 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
 
                 $engine = new InterprocessCommunicationEngine();
 
+                $engine->attach(new GetSettingsMicroprocess(app(SettingsServiceContract::class)), "settings:get");
+                $engine->attach(new GetAllSettingsMicroprocess(app(SettingsServiceContract::class)), "settings:all");
                 $engine->attach(new GetOrdersByIDMicroprocess(app(OrderServiceContract::class)), "expense:order:get-orders-by-id");
                 $engine->attach(new SearchOrderColumnMicroprocess(app(OrderServiceContract::class)), "expense:order:search-column");
                 $engine->attach(new UpdateClientWalletMicroprocess(app(ClientServiceContract::class)), "core:client:update-client-wallet");
                 $engine->attach(new GetClientLatestOrderMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-latest-order");
+                $engine->attach(new SearchClientColumnMicroprocess(app(ClientServiceContract::class)), "core:client:search-column");
+                $engine->attach(new GetClientsMicroprocess(app(ClientServiceContract::class)), "core:client:get-clients");
+
+
+                return $engine;
+            });
+
+        
+        $this->app
+            ->when(MessageGroupService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new GetClientMicroprocess(app(ClientServiceContract::class)), "core:client:get-client");
+                $engine->attach(new GetClientsMicroprocess(app(ClientServiceContract::class)), "core:client:get-clients");
+                $engine->attach(new SearchClientColumnMicroprocess(app(ClientServiceContract::class)), "core:client:search-column");
 
                 return $engine;
             });

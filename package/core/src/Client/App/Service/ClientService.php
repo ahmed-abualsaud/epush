@@ -95,6 +95,16 @@ class ClientService implements ClientServiceContract
         return $this->communicationEngine->broadcast("expense:order:get-client-orders", $userID)[0];
     }
 
+    public function getClientMessages(string $userID): array
+    {
+        return $this->communicationEngine->broadcast("core:message:get-client-messages", $userID)[0];
+    }
+
+    public function getClientMessageGroups(string $userID): array
+    {
+        return $this->communicationEngine->broadcast("core:message-group:get-client-message-groups", $userID)[0];
+    }
+
     public function getClientLatestOrder(string $userID): array
     {
         return $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $userID)[0];

@@ -14,6 +14,15 @@ class Message extends Model
 {
     protected $guarded = [];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'approved' => 'boolean',
+    ];
+
     public function language(): BelongsTo
     {
         return $this->belongsTo(MessageLanguage::class, 'message_language_id');

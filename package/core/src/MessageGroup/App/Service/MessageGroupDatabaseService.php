@@ -18,6 +18,11 @@ class MessageGroupDatabaseService implements MessageGroupDatabaseServiceContract
         return $this->messageGroupDatabaseDriver->messageGroupRepository()->get($messageGroupID);
     }
 
+    public function getClientMessageGroups(string $userID): array
+    {
+        return $this->messageGroupDatabaseDriver->messageGroupRepository()->getClientMessageGroups($userID);
+    }
+
     public function paginateMessageGroups(int $take): array
     {
         return $this->messageGroupDatabaseDriver->messageGroupRepository()->all($take);
@@ -41,5 +46,10 @@ class MessageGroupDatabaseService implements MessageGroupDatabaseServiceContract
     public function searchMessageGroupColumn(string $column, string $value, int $take = 10): array
     {
         return $this->messageGroupDatabaseDriver->messageGroupRepository()->searchColumn($column, $value, $take);
+    }
+
+    public function getMessageGroupsByUsersID(array $usersID, int $take): array
+    {
+        return $this->messageGroupDatabaseDriver->messageGroupRepository()->getMessageGroupsByUsersID($usersID, $take);
     }
 }

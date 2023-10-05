@@ -239,7 +239,16 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
-        // 26
+        //26
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'MessageFilterController',
+            'description' => 'Controller holds all message group recipient endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 27
         HandleGroup::create([
             'context_id' => 5,
             'name' => 'PaymentMethodController',
@@ -248,7 +257,7 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
-        // 27
+        // 28
         HandleGroup::create([
             'context_id' => 5,
             'name' => 'OrderController',
@@ -257,7 +266,7 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
-        // 28
+        // 29
         HandleGroup::create([
             'context_id' => 6,
             'name' => 'MailTemplateController',
@@ -266,11 +275,20 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
-        // 29
+        // 30
         HandleGroup::create([
             'context_id' => 6,
             'name' => 'MailSendingHandlerController',
             'description' => 'Controller holds all mail sending handler endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 31
+        HandleGroup::create([
+            'context_id' => 7,
+            'name' => 'SettingsController',
+            'description' => 'Controller holds all settings endpoints',
             'enabled' => true,
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1

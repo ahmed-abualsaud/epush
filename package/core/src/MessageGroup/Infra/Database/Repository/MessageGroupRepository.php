@@ -32,13 +32,22 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
             return empty($messageGroup) ? [] : $messageGroup->toArray();
         });
     }
-    
+
+    public function getClientMessageGroups(string $userID): array
+    {
+        return DB::transaction(function () use ($userID) {
+
+            return $this->messageGroup->with(["recipients"])->where('user_id', $userID)->get()->toArray();
+        });
+    }
+
     public function create(array $messageGroup): array
     {
         return DB::transaction(function () use ($messageGroup) {
 
             return $this->messageGroup->updateOrCreate([
-                'name' => $messageGroup['name']
+                'name' => $messageGroup['name'],
+                'user_id' => $messageGroup['user_id']
             ], $messageGroup)->toArray();
         });
     }
@@ -74,6 +83,17 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
             return $this->messageGroup->with(["recipients"])
                 ->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
                 ->paginate($take)->toArray();
+        });
+    }
+
+    public function getMessageGroupsByUsersID(array $usersID, int $take): array
+    {
+        return DB::transaction(function () use ($usersID, $take) {
+
+            $messageGroup = $this->messageGroup->whereIn('user_id', $usersID);
+            $messageGroup = $take >= 1000000000000 ? $messageGroup->paginate($take, ['*'], 'page', 1) : $messageGroup->paginate($take);
+            return $messageGroup->toArray();
+
         });
     }
 }

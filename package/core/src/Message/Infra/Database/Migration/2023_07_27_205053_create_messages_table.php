@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('message_language_id');
             $table->text('content');
             $table->text('notes')->nullable();
+            $table->boolean('approved')->default(false);
             $table->unsignedDecimal('single_message_cost');
             $table->unsignedDecimal('total_cost');
             $table->integer('number_of_segments');

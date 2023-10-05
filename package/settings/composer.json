@@ -1,0 +1,26 @@
+{
+    "name": "epush/settings",
+    "description": "E-push management service to manage all system settings and configurations parameters",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Settings\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Settings\\Infra\\Provider\\SettingsServiceProvider"
+            ]
+        }
+    }
+}

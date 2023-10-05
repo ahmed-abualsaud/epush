@@ -20,7 +20,7 @@ class GetClientLatestOrderMicroprocess implements MicroprocessContract
     {
         [$userID] = $data;
         $latestOrder = $this->orderService->getClientLatestOrder($userID);
-        $latestOrder['pricelist'] = app(PricelistServiceContract::class)->get($latestOrder['pricelist_id']);
+        $latestOrder['pricelist'] = $latestOrder? app(PricelistServiceContract::class)->get($latestOrder['pricelist_id']) : null;
         return $latestOrder;
     }
 }

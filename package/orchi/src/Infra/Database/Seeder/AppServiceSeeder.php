@@ -97,6 +97,20 @@ class AppServiceSeeder extends Seeder
             'num_of_online_contexts' => 1,
             'num_of_enabled_contexts' => 1
         ]);
+
+        AppService::create([
+            'name' => 'settings',
+            'domain' => 'localhost',
+            'ip_address' => '127.0.0.1',
+            'lookup_type' => 'module',
+            'lookup_endpoint' => 'http://localhost',
+            'description' => 'Service Contains All the Features of the Syetem Settings and Configurations Management',
+            'online' => true,
+            'enabled' => true,
+            'num_of_contexts' => 1,
+            'num_of_online_contexts' => 1,
+            'num_of_enabled_contexts' => 1
+        ]);
     }
 }
 
