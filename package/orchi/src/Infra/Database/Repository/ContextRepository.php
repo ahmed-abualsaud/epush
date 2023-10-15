@@ -5,7 +5,6 @@ namespace Epush\Orchi\Infra\Database\Repository;
 use Illuminate\Support\Facades\DB;
 use Epush\Orchi\Infra\Database\Model\Context;
 use Epush\Orchi\Infra\Database\Repository\Contract\ContextRepositoryContract;
-use Illuminate\Support\Facades\Log;
 
 class ContextRepository implements ContextRepositoryContract 
 {

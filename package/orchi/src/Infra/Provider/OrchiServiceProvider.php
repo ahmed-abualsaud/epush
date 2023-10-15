@@ -3,12 +3,22 @@
 namespace Epush\Orchi\Infra\Provider;
 
 use Illuminate\Support\ServiceProvider;
+use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
+
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 
 class OrchiServiceProvider extends ServiceProvider
 {
     public function boot() 
     {
+        $attributes = app(InterprocessCommunicationEngineContract::class)->broadcast("orchi:handlers:get-all-handlers-response-attributes")[0];
+
+        $resultArray = [];
+        foreach ($attributes as $item) {
+            $resultArray[$item['endpoint']] = $item['response_attributes'];
+        }
+
+        app(InterprocessCommunicationEngineContract::class)->broadcast("cache:put-many", $resultArray)[0];
     }
 
     public function register()

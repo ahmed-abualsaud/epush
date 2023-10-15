@@ -2,15 +2,16 @@
 
 namespace Epush\Orchi\Infra\Provider;
 
-use Epush\Orchi\Domain\DTO\AppServiceDto;
-use Epush\Orchi\Domain\DTO\ContextDto;
-use Epush\Orchi\Domain\DTO\HandleGroupDto;
 use Epush\Orchi\Domain\DTO\HandlerDto;
-
-use Epush\Orchi\Domain\DTO\UpdateAppServiceDto;
+use Epush\Orchi\Domain\DTO\ContextDto;
+use Epush\Orchi\Domain\DTO\AppServiceDto;
+use Epush\Orchi\Domain\DTO\HandleGroupDto;
+use Epush\Orchi\Domain\DTO\ListHandlersDto;
+use Epush\Orchi\Domain\DTO\SearchHandlerDto;
 use Epush\Orchi\Domain\DTO\UpdateContextDto;
-use Epush\Orchi\Domain\DTO\UpdateHandleGroupDto;
 use Epush\Orchi\Domain\DTO\UpdateHandlerDto;
+use Epush\Orchi\Domain\DTO\UpdateAppServiceDto;
+use Epush\Orchi\Domain\DTO\UpdateHandleGroupDto;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -49,6 +50,13 @@ class DomainProvider extends ServiceProvider
             return new HandlerDto(['handler_id' => $this->app->make('request')->route('handler_id')]);
         });
 
+        $this->app->bind(ListHandlersDto::class, function () {
+            return new ListHandlersDto($this->app->make('request')->all());
+        });
+
+        $this->app->bind(SearchHandlerDto::class, function () {
+            return new SearchHandlerDto($this->app->make('request')->all());
+        });
 
         $this->app->bind(UpdateAppServiceDto::class, function () {
             return new UpdateAppServiceDto($this->app->make('request')->all());

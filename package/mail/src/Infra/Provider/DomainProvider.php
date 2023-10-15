@@ -8,6 +8,8 @@ use Epush\Mail\Domain\DTO\UpdateMailTemplateDto;
 
 use Epush\Mail\Domain\DTO\MailSendingHandlerDto;
 use Epush\Mail\Domain\DTO\AddMailSendingHandlerDto;
+use Epush\Mail\Domain\DTO\ListMailSendingHandlersDto;
+use Epush\Mail\Domain\DTO\SearchMailSendingHandlerDto;
 use Epush\Mail\Domain\DTO\UpdateMailSendingHandlerDto;
 
 use Illuminate\Support\ServiceProvider;
@@ -47,12 +49,20 @@ class DomainProvider extends ServiceProvider
             return new MailSendingHandlerDto(['mail_sending_handler_id' => $this->app->make('request')->route('mail_sending_handler_id')]);
         });
 
+        $this->app->bind(ListMailSendingHandlersDto::class, function () {
+            return new ListMailSendingHandlersDto($this->app->make('request')->all());
+        });
+
         $this->app->bind(AddMailSendingHandlerDto::class, function () {
             return new AddMailSendingHandlerDto($this->app->make('request')->all());
         });
 
         $this->app->bind(UpdateMailSendingHandlerDto::class, function () {
             return new UpdateMailSendingHandlerDto($this->app->make('request')->route('mail_sending_handler_id'), $this->app->make('request')->all());
+        });
+
+        $this->app->bind(SearchMailSendingHandlerDto::class, function () {
+            return new SearchMailSendingHandlerDto($this->app->make('request')->all());
         });
     }
 }

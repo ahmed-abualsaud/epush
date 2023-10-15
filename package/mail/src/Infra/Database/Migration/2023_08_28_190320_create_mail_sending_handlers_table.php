@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mail_sending_handlers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('email')->nullable();
             $table->unsignedBigInteger('handler_id');
             $table->unsignedBigInteger('mail_template_id');
             $table->timestamps();

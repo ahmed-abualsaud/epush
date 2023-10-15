@@ -10,12 +10,15 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 
 use Epush\Mail\Domain\DTO\MailSendingHandlerDto;
 use Epush\Mail\Domain\DTO\AddMailSendingHandlerDto;
+use Epush\Mail\Domain\DTO\ListMailSendingHandlersDto;
+use Epush\Mail\Domain\DTO\SearchMailSendingHandlerDto;
 use Epush\Mail\Domain\DTO\UpdateMailSendingHandlerDto;
 
 use Epush\Mail\Domain\UseCase\AddMailSendingHandlerUseCase;
 use Epush\Mail\Domain\UseCase\GetMailSendingHandlerUseCase;
 use Epush\Mail\Domain\UseCase\ListMailSendingHandlersUseCase;
 use Epush\Mail\Domain\UseCase\DeleteMailSendingHandlerUseCase;
+use Epush\Mail\Domain\UseCase\SearchMailSendingHandlerUseCase;
 use Epush\Mail\Domain\UseCase\UpdateMailSendingHandlerUseCase;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -25,9 +28,9 @@ use Symfony\Component\HttpFoundation\Response;
 class MailSendingHandlerController
 {
     #[Get('sending-handler')]
-    public function listMailSendingHandlers(ListMailSendingHandlersUseCase $listMailSendingHandlersUseCase): Response
+    public function listMailSendingHandlers(ListMailSendingHandlersDto $listMailSendingHandlersDto, ListMailSendingHandlersUseCase $listMailSendingHandlersUseCase): Response
     {
-        return successJSONResponse($listMailSendingHandlersUseCase->execute());
+        return successJSONResponse($listMailSendingHandlersUseCase->execute($listMailSendingHandlersDto));
     }
 
     #[Post('sending-handler')]
@@ -52,5 +55,11 @@ class MailSendingHandlerController
     public function deleteMailSendingHandler(MailSendingHandlerDto $mailSendingHandlerDto, DeleteMailSendingHandlerUseCase $deleteMailSendingHandlerUseCase): Response
     {
         return successJSONResponse($deleteMailSendingHandlerUseCase->execute($mailSendingHandlerDto));
+    }
+
+    #[Post('sending-handler/search')]
+    public function searchMailSendingHandlerColumn(SearchMailSendingHandlerDto $searchMailSendingHandlerDto, SearchMailSendingHandlerUseCase $searchMailSendingHandlerUseCase): Response
+    {
+        return successJSONResponse($searchMailSendingHandlerUseCase->execute($searchMailSendingHandlerDto));
     }
 }

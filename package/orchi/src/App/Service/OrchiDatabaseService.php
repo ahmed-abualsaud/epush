@@ -63,9 +63,9 @@ class OrchiDatabaseService implements OrchiDatabaseServiceContract
         return $this->orchiDatabaseDriver->handlerRepository()->getHandler($handlerID);
     }
 
-    public function getAllHandlers(): array
+    public function getAllHandlers(int $take): array
     {
-        return $this->orchiDatabaseDriver->handlerRepository()->all();
+        return $this->orchiDatabaseDriver->handlerRepository()->paginate($take);
     }
 
     public function updateHandler(string $handlerID, array $data): array
@@ -81,5 +81,15 @@ class OrchiDatabaseService implements OrchiDatabaseServiceContract
     public function getHandlerByEndpoint(string $endpoint): array
     {
         return $this->orchiDatabaseDriver->handlerRepository()->getHandlerByEndpoint($endpoint);
+    }
+
+    public function getAllHandlersResponseAttributes(): array
+    {
+        return $this->orchiDatabaseDriver->handlerRepository()->getAllHandlersResponseAttributes();
+    }
+
+    public function searchHandlerColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->orchiDatabaseDriver->handlerRepository()->searchColumn($column, $value, $take);
     }
 }

@@ -9,8 +9,7 @@ class Handler extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'enabled' => 'boolean',
-        'access_user' => 'boolean',
+        'enabled' => 'boolean'
     ];
 
     public function handleGroup(): BelongsTo

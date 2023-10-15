@@ -44,13 +44,9 @@ class ClientService implements ClientServiceContract
         unset($client['websites']);
 
         $user = $this->communicationEngine->broadcast("auth:user:add-user", $user, 'client')[0];
-        $password = $this->communicationEngine->broadcast("auth:credentials:generate-password", $user['id'])[0];
-
         $client['user_id'] = $user['id'];
         $client = $this->clientDatabaseService->addClient($client);
         ! empty($websites) && $this->clientDatabaseService->addClientWebsites($client['id'], $websites);
-
-        $this->communicationEngine->broadcast("sms:send", $user['phone'], 'Your password is: '.$password);
 
         $result =  array_replace_recursive($user, $client);
         $result['id'] = $client['user_id'];

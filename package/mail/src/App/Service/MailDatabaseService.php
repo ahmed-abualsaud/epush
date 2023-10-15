@@ -38,9 +38,9 @@ class MailDatabaseService implements MailDatabaseServiceContract
         return $this->mailDatabaseDriver->mailTemplateRepository()->delete($templateID);
     }
 
-    public function listMailSendingHandlers(): array
+    public function listMailSendingHandlers(int $take): array
     {
-        return $this->mailDatabaseDriver->mailSendingHandlerRepository()->all();
+        return $this->mailDatabaseDriver->mailSendingHandlerRepository()->paginate($take);
     }
 
     public function getMailSendingHandler(string $mailSendingHandlerID): array
@@ -66,5 +66,15 @@ class MailDatabaseService implements MailDatabaseServiceContract
     public function getMailSendingHandlerByHandlerID(string $handlerID): array
     {
         return $this->mailDatabaseDriver->mailSendingHandlerRepository()->getByHandlerID($handlerID);
+    }
+
+    public function getMailSendingHandlersByHandlersID(array $handlersID, int $take): array
+    {
+        return $this->mailDatabaseDriver->mailSendingHandlerRepository()->getByHandlersID($handlersID, $take);
+    }
+
+    public function searchMailSendingHandlerColumn(string $column, string $value, int $take = 10): array
+    {
+        return $this->mailDatabaseDriver->mailSendingHandlerRepository()->searchColumn($column, $value, $take);
     }
 }

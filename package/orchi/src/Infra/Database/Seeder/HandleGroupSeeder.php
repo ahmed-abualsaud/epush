@@ -287,6 +287,51 @@ class HandleGroupSeeder extends Seeder
         // 31
         HandleGroup::create([
             'context_id' => 7,
+            'name' => 'SMSTemplateController',
+            'description' => 'Controller holds all sms template endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 32
+        HandleGroup::create([
+            'context_id' => 7,
+            'name' => 'SMSSendingHandlerController',
+            'description' => 'Controller holds all sms sending handler endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 33
+        HandleGroup::create([
+            'context_id' => 8,
+            'name' => 'NotificationTemplateController',
+            'description' => 'Controller holds all notification template endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 34
+        HandleGroup::create([
+            'context_id' => 8,
+            'name' => 'NotificationSendingHandlerController',
+            'description' => 'Controller holds all notification sending handler endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 35
+        HandleGroup::create([
+            'context_id' => 8,
+            'name' => 'UserNotificationController',
+            'description' => 'Controller holds all user notification endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 36
+        HandleGroup::create([
+            'context_id' => 9,
             'name' => 'SettingsController',
             'description' => 'Controller holds all settings endpoints',
             'enabled' => true,

@@ -4,6 +4,7 @@ namespace Epush\Shared\Infra\InterprocessCommunication;
 
 use Illuminate\Support\ServiceProvider;
 
+use Epush\SMS\App\Service\SMSService;
 use Epush\Mail\App\Service\MailService;
 use Epush\Auth\User\App\Service\UserService;
 use Epush\Core\Admin\App\Service\AdminService;
@@ -11,10 +12,12 @@ use Epush\Core\Client\App\Service\ClientService;
 use Epush\Expense\Order\App\Service\OrderService;
 use Epush\Core\Message\App\Service\MessageService;
 
+use Epush\SMS\App\Contract\SMSServiceContract;
 use Epush\Mail\App\Contract\MailServiceContract;
-use Epush\SMS\App\Contract\EpushSMSServiceContract;
+use Epush\Cache\App\Contract\CacheServiceContract;
 use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\File\App\Contract\File\FileServiceContract;
+use Epush\Notification\App\Service\NotificationService;
 use Epush\Core\Sales\App\Contract\SalesServiceContract;
 use Epush\Settings\App\Contract\SettingsServiceContract;
 use Epush\Core\Client\App\Contract\ClientServiceContract;
@@ -23,12 +26,14 @@ use Epush\Orchi\App\Contract\OrchiDatabaseServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
 use Epush\Core\MessageGroup\App\Service\MessageGroupService;
 use Epush\Core\Pricelist\App\Contract\PricelistServiceContract;
+use Epush\Notification\App\Contract\NotificationServiceContract;
 use Epush\Expense\Order\App\Contract\OrderDatabaseServiceContract;
 use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupDatabaseServiceContract;
 
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AddUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUserMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendSMSMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUsersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendMailMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\StoreFileMicroprocess;
@@ -37,15 +42,20 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteFileMicropro
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AddToCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSettingsMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetFromCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetPricelistMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetOrdersByIDMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetPricelistsMicroprocess;
-use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendSMSMessageMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateHandlerMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\PutManyToCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetAllSettingsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientOrdersMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendNotificationMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GeneratePasswordMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchUserColumnMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSystemHandlerMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSystemHandlersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchSalesColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchOrderColumnMicroprocess;
@@ -53,10 +63,12 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMessagesM
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchClientColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateClientWalletMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsBySalesIDMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchHandlerColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetHandlerByEndpointMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientLatestOrderMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchPricelistColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMessageGroupsMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetAllHandlersResponseAttributesMicroprocess;
 
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
@@ -109,7 +121,6 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
                 $engine->attach(new SearchUserColumnMicroprocess(app(UserServiceContract::class)), "auth:user:search-column");
                 $engine->attach(new GeneratePasswordMicroprocess(app(CredentialsServiceContract::class)), "auth:credentials:generate-password");
                 $engine->attach(new SendMailMicroprocess(app(MailServiceContract::class)), "mail:send");
-                $engine->attach(new SendSMSMessageMicroprocess(app(EpushSMSServiceContract::class)), "sms:send");
 
                 return $engine;
             });
@@ -133,7 +144,6 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
                 $engine->attach(new GetClientMessageGroupsMicroprocess(app(MessageGroupDatabaseServiceContract::class)), "core:message-group:get-client-message-groups");
                 $engine->attach(new GetClientLatestOrderMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-latest-order");
                 $engine->attach(new GeneratePasswordMicroprocess(app(CredentialsServiceContract::class)), "auth:credentials:generate-password");
-                $engine->attach(new SendSMSMessageMicroprocess(app(EpushSMSServiceContract::class)), "sms:send");
 
                 return $engine;
             });
@@ -203,6 +213,50 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
 
                 $engine = new InterprocessCommunicationEngine();
 
+                $engine->attach(new AddToCacheMicroprocess(app(CacheServiceContract::class)), "cache:add");
+                $engine->attach(new GetFromCacheMicroprocess(app(CacheServiceContract::class)), "cache:get");
+                $engine->attach(new UpdateHandlerMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:update");
+                $engine->attach(new SearchHandlerColumnMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:search-column");
+                $engine->attach(new GetSystemHandlerMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-id");
+                $engine->attach(new GetSystemHandlersMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handlers-by-id");
+                $engine->attach(new GetHandlerByEndpointMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-endpoint");
+
+                return $engine;
+            });
+
+
+        $this->app
+            ->when(SMSService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new AddToCacheMicroprocess(app(CacheServiceContract::class)), "cache:add");
+                $engine->attach(new GetFromCacheMicroprocess(app(CacheServiceContract::class)), "cache:get");
+                $engine->attach(new UpdateHandlerMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:update");
+                $engine->attach(new SearchHandlerColumnMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:search-column");
+                $engine->attach(new GetSystemHandlerMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-id");
+                $engine->attach(new GetSystemHandlersMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handlers-by-id");
+                $engine->attach(new GetHandlerByEndpointMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-endpoint");
+
+                return $engine;
+            });
+
+
+        $this->app
+            ->when(NotificationService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new AddToCacheMicroprocess(app(CacheServiceContract::class)), "cache:add");
+                $engine->attach(new GetFromCacheMicroprocess(app(CacheServiceContract::class)), "cache:get");
+                $engine->attach(new UpdateHandlerMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:update");
+                $engine->attach(new SearchHandlerColumnMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:search-column");
+                $engine->attach(new GetSystemHandlerMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-id");
+                $engine->attach(new GetSystemHandlersMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handlers-by-id");
                 $engine->attach(new GetHandlerByEndpointMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-endpoint");
 
                 return $engine;
@@ -213,8 +267,12 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
 
             $engine = new InterprocessCommunicationEngine();
 
+            $engine->attach(new SendSMSMicroprocess(app(SMSServiceContract::class)), "sms:send");
             $engine->attach(new SendMailMicroprocess(app(MailServiceContract::class)), "mail:send");
+            $engine->attach(new SendNotificationMicroprocess(app(NotificationServiceContract::class)), "notification:send");
             $engine->attach(new GetHandlerByEndpointMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-endpoint");
+            $engine->attach(new GetAllHandlersResponseAttributesMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handlers:get-all-handlers-response-attributes");
+            $engine->attach(new PutManyToCacheMicroprocess(app(CacheServiceContract::class)), "cache:put-many");
 
             return $engine;
         });

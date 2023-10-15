@@ -2,6 +2,7 @@
 
 namespace Epush\Mail\App\Service;
 
+use Epush\Mail\Infra\Driver\MailDriverContract;
 use Epush\Mail\App\Contract\MailServiceContract;
 use Epush\Mail\App\Contract\MailDatabaseServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
@@ -10,6 +11,7 @@ class MailService implements MailServiceContract
 {
     public function __construct(
 
+        private MailDriverContract $mailDriver,
         private MailDatabaseServiceContract $mailDatabaseService,
         private InterprocessCommunicationEngineContract $communicationEngine
 
@@ -40,14 +42,20 @@ class MailService implements MailServiceContract
         return $this->mailDatabaseService->deleteMailTemplate($templateID);
     }
 
-    public function listMailSendingHandlers(): array
+    public function listMailSendingHandlers(int $take): array
     {
-        return $this->mailDatabaseService->listMailSendingHandlers();
+        $sendingHandlers = $this->mailDatabaseService->listMailSendingHandlers($take);
+        $handlersID = array_unique(array_column($sendingHandlers['data'], 'handler_id'));
+        $handlers = $this->communicationEngine->broadcast("orchi:handler:get-handlers-by-id", $handlersID)[0];
+        $sendingHandlers['data'] = tableWith($sendingHandlers['data'], $handlers, 'handler_id', 'handler_id');
+        return $sendingHandlers;
     }
 
     public function getMailSendingHandler(string $mailSendingHandlerID): array
     {
-        return $this->mailDatabaseService->getMailSendingHandler($mailSendingHandlerID);
+        $sendingHandler = $this->mailDatabaseService->getMailSendingHandler($mailSendingHandlerID);
+        $sendingHandler['handler'] = $this->communicationEngine->broadcast("orchi:handler:get-handler-by-id", $sendingHandler['id'])[0];
+        return $sendingHandler;
     }
 
     public function addMailSendingHandler(array $mailSendingHandler): array
@@ -70,31 +78,86 @@ class MailService implements MailServiceContract
         return $this->mailDatabaseService->getMailSendingHandlerByHandlerID($handlerID);
     }
 
-    public function checkAndSendMail(mixed $request, mixed $response): mixed
+    public function getMailSendingHandlersByHandlersID(array $handlersID, int $take): array
+    {
+        return $this->mailDatabaseService->getMailSendingHandlersByHandlersID($handlersID, $take);
+    }
+
+    public function searchMailSendingHandlerColumn(string $column, string $value, int $take = 10): array
+    {
+        switch ($column) {
+            case 'endpoint':
+            case 'description':
+            case 'handler_name':
+            case 'handler_endpoint':
+            case 'handler_description':
+                $column = strpos($column, "handler") !== false ? explode("_", $column)[1] : $column;
+                $handlers = $this->communicationEngine->broadcast("orchi:handler:search-column", $column, $value, 1000000000000)[0];
+                $handlersID = array_column($handlers['data'], 'id');
+                $sendingHandlers = $this->getMailSendingHandlersByHandlersID($handlersID, $take);
+                $sendingHandlers['data'] = tableWith($sendingHandlers['data'], $handlers['data'], 'handler_id');
+                return $sendingHandlers;
+                break;
+
+            default:
+                $sendingHandlers = $this->mailDatabaseService->searchMailSendingHandlerColumn($column, $value, $take);
+                $handlersID = array_unique(array_column($sendingHandlers['data'], 'handler_id'));
+                $handlers = $this->communicationEngine->broadcast("orchi:handler:get-handlers-by-id", $handlersID)[0];
+                $sendingHandlers['data'] = tableWith($sendingHandlers['data'], $handlers, 'handler_id', 'handler_id');
+                return $sendingHandlers;
+                break;
+        }
+    }
+
+    public function checkAndSendMail(array $handler, mixed $request, mixed $response): void
     {
         if ($response->getStatusCode() === 200) {
 
-            $url = $request->url();
-            $method = $request->method();
-
-            $handler = $this->communicationEngine->broadcast("orchi:handler:get-handler-by-endpoint", $method . "|" . $url)[0];
+            $this->updateResponseAttributesKeys($response, $handler);
             $mailSendingHandler = $this->getMailSendingHandlerByHandlerID($handler['id']);
 
-            // $results = [];
-            // getSubArrayRecursively(getResponseData($response->original), config("mail-user_data_keys"), $results);
-            // return successJSONResponse($results);
+            if (empty($mailSendingHandler)) {
+                return;
+            }
 
-            // if (empty($mailSendingHandler)) {
-            //     return $response;
-            // }
+            $mailTemplate = $this->getMailTemplate($mailSendingHandler['mail_template_id']);
+            $templateKeys = array_merge(getMessageTemplateKeys($mailTemplate['template']), ["email"]);
+            $attributes = $this->getMailTemplateAttributesValuesFromResponse($response, $templateKeys);
+            $mailContent = $mailTemplate['template'];
 
-            // if ($handler['access_user']) {
-            //     $results = [];
-            //     getSubArrayRecursively(getResponseData($response->original), config("mail-user_data_keys"), $results);
-            //     return successJSONResponse($results);
-            // }
+            if (! empty($templateKeys)) {
+                $mailContent = replaceTemplateKeys($mailTemplate['template'], $attributes);
+            }
+
+            $email = ! empty($mailSendingHandler['email']) ? $mailSendingHandler['email'] : ((array_key_exists("email", $attributes) && ! empty($attributes['email'])) ? $attributes['email'] : null);
+
+            if (! empty($email)) {
+                $this->mailDriver->sendMail($email, $mailTemplate['subject'], $mailContent);
+            }
+        }
+    }
+
+    private function updateResponseAttributesKeys(mixed $response, array $handler): void
+    {
+        if (! is_array($response->original['data'])) {
+            return;
         }
 
-        return $response;
+        $savedResponseKeys = $this->communicationEngine->broadcast("cache:get", $handler['endpoint'])[0];
+        $responseKeys = getArrayKeys(getResponseData($response->original));
+        $currentResponseKeys = implode(",", array_unique(array_filter($responseKeys, fn ($key) => is_string($key) && $key !== "id")));
+
+        if ($savedResponseKeys !== $currentResponseKeys)
+        {
+            $handler = $this->communicationEngine->broadcast("orchi:handler:update", $handler['id'], ['response_attributes' => $currentResponseKeys])[0];
+            ! empty($handler) && $this->communicationEngine->broadcast("cache:add", $handler['endpoint'], $currentResponseKeys)[0];
+        }
+    }
+
+    private function getMailTemplateAttributesValuesFromResponse(mixed $response, array $templateKeys)
+    {
+        $results = [];
+        getSubArrayRecursively(getResponseData($response->original), $templateKeys, $results);
+        return $results;
     }
 }

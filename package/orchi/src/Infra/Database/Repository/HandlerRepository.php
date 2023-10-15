@@ -15,11 +15,11 @@ class HandlerRepository implements HandlerRepositoryContract
 
     ) {}
 
-    public function all(): array
+    public function paginate(int $take = 10): array
     {
-        return DB::transaction(function () {
+        return DB::transaction(function () use ($take) {
 
-            return $this->handler->all()->toArray();
+            return $this->handler->paginate($take)->toArray();
 
         });
     }
@@ -95,11 +95,11 @@ class HandlerRepository implements HandlerRepositoryContract
 
             if (empty($ids)) { return []; }
 
-            return $this->handler->select('contexts.name as context_name', 'contexts.online as context_online', 
-                    'contexts.enabled as context_enabled', 'handle_groups.name as handle_group_name', 
-                    'handle_groups.enabled as handle_group_enabled', 'handlers.name as handler_name', 
-                    'handlers.enabled as handler_enabled', 'handlers.endpoint as handler_endpoint', 
-                    'handlers.id as handler_id')
+            return $this->handler->select('contexts.name as context_name', 'contexts.online as context_online',
+                    'contexts.enabled as context_enabled', 'handle_groups.name as handle_group_name',
+                    'handle_groups.enabled as handle_group_enabled', 'handlers.name as handler_name',
+                    'handlers.enabled as handler_enabled', 'handlers.endpoint as handler_endpoint',
+                    'handlers.description as handler_description', 'handlers.id as handler_id')
                 ->join('handle_groups', 'handle_groups.id', '=', 'handlers.handle_group_id')
                 ->join('contexts', 'contexts.id', '=', 'handle_groups.context_id')
                 ->whereIn('handlers.id', $ids)
@@ -139,6 +139,26 @@ class HandlerRepository implements HandlerRepositoryContract
             }
             
             return [];
+        });
+    }
+
+    public function getAllHandlersResponseAttributes(): array
+    {
+        return DB::transaction(function () {
+
+            return $this->handler->select("endpoint", "response_attributes")->get()->toArray();
+
+        });
+    }
+
+    public function searchColumn(string $column, string $value, int $take = 10): array
+    {
+        return DB::transaction(function () use ($column, $value, $take) {
+
+            return $this->handler
+                ->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
+                ->paginate($take)->toArray();
+
         });
     }
 }

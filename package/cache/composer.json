@@ -1,0 +1,26 @@
+{
+    "name": "epush/cache",
+    "description": "Service to handle all cache management routines",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Cache\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Cache\\Infra\\Provider\\CacheServiceProvider"
+            ]
+        }
+    }
+}

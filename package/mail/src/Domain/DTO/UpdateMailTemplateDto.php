@@ -17,6 +17,7 @@ class UpdateMailTemplateDto implements DtoContract
     {
         return [
             'name' => 'string|unique:mail_templates,name,'.self::$mailTemplateID,
+            'subject' => 'string',
             'template' => 'string'        
         ];
     }

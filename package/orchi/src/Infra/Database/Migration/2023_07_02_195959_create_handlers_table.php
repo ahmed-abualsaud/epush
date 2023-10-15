@@ -16,9 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('handle_group_id');
             $table->string('name');
             $table->string('endpoint');
+            $table->text('response_attributes')->nullable();
             $table->text('description')->nullable();
             $table->boolean('enabled')->default(false);
-            $table->boolean('access_user')->default(false);
             $table->timestamps();
 
             $table->foreign('handle_group_id')->references('id')->on('handle_groups')->onDelete('cascade');

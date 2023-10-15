@@ -2,8 +2,11 @@
 
 namespace Epush\SMS\Infra\Provider;
 
-use Epush\SMS\App\Service\EpushSMSService;
-use Epush\SMS\App\Contract\EpushSMSServiceContract;
+use Epush\SMS\App\Service\SMSService;
+use Epush\SMS\App\Contract\SMSServiceContract;
+
+use Epush\SMS\App\Service\SMSDatabaseService;
+use Epush\SMS\App\Contract\SMSDatabaseServiceContract;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +29,7 @@ class AppProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(EpushSMSServiceContract::class, EpushSMSService::class);
+        $this->app->bind(SMSServiceContract::class, SMSService::class);
+        $this->app->bind(SMSDatabaseServiceContract::class, SMSDatabaseService::class);
     }
 }

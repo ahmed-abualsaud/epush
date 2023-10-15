@@ -57,6 +57,7 @@ class SharedServiceProvider extends ServiceProvider
         $this->app->register(InfraProvider::class);
 
         require_once(__DIR__.'/../Utils/ArrayUtils.php');
+        require_once(__DIR__.'/../Utils/StringUtils.php');
         require_once(__DIR__.'/../../Present/HttpHelper.php');
     }
 }

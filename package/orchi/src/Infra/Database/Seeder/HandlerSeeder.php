@@ -22,7 +22,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/signin',
             'description' => 'signin function',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -31,7 +30,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/signup',
             'description' => 'signup function',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -40,7 +38,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/signout',
             'description' => 'log out the current authenticated user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -49,7 +46,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/reset-password',
             'description' => 'reset password function',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -58,7 +54,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/generate-password',
             'description' => 'generate password function',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -67,7 +62,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/user',
             'description' => 'get all users',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -76,7 +70,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}',
             'description' => 'get a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -85,7 +78,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/auth/user/{user_id}',
             'description' => 'update user data',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -94,7 +86,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/auth/user/{user_id}',
             'description' => 'delete a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -103,7 +94,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}/roles',
             'description' => 'get the roles for a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -112,7 +102,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/{user_id}/roles',
             'description' => 'assign a group of roles to a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -121,7 +110,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/auth/user/{user_id}/roles',
             'description' => 'unassign a group of roles to a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
 
@@ -131,7 +119,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}/permissions',
             'description' => 'get permissions for a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -140,7 +127,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/user/{user_id}/all-permissions',
             'description' => 'get all permissions (roles permissions + standalone permissions) assigned to a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -149,7 +135,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/{user_id}/permissions',
             'description' => 'assign a group of permissions to a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -158,7 +143,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/auth/user/{user_id}/permissions',
             'description' => 'unassign a group of permissions to a specific user',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -167,7 +151,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/user/search',
             'description' => 'find a specific value for a column of the users table',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         // Role Controller Handlers =================================================================================================================
@@ -178,7 +161,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/role',
             'description' => 'get all roles',
             'enabled' => true,
-            'access_user' => false,
         ]);
     
         Handler::create([
@@ -187,7 +169,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/role',
             'description' => 'add new role',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -196,7 +177,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/auth/role/{role_id}',
             'description' => 'update a specific role',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -205,7 +185,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/auth/role/{role_id}',
             'description' => 'delete a specific role',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -214,7 +193,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/role/{role_id}/permissions',
             'description' => 'get permissions for a specific role',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -223,7 +201,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/auth/role/{role_id}/permissions',
             'description' => 'assign a group of permissions to a specific role',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -232,7 +209,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/auth/role/{role_id}/permissions',
             'description' => 'unassign a group of permissions to a specific role',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -244,7 +220,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/auth/permission',
             'description' => 'get all permissions',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -253,7 +228,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/auth/permission/{permission_id}',
             'description' => 'update a specific permission',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -262,7 +236,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/auth/permission/{permission_id}',
             'description' => 'delete a specific permission',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -274,7 +247,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/orchi/service',
             'description' => 'list app services function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -283,7 +255,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/orchi/service/{service_id}/contexts',
             'description' => 'get app service contexts function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -292,7 +263,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/orchi/service/{service_id}',
             'description' => 'update app service function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -304,7 +274,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/orchi/context/{context_id}/handle-groups',
             'description' => 'get context handle groups function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -313,7 +282,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/orchi/context/{context_id}',
             'description' => 'update context function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -325,7 +293,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/orchi/handle-group/{handle_group_id}/handlers',
             'description' => 'get handle group handles function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -334,7 +301,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/orchi/handle-group/{handle_group_id}',
             'description' => 'update handle group function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         
@@ -346,7 +312,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/orchi/handler',
             'description' => 'get all application handlers',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -355,7 +320,14 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/orchi/handler/{handler_id}',
             'description' => 'update handler function',
             'enabled' => true,
-            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 7,
+            'name' => 'searchHandlerColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/orchi/handler/search',
+            'description' => 'find a specific value for a column of the handlers table',
+            'enabled' => true,
         ]);
 
 
@@ -367,7 +339,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/file/export/pdf',
             'description' => 'export pdf file function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -376,7 +347,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/file/export/excel',
             'description' => 'export excel file function',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         
@@ -388,7 +358,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/admin/{user_id}',
             'description' => 'get a specific admin',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -397,7 +366,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/admin',
             'description' => 'add new admin',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -406,7 +374,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/admin',
             'description' => 'list all admins',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -415,7 +382,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/admin/{user_id}',
             'description' => 'delete a specific admin',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -424,7 +390,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/admin/{user_id}',
             'description' => 'update a specific admin',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -433,7 +398,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/admin/search',
             'description' => 'find a specific value for a column of the admins table',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         
@@ -445,7 +409,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}',
             'description' => 'get a specific client',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -454,7 +417,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/client',
             'description' => 'add new client',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -463,7 +425,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/client',
             'description' => 'list all clients',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -472,7 +433,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/client/{user_id}',
             'description' => 'delete a specific client',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -481,7 +441,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/client/{user_id}',
             'description' => 'update a specific client',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -490,7 +449,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/client/search',
             'description' => 'find a specific value for a column of the clients table',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         
@@ -503,7 +461,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/pricelist',
             'description' => 'list all pricelists',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -512,7 +469,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/pricelist',
             'description' => 'add new pricelist',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -521,7 +477,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/pricelist/{pricelist_id}',
             'description' => 'get a specific pricelist',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -530,7 +485,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/pricelist/{pricelist_id}',
             'description' => 'update a specific pricelist',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -539,7 +493,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/pricelist/{pricelist_id}',
             'description' => 'delete a specific pricelist',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         
@@ -552,7 +505,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/business-field',
             'description' => 'list all business fields',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -561,7 +513,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/business-field',
             'description' => 'add new business field',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -570,7 +521,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/business-field/{business_field_id}',
             'description' => 'get a specific business field',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -579,7 +529,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/business-field/{business_field_id}',
             'description' => 'update a specific business field',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -588,7 +537,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/business-field/{business_field_id}',
             'description' => 'delete a specific business field',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -600,7 +548,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/sales/{user_id}',
             'description' => 'get a specific sales',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -609,7 +556,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/sales',
             'description' => 'add new sales',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -618,7 +564,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/sales',
             'description' => 'list all sales',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -627,7 +572,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/sales/{user_id}',
             'description' => 'delete a specific sales',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -636,7 +580,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/sales/{user_id}',
             'description' => 'update a specific sales',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -648,7 +591,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/country/{country_id}',
             'description' => 'get a specific country',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -657,7 +599,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/country',
             'description' => 'add new country',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -666,7 +607,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/country',
             'description' => 'list all countries',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -675,7 +615,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/country/{country_id}',
             'description' => 'delete a specific country',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -684,7 +623,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/country/{country_id}',
             'description' => 'update a specific country',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -693,7 +631,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/country/search',
             'description' => 'find a specific value for a column of the countries table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -705,7 +642,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/smsc/{smsc_id}',
             'description' => 'get a specific smsc',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -714,7 +650,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/smsc',
             'description' => 'add new smsc',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -723,7 +658,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/smsc',
             'description' => 'list all smscs',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -732,7 +666,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/smsc/{smsc_id}',
             'description' => 'delete a specific smsc',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -741,7 +674,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/smsc/{smsc_id}',
             'description' => 'update a specific smsc',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -750,7 +682,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/smsc/search',
             'description' => 'find a specific value for a column of the smscs table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -762,7 +693,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/operator/{operator_id}',
             'description' => 'get a specific operator',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -771,7 +701,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/operator',
             'description' => 'add new operator',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -780,7 +709,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/operator',
             'description' => 'list all operators',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -789,7 +717,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/operator/{operator_id}',
             'description' => 'delete a specific operator',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -798,7 +725,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/operator/{operator_id}',
             'description' => 'update a specific operator',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -807,7 +733,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/operator/search',
             'description' => 'find a specific value for a column of the operators table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -819,7 +744,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/smsc-binding/{smsc_binding_id}',
             'description' => 'get a specific smsc binding',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -828,7 +752,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/smsc-binding',
             'description' => 'add new smsc binding',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -837,7 +760,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/smsc-binding',
             'description' => 'list all smsc bindings',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -846,7 +768,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/smsc-binding/{smsc_binding_id}',
             'description' => 'delete a specific smsc binding',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -855,7 +776,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/smsc-binding/{smsc_binding_id}',
             'description' => 'update a specific smsc binding',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -864,7 +784,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/smsc-binding/search',
             'description' => 'find a specific value for a column of the smsc bindings table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -876,7 +795,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/sender/{sender_id}',
             'description' => 'get a specific sender',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -885,7 +803,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/sender',
             'description' => 'add new sender',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -894,7 +811,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/sender',
             'description' => 'list all senders',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -903,7 +819,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/senders',
             'description' => 'get client senders',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -912,7 +827,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/sender/{sender_id}',
             'description' => 'delete a specific sender',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -921,7 +835,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/sender/{sender_id}',
             'description' => 'update a specific sender',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -930,7 +843,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/sender/search',
             'description' => 'find a specific value for a column of the senders table',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
 
@@ -942,7 +854,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/sender-connection/{sender_connection_id}',
             'description' => 'get a specific sender connection',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -951,7 +862,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/sender-connection',
             'description' => 'add new sender connection',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -960,7 +870,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/sender-connection',
             'description' => 'list all senders connections',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -969,7 +878,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/sender/{sender_id}/connections',
             'description' => 'get sender connections',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -978,7 +886,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/sender-connection/{sender_connection_id}',
             'description' => 'delete a specific sender connection',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -987,7 +894,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/sender-connection/{sender_connection_id}',
             'description' => 'update a specific sender connection',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -996,7 +902,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/sender-connection/search',
             'description' => 'find a specific value for a column of the sender connections table',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
 
@@ -1008,7 +913,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message/{message_id}',
             'description' => 'get a specific message',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1017,7 +921,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message',
             'description' => 'add new message',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1026,7 +929,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message/bulk-add',
             'description' => 'bulk add new message',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1035,7 +937,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message',
             'description' => 'list all messages',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1044,7 +945,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/message/{message_id}',
             'description' => 'delete a specific message',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1053,7 +953,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/message/{message_id}',
             'description' => 'update a specific message',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1062,7 +961,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message/search',
             'description' => 'find a specific value for a column of the messages table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1071,7 +969,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/messages',
             'description' => 'get a specific client\'s messages',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
 
@@ -1083,7 +980,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-language/{message_language_id}',
             'description' => 'get a specific message language',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1092,7 +988,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-language',
             'description' => 'add new message language',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1101,7 +996,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-language',
             'description' => 'list all message languages',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1110,7 +1004,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/message-language/{message_language_id}',
             'description' => 'delete a specific message language',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1119,7 +1012,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/message-language/{message_language_id}',
             'description' => 'update a specific message language',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1128,7 +1020,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-language/search',
             'description' => 'find a specific value for a column of the message languages table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -1140,7 +1031,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-segment/{message_segment_id}',
             'description' => 'get a specific message segment',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1149,7 +1039,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-segment',
             'description' => 'add new message segment',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1158,7 +1047,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-segment',
             'description' => 'list all message segments',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1167,7 +1055,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/message-segment/{message_segment_id}',
             'description' => 'delete a specific message segment',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1176,7 +1063,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/message-segment/{message_segment_id}',
             'description' => 'update a specific message segment',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1185,7 +1071,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-segment/search',
             'description' => 'find a specific value for a column of the message segments table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -1198,7 +1083,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-recipient/{message_recipient_id}',
             'description' => 'get a specific message recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1207,7 +1091,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-recipient',
             'description' => 'add new message recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1216,7 +1099,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-recipient',
             'description' => 'list all message recipients',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1225,7 +1107,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/message-recipient/{message_recipient_id}',
             'description' => 'delete a specific message recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1234,7 +1115,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/message-recipient/{message_recipient_id}',
             'description' => 'update a specific message recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1243,7 +1123,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-recipient/search',
             'description' => 'find a specific value for a column of the message recipients table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -1255,7 +1134,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-group/{message_group_id}',
             'description' => 'get a specific message group',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1264,7 +1142,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-group',
             'description' => 'add new message group',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1273,7 +1150,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-group',
             'description' => 'list all message groups',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1282,7 +1158,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/message-group/{message_group_id}',
             'description' => 'delete a specific message group',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1291,7 +1166,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/message-group/{message_group_id}',
             'description' => 'update a specific message group',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1300,7 +1174,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-group/search',
             'description' => 'find a specific value for a column of the message groups table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1309,7 +1182,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/message-groups',
             'description' => 'get a specific client\'s message groups',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
 
@@ -1321,7 +1193,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-group-recipient/{message_group_recipient_id}',
             'description' => 'get a specific message group recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1330,7 +1201,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-group-recipient',
             'description' => 'add new message group recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1339,7 +1209,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-group-recipient',
             'description' => 'list all message group recipients',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1348,7 +1217,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/message-group-recipient/{message_group_recipient_id}',
             'description' => 'delete a specific message group recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1357,7 +1225,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/message-group-recipient/{message_group_recipient_id}',
             'description' => 'update a specific message group recipient',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1366,7 +1233,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-group-recipient/search',
             'description' => 'find a specific value for a column of the message group recipients table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -1378,7 +1244,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-filter/{message_filter_id}',
             'description' => 'get a specific message filter',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1387,7 +1252,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-filter',
             'description' => 'add new message filter',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1396,7 +1260,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/message-filter',
             'description' => 'list all message filters',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1405,7 +1268,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/message-filter/{message_filter_id}',
             'description' => 'delete a specific message filter',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1414,7 +1276,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/message-filter/{message_filter_id}',
             'description' => 'update a specific message filter',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1423,7 +1284,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/message-filter/search',
             'description' => 'find a specific value for a column of the message filters table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -1435,7 +1295,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/expense/payment-method',
             'description' => 'list all payment methods',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1444,7 +1303,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/expense/payment-method',
             'description' => 'add new payment method',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1453,7 +1311,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'get a specific payment method',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1462,7 +1319,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'update a specific payment method',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1471,7 +1327,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/expense/payment-method/{payment_method_id}',
             'description' => 'delete a specific payment method',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -1483,7 +1338,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/expense/order',
             'description' => 'list all orders',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -1492,7 +1346,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/expense/order',
             'description' => 'add new order',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -1501,7 +1354,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/expense/order/{user_id}',
             'description' => 'get a specific order',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -1510,7 +1362,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/expense/order/{order_id}',
             'description' => 'update a specific order',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -1519,7 +1370,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/expense/order/search',
             'description' => 'find a specific value for a column of the orders table',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -1528,7 +1378,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/orders',
             'description' => 'get a specific client\'s orders',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
         Handler::create([
@@ -1537,7 +1386,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/client/{user_id}/latest-order',
             'description' => 'get the latest created order of a specific client',
             'enabled' => true,
-            'access_user' => true,
         ]);
 
 
@@ -1549,7 +1397,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/mail/template',
             'description' => 'list all mail templates',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1558,7 +1405,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/mail/template',
             'description' => 'add new mail template',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1567,7 +1413,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'get a specific mail template',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1576,7 +1421,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'update a specific mail template',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1585,7 +1429,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/mail/template/{mail_template_id}',
             'description' => 'delete a specific mail template',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
@@ -1597,7 +1440,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/mail/sending-handler',
             'description' => 'list all mail sending handlers',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1606,7 +1448,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'POST|http://localhost:8000/api/mail/sending-handler',
             'description' => 'add new mail sending handler',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1615,7 +1456,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'GET|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'get a specific mail sending handler',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1624,7 +1464,6 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'PUT|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'update a specific mail sending handler',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
@@ -1633,65 +1472,330 @@ class HandlerSeeder extends Seeder
             'endpoint' => 'DELETE|http://localhost:8000/api/mail/sending-handler/{mail_sending_handler_id}',
             'description' => 'delete a specific mail sending handler',
             'enabled' => true,
-            'access_user' => false,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 30,
+            'name' => 'searchMailSendingHandlerColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/mail/sending-handler/search',
+            'description' => 'find a specific value for a column of the mail sending handlers table',
+            'enabled' => true,
+        ]);
+
+
+        // SMSTemplateController Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'listSMSTemplates',
+            'endpoint' => 'GET|http://localhost:8000/api/sms/template',
+            'description' => 'list all sms templates',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'addSMSTemplate',
+            'endpoint' => 'POST|http://localhost:8000/api/sms/template',
+            'description' => 'add new sms template',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'getSMSTemplate',
+            'endpoint' => 'GET|http://localhost:8000/api/sms/template/{sms_template_id}',
+            'description' => 'get a specific sms template',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'updateSMSTemplate',
+            'endpoint' => 'PUT|http://localhost:8000/api/sms/template/{sms_template_id}',
+            'description' => 'update a specific sms template',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 31,
+            'name' => 'deleteSMSTemplate',
+            'endpoint' => 'DELETE|http://localhost:8000/api/sms/template/{sms_template_id}',
+            'description' => 'delete a specific sms template',
+            'enabled' => true,
+        ]);
+
+
+        // SMSSendingHandlerController Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 32,
+            'name' => 'listSMSSendingHandlers',
+            'endpoint' => 'GET|http://localhost:8000/api/sms/sending-handler',
+            'description' => 'list all sms sending handlers',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 32,
+            'name' => 'addSMSSendingHandler',
+            'endpoint' => 'POST|http://localhost:8000/api/sms/sending-handler',
+            'description' => 'add new sms sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 32,
+            'name' => 'getSMSSendingHandler',
+            'endpoint' => 'GET|http://localhost:8000/api/sms/sending-handler/{sms_sending_handler_id}',
+            'description' => 'get a specific sms sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 32,
+            'name' => 'updateSMSSendingHandler',
+            'endpoint' => 'PUT|http://localhost:8000/api/sms/sending-handler/{sms_sending_handler_id}',
+            'description' => 'update a specific sms sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 32,
+            'name' => 'deleteSMSSendingHandler',
+            'endpoint' => 'DELETE|http://localhost:8000/api/sms/sending-handler/{sms_sending_handler_id}',
+            'description' => 'delete a specific sms sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 32,
+            'name' => 'searchSMSSendingHandlerColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/sms/sending-handler/search',
+            'description' => 'find a specific value for a column of the sms sending handlers table',
+            'enabled' => true,
+        ]);
+
+
+        // NotificationTemplateController Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 33,
+            'name' => 'listNotificationTemplates',
+            'endpoint' => 'GET|http://localhost:8000/api/notification/template',
+            'description' => 'list all notification templates',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 33,
+            'name' => 'addNotificationTemplate',
+            'endpoint' => 'POST|http://localhost:8000/api/notification/template',
+            'description' => 'add new notification template',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 33,
+            'name' => 'getNotificationTemplate',
+            'endpoint' => 'GET|http://localhost:8000/api/notification/template/{notification_template_id}',
+            'description' => 'get a specific notification template',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 33,
+            'name' => 'updateNotificationTemplate',
+            'endpoint' => 'PUT|http://localhost:8000/api/notification/template/{notification_template_id}',
+            'description' => 'update a specific notification template',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 33,
+            'name' => 'deleteNotificationTemplate',
+            'endpoint' => 'DELETE|http://localhost:8000/api/notification/template/{notification_template_id}',
+            'description' => 'delete a specific notification template',
+            'enabled' => true,
+        ]);
+
+
+        // NotificationSendingHandlerController Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 34,
+            'name' => 'listNotificationSendingHandlers',
+            'endpoint' => 'GET|http://localhost:8000/api/notification/sending-handler',
+            'description' => 'list all notification sending handlers',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 34,
+            'name' => 'addNotificationSendingHandler',
+            'endpoint' => 'POST|http://localhost:8000/api/notification/sending-handler',
+            'description' => 'add new notification sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 34,
+            'name' => 'getNotificationSendingHandler',
+            'endpoint' => 'GET|http://localhost:8000/api/notification/sending-handler/{notification_sending_handler_id}',
+            'description' => 'get a specific notification sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 34,
+            'name' => 'updateNotificationSendingHandler',
+            'endpoint' => 'PUT|http://localhost:8000/api/notification/sending-handler/{notification_sending_handler_id}',
+            'description' => 'update a specific notification sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 34,
+            'name' => 'deleteNotificationSendingHandler',
+            'endpoint' => 'DELETE|http://localhost:8000/api/notification/sending-handler/{notification_sending_handler_id}',
+            'description' => 'delete a specific notification sending handler',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 34,
+            'name' => 'searchNotificationSendingHandlerColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/notification/sending-handler/search',
+            'description' => 'find a specific value for a column of the notification sending handlers table',
+            'enabled' => true,
+        ]);
+
+
+
+        // UserNotificationController Handlers =================================================================================================================
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'listUserNotifications',
+            'endpoint' => 'GET|http://localhost:8000/api/notification',
+            'description' => 'list all user notifications',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'addUserNotification',
+            'endpoint' => 'POST|http://localhost:8000/api/notification',
+            'description' => 'add new user notification',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'getUserNotification',
+            'endpoint' => 'GET|http://localhost:8000/api/notification/{user_notification_id}',
+            'description' => 'get a specific user notification',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'getUserNotifications',
+            'endpoint' => 'GET|http://localhost:8000/api/notification/user-notifications/{user_id}',
+            'description' => 'get notifications of a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'getUserUnreadNotifications',
+            'endpoint' => 'GET|http://localhost:8000/api/notification/user-unread-notifications/{user_id}',
+            'description' => 'get unread notifications of a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'updateUserNotification',
+            'endpoint' => 'PUT|http://localhost:8000/api/notification/{user_notification_id}',
+            'description' => 'update a specific user notification',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'updateUserNotifications',
+            'endpoint' => 'PUT|http://localhost:8000/api/notification/user-notifications/{user_id}',
+            'description' => 'update notifications of a specific user',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'deleteUserNotification',
+            'endpoint' => 'DELETE|http://localhost:8000/api/notification/{user_notification_id}',
+            'description' => 'delete a specific user notification',
+            'enabled' => true,
+        ]);
+
+        Handler::create([
+            'handle_group_id' => 35,
+            'name' => 'searchUserNotificationColumn',
+            'endpoint' => 'POST|http://localhost:8000/api/notification/search',
+            'description' => 'find a specific value for a column of the user notifications table',
+            'enabled' => true,
         ]);
 
 
         // Settings Controller Handlers =================================================================================================================
 
         Handler::create([
-            'handle_group_id' => 31,
+            'handle_group_id' => 36,
             'name' => 'listSettings',
             'endpoint' => 'GET|http://localhost:8000/api/settings',
             'description' => 'list all settings',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
-            'handle_group_id' => 31,
+            'handle_group_id' => 36,
             'name' => 'addSettings',
             'endpoint' => 'POST|http://localhost:8000/api/settings',
             'description' => 'add new settings',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
-            'handle_group_id' => 31,
+            'handle_group_id' => 36,
             'name' => 'getSettings',
             'endpoint' => 'GET|http://localhost:8000/api/settings/{settings_id}',
             'description' => 'get a specific settings',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
 
         Handler::create([
-            'handle_group_id' => 31,
+            'handle_group_id' => 36,
             'name' => 'deleteSettings',
             'endpoint' => 'DELETE|http://localhost:8000/api/settings/{settings_id}',
             'description' => 'delete a specific settings',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
-            'handle_group_id' => 31,
+            'handle_group_id' => 36,
             'name' => 'updateSettings',
             'endpoint' => 'PUT|http://localhost:8000/api/settings/{settings_id}',
             'description' => 'update a specific settings',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
         Handler::create([
-            'handle_group_id' => 31,
+            'handle_group_id' => 36,
             'name' => 'searchSettingsColumn',
             'endpoint' => 'POST|http://localhost:8000/api/settings/search',
             'description' => 'find a specific value for a column of the settings table',
             'enabled' => true,
-            'access_user' => false,
         ]);
 
     }

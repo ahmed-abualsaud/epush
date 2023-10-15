@@ -12,6 +12,7 @@ class AddMailTemplateDto implements DtoContract
     {
         return [
             'name' => 'required|string|unique:mail_templates',
+            'subject' => 'required|string',
             'template' => 'required|string'
         ];
     }

@@ -16,7 +16,7 @@ class SendMailMicroprocess implements MicroprocessContract
 
     public function listen(InterprocessCommunicationEngineContract $engine, string $event = null, mixed ...$data): mixed
     {
-        [$request, $response] = $data;
-        return $this->mailService->checkAndSendMail($request, $response);
+        [$handler, $request, $response] = $data;
+        return $this->mailService->checkAndSendMail($handler, $request, $response);
     }
 }

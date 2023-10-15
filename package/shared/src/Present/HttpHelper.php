@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Log;
-
 function getResponseData($response)
 {
     if (! is_array($response)) {
@@ -13,24 +11,6 @@ function getResponseData($response)
     }
 
     return $response;
-}
-
-function getSubArrayRecursively($array, $keys, &$results) 
-{    
-    $result = [];
-    foreach ($array as $key => $value) {
-        if (is_array($value) || is_object($value)) {
-
-            getSubArrayRecursively((array)$value, $keys, $results);
-        } 
-        elseif (in_array($key, $keys)) {
-            $result[$key] = $value;
-        }
-    }
-
-    if (!empty($result)) {
-        $results[] = $result;
-    }
 }
 
 function jsonResponse($data, $status = 200)

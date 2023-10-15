@@ -17,7 +17,9 @@ class UpdateMailSendingHandlerDto implements DtoContract
     {
         return [
             'name' => 'string|unique:mail_sending_handlers,name,'.self::$mailSendingHandlerID,
-            'handler_id' => 'exists:handlers,id'
+            'email' => 'string|nullable',
+            'handler_id' => 'exists:handlers,id',
+            'mail_template_id' => 'exists:mail_templates,id',
         ];
     }
 

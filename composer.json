@@ -7,14 +7,16 @@
     "require": {
         "php": "^8.1",
         "epush/sms": "dev-master",
-        "epush/mail": "dev-master",
         "epush/auth": "dev-master",
         "epush/core": "dev-master",
         "epush/file": "dev-master",
+        "epush/mail": "dev-master",
         "epush/orchi": "dev-master",
+        "epush/cache": "dev-master",
         "epush/shared": "dev-master",
         "epush/expense": "dev-master",
         "epush/settings": "dev-master",
+        "epush/notification": "dev-master",
 
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",

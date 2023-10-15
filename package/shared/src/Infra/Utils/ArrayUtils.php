@@ -1,12 +1,5 @@
 <?php
 
-use Illuminate\Support\Str;
-
-function stringContains($haystack, $needles, $ignoreCase = false): bool
-{
-    return Str::contains($haystack, $needles, $ignoreCase);
-}
-
 function andWhereTableArray($records, $conditions) {
     return array_filter($records, function ($record) use ($conditions) {
         foreach ($conditions as $key => $value) {
@@ -26,6 +19,9 @@ function innerJoinTableArrays(array $a, array $b, string $on): array
     $b = sortTableArrayByColumn($b, $on);
 
     return array_filter(array_map(function ($element1, $element2) use ($on) {
+        if (empty($element1) || empty($element2)) {
+            dd($element1, $element2);
+        }
         if ($element1[$on] == $element2[$on]) {
             return array_merge($element1, $element2);
         }
@@ -126,4 +122,31 @@ function castVariable($variable, $type) {
 
 function castSettings($settings) {
     return castVariable($settings['value'], $settings['type']);
+}
+
+function getArrayKeys($array) {
+    $keys = [];
+
+    foreach ($array as $key => $value) {
+        $keys[] = $key;
+
+        if (is_array($value)) {
+            $keys = array_merge($keys, getArrayKeys($value));
+        }
+    }
+
+    return $keys;
+}
+
+function getSubArrayRecursively($array, $keys, &$results) 
+{    
+    foreach ($array as $key => $value) {
+        if (is_array($value) || is_object($value)) {
+
+            getSubArrayRecursively((array)$value, $keys, $results);
+        } 
+        elseif (in_array($key, $keys)) {
+            $results[$key] = $value;
+        }
+    }
 }

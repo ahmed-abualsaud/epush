@@ -12,7 +12,9 @@ class AddMailSendingHandlerDto implements DtoContract
     {
         return [
             'name' => 'required|string|unique:mail_sending_handlers',
-            'handler_id' => 'required|exists:handlers,id'
+            'email' => 'string|nullable',
+            'handler_id' => 'required|exists:handlers,id',
+            'mail_template_id' => 'required|exists:mail_templates,id',
         ];
     }
 

@@ -1,0 +1,29 @@
+{
+    "name": "epush/notification",
+    "description": "E-push service that handle all notification management routines",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Notification\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "react/promise":" ^2.3",
+        "beyondcode/laravel-websockets": "^1.14"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Notification\\Infra\\Provider\\NotificationServiceProvider"
+            ]
+        }
+    }
+}

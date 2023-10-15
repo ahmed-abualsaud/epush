@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
+use Epush\Notification\Infra\Driver\NotificationDriver;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class AuthMiddleware
@@ -30,13 +31,17 @@ class AuthMiddleware
             return failureJSONResponse('The requested feature has been disabled', 403);
         }
 
+        $response = $next($request);
         if ($method === 'POST' && in_array($path, [
                 'api/auth/user/signin', 
                 'api/auth/user/signup', 
                 'api/auth/user/reset-password',
             ])) {
 
-            return app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $request, $next($request))[0];
+            app(InterprocessCommunicationEngineContract::class)->broadcast("sms:send", $handler, $request, $response)[0];
+            app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $handler, $request, $response)[0];
+            app(InterprocessCommunicationEngineContract::class)->broadcast("notification:send", $handler, $request, $response)[0];
+            return $response;
         }
 
         $access_token = $request->header('Authorization');
@@ -79,6 +84,9 @@ class AuthMiddleware
             return failureJSONResponse('You don\'t have access to the requested feature', 403);
         }
 
-        return app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $request, $next($request))[0];
+        app(InterprocessCommunicationEngineContract::class)->broadcast("sms:send", $handler, $request, $response)[0];
+        app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $handler, $request, $response)[0];
+        app(InterprocessCommunicationEngineContract::class)->broadcast("notification:send", $handler, $request, $response)[0];
+        return $response;
     }
 }

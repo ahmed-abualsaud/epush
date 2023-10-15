@@ -41,15 +41,8 @@ class AdminService implements AdminServiceContract
     public function add(array $admin, array $user): array
     {
         $user = $this->communicationEngine->broadcast("auth:user:add-user", $user, 'admin')[0];
-        $password = $this->communicationEngine->broadcast("auth:credentials:generate-password", $user['id'])[0];
-
         $admin['user_id'] = $user['id'];
         $admin = $this->adminDatabaseService->addAdmin($admin);
-
-        $this->communicationEngine->broadcast("sms:send", $user['phone'], 'Your password is: '.$password);
-        $this->communicationEngine->broadcast("mail:send", $user['email'], $user);
-
-        // $this->mailService->sendClientAddedMail($user['email'], $user);
 
         $result =  array_replace_recursive($user, $admin);
         $result['id'] = $admin['user_id'];

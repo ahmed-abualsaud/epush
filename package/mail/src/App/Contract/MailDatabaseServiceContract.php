@@ -14,7 +14,7 @@ interface MailDatabaseServiceContract
     
     public function deleteMailTemplate(string $templateID): bool;
 
-    public function listMailSendingHandlers(): array;
+    public function listMailSendingHandlers(int $take): array;
 
     public function getMailSendingHandler(string $mailSendingHandlerID): array;
 
@@ -25,4 +25,8 @@ interface MailDatabaseServiceContract
     public function deleteMailSendingHandler(string $mailSendingHandlerID): bool;
 
     public function getMailSendingHandlerByHandlerID(string $handlerID): array;
+
+    public function getMailSendingHandlersByHandlersID(array $handlersID, int $take): array;
+
+    public function searchMailSendingHandlerColumn(string $column, string $value, int $take = 10): array;
 }

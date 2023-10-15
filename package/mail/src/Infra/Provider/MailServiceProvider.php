@@ -9,14 +9,13 @@ class MailServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../../Present/View', 'mail');
+
     }
 
 
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../Config/mail.php', 'mail');
-        $this->mergeConfigFrom(__DIR__.'/../Config/user-data-keys.php', 'mail-user_data_keys');
 
         if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             
