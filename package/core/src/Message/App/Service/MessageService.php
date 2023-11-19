@@ -190,6 +190,16 @@ class MessageService implements MessageServiceContract
             //send the message
         }
 
+        if (array_key_exists('scheduled_at', $message) && empty($message['scheduled_at'])) {
+            $msg = $this->get($messageID);
+            $this->communicationEngine->broadcast(
+                "core:client:update-client-wallet", 
+                $msg['user_id'], 
+                $msg['total_cost'], 
+                WalletActions::REFUND->value
+            );
+        }
+
         return $this->messageDatabaseService->updateMessage($messageID, $message);
     }
 

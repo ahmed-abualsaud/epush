@@ -47,8 +47,9 @@ class MessageGroupService implements MessageGroupServiceContract
 
     public function delete(string $messageGroupID): bool
     {
-        return $this->messageGroupDatabaseService->deleteMessageGroup($messageGroupID) && 
-               $this->messageGroupRecipientService->deleteMessageGroupRecipients($messageGroupID);
+        $groupDeleted = $this->messageGroupDatabaseService->deleteMessageGroup($messageGroupID) ;
+        $recipientsDeleted = $this->messageGroupRecipientService->deleteMessageGroupRecipients($messageGroupID);
+        return $groupDeleted && $recipientsDeleted;
     }
 
     public function searchColumn(string $column, string $value, int $take = 10): array

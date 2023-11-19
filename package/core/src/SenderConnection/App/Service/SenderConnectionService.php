@@ -89,13 +89,13 @@ class SenderConnectionService implements SenderConnectionServiceContract
                 $sendersConnections['data'] = tableWith($sendersConnections['data'], $senders['data'], 'sender_id');
                 return $sendersConnections;
                 break;
-        
+
+            case "smsc_name":
+            case "smsc_value":
             case "country_name":
             case "country_code":
             case "operator_name":
             case "operator_code":
-            case "smsc_name":
-            case "smsc_value":
                 $smscs = $this->smscBindingService->searchColumn($column, $value, 1000000000000);
                 $smscsID = array_unique(array_column($smscs['data'], 'id'));
                 $sendersConnections = $this->getSendersConnectionsBySMSCsID($smscsID, $take);

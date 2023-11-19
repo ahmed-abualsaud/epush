@@ -37,13 +37,33 @@ class UpdateUserDto implements DtoContract
             'first_name',
             'last_name',
             'username',
-            'password',
             'email',
             'phone',
             'religion',
             'enabled',
             'notes',
             'avatar',
+            'password',
+            'password_confirmation',
+
+        ], $this->data);
+    }
+
+    public function getData(): array
+    {
+        ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
+        return subAssociativeArray([
+
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'phone',
+            'religion',
+            'enabled',
+            'notes',
+            'avatar',
+            'password'
 
         ], $this->data);
     }

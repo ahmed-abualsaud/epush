@@ -4,7 +4,6 @@ namespace Epush\Core\Sender\Infra\Provider;
 
 use Epush\Core\Sender\Domain\DTO\SenderDto;
 use Epush\Core\Sender\Domain\DTO\AddSenderDto;
-use Epush\Core\Sender\Domain\DTO\GetClientSendersDto;
 use Epush\Core\Sender\Domain\DTO\ListSendersDto;
 use Epush\Core\Sender\Domain\DTO\SearchSenderDto;
 use Epush\Core\Sender\Domain\DTO\UpdateSenderDto;
@@ -32,10 +31,6 @@ class DomainProvider extends ServiceProvider
     {
         $this->app->bind(SenderDto::class, function () {
             return new SenderDto(['sender_id' => $this->app->make('request')->route('sender_id')]);
-        });
-
-        $this->app->bind(GetClientSendersDto::class, function () {
-            return new GetClientSendersDto(['user_id' => $this->app->make('request')->route('user_id')]);
         });
 
         $this->app->bind(AddSenderDto::class, function () {

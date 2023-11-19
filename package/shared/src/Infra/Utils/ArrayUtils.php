@@ -150,3 +150,13 @@ function getSubArrayRecursively($array, $keys, &$results)
         }
     }
 }
+
+function searchSubArray($array, $keys) {
+    $result = [];
+    foreach ($keys as $key) {
+        if (array_key_exists($key, $array)) {
+            $result[$key] = $array[$key];
+        }
+    }
+    return $result;
+}

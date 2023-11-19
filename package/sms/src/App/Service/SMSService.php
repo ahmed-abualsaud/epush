@@ -139,7 +139,7 @@ class SMSService implements SMSServiceContract
 
     private function updateResponseAttributesKeys(mixed $response, array $handler): void
     {
-        if (! is_array($response->original['data'])) {
+        if (! property_exists($response, "original") || ! is_array($response->original['data'])) {
             return;
         }
 

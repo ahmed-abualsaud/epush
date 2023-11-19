@@ -17,7 +17,7 @@ class AddMessageDto implements DtoContract
             'message_language_id' => 'required|exists:message_languages,id',
             'content' => 'required|string',
             'notes' => 'string',
-            'scheduled_at' => 'string',
+            'scheduled_at' => 'string|nullable',
             'group_recipients' => 'required|array',
             'group_recipients.*.name' => 'required|string',
             'group_recipients.*.user_id' => 'required|exists:users,id',

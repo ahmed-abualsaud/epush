@@ -100,7 +100,7 @@ class UserController
     }
 
     #[Get('{user_id}/roles')]
-    public function getUserRules(UserDto $userDto, GetUserRolesUseCase $getUserRolesUseCase): Response
+    public function getUserRoles(UserDto $userDto, GetUserRolesUseCase $getUserRolesUseCase): Response
     {
         return successJSONResponse($getUserRolesUseCase->execute($userDto));
     }

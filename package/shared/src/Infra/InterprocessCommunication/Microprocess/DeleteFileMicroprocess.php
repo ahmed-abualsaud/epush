@@ -2,7 +2,7 @@
 
 namespace Epush\Shared\Infra\InterprocessCommunication\Microprocess;
 
-use Epush\File\App\Contract\File\FileServiceContract;
+use Epush\File\App\Contract\FileServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\MicroprocessContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 

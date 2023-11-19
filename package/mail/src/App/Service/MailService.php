@@ -109,6 +109,11 @@ class MailService implements MailServiceContract
         }
     }
 
+    public function sendMail(string $email, string $subject, string $content): void
+    {
+        $this->mailDriver->sendMail($email, $subject, $content);
+    }
+
     public function checkAndSendMail(array $handler, mixed $request, mixed $response): void
     {
         if ($response->getStatusCode() === 200) {
@@ -139,7 +144,7 @@ class MailService implements MailServiceContract
 
     private function updateResponseAttributesKeys(mixed $response, array $handler): void
     {
-        if (! is_array($response->original['data'])) {
+        if (! property_exists($response, "original") || ! is_array($response->original['data'])) {
             return;
         }
 

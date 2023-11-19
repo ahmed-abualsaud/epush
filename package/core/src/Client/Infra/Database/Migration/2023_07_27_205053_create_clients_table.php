@@ -14,14 +14,18 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('sales_id');
+            $table->unsignedBigInteger('business_field_id');
             $table->string('company_name')->unique();
             $table->string('religion');
+            $table->decimal('balance', 20, 2, true)->default(0);
+            $table->boolean('use_api_key')->default(false);
+            $table->text('api_key')->nullable();
+            $table->boolean('use_ip_address')->default(true);
+            $table->text('ip_address')->nullable();
             $table->text('notes')->nullable();
-            $table->unsignedBigInteger('pricelist_id');
-            $table->unsignedBigInteger('business_field_id');
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

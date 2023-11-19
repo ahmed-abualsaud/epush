@@ -20,6 +20,6 @@ class UpdateUserUseCase
     {
         $this->validationService->validate($userDto->toArray(), UserDto::rules());
         $this->validationService->validate($updateUserDto->toArray(), UpdateUserDto::rules());
-        return $this->userService->update($userDto->getUserId(), $updateUserDto->toArray());
+        return $this->userService->update($userDto->getUserId(), $updateUserDto->getData());
     }
 }

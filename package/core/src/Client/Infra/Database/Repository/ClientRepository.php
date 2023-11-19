@@ -93,7 +93,7 @@ class ClientRepository implements ClientRepositoryContract
             if ($action === WalletActions::DEDUCT->value)
             {
                 $client->balance - $cost < 0 ?
-                throw new Exception("Client balance can't be less than zero") :
+                throw new Exception("You don't have enough money") :
                 $client->update(['balance' => $client->balance - $cost]);
             }
 

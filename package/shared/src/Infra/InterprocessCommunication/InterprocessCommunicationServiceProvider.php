@@ -6,36 +6,41 @@ use Illuminate\Support\ServiceProvider;
 
 use Epush\SMS\App\Service\SMSService;
 use Epush\Mail\App\Service\MailService;
+use Epush\Ticket\App\Service\TicketService;
 use Epush\Auth\User\App\Service\UserService;
 use Epush\Core\Admin\App\Service\AdminService;
 use Epush\Core\Client\App\Service\ClientService;
 use Epush\Expense\Order\App\Service\OrderService;
 use Epush\Core\Message\App\Service\MessageService;
+use Epush\Notification\App\Service\NotificationService;
+use Epush\Core\MessageGroup\App\Service\MessageGroupService;
 
 use Epush\SMS\App\Contract\SMSServiceContract;
 use Epush\Mail\App\Contract\MailServiceContract;
+use Epush\File\App\Contract\FileServiceContract;
 use Epush\Cache\App\Contract\CacheServiceContract;
+use Epush\Search\App\Contract\SearchServiceContract;
 use Epush\Auth\User\App\Contract\UserServiceContract;
-use Epush\File\App\Contract\File\FileServiceContract;
-use Epush\Notification\App\Service\NotificationService;
 use Epush\Core\Sales\App\Contract\SalesServiceContract;
 use Epush\Settings\App\Contract\SettingsServiceContract;
 use Epush\Core\Client\App\Contract\ClientServiceContract;
 use Epush\Expense\Order\App\Contract\OrderServiceContract;
 use Epush\Orchi\App\Contract\OrchiDatabaseServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
-use Epush\Core\MessageGroup\App\Service\MessageGroupService;
 use Epush\Core\Pricelist\App\Contract\PricelistServiceContract;
 use Epush\Notification\App\Contract\NotificationServiceContract;
+use Epush\Core\Sender\App\Contract\SenderDatabaseServiceContract;
 use Epush\Expense\Order\App\Contract\OrderDatabaseServiceContract;
 use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupDatabaseServiceContract;
 
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AddUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendSMSMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUsersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendMailMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendToMailMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\StoreFileMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteFileMicroprocess;
@@ -56,6 +61,7 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendNotificationMi
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GeneratePasswordMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchUserColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSystemHandlerMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientSendersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSystemHandlersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchSalesColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchOrderColumnMicroprocess;
@@ -140,6 +146,7 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
                 $engine->attach(new DeleteUserMicroprocess(app(UserServiceContract::class)), "auth:user:delete-user");
                 $engine->attach(new SearchUserColumnMicroprocess(app(UserServiceContract::class)), "auth:user:search-column");
                 $engine->attach(new GetClientOrdersMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-orders");
+                $engine->attach(new GetClientSendersMicroprocess(app(SenderDatabaseServiceContract::class)), "core:sender:get-client-senders");
                 $engine->attach(new GetClientMessagesMicroprocess(app(MessageDatabaseServiceContract::class)), "core:message:get-client-messages");
                 $engine->attach(new GetClientMessageGroupsMicroprocess(app(MessageGroupDatabaseServiceContract::class)), "core:message-group:get-client-message-groups");
                 $engine->attach(new GetClientLatestOrderMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-latest-order");
@@ -263,12 +270,26 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
             });
 
 
+        $this->app
+            ->when(TicketService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new SendToMailMicroprocess(app(MailServiceContract::class)), "mail:send-to");
+
+                return $engine;
+            });
+
+
         $this->app->bind(InterprocessCommunicationEngineContract::class, function () {
 
             $engine = new InterprocessCommunicationEngine();
 
             $engine->attach(new SendSMSMicroprocess(app(SMSServiceContract::class)), "sms:send");
             $engine->attach(new SendMailMicroprocess(app(MailServiceContract::class)), "mail:send");
+            $engine->attach(new SearchMicroprocess(app(SearchServiceContract::class)), "search:search-query");
             $engine->attach(new SendNotificationMicroprocess(app(NotificationServiceContract::class)), "notification:send");
             $engine->attach(new GetHandlerByEndpointMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-endpoint");
             $engine->attach(new GetAllHandlersResponseAttributesMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handlers:get-all-handlers-response-attributes");

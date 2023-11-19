@@ -13,6 +13,18 @@ use Epush\File\Infra\Excel\ExcelDriverContract;
 use Epush\File\Infra\File\FileDriver;
 use Epush\File\Infra\File\FileDriverContract;
 
+use Epush\File\Infra\Database\Driver\File\FileDatabaseDriver;
+use Epush\File\Infra\Database\Driver\File\FileDatabaseDriverContract;
+
+use Epush\File\Infra\Database\Driver\Folder\FolderDatabaseDriver;
+use Epush\File\Infra\Database\Driver\Folder\FolderDatabaseDriverContract;
+
+use Epush\File\Infra\Database\Repository\FileRepository;
+use Epush\File\Infra\Database\Repository\Contract\FileRepositoryContract;
+
+use Epush\File\Infra\Database\Repository\FolderRepository;
+use Epush\File\Infra\Database\Repository\Contract\FolderRepositoryContract;
+
 class InfraProvider extends ServiceProvider
 {
     /**
@@ -35,5 +47,11 @@ class InfraProvider extends ServiceProvider
         $this->app->bind(PDFDriverContract::class, PDFDriver::class);
         $this->app->bind(ExcelDriverContract::class, ExcelDriver::class);
         $this->app->bind(FileDriverContract::class, FileDriver::class);
+
+        $this->app->bind(FileDatabaseDriverContract::class, FileDatabaseDriver::class);
+        $this->app->bind(FolderDatabaseDriverContract::class, FolderDatabaseDriver::class);
+
+        $this->app->bind(FileRepositoryContract::class, FileRepository::class);
+        $this->app->bind(FolderRepositoryContract::class, FolderRepository::class);
     }
 }

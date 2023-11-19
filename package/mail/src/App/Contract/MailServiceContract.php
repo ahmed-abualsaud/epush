@@ -24,6 +24,8 @@ interface MailServiceContract
 
     public function deleteMailSendingHandler(string $mailSendingHandlerID): bool;
 
+    public function sendMail(string $email, string $subject, string $content): void;
+
     public function checkAndSendMail(array $handler, mixed $request, mixed $response): void;
 
     public function getMailSendingHandlerByHandlerID(string $handlerID): array;

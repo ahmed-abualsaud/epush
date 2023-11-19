@@ -28,4 +28,17 @@ function replaceTemplateKeys(string $string, array $attributes, string $defaultV
         $placeholder = trim($matches[1]);
         return $attributes[$placeholder] ?? $defaultValue;
     }, $string);
-  }
+}
+
+
+function decodeString($encryptedString) {
+    // $publicKey = env('APP_PUBLIC_KEY');
+    // $secretKey = env('APP_SECRET_KEY');
+    
+    return urldecode(base64_decode($encryptedString));
+}
+
+function pluralString(string $singularString)
+{
+    return Str::plural($singularString);
+}

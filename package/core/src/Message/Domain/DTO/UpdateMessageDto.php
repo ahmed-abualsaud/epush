@@ -22,7 +22,7 @@ class UpdateMessageDto implements DtoContract
             'message_language_id' => 'exists:message_languages,id',
             'content' => 'string',
             'notes' => 'string',
-            'scheduled_at' => 'string',
+            'scheduled_at' => 'string|nullable',
             'group_recipients' => 'array',
             'group_recipients.*.name' => 'string',
             'group_recipients.*.user_id' => 'required|exists:users,id',

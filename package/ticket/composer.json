@@ -1,0 +1,26 @@
+{
+    "name": "epush/ticket",
+    "description": "E-push service that contains all ticketing system routines",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Ticket\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Ticket\\Infra\\Provider\\TicketServiceProvider"
+            ]
+        }
+    }
+}

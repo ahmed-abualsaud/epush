@@ -17,6 +17,15 @@ class Client extends Model
 
     protected $guarded = [];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'use_api_key' => 'boolean',
+        'use_ip_address' => 'boolean',
+    ];
 
     public function websites(): HasMany
     {

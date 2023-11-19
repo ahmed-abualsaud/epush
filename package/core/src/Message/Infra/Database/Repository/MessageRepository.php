@@ -23,9 +23,7 @@ class MessageRepository implements MessageRepositoryContract
             return $this->message->with([
                 'segments',
                 'language', 
-                'recipients' => function (Builder $query) {
-                    $query->with(['messageGroupRecipient']);
-                },
+                'recipients' => ['messageGroupRecipient']
             ])->paginate($take)->toArray();
 
         });
@@ -38,9 +36,7 @@ class MessageRepository implements MessageRepositoryContract
             $message =  $this->message->with([
                 'segments',
                 'language', 
-                'recipients' => function (Builder $query) {
-                    $query->with(['messageGroupRecipient']);
-                },
+                'recipients' => ['messageGroupRecipient']
             ])->where('id', $messageID)->first();
             return empty($message) ? [] : $message->toArray();
         });
@@ -151,9 +147,7 @@ class MessageRepository implements MessageRepositoryContract
             $message = $this->message->with([
                 'segments',
                 'language', 
-                'recipients' => function (Builder $query) {
-                    $query->with(['messageGroupRecipient']);
-                },
+                'recipients' => ['messageGroupRecipient']
             ]);
 
             $message = match ($column) 

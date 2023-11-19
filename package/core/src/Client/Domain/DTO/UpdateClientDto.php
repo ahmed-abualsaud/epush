@@ -31,20 +31,28 @@ class UpdateClientDto implements DtoContract
             'notes' => 'string',
             'sync_websites' => 'boolean',
             'sales_id' => 'exists:sales,id',
-            'business_field_id' => 'exists:business_fields,id'
-
+            'business_field_id' => 'exists:business_fields,id',
+            'api_key' => 'string|unique:clients,api_key,'.self::$userID.',id,deleted_at,NULL',
+            'use_api_key' => 'boolean',
+            'ip_address' => 'string',
+            'use_ip_address' => 'boolean',
         ];
     }
 
     public function toArray(): array
     {
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
+        ! empty($this->data['use_api_key']) && $this->data['use_api_key'] = $this->data['use_api_key'] == 'true';
+        ! empty($this->data['use_ip_address']) && $this->data['use_ip_address'] = $this->data['use_ip_address'] == 'true';
         ! empty($this->data['sync_websites']) && $this->data['sync_websites'] = $this->data['sync_websites'] == 'true';
         return $this->data;
     }
 
     public function getClient(): array
     {
+        ! empty($this->data['use_api_key']) && $this->data['use_api_key'] = $this->data['use_api_key'] == 'true';
+        ! empty($this->data['use_ip_address']) && $this->data['use_ip_address'] = $this->data['use_ip_address'] == 'true';
+
         return subAssociativeArray([
 
             'company_name',
@@ -53,7 +61,11 @@ class UpdateClientDto implements DtoContract
             'websites',
             'sync_websites',
             'sales_id',
-            'business_field_id'
+            'business_field_id',
+            'api_key',
+            'use_api_key',
+            'ip_address',
+            'use_ip_address'
 
         ], $this->data);
     }

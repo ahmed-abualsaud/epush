@@ -21,6 +21,7 @@ use Epush\Core\Client\Domain\UseCase\DeleteClientUseCase;
 use Epush\Core\Client\Domain\UseCase\SearchClientUseCase;
 use Epush\Core\Client\Domain\UseCase\UpdateClientUseCase;
 use Epush\Core\Client\Domain\UseCase\GetClientOrdersUseCase;
+use Epush\Core\Client\Domain\UseCase\GetClientSendersUseCase;
 use Epush\Core\Client\Domain\UseCase\GetClientMessagesUseCase;
 use Epush\Core\Client\Domain\UseCase\GetClientLatestOrderUseCase;
 use Epush\Core\Client\Domain\UseCase\GetClientMessageGroupsUseCase;
@@ -65,6 +66,12 @@ class ClientController
     public function getClientOrders(ClientDto $clientDto, GetClientOrdersUseCase $getClientOrdersUseCase): Response
     {
         return successJSONResponse($getClientOrdersUseCase->execute($clientDto));
+    }
+
+    #[Get('{user_id}/senders')]
+    public function getClientSenders(ClientDto $clientDto, GetClientSendersUseCase $getClientSendersUseCase): Response
+    {
+        return successJSONResponse($getClientSendersUseCase->execute($clientDto));
     }
 
     #[Get('{user_id}/messages')]

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedDecimal('total_cost');
             $table->integer('number_of_segments');
             $table->integer('number_of_recipients');
-            $table->timestamp('scheduled_at')->useCurrent();
+            $table->timestamp('scheduled_at')->useCurrent()->nullable();
             $table->timestamps();
         });
     }

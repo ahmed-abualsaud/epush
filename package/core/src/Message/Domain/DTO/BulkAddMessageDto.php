@@ -24,7 +24,7 @@ class BulkAddMessageDto implements DtoContract
             'content.messages.*.segments.*.number' => 'required|integer',
             'content.messages.*.segments.*.content' => 'required|string',
             'notes' => 'string',
-            'scheduled_at' => 'string',
+            'scheduled_at' => 'string|nullable',
             'group_recipients' => 'required|array',
             'group_recipients.*.name' => 'required|string',
             'group_recipients.*.user_id' => 'required|exists:users,id',

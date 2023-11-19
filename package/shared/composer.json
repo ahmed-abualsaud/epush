@@ -15,7 +15,9 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {},
+    "require": {
+        "dittertp/gibberish-aes-php": "^4.0"
+    },
     "extra": {
         "laravel": {
             "providers": [

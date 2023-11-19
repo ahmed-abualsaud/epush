@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
-use Epush\Notification\Infra\Driver\NotificationDriver;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class AuthMiddleware
@@ -24,7 +23,7 @@ class AuthMiddleware
         $handler = app(InterprocessCommunicationEngineContract::class)->broadcast("orchi:handler:get-handler-by-endpoint", $method . "|" . $url)[0];
 
         if (empty($handler)) {
-            return failureJSONResponse('the requested feature needs to be registered in the database', 403);
+            return failureJSONResponse('the requested feature needs to be registered in our system', 403);
         }
 
         if (! $handler['enabled']) {
@@ -81,7 +80,7 @@ class AuthMiddleware
         });
 
         if (empty($permissions)) {
-            return failureJSONResponse('You don\'t have access to the requested feature', 403);
+            return failureJSONResponse('You don\'t have access to the requested feature '.$method.'|'.$path, 403);
         }
 
         app(InterprocessCommunicationEngineContract::class)->broadcast("sms:send", $handler, $request, $response)[0];

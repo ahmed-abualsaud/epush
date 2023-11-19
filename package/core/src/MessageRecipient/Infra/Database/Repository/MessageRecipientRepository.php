@@ -22,9 +22,7 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
 
             return $this->messageRecipient->with([
                 'message',
-                'messageGroupRecipient' => function (Builder $query) {
-                    $query->with(['messageGroup']);
-                }
+                'messageGroupRecipient' => ['messageGroup']
             ])->paginate($take)->toArray();
 
         });
@@ -47,9 +45,7 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
     
             return $this->messageRecipient->with([
                 'message',
-                'messageGroupRecipient' => function (Builder $query) {
-                    $query->with(['messageGroup']);
-                }
+                'messageGroupRecipient' => ['messageGroup']
             ])->where('message_id', $messageID)->get()->toArray();
 
         });
@@ -70,9 +66,7 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
 
             $messageRecipient = $this->messageRecipient->with([
                 'message',
-                'messageGroupRecipient' => function (Builder $query) {
-                    $query->with(['messageGroup']);
-                }
+                'messageGroupRecipient' => ['messageGroup']
             ]);
 
             $messageRecipient = match ($column)

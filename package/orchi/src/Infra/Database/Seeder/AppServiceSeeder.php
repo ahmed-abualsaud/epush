@@ -139,6 +139,34 @@ class AppServiceSeeder extends Seeder
             'num_of_online_contexts' => 1,
             'num_of_enabled_contexts' => 1
         ]);
+        //10
+        AppService::create([
+            'name' => 'search',
+            'domain' => 'localhost',
+            'ip_address' => '127.0.0.1',
+            'lookup_type' => 'module',
+            'lookup_endpoint' => 'http://localhost',
+            'description' => 'Service Contains All the Features of Searching Inside Multiple Cross-Cutting Databases Tables',
+            'online' => true,
+            'enabled' => true,
+            'num_of_contexts' => 1,
+            'num_of_online_contexts' => 1,
+            'num_of_enabled_contexts' => 1
+        ]);
+        //11
+        AppService::create([
+            'name' => 'ticket',
+            'domain' => 'localhost',
+            'ip_address' => '127.0.0.1',
+            'lookup_type' => 'module',
+            'lookup_endpoint' => 'http://localhost',
+            'description' => 'Service Contains All the Features of Ticketing System',
+            'online' => true,
+            'enabled' => true,
+            'num_of_contexts' => 1,
+            'num_of_online_contexts' => 1,
+            'num_of_enabled_contexts' => 1
+        ]);
     }
 }
 

@@ -18,7 +18,8 @@ class UpdateMessageLanguageDto implements DtoContract
         return [
             'name' => 'string|unique:message_languages,name,'.self::$messageLanguageID,
             'max_characters_length' => 'integer',
-            'split_characters_length' => 'integer'
+            'split_characters_length' => 'integer',
+            'characters' => 'string',
         ];
     }
 

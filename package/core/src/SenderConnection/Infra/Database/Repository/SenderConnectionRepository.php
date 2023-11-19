@@ -21,9 +21,7 @@ class SenderConnectionRepository implements SenderConnectionRepositoryContract
         return DB::transaction(function () use ($take) {
 
             return $this->senderConnection->with([
-                'smsc' => function (Builder $query) {
-                    $query->with(['country', 'operator', 'smsc']);
-                }
+                'smsc' => ['country', 'operator', 'smsc']
             ])->paginate($take)->toArray();
 
         });
@@ -44,9 +42,7 @@ class SenderConnectionRepository implements SenderConnectionRepositoryContract
         return DB::transaction(function () use ($senderID) {
 
             return $this->senderConnection->with([
-                'smsc' => function (Builder $query) {
-                    $query->with(['country', 'operator', 'smsc']);
-                }
+                'smsc' => ['country', 'operator', 'smsc']
             ])->where('sender_id', $senderID)->get()->toArray();
 
         });
@@ -57,9 +53,7 @@ class SenderConnectionRepository implements SenderConnectionRepositoryContract
         return DB::transaction(function () use ($smscsID, $take) {
 
             return $this->senderConnection->with([
-                'smsc' => function (Builder $query) {
-                    $query->with(['country', 'operator', 'smsc']);
-                }
+                'smsc' => ['country', 'operator', 'smsc']
             ])->whereIn('smsc_id', $smscsID)->paginate($take)->toArray();
 
         });
@@ -70,9 +64,7 @@ class SenderConnectionRepository implements SenderConnectionRepositoryContract
         return DB::transaction(function () use ($sendersID, $take) {
 
             return $this->senderConnection->with([
-                'smsc' => function (Builder $query) {
-                    $query->with(['country', 'operator', 'smsc']);
-                }
+                'smsc' => ['country', 'operator', 'smsc']
             ])->whereIn('sender_id', $sendersID)->paginate($take)->toArray();
 
         });
@@ -126,9 +118,7 @@ class SenderConnectionRepository implements SenderConnectionRepositoryContract
         return DB::transaction(function () use ($column, $value, $take) {
 
             $senderConnection = $this->senderConnection->with([
-                'smsc' => function (Builder $query) {
-                    $query->with(['country', 'operator', 'smsc']);
-                }
+                'smsc' => ['country', 'operator', 'smsc']
             ]);
 
             if ($column === "approved") {

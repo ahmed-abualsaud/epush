@@ -1,0 +1,26 @@
+{
+    "name": "epush/search",
+    "description": "E-push service that handle all search management routines",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Search\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Search\\Infra\\Provider\\SearchServiceProvider"
+            ]
+        }
+    }
+}

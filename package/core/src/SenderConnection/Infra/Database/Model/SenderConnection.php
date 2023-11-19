@@ -19,6 +19,8 @@ class SenderConnection extends Model
      */
     protected $casts = [
         'approved' => 'boolean',
+        'default' => 'boolean',
+        'sender_approved' => 'boolean',
     ];
 
     public function smsc(): BelongsTo

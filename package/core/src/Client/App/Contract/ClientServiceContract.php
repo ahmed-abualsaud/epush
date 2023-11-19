@@ -24,6 +24,8 @@ interface ClientServiceContract
 
     public function getClientMessageGroups(string $userID): array;
 
+    public function getClientSenders(string $userID): array;
+
     public function getClientOrders(string $userID): array;
 
     public function getClientLatestOrder(string $userID): array;

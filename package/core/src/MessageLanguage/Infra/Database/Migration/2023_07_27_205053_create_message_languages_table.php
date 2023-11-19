@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('max_characters_length');
             $table->integer('split_characters_length');
+            $table->text('characters');
             $table->timestamps();
         });
     }
