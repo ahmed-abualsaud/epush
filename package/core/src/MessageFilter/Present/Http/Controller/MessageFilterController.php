@@ -30,36 +30,36 @@ class MessageFilterController
     #[Get('/')]
     public function listMessageFilters(ListMessageFiltersDto $listMessageFiltersDto, ListMessageFiltersUseCase $listMessageFiltersUseCase): Response
     {
-        return successJSONResponse($listMessageFiltersUseCase->execute($listMessageFiltersDto));
+        return jsonResponse($listMessageFiltersUseCase->execute($listMessageFiltersDto));
     }
 
     #[Post('/')]
     public function addMessageFilter(AddMessageFilterDto $addMessageFilterDto, AddMessageFilterUseCase $addMessageFilterUseCase): Response
     {
-        return successJSONResponse($addMessageFilterUseCase->execute($addMessageFilterDto));
+        return jsonResponse($addMessageFilterUseCase->execute($addMessageFilterDto));
     }
 
     #[Get('{message_filter_id}')]
     public function getMessageFilter(MessageFilterDto $messagefilterDto, GetMessageFilterUseCase $getMessageFilterUseCase): Response
     {
-        return successJSONResponse($getMessageFilterUseCase->execute($messagefilterDto));
+        return jsonResponse($getMessageFilterUseCase->execute($messagefilterDto));
     }
 
     #[Put('{message_filter_id}')]
     public function updateMessageFilter(MessageFilterDto $messagefilterDto, UpdateMessageFilterDto $updateMessageFilterDto, UpdateMessageFilterUseCase $updateMessageFilterUseCase): Response
     {
-        return successJSONResponse($updateMessageFilterUseCase->execute($messagefilterDto, $updateMessageFilterDto));
+        return jsonResponse($updateMessageFilterUseCase->execute($messagefilterDto, $updateMessageFilterDto));
     }
 
     #[Delete('{message_filter_id}')]
     public function deleteMessageFilter(MessageFilterDto $messagefilterDto, DeleteMessageFilterUseCase $deleteMessageFilterUseCase): Response
     {
-        return successJSONResponse($deleteMessageFilterUseCase->execute($messagefilterDto));
+        return jsonResponse($deleteMessageFilterUseCase->execute($messagefilterDto));
     }
 
     #[Post('/search')]
     public function searchMessageFilterColumn(SearchMessageFilterDto $searchMessageFilterDto, SearchMessageFilterUseCase $searchMessageFilterUseCase): Response
     {
-        return successJSONResponse($searchMessageFilterUseCase->execute($searchMessageFilterDto));
+        return jsonResponse($searchMessageFilterUseCase->execute($searchMessageFilterDto));
     }
 }

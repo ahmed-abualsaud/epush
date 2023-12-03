@@ -19,12 +19,12 @@ class ContextController
     #[Get('{context_id}/handle-groups')]
     public function getContextHandleGroups(ContextDto $appServiceDto, GetContextHandleGroupsUseCase $getContextHandleGroupsUseCase): Response
     {
-        return successJSONResponse($getContextHandleGroupsUseCase->execute($appServiceDto));
+        return jsonResponse($getContextHandleGroupsUseCase->execute($appServiceDto));
     }
 
     #[Put('{context_id}')]
     public function updateContext(ContextDto $contextDto, UpdateContextDto $updateContextDto, UpdateContextUseCase $updateContextUseCase): Response
     {
-        return successJSONResponse($updateContextUseCase->execute($contextDto, $updateContextDto));
+        return jsonResponse($updateContextUseCase->execute($contextDto, $updateContextDto));
     }
 }

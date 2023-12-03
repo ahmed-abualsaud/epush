@@ -31,48 +31,48 @@ class UserNotificationController
     // #[Get('/')]
     // public function listUserNotifications(ListUserNotificationsUseCase $listUserNotificationsUseCase): Response
     // {
-    //     return successJSONResponse($listUserNotificationsUseCase->execute());
+    //     return jsonResponse($listUserNotificationsUseCase->execute());
     // }
 
     #[Get('/user-notifications/{user_id}')]
     public function getUserNotifications(UserNotificationsDto $userNotificationsDto, GetUserNotificationsUseCase $getUserNotificationsUseCase): Response
     {
-        return successJSONResponse($getUserNotificationsUseCase->execute($userNotificationsDto));
+        return jsonResponse($getUserNotificationsUseCase->execute($userNotificationsDto));
     }
 
     #[Get('/user-unread-notifications/{user_id}')]
     public function getUserUnreadNotifications(UserNotificationsDto $userNotificationsDto, GetUserUnreadNotificationsUseCase $getUserUnreadNotificationsUseCase): Response
     {
-        return successJSONResponse($getUserUnreadNotificationsUseCase->execute($userNotificationsDto));
+        return jsonResponse($getUserUnreadNotificationsUseCase->execute($userNotificationsDto));
     }
 
     #[Post('/')]
     public function addUserNotification(AddUserNotificationDto $addUserNotificationDto, AddUserNotificationUseCase $addUserNotificationUseCase): Response
     {
-        return successJSONResponse($addUserNotificationUseCase->execute($addUserNotificationDto));
+        return jsonResponse($addUserNotificationUseCase->execute($addUserNotificationDto));
     }
 
     // #[Get('{user_notification_id}')]
     // public function getUserNotification(UserNotificationDto $UserNotificationDto, GetUserNotificationUseCase $getUserNotificationUseCase): Response
     // {
-    //     return successJSONResponse($getUserNotificationUseCase->execute($UserNotificationDto));
+    //     return jsonResponse($getUserNotificationUseCase->execute($UserNotificationDto));
     // }
 
     #[Put('{user_notification_id}')]
     public function updateUserNotification(UserNotificationDto $UserNotificationDto, UpdateUserNotificationDto $updateUserNotificationDto, UpdateUserNotificationUseCase $updateUserNotificationUseCase): Response
     {
-        return successJSONResponse($updateUserNotificationUseCase->execute($UserNotificationDto, $updateUserNotificationDto));
+        return jsonResponse($updateUserNotificationUseCase->execute($UserNotificationDto, $updateUserNotificationDto));
     }
 
     #[Put('/user-notifications/{user_id}')]
     public function updateUserNotifications(UserNotificationsDto $UserNotificationsDto, UpdateUserNotificationsDto $updateUserNotificationsDto, UpdateUserNotificationsUseCase $updateUserNotificationsUseCase): Response
     {
-        return successJSONResponse($updateUserNotificationsUseCase->execute($UserNotificationsDto, $updateUserNotificationsDto));
+        return jsonResponse($updateUserNotificationsUseCase->execute($UserNotificationsDto, $updateUserNotificationsDto));
     }
 
     // #[Delete('{user_notification_id}')]
     // public function deleteUserNotification(UserNotificationDto $UserNotificationDto, DeleteUserNotificationUseCase $deleteUserNotificationUseCase): Response
     // {
-    //     return successJSONResponse($deleteUserNotificationUseCase->execute($UserNotificationDto));
+    //     return jsonResponse($deleteUserNotificationUseCase->execute($UserNotificationDto));
     // }
 }

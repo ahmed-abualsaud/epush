@@ -39,6 +39,12 @@ class UserService implements UserServiceContract
     }
 
 
+    public function getUserByUsername(string $username): array
+    {
+        return $this->userDatabaseService->getUserByUsername($username);
+    }
+
+
     public function update(string $userID ,array $data): array
     {
         $updatedUser = $this->userDatabaseService->updateUserByID($userID, $data);

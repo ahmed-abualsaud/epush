@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 function getResponseData($response)
 {
     if (! is_array($response)) {
@@ -59,15 +61,20 @@ function fileDownloadResponse(Epush\Shared\Domain\Entity\FileDownload $fileDownl
     );
 }
 
-function buildException($status, $error = null)
+function exceptionObject($status, $error = null)
 {
     $message = getCodeMessage($status);
 
     return [
         'status' => $status,
         'message' => $message,
-        'error' => $error ?? $message
+        'error' => $error ?? getCodeMessage($status)
     ];
+}
+
+function throwHttpException($status, $error = null)
+{
+    throw new HttpException((int) $status, $error ?? getCodeMessage($status));
 }
 
 function isException($exception)

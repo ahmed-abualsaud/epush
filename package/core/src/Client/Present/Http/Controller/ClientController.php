@@ -35,66 +35,66 @@ class ClientController
     #[Get('/')]
     public function listClients(ListClientsDto $listClientsDto, ListClientsUseCase $listClientsUseCase): Response
     {
-        return successJSONResponse($listClientsUseCase->execute($listClientsDto));
+        return jsonResponse($listClientsUseCase->execute($listClientsDto));
     }
 
     #[Post('/')]
     public function addClient(AddClientDto $addClientDto, AddClientUseCase $addClientUseCase): Response
     {
-        return successJSONResponse($addClientUseCase->execute($addClientDto));
+        return jsonResponse($addClientUseCase->execute($addClientDto));
     }
 
     #[Get('{user_id}')]
     public function getClient(ClientDto $clientDto, GetClientUseCase $getClientUseCase): Response
     {
-        return successJSONResponse($getClientUseCase->execute($clientDto));
+        return jsonResponse($getClientUseCase->execute($clientDto));
     }
 
     #[Put('{user_id}')]
     public function updateClient(ClientDto $clientDto, UpdateClientDto $updateClientDto, UpdateClientUseCase $updateClientUseCase): Response
     {
-        return successJSONResponse($updateClientUseCase->execute($clientDto, $updateClientDto));
+        return jsonResponse($updateClientUseCase->execute($clientDto, $updateClientDto));
     }
 
     #[Delete('{user_id}')]
     public function deleteClient(ClientDto $clientDto, DeleteClientUseCase $deleteClientUseCase): Response
     {
-        return successJSONResponse($deleteClientUseCase->execute($clientDto));
+        return jsonResponse($deleteClientUseCase->execute($clientDto));
     }
 
     #[Get('{user_id}/orders')]
     public function getClientOrders(ClientDto $clientDto, GetClientOrdersUseCase $getClientOrdersUseCase): Response
     {
-        return successJSONResponse($getClientOrdersUseCase->execute($clientDto));
+        return jsonResponse($getClientOrdersUseCase->execute($clientDto));
     }
 
     #[Get('{user_id}/senders')]
     public function getClientSenders(ClientDto $clientDto, GetClientSendersUseCase $getClientSendersUseCase): Response
     {
-        return successJSONResponse($getClientSendersUseCase->execute($clientDto));
+        return jsonResponse($getClientSendersUseCase->execute($clientDto));
     }
 
     #[Get('{user_id}/messages')]
     public function getClientMessages(ClientDto $clientDto, GetClientMessagesUseCase $getClientMessagesUseCase): Response
     {
-        return successJSONResponse($getClientMessagesUseCase->execute($clientDto));
+        return jsonResponse($getClientMessagesUseCase->execute($clientDto));
     }
 
     #[Get('{user_id}/message-groups')]
     public function getClientMessageGroups(ClientDto $clientDto, GetClientMessageGroupsUseCase $getClientMessageGroupsUseCase): Response
     {
-        return successJSONResponse($getClientMessageGroupsUseCase->execute($clientDto));
+        return jsonResponse($getClientMessageGroupsUseCase->execute($clientDto));
     }
 
     #[Get('{user_id}/latest-order')]
     public function getClientLatestOrder(ClientDto $clientDto, GetClientLatestOrderUseCase $getClientLatestOrderUseCase): Response
     {
-        return successJSONResponse($getClientLatestOrderUseCase->execute($clientDto));
+        return jsonResponse($getClientLatestOrderUseCase->execute($clientDto));
     }
 
     #[Post('/search')]
     public function searchClientColumn(SearchClientDto $searchClientDto, SearchClientUseCase $searchClientUseCase): Response
     {
-        return successJSONResponse($searchClientUseCase->execute($searchClientDto));
+        return jsonResponse($searchClientUseCase->execute($searchClientDto));
     }
 }

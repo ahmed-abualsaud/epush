@@ -30,36 +30,36 @@ class SenderController
     #[Get('/')]
     public function listSenders(ListSendersDto $listSendersDto, ListSendersUseCase $listSendersUseCase): Response
     {
-        return successJSONResponse($listSendersUseCase->execute($listSendersDto));
+        return jsonResponse($listSendersUseCase->execute($listSendersDto));
     }
 
     #[Post('/')]
     public function addSender(AddSenderDto $addSenderDto, AddSenderUseCase $addSenderUseCase): Response
     {
-        return successJSONResponse($addSenderUseCase->execute($addSenderDto));
+        return jsonResponse($addSenderUseCase->execute($addSenderDto));
     }
 
     #[Get('{sender_id}')]
     public function getSender(SenderDto $senderDto, GetSenderUseCase $getSenderUseCase): Response
     {
-        return successJSONResponse($getSenderUseCase->execute($senderDto));
+        return jsonResponse($getSenderUseCase->execute($senderDto));
     }
 
     #[Put('{sender_id}')]
     public function updateSender(SenderDto $senderDto, UpdateSenderDto $updateSenderDto, UpdateSenderUseCase $updateSenderUseCase): Response
     {
-        return successJSONResponse($updateSenderUseCase->execute($senderDto, $updateSenderDto));
+        return jsonResponse($updateSenderUseCase->execute($senderDto, $updateSenderDto));
     }
 
     #[Delete('{sender_id}')]
     public function deleteSender(SenderDto $senderDto, DeleteSenderUseCase $deleteSenderUseCase): Response
     {
-        return successJSONResponse($deleteSenderUseCase->execute($senderDto));
+        return jsonResponse($deleteSenderUseCase->execute($senderDto));
     }
 
     #[Post('search')]
     public function searchSenderColumn(SearchSenderDto $searchSenderDto, SearchSenderUseCase $searchSenderUseCase): Response
     {
-        return successJSONResponse($searchSenderUseCase->execute($searchSenderDto));
+        return jsonResponse($searchSenderUseCase->execute($searchSenderDto));
     }
 }

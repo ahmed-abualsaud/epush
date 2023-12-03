@@ -30,36 +30,36 @@ class MessageLanguageController
     #[Get('/')]
     public function listMessageLanguages(ListMessageLanguagesDto $listMessageLanguagesDto, ListMessageLanguagesUseCase $listMessageLanguagesUseCase): Response
     {
-        return successJSONResponse($listMessageLanguagesUseCase->execute($listMessageLanguagesDto));
+        return jsonResponse($listMessageLanguagesUseCase->execute($listMessageLanguagesDto));
     }
 
     #[Post('/')]
     public function addMessageLanguage(AddMessageLanguageDto $addMessageLanguageDto, AddMessageLanguageUseCase $addMessageLanguageUseCase): Response
     {
-        return successJSONResponse($addMessageLanguageUseCase->execute($addMessageLanguageDto));
+        return jsonResponse($addMessageLanguageUseCase->execute($addMessageLanguageDto));
     }
 
     #[Get('{message_language_id}')]
     public function getMessageLanguage(MessageLanguageDto $messageLanguageDto, GetMessageLanguageUseCase $getMessageLanguageUseCase): Response
     {
-        return successJSONResponse($getMessageLanguageUseCase->execute($messageLanguageDto));
+        return jsonResponse($getMessageLanguageUseCase->execute($messageLanguageDto));
     }
 
     #[Put('{message_language_id}')]
     public function updateMessageLanguage(MessageLanguageDto $messageLanguageDto, UpdateMessageLanguageDto $updateMessageLanguageDto, UpdateMessageLanguageUseCase $updateMessageLanguageUseCase): Response
     {
-        return successJSONResponse($updateMessageLanguageUseCase->execute($messageLanguageDto, $updateMessageLanguageDto));
+        return jsonResponse($updateMessageLanguageUseCase->execute($messageLanguageDto, $updateMessageLanguageDto));
     }
 
     #[Delete('{message_language_id}')]
     public function deleteMessageLanguage(MessageLanguageDto $messageLanguageDto, DeleteMessageLanguageUseCase $deleteMessageLanguageUseCase): Response
     {
-        return successJSONResponse($deleteMessageLanguageUseCase->execute($messageLanguageDto));
+        return jsonResponse($deleteMessageLanguageUseCase->execute($messageLanguageDto));
     }
 
     #[Post('/search')]
     public function searchMessageLanguageColumn(SearchMessageLanguageDto $searchMessageLanguageDto, SearchMessageLanguageUseCase $searchMessageLanguageUseCase): Response
     {
-        return successJSONResponse($searchMessageLanguageUseCase->execute($searchMessageLanguageDto));
+        return jsonResponse($searchMessageLanguageUseCase->execute($searchMessageLanguageDto));
     }
 }

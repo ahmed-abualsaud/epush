@@ -67,4 +67,9 @@ class MessageDatabaseService implements MessageDatabaseServiceContract
     {
         return $this->messageDatabaseDriver->messageRepository()->searchColumn($column, $value, $take);
     }
+
+    public function getReadyToSendScheduledMessages(): array
+    {
+        return $this->messageDatabaseDriver->messageRepository()->getReadyToSendScheduledMessages();
+    }
 }

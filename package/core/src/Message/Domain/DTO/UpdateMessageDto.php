@@ -37,6 +37,8 @@ class UpdateMessageDto implements DtoContract
 
     public function toArray(): array
     {
+        ! empty($this->data['scheduled_at']) && $this->data['scheduled_at'] = toUTCDateTimeString($this->data['scheduled_at']);
+
         return $this->data;
     }
 }

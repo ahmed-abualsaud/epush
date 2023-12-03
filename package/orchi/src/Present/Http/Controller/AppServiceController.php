@@ -20,18 +20,18 @@ class AppServiceController
     #[Get('/')]
     public function listAppServices(ListAppServicesUseCase $listAppServicesUseCase): Response
     {
-        return successJSONResponse($listAppServicesUseCase->execute());
+        return jsonResponse($listAppServicesUseCase->execute());
     }
 
     #[Get('{service_id}/contexts')]
     public function getAppServiceContexts(AppServiceDto $appServiceDto, GetAppServiceContextsUseCase $getAppServiceContextsUseCase): Response
     {
-        return successJSONResponse($getAppServiceContextsUseCase->execute($appServiceDto));
+        return jsonResponse($getAppServiceContextsUseCase->execute($appServiceDto));
     }
 
     #[Put('{service_id}')]
     public function updateAppService(AppServiceDto $appServiceDto, UpdateAppServiceDto $updateAppServiceDto, UpdateAppServiceUseCase $updateAppServiceUseCase): Response
     {
-        return successJSONResponse($updateAppServiceUseCase->execute($appServiceDto, $updateAppServiceDto));
+        return jsonResponse($updateAppServiceUseCase->execute($appServiceDto, $updateAppServiceDto));
     }
 }

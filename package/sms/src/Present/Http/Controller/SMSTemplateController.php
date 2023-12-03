@@ -27,30 +27,30 @@ class SMSTemplateController
     #[Get('template')]
     public function listSMSTemplates(ListSMSTemplatesUseCase $listSMSTemplatesUseCase): Response
     {
-        return successJSONResponse($listSMSTemplatesUseCase->execute());
+        return jsonResponse($listSMSTemplatesUseCase->execute());
     }
 
     #[Post('template')]
     public function addSMSTemplate(AddSMSTemplateDto $addSMSTemplateDto, AddSMSTemplateUseCase $addSMSTemplateUseCase): Response
     {
-        return successJSONResponse($addSMSTemplateUseCase->execute($addSMSTemplateDto));
+        return jsonResponse($addSMSTemplateUseCase->execute($addSMSTemplateDto));
     }
 
     #[Get('template/{sms_template_id}')]
     public function getSMSTemplate(SMSTemplateDto $smsTemplateDto, GetSMSTemplateUseCase $getSMSTemplateUseCase): Response
     {
-        return successJSONResponse($getSMSTemplateUseCase->execute($smsTemplateDto));
+        return jsonResponse($getSMSTemplateUseCase->execute($smsTemplateDto));
     }
 
     #[Put('template/{sms_template_id}')]
     public function updateSMSTemplate(SMSTemplateDto $smsTemplateDto, UpdateSMSTemplateDto $updateSMSTemplateDto, UpdateSMSTemplateUseCase $updateSMSTemplateUseCase): Response
     {
-        return successJSONResponse($updateSMSTemplateUseCase->execute($smsTemplateDto, $updateSMSTemplateDto));
+        return jsonResponse($updateSMSTemplateUseCase->execute($smsTemplateDto, $updateSMSTemplateDto));
     }
 
     #[Delete('template/{sms_template_id}')]
     public function deleteSMSTemplate(SMSTemplateDto $smsTemplateDto, DeleteSMSTemplateUseCase $deleteSMSTemplateUseCase): Response
     {
-        return successJSONResponse($deleteSMSTemplateUseCase->execute($smsTemplateDto));
+        return jsonResponse($deleteSMSTemplateUseCase->execute($smsTemplateDto));
     }
 }

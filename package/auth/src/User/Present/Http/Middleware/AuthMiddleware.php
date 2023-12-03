@@ -19,6 +19,7 @@ class AuthMiddleware
         $url = $request->url();
         $path = $request->path();
         $method = $request->method();
+        $response = $next($request);
 
         $handler = app(InterprocessCommunicationEngineContract::class)->broadcast("orchi:handler:get-handler-by-endpoint", $method . "|" . $url)[0];
 
@@ -30,7 +31,10 @@ class AuthMiddleware
             return failureJSONResponse('The requested feature has been disabled', 403);
         }
 
-        $response = $next($request);
+        if (in_array($method, ['GET', 'POST']) && in_array($path, ['api/v2/send_bulk', 'api/v2/check_balance'])) {
+            return $response;
+        }
+
         if ($method === 'POST' && in_array($path, [
                 'api/auth/user/signin', 
                 'api/auth/user/signup', 

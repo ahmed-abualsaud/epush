@@ -26,30 +26,30 @@ class OrderController
     #[Get('/')]
     public function listOrders(ListOrdersDto $listOrdersDto, ListOrdersUseCase $listOrdersUseCase): Response
     {
-        return successJSONResponse($listOrdersUseCase->execute($listOrdersDto));
+        return jsonResponse($listOrdersUseCase->execute($listOrdersDto));
     }
 
     #[Post('/')]
     public function addOrder(AddOrderDto $addOrderDto, AddOrderUseCase $addOrderUseCase): Response
     {
-        return successJSONResponse($addOrderUseCase->execute($addOrderDto));
+        return jsonResponse($addOrderUseCase->execute($addOrderDto));
     }
 
     #[Get('{order_id}')]
     public function getOrder(OrderDto $orderDto, GetOrderUseCase $getOrderUseCase): Response
     {
-        return successJSONResponse($getOrderUseCase->execute($orderDto));
+        return jsonResponse($getOrderUseCase->execute($orderDto));
     }
 
     #[Put('{order_id}')]
     public function updateOrder(OrderDto $orderDto, UpdateOrderDto $updateOrderDto, UpdateOrderUseCase $updateOrderUseCase): Response
     {
-        return successJSONResponse($updateOrderUseCase->execute($orderDto, $updateOrderDto));
+        return jsonResponse($updateOrderUseCase->execute($orderDto, $updateOrderDto));
     }
 
     #[Post('/search')]
     public function searchOrderColumn(SearchOrderDto $searchOrderDto, SearchOrderUseCase $searchOrderUseCase): Response
     {
-        return successJSONResponse($searchOrderUseCase->execute($searchOrderDto));
+        return jsonResponse($searchOrderUseCase->execute($searchOrderDto));
     }
 }

@@ -6,6 +6,8 @@ interface MessageLanguageDatabaseServiceContract
 {
     public function getMessageLanguage(string $messageLanguageID): array;
 
+    public function getMessageLanguageByName(string $messageLanguageName): array;
+
     public function addMessageLanguage(array $messageLanguage): array;
 
     public function deleteMessageLanguage(string $messageLanguageID): bool;

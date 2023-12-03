@@ -30,36 +30,36 @@ class AdminController
     #[Get('/')]
     public function listAdmins(ListAdminsDto $listAdminsDto, ListAdminsUseCase $listAdminsUseCase): Response
     {
-        return successJSONResponse($listAdminsUseCase->execute($listAdminsDto));
+        return jsonResponse($listAdminsUseCase->execute($listAdminsDto));
     }
 
     #[Post('/')]
     public function addAdmin(AddAdminDto $addAdminDto, AddAdminUseCase $addAdminUseCase): Response
     {
-        return successJSONResponse($addAdminUseCase->execute($addAdminDto));
+        return jsonResponse($addAdminUseCase->execute($addAdminDto));
     }
 
     #[Get('{user_id}')]
     public function getAdmin(AdminDto $adminDto, GetAdminUseCase $getAdminUseCase): Response
     {
-        return successJSONResponse($getAdminUseCase->execute($adminDto));
+        return jsonResponse($getAdminUseCase->execute($adminDto));
     }
 
     #[Put('{user_id}')]
     public function updateAdmin(AdminDto $adminDto, UpdateAdminDto $updateAdminDto, UpdateAdminUseCase $updateAdminUseCase): Response
     {
-        return successJSONResponse($updateAdminUseCase->execute($adminDto, $updateAdminDto));
+        return jsonResponse($updateAdminUseCase->execute($adminDto, $updateAdminDto));
     }
 
     #[Delete('{user_id}')]
     public function deleteAdmin(AdminDto $adminDto, DeleteAdminUseCase $deleteAdminUseCase): Response
     {
-        return successJSONResponse($deleteAdminUseCase->execute($adminDto));
+        return jsonResponse($deleteAdminUseCase->execute($adminDto));
     }
 
     #[Post('/search')]
     public function searchAdminColumn(SearchAdminDto $searchAdminDto, SearchAdminUseCase $searchAdminUseCase): Response
     {
-        return successJSONResponse($searchAdminUseCase->execute($searchAdminDto));
+        return jsonResponse($searchAdminUseCase->execute($searchAdminDto));
     }
 }

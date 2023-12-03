@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('number_of_segments');
             $table->integer('number_of_recipients');
             $table->timestamp('scheduled_at')->useCurrent()->nullable();
+            $table->boolean('sent')->default(false);
             $table->timestamps();
         });
     }

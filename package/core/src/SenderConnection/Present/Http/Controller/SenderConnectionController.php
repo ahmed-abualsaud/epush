@@ -32,42 +32,42 @@ class SenderConnectionController
     #[Get('sender-connection')]
     public function listSendersConnections(ListSenderConnectionsDto $listSenderConnectionsDto, ListSenderConnectionsUseCase $listSenderConnectionsUseCase): Response
     {
-        return successJSONResponse($listSenderConnectionsUseCase->execute($listSenderConnectionsDto));
+        return jsonResponse($listSenderConnectionsUseCase->execute($listSenderConnectionsDto));
     }
 
     #[Post('sender-connection')]
     public function addSenderConnection(AddSenderConnectionDto $addSenderConnectionDto, AddSenderConnectionUseCase $addSenderConnectionUseCase): Response
     {
-        return successJSONResponse($addSenderConnectionUseCase->execute($addSenderConnectionDto));
+        return jsonResponse($addSenderConnectionUseCase->execute($addSenderConnectionDto));
     }
 
     #[Get('sender/{sender_id}/connections')]
     public function getSenderConnections(GetSenderConnectionsDto $getSenderConnectionsDto, GetSenderConnectionsUseCase $getSenderConnectionsUseCase): Response
     {
-        return successJSONResponse($getSenderConnectionsUseCase->execute($getSenderConnectionsDto));
+        return jsonResponse($getSenderConnectionsUseCase->execute($getSenderConnectionsDto));
     }
 
     #[Get('sender-connection/{sender_connection_id}')]
     public function getSenderConnection(SenderConnectionDto $senderconnectionDto, GetSenderConnectionUseCase $getSenderConnectionUseCase): Response
     {
-        return successJSONResponse($getSenderConnectionUseCase->execute($senderconnectionDto));
+        return jsonResponse($getSenderConnectionUseCase->execute($senderconnectionDto));
     }
 
     #[Put('sender-connection/{sender_connection_id}')]
     public function updateSenderConnection(SenderConnectionDto $senderconnectionDto, UpdateSenderConnectionDto $updateSenderConnectionDto, UpdateSenderConnectionUseCase $updateSenderConnectionUseCase): Response
     {
-        return successJSONResponse($updateSenderConnectionUseCase->execute($senderconnectionDto, $updateSenderConnectionDto));
+        return jsonResponse($updateSenderConnectionUseCase->execute($senderconnectionDto, $updateSenderConnectionDto));
     }
 
     #[Delete('sender-connection/{sender_connection_id}')]
     public function deleteSenderConnection(SenderConnectionDto $senderconnectionDto, DeleteSenderConnectionUseCase $deleteSenderConnectionUseCase): Response
     {
-        return successJSONResponse($deleteSenderConnectionUseCase->execute($senderconnectionDto));
+        return jsonResponse($deleteSenderConnectionUseCase->execute($senderconnectionDto));
     }
 
     #[Post('sender-connection/search')]
     public function searchSenderConnectionColumn(SearchSenderConnectionDto $searchSenderConnectionDto, SearchSenderConnectionUseCase $searchSenderConnectionUseCase): Response
     {
-        return successJSONResponse($searchSenderConnectionUseCase->execute($searchSenderConnectionDto));
+        return jsonResponse($searchSenderConnectionUseCase->execute($searchSenderConnectionDto));
     }
 }

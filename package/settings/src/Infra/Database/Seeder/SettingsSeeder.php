@@ -31,5 +31,12 @@ class SettingsSeeder extends Seeder
             'value' => 75,
             'description' => 'It is a number that indicates the percentage of similarity of a message word to a censored word'
         ]);
+
+        Settings::create([
+            'name' => 'Default Country Code',
+            'type' => 'integer',
+            'value' => 20,
+            'description' => 'The country code will be used if a client trying to send a message to phone numbers that does not have a valid country code prefix'
+        ]);
     }
 }

@@ -30,36 +30,36 @@ class NotificationSendingHandlerController
     #[Get('sending-handler')]
     public function listNotificationSendingHandlers(ListNotificationSendingHandlersDto $listNotificationSendingHandlersDto, ListNotificationSendingHandlersUseCase $listNotificationSendingHandlersUseCase): Response
     {
-        return successJSONResponse($listNotificationSendingHandlersUseCase->execute($listNotificationSendingHandlersDto));
+        return jsonResponse($listNotificationSendingHandlersUseCase->execute($listNotificationSendingHandlersDto));
     }
 
     #[Post('sending-handler')]
     public function addNotificationSendingHandler(AddNotificationSendingHandlerDto $addNotificationSendingHandlerDto, AddNotificationSendingHandlerUseCase $addNotificationSendingHandlerUseCase): Response
     {
-        return successJSONResponse($addNotificationSendingHandlerUseCase->execute($addNotificationSendingHandlerDto));
+        return jsonResponse($addNotificationSendingHandlerUseCase->execute($addNotificationSendingHandlerDto));
     }
 
     #[Get('sending-handler/{notification_sending_handler_id}')]
     public function getNotificationSendingHandler(NotificationSendingHandlerDto $notificationSendingHandlerDto, GetNotificationSendingHandlerUseCase $getNotificationSendingHandlerUseCase): Response
     {
-        return successJSONResponse($getNotificationSendingHandlerUseCase->execute($notificationSendingHandlerDto));
+        return jsonResponse($getNotificationSendingHandlerUseCase->execute($notificationSendingHandlerDto));
     }
 
     #[Put('sending-handler/{notification_sending_handler_id}')]
     public function updateNotificationSendingHandler(NotificationSendingHandlerDto $notificationSendingHandlerDto, UpdateNotificationSendingHandlerDto $updateNotificationSendingHandlerDto, UpdateNotificationSendingHandlerUseCase $updateNotificationSendingHandlerUseCase): Response
     {
-        return successJSONResponse($updateNotificationSendingHandlerUseCase->execute($notificationSendingHandlerDto, $updateNotificationSendingHandlerDto));
+        return jsonResponse($updateNotificationSendingHandlerUseCase->execute($notificationSendingHandlerDto, $updateNotificationSendingHandlerDto));
     }
 
     #[Delete('sending-handler/{notification_sending_handler_id}')]
     public function deleteNotificationSendingHandler(NotificationSendingHandlerDto $notificationSendingHandlerDto, DeleteNotificationSendingHandlerUseCase $deleteNotificationSendingHandlerUseCase): Response
     {
-        return successJSONResponse($deleteNotificationSendingHandlerUseCase->execute($notificationSendingHandlerDto));
+        return jsonResponse($deleteNotificationSendingHandlerUseCase->execute($notificationSendingHandlerDto));
     }
 
     #[Post('sending-handler/search')]
     public function searchNotificationSendingHandlerColumn(SearchNotificationSendingHandlerDto $searchNotificationSendingHandlerDto, SearchNotificationSendingHandlerUseCase $searchNotificationSendingHandlerUseCase): Response
     {
-        return successJSONResponse($searchNotificationSendingHandlerUseCase->execute($searchNotificationSendingHandlerDto));
+        return jsonResponse($searchNotificationSendingHandlerUseCase->execute($searchNotificationSendingHandlerDto));
     }
 }

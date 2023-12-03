@@ -20,9 +20,14 @@ class MessageRecipientService implements MessageRecipientServiceContract
         return $this->messageRecipientDatabaseService->paginateMessageRecipients($take);
     }
 
-    public function add(string $messageID, array $messageGroupRecipientIDs): array
+    public function add(string $messageID, array $messageGroupRecipientIDs, $status = 'Initialized'): array
     {
-        return $this->messageRecipientDatabaseService->addMessageRecipients($messageID, $messageGroupRecipientIDs);
+        return $this->messageRecipientDatabaseService->addMessageRecipients($messageID, $messageGroupRecipientIDs, $status);
+    }
+
+    public function update(string $messageID, array $data): array
+    {
+        return $this->messageRecipientDatabaseService->updateMessageRecipients($messageID, $data);
     }
 
     public function delete(string $messageID): bool

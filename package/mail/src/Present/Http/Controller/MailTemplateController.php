@@ -27,30 +27,30 @@ class MailTemplateController
     #[Get('template')]
     public function listMailTemplates(ListMailTemplatesUseCase $listMailTemplatesUseCase): Response
     {
-        return successJSONResponse($listMailTemplatesUseCase->execute());
+        return jsonResponse($listMailTemplatesUseCase->execute());
     }
 
     #[Post('template')]
     public function addMailTemplate(AddMailTemplateDto $addMailTemplateDto, AddMailTemplateUseCase $addMailTemplateUseCase): Response
     {
-        return successJSONResponse($addMailTemplateUseCase->execute($addMailTemplateDto));
+        return jsonResponse($addMailTemplateUseCase->execute($addMailTemplateDto));
     }
 
     #[Get('template/{mail_template_id}')]
     public function getMailTemplate(MailTemplateDto $mailTemplateDto, GetMailTemplateUseCase $getMailTemplateUseCase): Response
     {
-        return successJSONResponse($getMailTemplateUseCase->execute($mailTemplateDto));
+        return jsonResponse($getMailTemplateUseCase->execute($mailTemplateDto));
     }
 
     #[Put('template/{mail_template_id}')]
     public function updateMailTemplate(MailTemplateDto $mailTemplateDto, UpdateMailTemplateDto $updateMailTemplateDto, UpdateMailTemplateUseCase $updateMailTemplateUseCase): Response
     {
-        return successJSONResponse($updateMailTemplateUseCase->execute($mailTemplateDto, $updateMailTemplateDto));
+        return jsonResponse($updateMailTemplateUseCase->execute($mailTemplateDto, $updateMailTemplateDto));
     }
 
     #[Delete('template/{mail_template_id}')]
     public function deleteMailTemplate(MailTemplateDto $mailTemplateDto, DeleteMailTemplateUseCase $deleteMailTemplateUseCase): Response
     {
-        return successJSONResponse($deleteMailTemplateUseCase->execute($mailTemplateDto));
+        return jsonResponse($deleteMailTemplateUseCase->execute($mailTemplateDto));
     }
 }

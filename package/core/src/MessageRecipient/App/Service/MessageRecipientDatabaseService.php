@@ -18,9 +18,14 @@ class MessageRecipientDatabaseService implements MessageRecipientDatabaseService
         return $this->messageRecipientDatabaseDriver->messageRecipientRepository()->all($take);
     }
 
-    public function addMessageRecipients(string $messageID, array $messageGroupRecipientIDs): array
+    public function addMessageRecipients(string $messageID, array $messageGroupRecipientIDs, $status = 'Initialized'): array
     {
-        return $this->messageRecipientDatabaseDriver->messageRecipientRepository()->insert($messageID, $messageGroupRecipientIDs);
+        return $this->messageRecipientDatabaseDriver->messageRecipientRepository()->insert($messageID, $messageGroupRecipientIDs, $status);
+    }
+
+    public function updateMessageRecipients(string $messageID, array $data): array
+    {
+        return $this->messageRecipientDatabaseDriver->messageRecipientRepository()->update($messageID, $data);
     }
 
     public function deleteMessageRecipients(string $messageID): bool

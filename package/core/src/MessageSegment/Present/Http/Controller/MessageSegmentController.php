@@ -21,12 +21,12 @@ class MessageSegmentController
     #[Get('/')]
     public function listMessageSegments(ListMessageSegmentsDto $listMessageSegmentsDto, ListMessageSegmentsUseCase $listMessageSegmentsUseCase): Response
     {
-        return successJSONResponse($listMessageSegmentsUseCase->execute($listMessageSegmentsDto));
+        return jsonResponse($listMessageSegmentsUseCase->execute($listMessageSegmentsDto));
     }
 
     #[Post('/search')]
     public function searchMessageSegmentColumn(SearchMessageSegmentDto $searchMessageSegmentDto, SearchMessageSegmentUseCase $searchMessageSegmentUseCase): Response
     {
-        return successJSONResponse($searchMessageSegmentUseCase->execute($searchMessageSegmentDto));
+        return jsonResponse($searchMessageSegmentUseCase->execute($searchMessageSegmentDto));
     }
 }

@@ -40,15 +40,16 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUserMicroproces
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendSMSMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUsersMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendMailMicroprocess;
-use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendToMailMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\StoreFileMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SendToMailMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteFileMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AddToCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSettingsMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetAuthUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetFromCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetPricelistMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetOrdersByIDMicroprocess;
@@ -66,6 +67,8 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSystemHandlersM
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchSalesColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchOrderColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMessagesMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetUserByUsernameMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AttemptCredentialsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchClientColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateClientWalletMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsBySalesIDMicroprocess;
@@ -186,9 +189,13 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
 
                 $engine->attach(new GetSettingsMicroprocess(app(SettingsServiceContract::class)), "settings:get");
                 $engine->attach(new GetAllSettingsMicroprocess(app(SettingsServiceContract::class)), "settings:all");
+                $engine->attach(new GetClientMicroprocess(app(ClientServiceContract::class)), "core:client:get-client");
+                $engine->attach(new GetAuthUserMicroprocess(app(CredentialsServiceContract::class)), "auth:user:get-auth-user");
                 $engine->attach(new GetOrdersByIDMicroprocess(app(OrderServiceContract::class)), "expense:order:get-orders-by-id");
                 $engine->attach(new SearchOrderColumnMicroprocess(app(OrderServiceContract::class)), "expense:order:search-column");
+                $engine->attach(new GetUserByUsernameMicroprocess(app(UserServiceContract::class)), "auth:user:get-user-by-username");
                 $engine->attach(new UpdateClientWalletMicroprocess(app(ClientServiceContract::class)), "core:client:update-client-wallet");
+                $engine->attach(new AttemptCredentialsMicroprocess(app(CredentialsServiceContract::class)), "auth:user:attempt-credentials");
                 $engine->attach(new GetClientLatestOrderMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-latest-order");
                 $engine->attach(new SearchClientColumnMicroprocess(app(ClientServiceContract::class)), "core:client:search-column");
                 $engine->attach(new GetClientsMicroprocess(app(ClientServiceContract::class)), "core:client:get-clients");

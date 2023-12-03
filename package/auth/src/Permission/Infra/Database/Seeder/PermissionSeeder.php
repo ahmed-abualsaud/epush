@@ -1498,6 +1498,14 @@ class PermissionSeeder extends Seeder
             'handler_id' => '228'
         ]);
 
+
+
+
+        Permission::create([
+            'name' => 'send-message',
+            'description' => 'use service api to send message',
+            'handler_id' => '229'
+        ]);
     }
 }
 

@@ -30,36 +30,36 @@ class SMSCBindingController
     #[Get('/')]
     public function listSMSCBindings(ListSMSCBindingsDto $listSMSCBindingsDto, ListSMSCBindingsUseCase $listSMSCBindingsUseCase): Response
     {
-        return successJSONResponse($listSMSCBindingsUseCase->execute($listSMSCBindingsDto));
+        return jsonResponse($listSMSCBindingsUseCase->execute($listSMSCBindingsDto));
     }
 
     #[Post('/')]
     public function addSMSCBinding(AddSMSCBindingDto $addSMSCBindingDto, AddSMSCBindingUseCase $addSMSCBindingUseCase): Response
     {
-        return successJSONResponse($addSMSCBindingUseCase->execute($addSMSCBindingDto));
+        return jsonResponse($addSMSCBindingUseCase->execute($addSMSCBindingDto));
     }
 
     #[Get('{smsc_binding_id}')]
     public function getSMSCBinding(SMSCBindingDto $smscbindingDto, GetSMSCBindingUseCase $getSMSCBindingUseCase): Response
     {
-        return successJSONResponse($getSMSCBindingUseCase->execute($smscbindingDto));
+        return jsonResponse($getSMSCBindingUseCase->execute($smscbindingDto));
     }
 
     #[Put('{smsc_binding_id}')]
     public function updateSMSCBinding(SMSCBindingDto $smscbindingDto, UpdateSMSCBindingDto $updateSMSCBindingDto, UpdateSMSCBindingUseCase $updateSMSCBindingUseCase): Response
     {
-        return successJSONResponse($updateSMSCBindingUseCase->execute($smscbindingDto, $updateSMSCBindingDto));
+        return jsonResponse($updateSMSCBindingUseCase->execute($smscbindingDto, $updateSMSCBindingDto));
     }
 
     #[Delete('{smsc_binding_id}')]
     public function deleteSMSCBinding(SMSCBindingDto $smscbindingDto, DeleteSMSCBindingUseCase $deleteSMSCBindingUseCase): Response
     {
-        return successJSONResponse($deleteSMSCBindingUseCase->execute($smscbindingDto));
+        return jsonResponse($deleteSMSCBindingUseCase->execute($smscbindingDto));
     }
 
     #[Post('/search')]
     public function searchSMSCBindingColumn(SearchSMSCBindingDto $searchSMSCBindingDto, SearchSMSCBindingUseCase $searchSMSCBindingUseCase): Response
     {
-        return successJSONResponse($searchSMSCBindingUseCase->execute($searchSMSCBindingDto));
+        return jsonResponse($searchSMSCBindingUseCase->execute($searchSMSCBindingDto));
     }
 }

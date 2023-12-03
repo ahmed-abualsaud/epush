@@ -27,30 +27,30 @@ class NotificationTemplateController
     #[Get('template')]
     public function listNotificationTemplates(ListNotificationTemplatesUseCase $listNotificationTemplatesUseCase): Response
     {
-        return successJSONResponse($listNotificationTemplatesUseCase->execute());
+        return jsonResponse($listNotificationTemplatesUseCase->execute());
     }
 
     #[Post('template')]
     public function addNotificationTemplate(AddNotificationTemplateDto $addNotificationTemplateDto, AddNotificationTemplateUseCase $addNotificationTemplateUseCase): Response
     {
-        return successJSONResponse($addNotificationTemplateUseCase->execute($addNotificationTemplateDto));
+        return jsonResponse($addNotificationTemplateUseCase->execute($addNotificationTemplateDto));
     }
 
     #[Get('template/{notification_template_id}')]
     public function getNotificationTemplate(NotificationTemplateDto $notificationTemplateDto, GetNotificationTemplateUseCase $getNotificationTemplateUseCase): Response
     {
-        return successJSONResponse($getNotificationTemplateUseCase->execute($notificationTemplateDto));
+        return jsonResponse($getNotificationTemplateUseCase->execute($notificationTemplateDto));
     }
 
     #[Put('template/{notification_template_id}')]
     public function updateNotificationTemplate(NotificationTemplateDto $notificationTemplateDto, UpdateNotificationTemplateDto $updateNotificationTemplateDto, UpdateNotificationTemplateUseCase $updateNotificationTemplateUseCase): Response
     {
-        return successJSONResponse($updateNotificationTemplateUseCase->execute($notificationTemplateDto, $updateNotificationTemplateDto));
+        return jsonResponse($updateNotificationTemplateUseCase->execute($notificationTemplateDto, $updateNotificationTemplateDto));
     }
 
     #[Delete('template/{notification_template_id}')]
     public function deleteNotificationTemplate(NotificationTemplateDto $notificationTemplateDto, DeleteNotificationTemplateUseCase $deleteNotificationTemplateUseCase): Response
     {
-        return successJSONResponse($deleteNotificationTemplateUseCase->execute($notificationTemplateDto));
+        return jsonResponse($deleteNotificationTemplateUseCase->execute($notificationTemplateDto));
     }
 }

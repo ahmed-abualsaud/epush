@@ -3,7 +3,6 @@
 namespace Epush\Core\MessageRecipient\Infra\Database\Repository;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use Epush\Core\MessageRecipient\Infra\Database\Model\MessageRecipient;
 use Epush\Core\MessageRecipient\Infra\Database\Repository\Contract\MessageRecipientRepositoryContract;
@@ -28,9 +27,9 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
         });
     }
 
-    public function insert(string $messageID, array $messageGroupRecipientIDs): array
+    public function insert(string $messageID, array $messageGroupRecipientIDs, $status = 'Initialized'): array
     {
-        return DB::transaction(function () use ($messageID, $messageGroupRecipientIDs) {
+        return DB::transaction(function () use ($messageID, $messageGroupRecipientIDs, $status) {
 
             foreach ($messageGroupRecipientIDs as $messageGroupRecipientID) {
                 $this->messageRecipient->updateOrCreate([
@@ -39,7 +38,7 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
                 ], [
                     'message_id' => $messageID,
                     'message_group_recipient_id' => $messageGroupRecipientID,
-                    'status' => 'Initialized'
+                    'status' => $status
                 ]);
             }
     
@@ -49,6 +48,15 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
             ])->where('message_id', $messageID)->get()->toArray();
 
         });
+    }
+
+    public function update(string $messageID, array $data): array
+    {
+        return DB::transaction(function () use ($messageID, $data) {
+
+            $this->messageRecipient->where('message_id', $messageID)->update($data);
+            return $this->messageRecipient->where('message_id', $messageID)->get()->toArray();
+        }); 
     }
 
     public function delete(string $messageID): bool

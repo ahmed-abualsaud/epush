@@ -24,18 +24,18 @@ class HandlerController
     #[Get('/')]
     public function listHandlers(ListHandlersDto $listHandlersDto, ListHandlersUseCase $listHandlersUseCase): Response
     {
-        return successJSONResponse($listHandlersUseCase->execute($listHandlersDto));
+        return jsonResponse($listHandlersUseCase->execute($listHandlersDto));
     }
 
     #[Put('{handler_id}')]
     public function updateHandler(HandlerDto $handlerDto, UpdateHandlerDto $updateHandlerDto, UpdateHandlerUseCase $updateHandlerUseCase): Response
     {
-        return successJSONResponse($updateHandlerUseCase->execute($handlerDto, $updateHandlerDto));
+        return jsonResponse($updateHandlerUseCase->execute($handlerDto, $updateHandlerDto));
     }
 
     #[Post('/search')]
     public function searchHandlerColumn(SearchHandlerDto $searchHandlerDto, SearchHandlerUseCase $searchHandlerUseCase): Response
     {
-        return successJSONResponse($searchHandlerUseCase->execute($searchHandlerDto));
+        return jsonResponse($searchHandlerUseCase->execute($searchHandlerDto));
     }
 }

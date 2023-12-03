@@ -27,30 +27,30 @@ class PricelistController
     #[Get('/')]
     public function listPricelists(ListPricelistsUseCase $listPricelistsUseCase): Response
     {
-        return successJSONResponse($listPricelistsUseCase->execute());
+        return jsonResponse($listPricelistsUseCase->execute());
     }
 
     #[Post('/')]
     public function addPricelist(AddPricelistDto $addPricelistDto, AddPricelistUseCase $addPricelistUseCase): Response
     {
-        return successJSONResponse($addPricelistUseCase->execute($addPricelistDto));
+        return jsonResponse($addPricelistUseCase->execute($addPricelistDto));
     }
 
     #[Get('{pricelist_id}')]
     public function getPricelist(PricelistDto $pricelistDto, GetPricelistUseCase $getPricelistUseCase): Response
     {
-        return successJSONResponse($getPricelistUseCase->execute($pricelistDto));
+        return jsonResponse($getPricelistUseCase->execute($pricelistDto));
     }
 
     #[Put('{pricelist_id}')]
     public function updatePricelist(PricelistDto $pricelistDto, UpdatePricelistDto $updatePricelistDto, UpdatePricelistUseCase $updatePricelistUseCase): Response
     {
-        return successJSONResponse($updatePricelistUseCase->execute($pricelistDto, $updatePricelistDto));
+        return jsonResponse($updatePricelistUseCase->execute($pricelistDto, $updatePricelistDto));
     }
 
     #[Delete('{pricelist_id}')]
     public function deletePricelist(PricelistDto $pricelistDto, DeletePricelistUseCase $deletePricelistUseCase): Response
     {
-        return successJSONResponse($deletePricelistUseCase->execute($pricelistDto));
+        return jsonResponse($deletePricelistUseCase->execute($pricelistDto));
     }
 }

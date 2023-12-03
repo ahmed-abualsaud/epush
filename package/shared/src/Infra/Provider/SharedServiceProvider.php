@@ -2,7 +2,9 @@
 
 namespace Epush\Shared\Infra\Provider;
 
+use Error;
 use Exception;
+use RuntimeException;
 use InvalidArgumentException;
 
 use Illuminate\Contracts\Http\Kernel;
@@ -12,7 +14,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 
 use Epush\Shared\Present\ResponseMiddleware;
 use Illuminate\Auth\AuthenticationException;
-
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class SharedServiceProvider extends ServiceProvider
@@ -42,7 +44,19 @@ class SharedServiceProvider extends ServiceProvider
                 return failureJSONResponse($e->getMessage(), 400);
             });
 
+            $appExceptionHandeler->renderable(function (HttpException $e) {
+                return failureJSONResponse($e->getMessage(), $e->getStatusCode());
+            });
+
             $appExceptionHandeler->renderable(function (Exception $e) {
+                return failureJSONResponse($e->getMessage(), 500);
+            });
+
+            $appExceptionHandeler->renderable(function (RuntimeException $e) {
+                return failureJSONResponse($e->getMessage(), 500);
+            });
+
+            $appExceptionHandeler->renderable(function (Error $e) {
                 return failureJSONResponse($e->getMessage(), 500);
             });
         }

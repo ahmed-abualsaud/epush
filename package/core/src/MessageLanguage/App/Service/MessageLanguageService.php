@@ -25,6 +25,11 @@ class MessageLanguageService implements MessageLanguageServiceContract
         return $this->messageLanguageDatabaseService->getMessageLanguage($messageLanguageID);
     }
 
+    public function getByName(string $messageLanguageName): array
+    {
+        return $this->messageLanguageDatabaseService->getMessageLanguageByName($messageLanguageName);
+    }
+
     public function add(array $messageLanguage): array
     {
         return $this->messageLanguageDatabaseService->addMessageLanguage($messageLanguage);

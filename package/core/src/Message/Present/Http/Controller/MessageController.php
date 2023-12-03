@@ -32,42 +32,42 @@ class MessageController
     #[Get('/')]
     public function listMessages(ListMessagesDto $listMessagesDto, ListMessagesUseCase $listMessagesUseCase): Response
     {
-        return successJSONResponse($listMessagesUseCase->execute($listMessagesDto));
+        return jsonResponse($listMessagesUseCase->execute($listMessagesDto));
     }
 
     #[Post('/')]
     public function addMessage(AddMessageDto $addMessageDto, AddMessageUseCase $addMessageUseCase): Response
     {
-        return successJSONResponse($addMessageUseCase->execute($addMessageDto));
+        return jsonResponse($addMessageUseCase->execute($addMessageDto));
     }
 
     #[Post('/bulk-add')]
     public function bulkAddMessage(BulkAddMessageDto $bulkAddMessageDto, BulkAddMessageUseCase $bulkAddMessageUseCase): Response
     {
-        return successJSONResponse($bulkAddMessageUseCase->execute($bulkAddMessageDto));
+        return jsonResponse($bulkAddMessageUseCase->execute($bulkAddMessageDto));
     }
 
     #[Get('{message_id}')]
     public function getMessage(MessageDto $messageDto, GetMessageUseCase $getMessageUseCase): Response
     {
-        return successJSONResponse($getMessageUseCase->execute($messageDto));
+        return jsonResponse($getMessageUseCase->execute($messageDto));
     }
 
     #[Put('{message_id}')]
     public function updateMessage(MessageDto $messageDto, UpdateMessageDto $updateMessageDto, UpdateMessageUseCase $updateMessageUseCase): Response
     {
-        return successJSONResponse($updateMessageUseCase->execute($messageDto, $updateMessageDto));
+        return jsonResponse($updateMessageUseCase->execute($messageDto, $updateMessageDto));
     }
 
     #[Delete('{message_id}')]
     public function deleteMessage(MessageDto $messageDto, DeleteMessageUseCase $deleteMessageUseCase): Response
     {
-        return successJSONResponse($deleteMessageUseCase->execute($messageDto));
+        return jsonResponse($deleteMessageUseCase->execute($messageDto));
     }
 
     #[Post('/search')]
     public function searchMessageColumn(SearchMessageDto $searchMessageDto, SearchMessageUseCase $searchMessageUseCase): Response
     {
-        return successJSONResponse($searchMessageUseCase->execute($searchMessageDto));
+        return jsonResponse($searchMessageUseCase->execute($searchMessageDto));
     }
 }

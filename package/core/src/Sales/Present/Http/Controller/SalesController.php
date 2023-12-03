@@ -27,30 +27,30 @@ class SalesController
     #[Get('/')]
     public function listSales(ListSalesUseCase $listSalesUseCase): Response
     {
-        return successJSONResponse($listSalesUseCase->execute());
+        return jsonResponse($listSalesUseCase->execute());
     }
 
     #[Post('/')]
     public function addSales(AddSalesDto $addSalesDto, AddSalesUseCase $addSalesUseCase): Response
     {
-        return successJSONResponse($addSalesUseCase->execute($addSalesDto));
+        return jsonResponse($addSalesUseCase->execute($addSalesDto));
     }
 
     #[Get('{sales_id}')]
     public function getSales(SalesDto $salesDto, GetSalesUseCase $getSalesUseCase): Response
     {
-        return successJSONResponse($getSalesUseCase->execute($salesDto));
+        return jsonResponse($getSalesUseCase->execute($salesDto));
     }
 
     #[Put('{sales_id}')]
     public function updateSales(SalesDto $salesDto, UpdateSalesDto $updateSalesDto, UpdateSalesUseCase $updateSalesUseCase): Response
     {
-        return successJSONResponse($updateSalesUseCase->execute($salesDto, $updateSalesDto));
+        return jsonResponse($updateSalesUseCase->execute($salesDto, $updateSalesDto));
     }
 
     #[Delete('{sales_id}')]
     public function deleteSales(SalesDto $salesDto, DeleteSalesUseCase $deleteSalesUseCase): Response
     {
-        return successJSONResponse($deleteSalesUseCase->execute($salesDto));
+        return jsonResponse($deleteSalesUseCase->execute($salesDto));
     }
 }

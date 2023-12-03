@@ -30,36 +30,36 @@ class MailSendingHandlerController
     #[Get('sending-handler')]
     public function listMailSendingHandlers(ListMailSendingHandlersDto $listMailSendingHandlersDto, ListMailSendingHandlersUseCase $listMailSendingHandlersUseCase): Response
     {
-        return successJSONResponse($listMailSendingHandlersUseCase->execute($listMailSendingHandlersDto));
+        return jsonResponse($listMailSendingHandlersUseCase->execute($listMailSendingHandlersDto));
     }
 
     #[Post('sending-handler')]
     public function addMailSendingHandler(AddMailSendingHandlerDto $addMailSendingHandlerDto, AddMailSendingHandlerUseCase $addMailSendingHandlerUseCase): Response
     {
-        return successJSONResponse($addMailSendingHandlerUseCase->execute($addMailSendingHandlerDto));
+        return jsonResponse($addMailSendingHandlerUseCase->execute($addMailSendingHandlerDto));
     }
 
     #[Get('sending-handler/{mail_sending_handler_id}')]
     public function getMailSendingHandler(MailSendingHandlerDto $mailSendingHandlerDto, GetMailSendingHandlerUseCase $getMailSendingHandlerUseCase): Response
     {
-        return successJSONResponse($getMailSendingHandlerUseCase->execute($mailSendingHandlerDto));
+        return jsonResponse($getMailSendingHandlerUseCase->execute($mailSendingHandlerDto));
     }
 
     #[Put('sending-handler/{mail_sending_handler_id}')]
     public function updateMailSendingHandler(MailSendingHandlerDto $mailSendingHandlerDto, UpdateMailSendingHandlerDto $updateMailSendingHandlerDto, UpdateMailSendingHandlerUseCase $updateMailSendingHandlerUseCase): Response
     {
-        return successJSONResponse($updateMailSendingHandlerUseCase->execute($mailSendingHandlerDto, $updateMailSendingHandlerDto));
+        return jsonResponse($updateMailSendingHandlerUseCase->execute($mailSendingHandlerDto, $updateMailSendingHandlerDto));
     }
 
     #[Delete('sending-handler/{mail_sending_handler_id}')]
     public function deleteMailSendingHandler(MailSendingHandlerDto $mailSendingHandlerDto, DeleteMailSendingHandlerUseCase $deleteMailSendingHandlerUseCase): Response
     {
-        return successJSONResponse($deleteMailSendingHandlerUseCase->execute($mailSendingHandlerDto));
+        return jsonResponse($deleteMailSendingHandlerUseCase->execute($mailSendingHandlerDto));
     }
 
     #[Post('sending-handler/search')]
     public function searchMailSendingHandlerColumn(SearchMailSendingHandlerDto $searchMailSendingHandlerDto, SearchMailSendingHandlerUseCase $searchMailSendingHandlerUseCase): Response
     {
-        return successJSONResponse($searchMailSendingHandlerUseCase->execute($searchMailSendingHandlerDto));
+        return jsonResponse($searchMailSendingHandlerUseCase->execute($searchMailSendingHandlerDto));
     }
 }

@@ -30,36 +30,36 @@ class MessageGroupController
     #[Get('/')]
     public function listMessageGroups(ListMessageGroupsDto $listMessageGroupsDto, ListMessageGroupsUseCase $listMessageGroupsUseCase): Response
     {
-        return successJSONResponse($listMessageGroupsUseCase->execute($listMessageGroupsDto));
+        return jsonResponse($listMessageGroupsUseCase->execute($listMessageGroupsDto));
     }
 
     #[Post('/')]
     public function addMessageGroup(AddMessageGroupDto $addMessageGroupDto, AddMessageGroupUseCase $addMessageGroupUseCase): Response
     {
-        return successJSONResponse($addMessageGroupUseCase->execute($addMessageGroupDto));
+        return jsonResponse($addMessageGroupUseCase->execute($addMessageGroupDto));
     }
 
     #[Get('{message_group_id}')]
     public function getMessageGroup(MessageGroupDto $messageGroupDto, GetMessageGroupUseCase $getMessageGroupUseCase): Response
     {
-        return successJSONResponse($getMessageGroupUseCase->execute($messageGroupDto));
+        return jsonResponse($getMessageGroupUseCase->execute($messageGroupDto));
     }
 
     #[Put('{message_group_id}')]
     public function updateMessageGroup(MessageGroupDto $messageGroupDto, UpdateMessageGroupDto $updateMessageGroupDto, UpdateMessageGroupUseCase $updateMessageGroupUseCase): Response
     {
-        return successJSONResponse($updateMessageGroupUseCase->execute($messageGroupDto, $updateMessageGroupDto));
+        return jsonResponse($updateMessageGroupUseCase->execute($messageGroupDto, $updateMessageGroupDto));
     }
 
     #[Delete('{message_group_id}')]
     public function deleteMessageGroup(MessageGroupDto $messageGroupDto, DeleteMessageGroupUseCase $deleteMessageGroupUseCase): Response
     {
-        return successJSONResponse($deleteMessageGroupUseCase->execute($messageGroupDto));
+        return jsonResponse($deleteMessageGroupUseCase->execute($messageGroupDto));
     }
 
     #[Post('/search')]
     public function searchMessageGroupColumn(SearchMessageGroupDto $searchMessageGroupDto, SearchMessageGroupUseCase $searchMessageGroupUseCase): Response
     {
-        return successJSONResponse($searchMessageGroupUseCase->execute($searchMessageGroupDto));
+        return jsonResponse($searchMessageGroupUseCase->execute($searchMessageGroupDto));
     }
 }

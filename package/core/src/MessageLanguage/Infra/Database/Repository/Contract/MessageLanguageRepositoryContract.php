@@ -8,6 +8,8 @@ interface MessageLanguageRepositoryContract
 
     public function get(string $messageLanguageID): array;
 
+    public function getByName(string $messageLanguageName): array;
+
     public function create(array $messageLanguage): array;
 
     public function update(string $messageLanguageID, array $messageLanguage): array;

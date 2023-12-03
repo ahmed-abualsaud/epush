@@ -30,36 +30,36 @@ class MessageGroupRecipientController
     #[Get('/')]
     public function listMessageGroupRecipients(ListMessageGroupRecipientsDto $listMessageGroupRecipientsDto, ListMessageGroupRecipientsUseCase $listMessageGroupRecipientsUseCase): Response
     {
-        return successJSONResponse($listMessageGroupRecipientsUseCase->execute($listMessageGroupRecipientsDto));
+        return jsonResponse($listMessageGroupRecipientsUseCase->execute($listMessageGroupRecipientsDto));
     }
 
     #[Post('/')]
     public function addMessageGroupRecipient(AddMessageGroupRecipientDto $addMessageGroupRecipientDto, AddMessageGroupRecipientUseCase $addMessageGroupRecipientUseCase): Response
     {
-        return successJSONResponse($addMessageGroupRecipientUseCase->execute($addMessageGroupRecipientDto));
+        return jsonResponse($addMessageGroupRecipientUseCase->execute($addMessageGroupRecipientDto));
     }
 
     #[Get('{message_group_recipient_id}')]
     public function getMessageGroupRecipient(MessageGroupRecipientDto $messageGroupRecipientDto, GetMessageGroupRecipientUseCase $getMessageGroupRecipientUseCase): Response
     {
-        return successJSONResponse($getMessageGroupRecipientUseCase->execute($messageGroupRecipientDto));
+        return jsonResponse($getMessageGroupRecipientUseCase->execute($messageGroupRecipientDto));
     }
 
     #[Put('{message_group_recipient_id}')]
     public function updateMessageGroupRecipient(MessageGroupRecipientDto $messageGroupRecipientDto, UpdateMessageGroupRecipientDto $updateMessageGroupRecipientDto, UpdateMessageGroupRecipientUseCase $updateMessageGroupRecipientUseCase): Response
     {
-        return successJSONResponse($updateMessageGroupRecipientUseCase->execute($messageGroupRecipientDto, $updateMessageGroupRecipientDto));
+        return jsonResponse($updateMessageGroupRecipientUseCase->execute($messageGroupRecipientDto, $updateMessageGroupRecipientDto));
     }
 
     #[Delete('{message_group_recipient_id}')]
     public function deleteMessageGroupRecipient(MessageGroupRecipientDto $messageGroupRecipientDto, DeleteMessageGroupRecipientUseCase $deleteMessageGroupRecipientUseCase): Response
     {
-        return successJSONResponse($deleteMessageGroupRecipientUseCase->execute($messageGroupRecipientDto));
+        return jsonResponse($deleteMessageGroupRecipientUseCase->execute($messageGroupRecipientDto));
     }
 
     #[Post('/search')]
     public function searchMessageGroupRecipientColumn(SearchMessageGroupRecipientDto $searchMessageGroupRecipientDto, SearchMessageGroupRecipientUseCase $searchMessageGroupRecipientUseCase): Response
     {
-        return successJSONResponse($searchMessageGroupRecipientUseCase->execute($searchMessageGroupRecipientDto));
+        return jsonResponse($searchMessageGroupRecipientUseCase->execute($searchMessageGroupRecipientDto));
     }
 }

@@ -8,7 +8,6 @@ use Epush\Core\Client\Infra\Database\Model\Client;
 use Epush\Core\Client\Infra\Database\Model\ClientWebsite;
 use Epush\Core\Client\Infra\Database\Repository\Contract\ClientRepositoryContract;
 use Epush\Shared\Infra\Utils\WalletActions;
-use Exception;
 
 class ClientRepository implements ClientRepositoryContract
 {
@@ -93,7 +92,7 @@ class ClientRepository implements ClientRepositoryContract
             if ($action === WalletActions::DEDUCT->value)
             {
                 $client->balance - $cost < 0 ?
-                throw new Exception("You don't have enough money") :
+                throwHttpException(400, "You don't have enough money") :
                 $client->update(['balance' => $client->balance - $cost]);
             }
 

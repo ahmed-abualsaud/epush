@@ -48,102 +48,102 @@ class UserController
     #[Post('signin')]
     public function signin(SigninDto $signinDto, SigninUseCase $signinUseCase): Response
     {
-        return successJSONResponse($signinUseCase->execute($signinDto));
+        return jsonResponse($signinUseCase->execute($signinDto));
     }
 
     #[Post('signup')]
     public function signup(SignupDto $signupDto, SignupUseCase $signupUseCase): Response
     {
-        return successJSONResponse($signupUseCase->execute($signupDto));
+        return jsonResponse($signupUseCase->execute($signupDto));
     }
 
     #[Post('signout')]
     public function signout(SignoutUseCase $signoutUseCase): Response
     {
-        return successJSONResponse($signoutUseCase->execute());
+        return jsonResponse($signoutUseCase->execute());
     }
 
     #[Post('reset-password')]
     public function resetPassword(ResetPasswordDto $resetPasswordDto, ResetPasswordUseCase $resetPasswordUseCase): Response
     {
-        return successJSONResponse($resetPasswordUseCase->execute($resetPasswordDto));
+        return jsonResponse($resetPasswordUseCase->execute($resetPasswordDto));
     }
 
     #[Post('generate-password')]
     public function generatePassword(GeneratePasswordDto $generatePasswordDto, GeneratePasswordUseCase $generatePasswordUseCase): Response
     {
-        return successJSONResponse($generatePasswordUseCase->execute($generatePasswordDto));
+        return jsonResponse($generatePasswordUseCase->execute($generatePasswordDto));
     }
 
     #[Get('/')]
     public function listUsers(ListUsersDto $listUsersDto, ListUsersUseCase $listUsersUseCase): Response
     {
-        return successJSONResponse($listUsersUseCase->execute($listUsersDto));
+        return jsonResponse($listUsersUseCase->execute($listUsersDto));
     }
 
     #[Get('{user_id}')]
     public function getUser(UserDto $userDto, GetUserUseCase $getUserUseCase): Response
     {
-        return successJSONResponse($getUserUseCase->execute($userDto));
+        return jsonResponse($getUserUseCase->execute($userDto));
     }
 
     #[Put('{user_id}')]
     public function updateUser(UserDto $userDto, UpdateUserDto $updateUserDto, UpdateUserUseCase $updateUserUseCase): Response
     {
-        return successJSONResponse($updateUserUseCase->execute($userDto, $updateUserDto));
+        return jsonResponse($updateUserUseCase->execute($userDto, $updateUserDto));
     }
 
     #[Delete('{user_id}')]
     public function deleteuser(UserDto $userDto, DeleteUserUseCase $deleteUserUseCase): Response
     {
-        return successJSONResponse($deleteUserUseCase->execute($userDto));
+        return jsonResponse($deleteUserUseCase->execute($userDto));
     }
 
     #[Get('{user_id}/roles')]
     public function getUserRoles(UserDto $userDto, GetUserRolesUseCase $getUserRolesUseCase): Response
     {
-        return successJSONResponse($getUserRolesUseCase->execute($userDto));
+        return jsonResponse($getUserRolesUseCase->execute($userDto));
     }
 
     #[Get('{user_id}/permissions')]
     public function getUserPermissions(UserDto $userDto, GetUserPermissionsUseCase $getUserPermissionsUseCase): Response
     {
-        return successJSONResponse($getUserPermissionsUseCase->execute($userDto));
+        return jsonResponse($getUserPermissionsUseCase->execute($userDto));
     }
 
     #[Get('{user_id}/all-permissions')]
     public function getAllUserPermissions(UserDto $userDto, GetAllUserPermissionsUseCase $getAllUserPermissionsUseCase): Response
     {
-        return successJSONResponse($getAllUserPermissionsUseCase->execute($userDto));
+        return jsonResponse($getAllUserPermissionsUseCase->execute($userDto));
     }
 
     #[Post('{user_id}/roles')]
     public function assignUserRoles(UserDto $userDto, AssignUserRolesDto $assignUserRolesDto, AssignUserRolesUseCase $assignUserRolesUseCase): Response
     {
-        return successJSONResponse($assignUserRolesUseCase->execute($userDto, $assignUserRolesDto));
+        return jsonResponse($assignUserRolesUseCase->execute($userDto, $assignUserRolesDto));
     }
 
     #[Put('{user_id}/roles')]
     public function unassignUserRoles(UserDto $userDto, UnassignUserRolesDto $unassignUserRolesDto, UnassignUserRolesUseCase $unassignUserRolesUseCase): Response
     {
-        return successJSONResponse($unassignUserRolesUseCase->execute($userDto, $unassignUserRolesDto));
+        return jsonResponse($unassignUserRolesUseCase->execute($userDto, $unassignUserRolesDto));
     }
 
     #[Post('{user_id}/permissions')]
     public function assignUserPermissions(UserDto $userDto, AssignUserPermissionsDto $assignUserPermissionsDto, AssignUserPermissionsUseCase $assignUserPermissionsUseCase): Response
     {
-        return successJSONResponse($assignUserPermissionsUseCase->execute($userDto, $assignUserPermissionsDto));
+        return jsonResponse($assignUserPermissionsUseCase->execute($userDto, $assignUserPermissionsDto));
     }
 
     #[Put('{user_id}/permissions')]
     public function unassignUserPermissions(UserDto $userDto, UnassignUserPermissionsDto $unassignUserPermissionsDto, UnassignUserPermissionsUseCase $unassignUserPermissionsUseCase): Response
     {
-        return successJSONResponse($unassignUserPermissionsUseCase->execute($userDto, $unassignUserPermissionsDto));
+        return jsonResponse($unassignUserPermissionsUseCase->execute($userDto, $unassignUserPermissionsDto));
     }
 
     #[Post('search')]
     public function searchUserColumn(SearchUserDto $searchUserDto, SearchUserUseCase $searchUserUseCase): Response
     {
-        return successJSONResponse($searchUserUseCase->execute($searchUserDto));
+        return jsonResponse($searchUserUseCase->execute($searchUserDto));
     }
 }

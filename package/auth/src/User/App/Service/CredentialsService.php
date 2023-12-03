@@ -46,10 +46,20 @@ class CredentialsService implements CredentialsServiceContract
         return $this->credentialsDriver->decodeToken($token);
     }
 
+    public function getAuthenticateduser(): array
+    {
+        return $this->credentialsDriver->getAuthenticateduser();
+    }
+
     public function signout(): bool
     {
         $this->credentialsDriver->signout();
         return true;
+    }
+
+    public function attemptOrFail(string $username, string $password): string
+    {
+        return $this->credentialsDriver->attemptOrFail($username, $password);
     }
 
     public function hashPassword(string $password): string

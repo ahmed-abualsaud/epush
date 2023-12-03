@@ -218,6 +218,7 @@ return [
             "company_name"      => "clients.company_name",
             "approved"          => "senders_connections.approved",
             "created_at"        => "senders_connections.created_at",
+            "sender_id"         => "senders.id",
             "sender_name"       => "senders.name",
             "sender_approved"   => "senders.approved",
             "country_name"      => "countries.name",

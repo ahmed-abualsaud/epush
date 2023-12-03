@@ -25,18 +25,18 @@ class PermissionController
     #[Get('/')]
     public function listPermissions(ListPermissionsDto $listPermissionsDto, ListPermissionsUseCase $listPermissionsUseCase): Response
     {
-        return successJSONResponse($listPermissionsUseCase->execute($listPermissionsDto));
+        return jsonResponse($listPermissionsUseCase->execute($listPermissionsDto));
     }
 
     #[Put('{permission_id}')]
     public function updtePermission(PermissionDto $permissionDto, UpdatePermissionDto $updatePermissionDto, UpdatePermissionUseCase $updatePermissionUseCase): Response
     {
-        return successJSONResponse($updatePermissionUseCase->execute($permissionDto, $updatePermissionDto));
+        return jsonResponse($updatePermissionUseCase->execute($permissionDto, $updatePermissionDto));
     }
 
     #[Delete('{permission_id}')]
     public function deletePermission(PermissionDto $permissionDto, DeletePermissionUseCase $deletePermissionUseCase): Response
     {
-        return successJSONResponse($deletePermissionUseCase->execute($permissionDto));
+        return jsonResponse($deletePermissionUseCase->execute($permissionDto));
     }
 }

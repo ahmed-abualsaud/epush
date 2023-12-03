@@ -8,6 +8,8 @@ interface MessageLanguageServiceContract
 
     public function get(string $messageLanguageID): array;
 
+    public function getByName(string $messageLanguageName): array;
+
     public function add(array $messageLanguage): array;
 
     public function update(string $messageLanguageID, array $messageLanguage): array;

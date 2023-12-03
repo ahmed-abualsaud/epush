@@ -31,42 +31,42 @@ class RoleController
     #[Get('/')]
     public function listRoles(ListRolesDto $listRolesDto, ListRolesUseCase $listRolesUseCase): Response
     {
-        return successJSONResponse($listRolesUseCase->execute($listRolesDto));
+        return jsonResponse($listRolesUseCase->execute($listRolesDto));
     }
 
     #[Post('/')]
     public function addRole(AddRoleDto $addRoleDto, AddRoleUseCase $addRoleUseCase): Response
     {
-        return successJSONResponse($addRoleUseCase->execute($addRoleDto));
+        return jsonResponse($addRoleUseCase->execute($addRoleDto));
     }
 
     #[Put('{role_id}')]
     public function updateRole(RoleDto $roleDto, UpdateRoleDto $updateRoleDto, UpdateRoleUseCase $updateRoleUseCase): Response
     {
-        return successJSONResponse($updateRoleUseCase->execute($roleDto, $updateRoleDto));
+        return jsonResponse($updateRoleUseCase->execute($roleDto, $updateRoleDto));
     }
 
     #[Delete('{role_id}')]
     public function deleteRole(RoleDto $roleDto, DeleteRoleUseCase $deleteRoleUseCase): Response
     {
-        return successJSONResponse($deleteRoleUseCase->execute($roleDto));
+        return jsonResponse($deleteRoleUseCase->execute($roleDto));
     }
 
     #[Get('{role_id}/permissions')]
     public function getRolePermissions(RoleDto $roleDto, GetRolePermissionsUseCase $getRolePermissionsUseCase): Response
     {
-        return successJSONResponse($getRolePermissionsUseCase->execute($roleDto));
+        return jsonResponse($getRolePermissionsUseCase->execute($roleDto));
     }
 
     #[Post('{role_id}/permissions')]
     public function assignRolePermissions(RoleDto $roleDto, AssignRolePermissionsDto $assignRolePermissionsDto, AssignRolePermissionsUseCase $assignRolePermissionsUseCase): Response
     {
-        return successJSONResponse($assignRolePermissionsUseCase->execute($roleDto, $assignRolePermissionsDto));
+        return jsonResponse($assignRolePermissionsUseCase->execute($roleDto, $assignRolePermissionsDto));
     }
 
     #[Put('{role_id}/permissions')]
     public function unassignRolePermissions(RoleDto $roleDto, UnassignRolePermissionsDto $unassignRolePermissionsDto, UnassignRolePermissionsUseCase $unassignRolePermissionsUseCase): Response
     {
-        return successJSONResponse($unassignRolePermissionsUseCase->execute($roleDto, $unassignRolePermissionsDto));
+        return jsonResponse($unassignRolePermissionsUseCase->execute($roleDto, $unassignRolePermissionsDto));
     }
 }

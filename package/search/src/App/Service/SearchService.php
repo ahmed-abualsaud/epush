@@ -4,7 +4,6 @@ namespace Epush\Search\App\Service;
 
 use Epush\Search\App\Contract\SearchDatabaseServiceContract;
 use Epush\Search\App\Contract\SearchServiceContract;
-use Exception;
 
 class SearchService implements SearchServiceContract
 {
@@ -36,7 +35,7 @@ class SearchService implements SearchServiceContract
     private function prepareCriteria(string $criteria,  array $metadata): string
     {
         if (empty($metadata)) {
-            return throw new Exception("Invalid criteria parameters");
+            throwHttpException(400, "Invalid criteria parameters");
         }
 
         $criteria = " ".$criteria." ";

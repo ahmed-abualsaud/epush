@@ -1952,6 +1952,41 @@ class HandlerSeeder extends Seeder
             'description' => 'find a specific value for a column of the tickets table',
             'enabled' => true,
         ]);
+
+
+        // Message API Controller Handlers =================================================================================================================
+        // 229
+        Handler::create([
+            'handle_group_id' => 40,
+            'name' => 'sendMessage',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/message/send',
+            'description' => 'use service api to send message',
+            'enabled' => true,
+        ]);
+        // 230
+        Handler::create([
+            'handle_group_id' => 40,
+            'name' => 'sendBulkGet',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/v2/send_bulk',
+            'description' => 'use old service api to send message using get request',
+            'enabled' => true,
+        ]);
+        // 231
+        Handler::create([
+            'handle_group_id' => 40,
+            'name' => 'sendBulkPost',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/v2/send_bulk',
+            'description' => 'use old service api to send message using post request',
+            'enabled' => true,
+        ]);
+        // 232
+        Handler::create([
+            'handle_group_id' => 40,
+            'name' => 'checkBalance',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/v2/check_balance',
+            'description' => 'use old service api to check client balance',
+            'enabled' => true,
+        ]);
     }
 }
 

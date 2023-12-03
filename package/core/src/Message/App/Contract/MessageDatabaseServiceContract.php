@@ -25,4 +25,6 @@ interface MessageDatabaseServiceContract
     public function paginateMessages(int $take): array;
 
     public function searchMessageColumn(string $column, string $value, int $take = 10): array;
+
+    public function getReadyToSendScheduledMessages(): array;
 }

@@ -27,30 +27,30 @@ class BusinessFieldController
     #[Get('/')]
     public function listBusinessFields(ListBusinessFieldsUseCase $listBusinessFieldsUseCase): Response
     {
-        return successJSONResponse($listBusinessFieldsUseCase->execute());
+        return jsonResponse($listBusinessFieldsUseCase->execute());
     }
 
     #[Post('/')]
     public function addBusinessField(AddBusinessFieldDto $addBusinessFieldDto, AddBusinessFieldUseCase $addBusinessFieldUseCase): Response
     {
-        return successJSONResponse($addBusinessFieldUseCase->execute($addBusinessFieldDto));
+        return jsonResponse($addBusinessFieldUseCase->execute($addBusinessFieldDto));
     }
 
     #[Get('{business_field_id}')]
     public function getBusinessField(BusinessFieldDto $businessfieldDto, GetBusinessFieldUseCase $getBusinessFieldUseCase): Response
     {
-        return successJSONResponse($getBusinessFieldUseCase->execute($businessfieldDto));
+        return jsonResponse($getBusinessFieldUseCase->execute($businessfieldDto));
     }
 
     #[Put('{business_field_id}')]
     public function updateBusinessField(BusinessFieldDto $businessfieldDto, UpdateBusinessFieldDto $updateBusinessFieldDto, UpdateBusinessFieldUseCase $updateBusinessFieldUseCase): Response
     {
-        return successJSONResponse($updateBusinessFieldUseCase->execute($businessfieldDto, $updateBusinessFieldDto));
+        return jsonResponse($updateBusinessFieldUseCase->execute($businessfieldDto, $updateBusinessFieldDto));
     }
 
     #[Delete('{business_field_id}')]
     public function deleteBusinessField(BusinessFieldDto $businessfieldDto, DeleteBusinessFieldUseCase $deleteBusinessFieldUseCase): Response
     {
-        return successJSONResponse($deleteBusinessFieldUseCase->execute($businessfieldDto));
+        return jsonResponse($deleteBusinessFieldUseCase->execute($businessfieldDto));
     }
 }

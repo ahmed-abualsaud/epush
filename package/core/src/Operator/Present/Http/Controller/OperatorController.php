@@ -30,36 +30,36 @@ class OperatorController
     #[Get('/')]
     public function listOperators(ListOperatorsDto $listOperatorsDto, ListOperatorsUseCase $listOperatorsUseCase): Response
     {
-        return successJSONResponse($listOperatorsUseCase->execute($listOperatorsDto));
+        return jsonResponse($listOperatorsUseCase->execute($listOperatorsDto));
     }
 
     #[Post('/')]
     public function addOperator(AddOperatorDto $addOperatorDto, AddOperatorUseCase $addOperatorUseCase): Response
     {
-        return successJSONResponse($addOperatorUseCase->execute($addOperatorDto));
+        return jsonResponse($addOperatorUseCase->execute($addOperatorDto));
     }
 
     #[Get('{operator_id}')]
     public function getOperator(OperatorDto $operatorDto, GetOperatorUseCase $getOperatorUseCase): Response
     {
-        return successJSONResponse($getOperatorUseCase->execute($operatorDto));
+        return jsonResponse($getOperatorUseCase->execute($operatorDto));
     }
 
     #[Put('{operator_id}')]
     public function updateOperator(OperatorDto $operatorDto, UpdateOperatorDto $updateOperatorDto, UpdateOperatorUseCase $updateOperatorUseCase): Response
     {
-        return successJSONResponse($updateOperatorUseCase->execute($operatorDto, $updateOperatorDto));
+        return jsonResponse($updateOperatorUseCase->execute($operatorDto, $updateOperatorDto));
     }
 
     #[Delete('{operator_id}')]
     public function deleteOperator(OperatorDto $operatorDto, DeleteOperatorUseCase $deleteOperatorUseCase): Response
     {
-        return successJSONResponse($deleteOperatorUseCase->execute($operatorDto));
+        return jsonResponse($deleteOperatorUseCase->execute($operatorDto));
     }
 
     #[Post('/search')]
     public function searchOperatorColumn(SearchOperatorDto $searchOperatorDto, SearchOperatorUseCase $searchOperatorUseCase): Response
     {
-        return successJSONResponse($searchOperatorUseCase->execute($searchOperatorDto));
+        return jsonResponse($searchOperatorUseCase->execute($searchOperatorDto));
     }
 }

@@ -30,36 +30,36 @@ class SMSCController
     #[Get('/')]
     public function listSMSCs(ListSMSCsDto $listSMSCsDto, ListSMSCsUseCase $listSMSCsUseCase): Response
     {
-        return successJSONResponse($listSMSCsUseCase->execute($listSMSCsDto));
+        return jsonResponse($listSMSCsUseCase->execute($listSMSCsDto));
     }
 
     #[Post('/')]
     public function addSMSC(AddSMSCDto $addSMSCDto, AddSMSCUseCase $addSMSCUseCase): Response
     {
-        return successJSONResponse($addSMSCUseCase->execute($addSMSCDto));
+        return jsonResponse($addSMSCUseCase->execute($addSMSCDto));
     }
 
     #[Get('{smsc_id}')]
     public function getSMSC(SMSCDto $smscDto, GetSMSCUseCase $getSMSCUseCase): Response
     {
-        return successJSONResponse($getSMSCUseCase->execute($smscDto));
+        return jsonResponse($getSMSCUseCase->execute($smscDto));
     }
 
     #[Put('{smsc_id}')]
     public function updateSMSC(SMSCDto $smscDto, UpdateSMSCDto $updateSMSCDto, UpdateSMSCUseCase $updateSMSCUseCase): Response
     {
-        return successJSONResponse($updateSMSCUseCase->execute($smscDto, $updateSMSCDto));
+        return jsonResponse($updateSMSCUseCase->execute($smscDto, $updateSMSCDto));
     }
 
     #[Delete('{smsc_id}')]
     public function deleteSMSC(SMSCDto $smscDto, DeleteSMSCUseCase $deleteSMSCUseCase): Response
     {
-        return successJSONResponse($deleteSMSCUseCase->execute($smscDto));
+        return jsonResponse($deleteSMSCUseCase->execute($smscDto));
     }
 
     #[Post('/search')]
     public function searchSMSCColumn(SearchSMSCDto $searchSMSCDto, SearchSMSCUseCase $searchSMSCUseCase): Response
     {
-        return successJSONResponse($searchSMSCUseCase->execute($searchSMSCDto));
+        return jsonResponse($searchSMSCUseCase->execute($searchSMSCDto));
     }
 }

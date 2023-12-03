@@ -19,10 +19,7 @@ function innerJoinTableArrays(array $a, array $b, string $on): array
     $b = sortTableArrayByColumn($b, $on);
 
     return array_filter(array_map(function ($element1, $element2) use ($on) {
-        if (empty($element1) || empty($element2)) {
-            dd($element1, $element2);
-        }
-        if ($element1[$on] == $element2[$on]) {
+        if (! empty($element1) && ! empty($element2) && $element1[$on] == $element2[$on]) {
             return array_merge($element1, $element2);
         }
         return null;
@@ -37,7 +34,7 @@ function innerJoinTableArraysOnColumns(array $a, array $b, string $on1, string $
     $b = sortTableArrayByColumn($b, $on2);
 
     return array_filter(array_map(function ($element1, $element2) use ($on1, $on2) {
-        if ($element1[$on1] == $element2[$on2]) {
+        if (! empty($element1) && ! empty($element2) && $element1[$on1] == $element2[$on2]) {
             return array_merge($element1, $element2);
         }
         return null;

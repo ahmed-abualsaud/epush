@@ -30,36 +30,36 @@ class CountryController
     #[Get('/')]
     public function listCountries(ListCountriesDto $listCountriesDto, ListCountriesUseCase $listCountriesUseCase): Response
     {
-        return successJSONResponse($listCountriesUseCase->execute($listCountriesDto));
+        return jsonResponse($listCountriesUseCase->execute($listCountriesDto));
     }
 
     #[Post('/')]
     public function addCountry(AddCountryDto $addCountryDto, AddCountryUseCase $addCountryUseCase): Response
     {
-        return successJSONResponse($addCountryUseCase->execute($addCountryDto));
+        return jsonResponse($addCountryUseCase->execute($addCountryDto));
     }
 
     #[Get('{country_id}')]
     public function getCountry(CountryDto $countryDto, GetCountryUseCase $getCountryUseCase): Response
     {
-        return successJSONResponse($getCountryUseCase->execute($countryDto));
+        return jsonResponse($getCountryUseCase->execute($countryDto));
     }
 
     #[Put('{country_id}')]
     public function updateCountry(CountryDto $countryDto, UpdateCountryDto $updateCountryDto, UpdateCountryUseCase $updateCountryUseCase): Response
     {
-        return successJSONResponse($updateCountryUseCase->execute($countryDto, $updateCountryDto));
+        return jsonResponse($updateCountryUseCase->execute($countryDto, $updateCountryDto));
     }
 
     #[Delete('{country_id}')]
     public function deleteCountry(CountryDto $countryDto, DeleteCountryUseCase $deleteCountryUseCase): Response
     {
-        return successJSONResponse($deleteCountryUseCase->execute($countryDto));
+        return jsonResponse($deleteCountryUseCase->execute($countryDto));
     }
 
     #[Post('/search')]
     public function searchCountryColumn(SearchCountryDto $searchCountryDto, SearchCountryUseCase $searchCountryUseCase): Response
     {
-        return successJSONResponse($searchCountryUseCase->execute($searchCountryDto));
+        return jsonResponse($searchCountryUseCase->execute($searchCountryDto));
     }
 }

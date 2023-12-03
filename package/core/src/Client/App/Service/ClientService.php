@@ -23,7 +23,7 @@ class ClientService implements ClientServiceContract
         $clients = $this->clientDatabaseService->paginateClients($take);
         $usersID = array_column($clients['data'], 'user_id');
         $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
-        $clients['data'] = innerJoinTableArraysOnColumns($users, $clients['data'], "id", "user_id");
+        $clients['data'] = tableWith($clients['data'], $users, "user_id");
         return $clients;
     }
 
@@ -63,7 +63,7 @@ class ClientService implements ClientServiceContract
 
         $user = $this->communicationEngine->broadcast("auth:user:update-user", $userID, $user)[0];
         $client = $this->clientDatabaseService->updateClient($userID, $client);
-        return innerJoinTableArraysOnColumns([$user], [$client], "id", "user_id")[0];
+        return tableWith([$client], [$user], "user_id")[0];
     }
 
     public function updateWallet(string $userID, float $cost, string $action): array
@@ -122,7 +122,7 @@ class ClientService implements ClientServiceContract
             $clients = $this->clientDatabaseService->searchClientColumn($column, $value, $take);
             $usersID = array_column($clients['data'], 'user_id');
             $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
-            $clients['data'] = innerJoinTableArraysOnColumns($users, $clients['data'], "id", "user_id");
+            $clients['data'] = tableWith($clients['data'], $users, "user_id");
             return $clients;
         } else {
             $clients = $this->clientDatabaseService->paginateClients(1000000000000);
@@ -130,7 +130,7 @@ class ClientService implements ClientServiceContract
             $users = $this->communicationEngine->broadcast("auth:user:search-column", $column, $value, $take, $usersID)[0];
             $usersID = array_column($users['data'], 'id');
             $clients = $this->clientDatabaseService->getClients($usersID);
-            $users['data'] = innerJoinTableArraysOnColumns($users['data'], $clients, "id", "user_id");
+            $users['data'] = tableWith($clients, $users['data'], "user_id");
             return $users;
         }
 

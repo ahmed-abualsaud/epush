@@ -358,9 +358,18 @@ class HandleGroupSeeder extends Seeder
         ]);
         // 39
         HandleGroup::create([
-            'context_id' => 10,
+            'context_id' => 11,
             'name' => 'TicketController',
             'description' => 'Controller holds all ticketing system endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 40
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'MessageApiController',
+            'description' => 'Controller holds all message API endpoints',
             'enabled' => true,
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1

@@ -5,7 +5,6 @@ namespace Epush\Auth\User\Infra\Credentials;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Auth\AuthenticationException;
 
 class CredentialsDriver implements CredentialsDriverContract
 {
@@ -22,7 +21,7 @@ class CredentialsDriver implements CredentialsDriverContract
     public function attemptOrFail(string $username, string $password): string
     {
         if (! $token = Auth::attempt(['username' => $username, 'password' => $password])) {
-            throw new AuthenticationException('Invalid username or password');
+            throwHttpException(401, 'Invalid username or password');
         }
         return $token;
     }

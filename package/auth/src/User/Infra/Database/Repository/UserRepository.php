@@ -2,8 +2,6 @@
 
 namespace Epush\Auth\User\Infra\Database\Repository;
 
-use Exception;
-
 use Illuminate\Support\Facades\DB;
 use Epush\Auth\User\Infra\Database\Model\User;
 use Epush\Auth\User\Infra\Database\Model\UserRole;
@@ -102,7 +100,9 @@ class UserRepository implements UserRepositoryContract
     {
         return DB::transaction(function () use ($username) {
 
-            return $this->user->where('username', $username)->firstOrFail()->toArray();
+            $user = $this->user->where('username', $username)->first();
+            return empty($user) ? [] : $user->makeVisible('password')->toArray();
+
 
         });
     }
@@ -114,7 +114,7 @@ class UserRepository implements UserRepositoryContract
             $role = DB::table('roles')->where('name', $roleName)->first();
             
             if (empty($role)) {
-                throw new Exception("Role '{$roleName}' not found");
+                throwHttpException(400, "Role '{$roleName}' not found");
             }
 
             return $this->userRole->create([
@@ -218,7 +218,7 @@ class UserRepository implements UserRepositoryContract
 
             $user = $this->user->where('username', $userName)->where('enabled', true)->get()->toArray();
             if (empty($user)) {
-                throw new Exception("{$userName}'s account has been disabled");
+                throwHttpException(400, "{$userName}'s account has been disabled");
             }
             return true;
 

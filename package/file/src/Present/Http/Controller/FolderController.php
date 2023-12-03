@@ -31,42 +31,42 @@ class FolderController
     #[Get('/')]
     public function listFolders(ListFoldersDto $listFoldersDto, ListFoldersUseCase $listFoldersUseCase): Response
     {
-        return successJSONResponse($listFoldersUseCase->execute($listFoldersDto));
+        return jsonResponse($listFoldersUseCase->execute($listFoldersDto));
     }
 
     #[Post('/')]
     public function addFolder(AddFolderDto $addFolderDto, AddFolderUseCase $addFolderUseCase): Response
     {
-        return successJSONResponse($addFolderUseCase->execute($addFolderDto));
+        return jsonResponse($addFolderUseCase->execute($addFolderDto));
     }
 
     #[Get('{folder_id}')]
     public function getFolder(FolderDto $folderDto, GetFolderUseCase $getFolderUseCase): Response
     {
-        return successJSONResponse($getFolderUseCase->execute($folderDto));
+        return jsonResponse($getFolderUseCase->execute($folderDto));
     }
 
     #[Put('{folder_id}')]
     public function updateFolder(FolderDto $folderDto, UpdateFolderDto $updateFolderDto, UpdateFolderUseCase $updateFolderUseCase): Response
     {
-        return successJSONResponse($updateFolderUseCase->execute($folderDto, $updateFolderDto));
+        return jsonResponse($updateFolderUseCase->execute($folderDto, $updateFolderDto));
     }
 
     #[Delete('{folder_id}')]
     public function deleteFolder(FolderDto $folderDto, DeleteFolderUseCase $deleteFolderUseCase): Response
     {
-        return successJSONResponse($deleteFolderUseCase->execute($folderDto));
+        return jsonResponse($deleteFolderUseCase->execute($folderDto));
     }
 
     #[Post('/search')]
     public function searchFolderColumn(SearchFolderDto $searchFolderDto, SearchFolderUseCase $searchFolderUseCase): Response
     {
-        return successJSONResponse($searchFolderUseCase->execute($searchFolderDto));
+        return jsonResponse($searchFolderUseCase->execute($searchFolderDto));
     }
 
     #[Get('{folder_id}/files')]
     public function getFolderFiles(FolderDto $folderDto, GetFolderFilesUseCase $getFolderFilesUseCase): Response
     {
-        return successJSONResponse($getFolderFilesUseCase->execute($folderDto));
+        return jsonResponse($getFolderFilesUseCase->execute($folderDto));
     }
 }

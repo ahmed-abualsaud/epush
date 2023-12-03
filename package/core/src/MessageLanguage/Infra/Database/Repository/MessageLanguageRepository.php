@@ -32,7 +32,16 @@ class MessageLanguageRepository implements MessageLanguageRepositoryContract
             return empty($messageLanguage) ? [] : $messageLanguage->toArray();
         });
     }
-    
+
+    public function getByName(string $messageLanguageName): array
+    {
+        return DB::transaction(function () use ($messageLanguageName) {
+
+            $messageLanguage =  $this->messageLanguage->where('name', ucfirst($messageLanguageName))->first();
+            return empty($messageLanguage) ? [] : $messageLanguage->toArray();
+        });
+    }
+
     public function create(array $messageLanguage): array
     {
         return DB::transaction(function () use ($messageLanguage) {

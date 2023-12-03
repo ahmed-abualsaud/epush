@@ -44,6 +44,7 @@ class AddMessageDto implements DtoContract
     {
         $this->data['number_of_segments'] = count($this->getSegments());
         $this->data['number_of_recipients'] = $this->getNumberOfRecipients();
+        ! empty($this->data['scheduled_at']) && $this->data['scheduled_at'] = toUTCDateTimeString($this->data['scheduled_at']);
 
         return subAssociativeArray([
 

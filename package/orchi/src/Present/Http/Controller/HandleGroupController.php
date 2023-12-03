@@ -18,12 +18,12 @@ class HandleGroupController
     #[Get('{handle_group_id}/handlers')]
     public function getHandleGroupHandlers(HandleGroupDto $handleGroupDto, GetHandleGroupHandlersUseCase $getHandleGroupHandlersUseCase): Response
     {
-        return successJSONResponse($getHandleGroupHandlersUseCase->execute($handleGroupDto));
+        return jsonResponse($getHandleGroupHandlersUseCase->execute($handleGroupDto));
     }
 
     #[Put('{handle_group_id}')]
     public function updateHandleGroup(HandleGroupDto $handleGroupDto, UpdateHandleGroupDto $updateHandleGroupDto, UpdateHandleGroupUseCase $updateHandleGroupUseCase): Response
     {
-        return successJSONResponse($updateHandleGroupUseCase->execute($handleGroupDto, $updateHandleGroupDto));
+        return jsonResponse($updateHandleGroupUseCase->execute($handleGroupDto, $updateHandleGroupDto));
     }
 }

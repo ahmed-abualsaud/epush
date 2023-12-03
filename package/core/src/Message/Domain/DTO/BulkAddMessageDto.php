@@ -49,6 +49,8 @@ class BulkAddMessageDto implements DtoContract
 
     public function getMessage(): array
     {
+        ! empty($this->data['scheduled_at']) && $this->data['scheduled_at'] = toUTCDateTimeString($this->data['scheduled_at']);
+
         return subAssociativeArray([
 
             'user_id',

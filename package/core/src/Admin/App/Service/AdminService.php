@@ -23,7 +23,7 @@ class AdminService implements AdminServiceContract
         $admins = $this->adminDatabaseService->paginateAdmins($take);
         $usersID = array_column($admins['data'], 'user_id');
         $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
-        $admins['data'] = innerJoinTableArraysOnColumns($users, $admins['data'], "id", "user_id");
+        $admins['data'] = tableWith($admins['data'], $users, "user_id");
         return $admins;
     }
 
@@ -54,7 +54,7 @@ class AdminService implements AdminServiceContract
     {
         $user = $this->communicationEngine->broadcast("auth:user:update-user", $userID, $user)[0];
         $admin = $this->adminDatabaseService->updateAdmin($userID, $admin);
-        return innerJoinTableArraysOnColumns([$user], [$admin], "id", "user_id")[0];
+        return tableWith([$admin], [$user], "user_id")[0];
     }
 
     public function delete(string $userID): bool
@@ -68,7 +68,7 @@ class AdminService implements AdminServiceContract
             $admins = $this->adminDatabaseService->searchAdminColumn($column, $value, $take);
             $usersID = array_column($admins['data'], 'user_id');
             $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
-            $admins['data'] = innerJoinTableArraysOnColumns($users, $admins['data'], "id", "user_id");
+            $admins['data'] = tableWith($admins['data'], $users, "user_id");
             return $admins;
         } else {
             $admins = $this->adminDatabaseService->paginateAdmins(1000000000000);
@@ -76,7 +76,7 @@ class AdminService implements AdminServiceContract
             $users = $this->communicationEngine->broadcast("auth:user:search-column", $column, $value, $take, $usersID)[0];
             $usersID = array_column($users['data'], 'id');
             $admins = $this->adminDatabaseService->getAdmins($usersID);
-            $users['data'] = innerJoinTableArraysOnColumns($users['data'], $admins, "id", "user_id");
+            $users['data'] = tableWith($admins, $users['data'], "user_id");
             return $users;
         }
 

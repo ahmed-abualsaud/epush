@@ -16,6 +16,6 @@ class SearchController
     #[Post('/')]
     public function search(SearchDto $searchDto, SearchUseCase $searchUseCase): Response
     {
-        return successJSONResponse($searchUseCase->execute($searchDto));
+        return jsonResponse($searchUseCase->execute($searchDto));
     }
 }

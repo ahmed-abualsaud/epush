@@ -27,30 +27,30 @@ class PaymentMethodController
     #[Get('/')]
     public function listPaymentMethods(ListPaymentMethodsUseCase $listPaymentMethodsUseCase): Response
     {
-        return successJSONResponse($listPaymentMethodsUseCase->execute());
+        return jsonResponse($listPaymentMethodsUseCase->execute());
     }
 
     #[Post('/')]
     public function addPaymentMethod(AddPaymentMethodDto $addPaymentMethodDto, AddPaymentMethodUseCase $addPaymentMethodUseCase): Response
     {
-        return successJSONResponse($addPaymentMethodUseCase->execute($addPaymentMethodDto));
+        return jsonResponse($addPaymentMethodUseCase->execute($addPaymentMethodDto));
     }
 
     #[Get('{payment_method_id}')]
     public function getPaymentMethod(PaymentMethodDto $paymentMethodDto, GetPaymentMethodUseCase $getPaymentMethodUseCase): Response
     {
-        return successJSONResponse($getPaymentMethodUseCase->execute($paymentMethodDto));
+        return jsonResponse($getPaymentMethodUseCase->execute($paymentMethodDto));
     }
 
     #[Put('{payment_method_id}')]
     public function updatePaymentMethod(PaymentMethodDto $paymentMethodDto, UpdatePaymentMethodDto $updatePaymentMethodDto, UpdatePaymentMethodUseCase $updatePaymentMethodUseCase): Response
     {
-        return successJSONResponse($updatePaymentMethodUseCase->execute($paymentMethodDto, $updatePaymentMethodDto));
+        return jsonResponse($updatePaymentMethodUseCase->execute($paymentMethodDto, $updatePaymentMethodDto));
     }
 
     #[Delete('{payment_method_id}')]
     public function deletePaymentMethod(PaymentMethodDto $paymentMethodDto, DeletePaymentMethodUseCase $deletePaymentMethodUseCase): Response
     {
-        return successJSONResponse($deletePaymentMethodUseCase->execute($paymentMethodDto));
+        return jsonResponse($deletePaymentMethodUseCase->execute($paymentMethodDto));
     }
 }

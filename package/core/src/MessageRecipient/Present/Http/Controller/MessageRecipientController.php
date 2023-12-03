@@ -21,12 +21,12 @@ class MessageRecipientController
     #[Get('/')]
     public function listMessageRecipients(ListMessageRecipientsDto $listMessageRecipientsDto, ListMessageRecipientsUseCase $listMessageRecipientsUseCase): Response
     {
-        return successJSONResponse($listMessageRecipientsUseCase->execute($listMessageRecipientsDto));
+        return jsonResponse($listMessageRecipientsUseCase->execute($listMessageRecipientsDto));
     }
 
     #[Post('/search')]
     public function searchMessageRecipientColumn(SearchMessageRecipientDto $searchMessageRecipientDto, SearchMessageRecipientUseCase $searchMessageRecipientUseCase): Response
     {
-        return successJSONResponse($searchMessageRecipientUseCase->execute($searchMessageRecipientDto));
+        return jsonResponse($searchMessageRecipientUseCase->execute($searchMessageRecipientDto));
     }
 }

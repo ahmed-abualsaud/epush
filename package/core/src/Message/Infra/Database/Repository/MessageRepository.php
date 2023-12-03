@@ -2,8 +2,8 @@
 
 namespace Epush\Core\Message\Infra\Database\Repository;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 use Epush\Core\Message\Infra\Database\Model\Message;
 use Epush\Core\Message\Infra\Database\Repository\Contract\MessageRepositoryContract;
@@ -162,6 +162,22 @@ class MessageRepository implements MessageRepositoryContract
             };
 
             return $message->paginate($take)->toArray();
+        });
+    }
+
+    public function getReadyToSendScheduledMessages(): array
+    {
+        return DB::transaction(function () {
+
+            return $this->message->with([
+                'recipients' => ['messageGroupRecipient']
+            ])
+            ->where('sent', false)
+            ->where('approved', true)
+            ->where('scheduled_at', '<', Carbon::now())
+            ->get()
+            ->toArray();
+
         });
     }
 }

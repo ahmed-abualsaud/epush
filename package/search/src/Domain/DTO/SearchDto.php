@@ -14,7 +14,7 @@ class SearchDto implements DtoContract
             'take' => 'integer',
             'page' => 'integer',
             'entity' => 'required|string',
-            'criteria' => 'required|string',
+            'criteria' => 'string|nullable',
         ];
     }
 

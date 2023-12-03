@@ -18,6 +18,11 @@ class MessageLanguageDatabaseService implements MessageLanguageDatabaseServiceCo
         return $this->messageLanguageDatabaseDriver->messageLanguageRepository()->get($messageLanguageID);
     }
 
+    public function getMessageLanguageByName(string $messageLanguageName): array
+    {
+        return $this->messageLanguageDatabaseDriver->messageLanguageRepository()->getByName($messageLanguageName);
+    }
+
     public function paginateMessageLanguages(int $take): array
     {
         return $this->messageLanguageDatabaseDriver->messageLanguageRepository()->all($take);

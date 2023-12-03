@@ -30,36 +30,36 @@ class SMSSendingHandlerController
     #[Get('sending-handler')]
     public function listSMSSendingHandlers(ListSMSSendingHandlersDto $listSMSSendingHandlersDto, ListSMSSendingHandlersUseCase $listSMSSendingHandlersUseCase): Response
     {
-        return successJSONResponse($listSMSSendingHandlersUseCase->execute($listSMSSendingHandlersDto));
+        return jsonResponse($listSMSSendingHandlersUseCase->execute($listSMSSendingHandlersDto));
     }
 
     #[Post('sending-handler')]
     public function addSMSSendingHandler(AddSMSSendingHandlerDto $addSMSSendingHandlerDto, AddSMSSendingHandlerUseCase $addSMSSendingHandlerUseCase): Response
     {
-        return successJSONResponse($addSMSSendingHandlerUseCase->execute($addSMSSendingHandlerDto));
+        return jsonResponse($addSMSSendingHandlerUseCase->execute($addSMSSendingHandlerDto));
     }
 
     #[Get('sending-handler/{sms_sending_handler_id}')]
     public function getSMSSendingHandler(SMSSendingHandlerDto $smsSendingHandlerDto, GetSMSSendingHandlerUseCase $getSMSSendingHandlerUseCase): Response
     {
-        return successJSONResponse($getSMSSendingHandlerUseCase->execute($smsSendingHandlerDto));
+        return jsonResponse($getSMSSendingHandlerUseCase->execute($smsSendingHandlerDto));
     }
 
     #[Put('sending-handler/{sms_sending_handler_id}')]
     public function updateSMSSendingHandler(SMSSendingHandlerDto $smsSendingHandlerDto, UpdateSMSSendingHandlerDto $updateSMSSendingHandlerDto, UpdateSMSSendingHandlerUseCase $updateSMSSendingHandlerUseCase): Response
     {
-        return successJSONResponse($updateSMSSendingHandlerUseCase->execute($smsSendingHandlerDto, $updateSMSSendingHandlerDto));
+        return jsonResponse($updateSMSSendingHandlerUseCase->execute($smsSendingHandlerDto, $updateSMSSendingHandlerDto));
     }
 
     #[Delete('sending-handler/{sms_sending_handler_id}')]
     public function deleteSMSSendingHandler(SMSSendingHandlerDto $smsSendingHandlerDto, DeleteSMSSendingHandlerUseCase $deleteSMSSendingHandlerUseCase): Response
     {
-        return successJSONResponse($deleteSMSSendingHandlerUseCase->execute($smsSendingHandlerDto));
+        return jsonResponse($deleteSMSSendingHandlerUseCase->execute($smsSendingHandlerDto));
     }
 
     #[Post('sending-handler/search')]
     public function searchSMSSendingHandlerColumn(SearchSMSSendingHandlerDto $searchSMSSendingHandlerDto, SearchSMSSendingHandlerUseCase $searchSMSSendingHandlerUseCase): Response
     {
-        return successJSONResponse($searchSMSSendingHandlerUseCase->execute($searchSMSSendingHandlerDto));
+        return jsonResponse($searchSMSSendingHandlerUseCase->execute($searchSMSSendingHandlerDto));
     }
 }

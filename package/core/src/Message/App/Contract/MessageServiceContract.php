@@ -18,7 +18,15 @@ interface MessageServiceContract
 
     public function update(string $messageID, array $message): array;
 
+    public function sendScheduledMessages(): void;
+
     public function delete(string $messageID): bool;
 
     public function searchColumn(string $column, string $value, int $take = 10): array;
+
+    public function oldApiSendBulk(array $inputs): mixed;
+
+    public function oldApiCheckBalance(array $inputs): mixed;
+
+    public function sendMessage(array $message): array;
 }

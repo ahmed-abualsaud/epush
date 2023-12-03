@@ -16,6 +16,8 @@ interface UserServiceContract
 
     public function delete(string $userID): bool;
 
+    public function getUserByUsername(string $username): array;
+
     public function checkUserEnabledOrFail(string $userName): bool;
 
     public function getUserRoles(string $userID): array;

@@ -30,36 +30,36 @@ class TicketController
     #[Get('/')]
     public function listTickets(ListTicketsDto $listTicketsDto, ListTicketsUseCase $listTicketsUseCase): Response
     {
-        return successJSONResponse($listTicketsUseCase->execute($listTicketsDto));
+        return jsonResponse($listTicketsUseCase->execute($listTicketsDto));
     }
 
     #[Post('/')]
     public function addTicket(AddTicketDto $addTicketDto, AddTicketUseCase $addTicketUseCase): Response
     {
-        return successJSONResponse($addTicketUseCase->execute($addTicketDto));
+        return jsonResponse($addTicketUseCase->execute($addTicketDto));
     }
 
     #[Get('{ticket_id}')]
     public function getTicket(TicketDto $ticketDto, GetTicketUseCase $getTicketUseCase): Response
     {
-        return successJSONResponse($getTicketUseCase->execute($ticketDto));
+        return jsonResponse($getTicketUseCase->execute($ticketDto));
     }
 
     #[Put('{ticket_id}')]
     public function updateTicket(TicketDto $ticketDto, UpdateTicketDto $updateTicketDto, UpdateTicketUseCase $updateTicketUseCase): Response
     {
-        return successJSONResponse($updateTicketUseCase->execute($ticketDto, $updateTicketDto));
+        return jsonResponse($updateTicketUseCase->execute($ticketDto, $updateTicketDto));
     }
 
     #[Delete('{ticket_id}')]
     public function deleteTicket(TicketDto $ticketDto, DeleteTicketUseCase $deleteTicketUseCase): Response
     {
-        return successJSONResponse($deleteTicketUseCase->execute($ticketDto));
+        return jsonResponse($deleteTicketUseCase->execute($ticketDto));
     }
 
     #[Post('/search')]
     public function searchTicketColumn(SearchTicketDto $searchTicketDto, SearchTicketUseCase $searchTicketUseCase): Response
     {
-        return successJSONResponse($searchTicketUseCase->execute($searchTicketDto));
+        return jsonResponse($searchTicketUseCase->execute($searchTicketDto));
     }
 }

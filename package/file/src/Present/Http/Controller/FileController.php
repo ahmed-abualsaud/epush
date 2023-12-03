@@ -34,37 +34,37 @@ class FileController
     #[Get('/')]
     public function listFiles(ListFilesDto $listFilesDto, ListFilesUseCase $listFilesUseCase): Response
     {
-        return successJSONResponse($listFilesUseCase->execute($listFilesDto));
+        return jsonResponse($listFilesUseCase->execute($listFilesDto));
     }
 
     #[Post('/')]
     public function addFile(AddFileDto $addFileDto, AddFileUseCase $addFileUseCase): Response
     {
-        return successJSONResponse($addFileUseCase->execute($addFileDto));
+        return jsonResponse($addFileUseCase->execute($addFileDto));
     }
 
     #[Get('{file_id}')]
     public function getFile(FileDto $fileDto, GetFileUseCase $getFileUseCase): Response
     {
-        return successJSONResponse($getFileUseCase->execute($fileDto));
+        return jsonResponse($getFileUseCase->execute($fileDto));
     }
 
     #[Put('{file_id}')]
     public function updateFile(FileDto $fileDto, UpdateFileDto $updateFileDto, UpdateFileUseCase $updateFileUseCase): Response
     {
-        return successJSONResponse($updateFileUseCase->execute($fileDto, $updateFileDto));
+        return jsonResponse($updateFileUseCase->execute($fileDto, $updateFileDto));
     }
 
     #[Delete('{file_id}')]
     public function deleteFile(FileDto $fileDto, DeleteFileUseCase $deleteFileUseCase): Response
     {
-        return successJSONResponse($deleteFileUseCase->execute($fileDto));
+        return jsonResponse($deleteFileUseCase->execute($fileDto));
     }
 
     #[Post('/search')]
     public function searchFileColumn(SearchFileDto $searchFileDto, SearchFileUseCase $searchFileUseCase): Response
     {
-        return successJSONResponse($searchFileUseCase->execute($searchFileDto));
+        return jsonResponse($searchFileUseCase->execute($searchFileDto));
     }
 
     #[Post('export/pdf')]
