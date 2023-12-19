@@ -21,6 +21,28 @@ class AuthMiddleware
         $method = $request->method();
         $response = $next($request);
 
+        if (in_array($method, ['GET', 'POST']) && stringContains($path, "queue")) {
+
+            $access_token = $request->header('Authorization');
+
+            if (!$access_token) {
+                return failureJSONResponse('Access token not found', 401);
+            }
+
+            try {
+                $payload = app(CredentialsServiceContract::class)->decodeToken(substr($access_token, 7));
+
+            } catch (Exception $e) {
+                return failureJSONResponse('Invalid access token', 401);
+            }
+
+            if ($payload['exp'] < time()) {
+                return failureJSONResponse('Access token expired', 401);
+            }
+
+            return $response;
+        }
+
         $handler = app(InterprocessCommunicationEngineContract::class)->broadcast("orchi:handler:get-handler-by-endpoint", $method . "|" . $url)[0];
 
         if (empty($handler)) {
@@ -63,6 +85,7 @@ class AuthMiddleware
         if ($payload['exp'] < time()) {
             return failureJSONResponse('Access token expired', 401);
         }
+
         $permissions = app(UserServiceContract::class)->getAllUserPermissions($payload['sub']);
 
         $permissions = array_filter($permissions, function ($permission) use ($method, $path) {

@@ -1506,6 +1506,24 @@ class PermissionSeeder extends Seeder
             'description' => 'use service api to send message',
             'handler_id' => '229'
         ]);
+
+        Permission::create([
+            'name' => 'send-bulk-get',
+            'description' => 'use old service api to send message using get request',
+            'handler_id' => '230'
+        ]);
+
+        Permission::create([
+            'name' => 'send-bulk-post',
+            'description' => 'use old service api to send message using post request',
+            'handler_id' => '231'
+        ]);
+
+        Permission::create([
+            'name' => 'check-balance',
+            'description' => 'use old service api to check client balance',
+            'handler_id' => '232'
+        ]);
     }
 }
 

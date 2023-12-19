@@ -132,7 +132,7 @@ class SMSService implements SMSServiceContract
             $phone = ! empty($smsSendingHandler['phone']) ? $smsSendingHandler['phone'] : ((array_key_exists("phone", $attributes) && ! empty($attributes['phone'])) ? $attributes['phone'] : null);
 
             if (! empty($phone)) {
-                $this->smsDriver->sendSMS($phone, $smsTemplate['subject'], $smsContent);
+                $this->smsDriver->sendSMS($smsTemplate['subject'].', '.$smsContent, [$phone]);
             }
         }
     }

@@ -84,7 +84,7 @@ function tableWith(array $tableArray, array $foreignTableArray, string $foreignK
     return $tableArray;
 }
 
-function arrayFind(array $array, ?callable $callback, int $mode = 0): array 
+function arrayFind(array $array, ?callable $callback, int $mode = 0): mixed 
 {
     $result = array_values(array_filter($array, $callback, $mode));
     return empty($result) ? [] : $result[0];

@@ -32,14 +32,17 @@ class SendMessageJob implements ShouldQueue
         private string $server,
         private string $username,
         private string $password,
-        private string $apiKey,
-        private string $from,
+        private string $dlrMask,
+        private string $senderName,
+        private string $smsc,
         private string $message,
         private string $to,
+        private string $charset = "",
+        private string $encoding = "",
 
     ) {
 
-        $this->onQueue('message');
+        $this->onQueue(str_replace(" ", "_", $senderName));
         $this->onConnection('database');
         $this->afterCommit();
 
@@ -47,30 +50,47 @@ class SendMessageJob implements ShouldQueue
     
     public function handle(): void
     {
-        $response = Http::withOptions(['verify' => false])->get($this->server, [
+        try {
+            $attributes = [
 
-            'username' => $this->username,
-            'password' => $this->password,
-            'message' => $this->message,
-            'api_key' => $this->apiKey,
-            'from' => $this->from,
-            'to' => $this->to
-
-        ]);
-        
-        if ($response->ok()) {
-
-            Log::info(json_encode($response->json()));
-
-        } else {
-
-            $errorMessage = $response->body();
-            throw new Exception('Send Message Failed: ' . $response->status() . ' - ' . $errorMessage);
+                'username' => $this->username,
+                'password' => $this->password,
+                'dlr-mask' => $this->dlrMask,
+                'from' => $this->senderName,
+                'text' => $this->message,
+                'smsc' => $this->smsc,
+                'to' => $this->to
+    
+            ];
+    
+            if (! empty($this->charset)) {
+                $attributes['charset'] = $this->charset;
+            }
+    
+            if (! empty($this->encoding)) {
+                $attributes['encoding'] = $this->encoding;
+            }
+    
+            $response = Http::withOptions(['verify' => false])->get($this->server, $attributes);
+            
+            if ($response->ok()) {
+    
+                Log::info(json_encode($response->json()));
+    
+            } else {
+    
+                $errorMessage = $response->body();
+                Log::error('Send Message Failed: ' . $response->status() . ' - ' . $errorMessage);
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            $this->release();
         }
     }
 
     public function failed(Exception $exception): void
     {
         Log::error($exception->getMessage());
+        $this->release();
     }
 }

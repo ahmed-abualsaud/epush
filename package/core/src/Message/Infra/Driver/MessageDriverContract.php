@@ -4,5 +4,5 @@ namespace Epush\Core\Message\Infra\Driver;
 
 interface MessageDriverContract
 {
-    public function sendMessage(array $numbers, string $message): void;
+    public function sendMessage(string $senderName, string $smsc, string $message, array $numbers, string $language = "english"): void;
 }

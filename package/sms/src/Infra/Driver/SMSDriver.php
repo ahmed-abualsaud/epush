@@ -11,34 +11,46 @@ class SMSDriver implements SMSDriverContract
         private string $server = '',
         private string $username = '',
         private string $password = '',
-        private string $apiKey = '',
-        private string $from = ''
+        private string $charset = '',
+        private string $encoding = '',
+        private string $dlrMask = '',
+        private string $senderName = '',
+        private string $smsc = ''
 
     ) {
 
-        $this->server = config('sms.sms_server_url');
-        $this->username = config('sms.sms_username');
-        $this->password = config('sms.sms_password');
-        $this->apiKey = config('sms.sms_api_key');
-        $this->from = config('sms.sms_from');
-
+        $this->server = config('sms.kannel_server_url');
+        $this->username = config('sms.kannel_username');
+        $this->password = config('sms.kannel_password');
+        $this->charset = config('sms.kannel_sms_charset');
+        $this->encoding = config('sms.kannel_sms_encoding');
+        $this->dlrMask = config('sms.kannel_dlr_mask');
+        $this->smsc = config('sms.kannel_default_smsc');
+        $this->senderName = config('sms.kannel_default_sender_name');
     }
 
 
 
 
-    public function sendSMS(string $to, string $message): array
-    {
-        dispatch(new SendSMSJob(
-            $this->server,
-            $this->username,
-            $this->password,
-            $this->apiKey,
-            $this->from,
-            $message,
-            $to
-        ));
+    public function sendSMS(string $message, array $numbers): void
+    {            
+        if (! empty($numbers)) {
 
-        return [];
+            $chunkedNumbers = array_chunk($numbers, 10);
+
+            foreach ($chunkedNumbers as $chunk)
+            {
+                dispatch(new SendSMSJob(
+                    $this->server,
+                    $this->username,
+                    $this->password,
+                    $this->dlrMask,
+                    $this->senderName,
+                    $this->smsc,
+                    $message,
+                    implode(" ", $chunk)
+                ));
+            }
+        }
     }
 }

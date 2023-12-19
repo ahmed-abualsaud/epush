@@ -86,15 +86,73 @@ class MessageService implements MessageServiceContract
 
     public function add(string $userID, array $message, array $messageGroupRecipients, array $segments): array
     {
+        $sender = $this->senderService->get($message['sender_id']);
+        if (empty($sender)) {
+            return exceptionObject(400, "Invalid Sender");
+        }
+
+        if (! $sender['approved']) {
+            return exceptionObject(400, "Sender is not approved");
+        }
+
+        $senderConnections = $this->senderConnectionService->getSenderConnections($message['sender_id']);
+        if (empty($senderConnections)) {
+            return exceptionObject(400, "Sender is not activated towards any network");
+        }
+
+        $numbers = array_reduce($messageGroupRecipients, function ($carry, $messageGroupRecipient) {
+            $recipients = array_map(fn($recip) => $recip['number'], $messageGroupRecipient['recipients']);
+            return array_merge($carry, $recipients);
+        }, []);
+
+        $adjustedSenderConnections = $this->clusterPhoneNumbersRegardingSenderConnections($senderConnections, $numbers);
+        if (empty($adjustedSenderConnections['valid_numbers'])) {
+            return exceptionObject(400, "No valid numbers found");
+        }
+
+        foreach ($adjustedSenderConnections['connections'] as $conn) {
+            if (! $conn['approved'] && ! empty($conn['numbers'])) {
+                return exceptionObject(400, "Sender is not activated towards ".$conn['smsc']['country']['name'].', '.$conn['smsc']['operator']['name']);
+            }
+        }
+
+        $wordFilterThreshold = castSettings($this->communicationEngine->broadcast("settings:get", Settings::WORD_FILTER_THRESHOLD->value)[0]);
+        $censoredWords = array_map(fn ($word) => $word['name'], $this->messageFilterService->list(1000000000000)['data']);
+        $result = findSimilarWords($message['content'], $censoredWords, $wordFilterThreshold);
+        if (! empty($result)) {
+            return exceptionObject(400, "The word: ".$result[0]['text_word']." Is matching the censored word: ".$result[0]['blacklisted_word']." Therefore, we recommend changing it");
+        }
+
+        $language = $this->messageLanguageService->get($message['message_language_id']);
+        if (! empty(array_diff(str_split($message['content']), str_split($language['characters']." \b\t\r\n")))) {
+            return exceptionObject(400, "Invalid message langauage");
+        }
+
         $maxNumOfSegments = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MAXIMUM_NUMBER_OF_MESSAGES_SEGMENTS->value)[0]);
         if ($maxNumOfSegments < $message['number_of_segments']) {
             return exceptionObject(400, "Maximum number of segments exceeded");
         }
 
         $lastOrder = $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $userID)[0];
+        if (empty($lastOrder)) {
+            return exceptionObject(400, "You didn't make any order, please make an order to charge your account");
+        }
+
+        if (! array_key_exists('pricelist', $lastOrder) || empty($lastOrder['pricelist']) ||
+            ! array_key_exists('price', $lastOrder['pricelist']) || empty($lastOrder['pricelist']['price'])) {
+                return exceptionObject(400, "Invalid price list");
+        }
+
         $message['single_message_cost'] = $lastOrder['pricelist']['price'];
-        $totalCost = $message['single_message_cost'] * $message['number_of_segments'] * $message['number_of_recipients'];
+        $totalCost = (float) number_format($message['single_message_cost'] * $message['number_of_segments'] * $message['number_of_recipients'], 2);
         $message['total_cost'] = $totalCost;
+
+        $this->communicationEngine->broadcast(
+            "core:client:update-client-wallet", 
+            $userID, 
+            $totalCost, 
+            WalletActions::DEDUCT->value
+        );
 
         $approved = false;
         $messageApprovmentLimit = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MESSAGE_APPROVEMENT_LIMIT->value)[0]);
@@ -105,15 +163,17 @@ class MessageService implements MessageServiceContract
             $message['sent'] = $approved;
         }
 
+        if ($approved) {
+            // send the message
+            foreach ($adjustedSenderConnections['connections'] as $conn) {
+                $this->messageDriver->sendMessage($sender['name'], $conn['smsc']['smsc']['value'], $message['content'], $conn['numbers'], $language['name']);
+            }
+        }
+
         $message = $this->messageDatabaseService->addMessage($message);
         $this->messageSegmentService->add($message['id'], $segments);
 
         foreach ($messageGroupRecipients as $messageGroupRecipient) {
-            if ($approved) {
-                // send the message
-                $this->messageDriver->sendMessage(array_map(fn ($recip) => $recip['number'], $messageGroupRecipient['recipients']), $message['content']);
-            }
-
             $msgrcp = $this->messageGroupService->add([
                 'name' => $messageGroupRecipient['name'],
                 'user_id' => $messageGroupRecipient['user_id']
@@ -121,18 +181,62 @@ class MessageService implements MessageServiceContract
             $this->messageRecipientService->add($message['id'], array_column($msgrcp, 'id'), 'Sent');
         }
 
-        $this->communicationEngine->broadcast(
-            "core:client:update-client-wallet", 
-            $userID, 
-            $totalCost, 
-            WalletActions::DEDUCT->value
-        );
-
         return $this->get($message['id']);
     }
 
+
+
+
+
+
     public function bulkAdd(string $userID, array $messages, array $messageGroupRecipients, array $segments): array
     {
+        $sender = $this->senderService->get($messages['sender_id']);
+        if (empty($sender)) {
+            return exceptionObject(400, "Invalid Sender");
+        }
+
+        if (! $sender['approved']) {
+            return exceptionObject(400, "Sender is not approved");
+        }
+
+        $senderConnections = $this->senderConnectionService->getSenderConnections($messages['sender_id']);
+        if (empty($senderConnections)) {
+            return exceptionObject(400, "Sender is not activated towards any network");
+        }
+
+        $numbers = array_reduce($messageGroupRecipients, function ($carry, $messageGroupRecipient) {
+            $recipients = array_map(fn($recip) => $recip['number'], $messageGroupRecipient['recipients']);
+            return array_merge($carry, $recipients);
+        }, []);
+
+        $adjustedSenderConnections = $this->clusterPhoneNumbersRegardingSenderConnections($senderConnections, $numbers);
+        if (empty($adjustedSenderConnections['valid_numbers'])) {
+            return exceptionObject(400, "No valid numbers found");
+        }
+
+        foreach ($adjustedSenderConnections['connections'] as $conn) {
+            if (! $conn['approved'] && ! empty($conn['numbers'])) {
+                return exceptionObject(400, "Sender is not activated towards ".$conn['smsc']['country']['name'].', '.$conn['smsc']['operator']['name']);
+            }
+        }
+
+        $wordFilterThreshold = castSettings($this->communicationEngine->broadcast("settings:get", Settings::WORD_FILTER_THRESHOLD->value)[0]);
+        $censoredWords = array_map(fn ($word) => $word['name'], $this->messageFilterService->list(1000000000000)['data']);
+        $language = $this->messageLanguageService->get($messages['message_language_id']);
+
+        foreach ($messages['content']['messages'] as $message) {
+
+            $result = findSimilarWords($message['content'], $censoredWords, $wordFilterThreshold);
+            if (! empty($result)) {
+                return exceptionObject(400, "The word: ".$result[0]['text_word']." Is matching the censored word: ".$result[0]['blacklisted_word']." Therefore, we recommend changing it");
+            }
+
+            if (! empty(array_diff(str_split($message['content']), str_split($language['characters']." \b\t\r\n")))) {
+                return exceptionObject(400, "Invalid message langauage");
+            }
+        }
+
         $maxNumOfSegments = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MAXIMUM_NUMBER_OF_MESSAGES_SEGMENTS->value)[0]);
         if ($maxNumOfSegments < $this->getMaximumNumberOfSegments($messages['content']['messages'])) {
             return exceptionObject(400, "Maximum number of segments exceeded");
@@ -143,8 +247,20 @@ class MessageService implements MessageServiceContract
             return exceptionObject(400, "You didn't make any orders yet");
         }
 
+        if (! array_key_exists('pricelist', $lastOrder) || empty($lastOrder['pricelist']) ||
+            ! array_key_exists('price', $lastOrder['pricelist']) || empty($lastOrder['pricelist']['price'])) {
+                return exceptionObject(400, "Invalid price list");
+        }
+
         $messages['single_message_cost'] = $lastOrder['pricelist']['price'];
         $totalCost = $messages['single_message_cost'] * count($segments);
+
+        $this->communicationEngine->broadcast(
+            "core:client:update-client-wallet", 
+            $userID, 
+            $totalCost, 
+            WalletActions::DEDUCT->value
+        );
 
         $approved = false;
         $messageApprovmentLimit = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MESSAGE_APPROVEMENT_LIMIT->value)[0]);
@@ -165,7 +281,8 @@ class MessageService implements MessageServiceContract
         foreach ($messages['content']['messages'] as $message) {
             if ($approved) {
                 // send the message
-                $this->messageDriver->sendMessage([$message['title']], $message['content']);
+                $connection = arrayFind($adjustedSenderConnections['connections'], fn ($conn) => in_array($message['title'], $conn['numbers']));
+                $this->messageDriver->sendMessage($sender['name'], $connection['smsc']['smsc']['value'], $message['content'], [$message['title']], $language['name']);
             }
 
             $insertedMessage =  $this->messageDatabaseService->addMessage([
@@ -191,13 +308,6 @@ class MessageService implements MessageServiceContract
             })['id']], 'Sent');
         }
 
-        $this->communicationEngine->broadcast(
-            "core:client:update-client-wallet", 
-            $userID, 
-            $totalCost, 
-            WalletActions::DEDUCT->value
-        );
-
         return $messages;    
     }
 
@@ -208,15 +318,9 @@ class MessageService implements MessageServiceContract
     public function update(string $messageID, array $message): array
     {
         if (array_key_exists('approved', $message) && $message['approved']) {
-            // send the message
+
             $msg = $this->get($messageID);
-            foreach ($msg['recipients'] as $recipient) {
-                if (is_array($recipient['message_group_recipient']) && array_key_exists('number', $recipient['message_group_recipient'])) {
-                    $this->messageDriver->sendMessage([$recipient['message_group_recipient']['number']], $msg['content']);
-                }
-            }
-            $this->messageRecipientService->update($messageID, ['status' => 'Sent']);
-            $message['sent'] = true;
+            $msg = $this->updateAndSendMessage($msg);
         }
 
         if (array_key_exists('scheduled_at', $message)) {
@@ -234,14 +338,7 @@ class MessageService implements MessageServiceContract
             }
 
             if (! empty($message['scheduled_at']) && $msg['approved'] && ($now - $scheduledTime) <= 60) {
-                // send the message
-                foreach ($msg['recipients'] as $recipient) {
-                    if (is_array($recipient['message_group_recipient']) && array_key_exists('number', $recipient['message_group_recipient'])) {
-                        $this->messageDriver->sendMessage([$recipient['message_group_recipient']['number']], $msg['content']);
-                    }
-                }
-                $this->messageRecipientService->update($messageID, ['status' => 'Sent']);
-                $message['sent'] = true;
+                $msg = $this->updateAndSendMessage($msg);
             }
         }
 
@@ -253,13 +350,7 @@ class MessageService implements MessageServiceContract
         $messages = $this->messageDatabaseService->getReadyToSendScheduledMessages();
         if (! empty($messages)) {
             foreach ($messages as $message) {
-                // send the message
-                foreach ($message['recipients'] as $recipient) {
-                    if (is_array($recipient['message_group_recipient']) && array_key_exists('number', $recipient['message_group_recipient'])) {
-                        $this->messageDriver->sendMessage([$recipient['message_group_recipient']['number']], $message['content']);
-                    }
-                }
-                $this->messageRecipientService->update($message['id'], ['status' => 'Sent']);
+                $this->updateAndSendMessage($message);
                 $this->messageDatabaseService->updateMessage($message['id'], ['sent' => true]);
             }
         }
@@ -434,7 +525,7 @@ class MessageService implements MessageServiceContract
         $numberOfSegments = count($segments);
         $maxNumOfSegments = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MAXIMUM_NUMBER_OF_MESSAGES_SEGMENTS->value)[0]);
         if ($maxNumOfSegments < $numberOfSegments) {
-            return "Maximum message count exceeded";
+            return "Maximum number of segments exceeded";
         }
 
         $lastOrder = $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $user['id'])[0];
@@ -470,7 +561,9 @@ class MessageService implements MessageServiceContract
 
         if ($approved) {
             // send the message
-            $this->messageDriver->sendMessage($adjustedSenderConnections['valid_numbers'], $inputs['message']);
+            foreach ($adjustedSenderConnections['connections'] as $conn) {
+                $this->messageDriver->sendMessage($sender['name'], $conn['smsc']['smsc']['value'], $inputs['message'], $conn['numbers'], $language['name']);
+            }
         }
 
         $message = $this->messageDatabaseService->addMessage([
@@ -609,7 +702,7 @@ class MessageService implements MessageServiceContract
         $numberOfSegments = count($segments);
         $maxNumOfSegments = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MAXIMUM_NUMBER_OF_MESSAGES_SEGMENTS->value)[0]);
         if ($maxNumOfSegments < $numberOfSegments) {
-            return exceptionObject(400, "Maximum message count exceeded");
+            return exceptionObject(400, "Maximum number of segments exceeded");
         }
 
         $lastOrder = $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $user['id'])[0];
@@ -641,7 +734,9 @@ class MessageService implements MessageServiceContract
 
         if ($approved) {
             // send the message
-            $this->messageDriver->sendMessage($adjustedSenderConnections['valid_numbers'], $inputs['message']);
+            foreach ($adjustedSenderConnections['connections'] as $conn) {
+                $this->messageDriver->sendMessage($sender['name'], $conn['smsc']['smsc']['value'], $inputs['message'], $conn['numbers'], $language['name']);
+            }
         }
 
         $message = $this->messageDatabaseService->addMessage([
@@ -695,6 +790,23 @@ class MessageService implements MessageServiceContract
 
 
 
+    private function updateAndSendMessage(array $message): array
+    {
+        $sender = $this->senderService->get($message['sender_id']);
+        $numbers = array_map(fn($recip) => $recip['number'], $message['recipients']);
+        $senderConnections = $this->senderConnectionService->getSenderConnections($message['sender_id']);
+        $adjustedSenderConnections = $this->clusterPhoneNumbersRegardingSenderConnections($senderConnections, $numbers);
+
+        // send the message
+        foreach ($adjustedSenderConnections['connections'] as $conn) {
+            $this->messageDriver->sendMessage($sender['name'], $conn['smsc']['smsc']['value'], $message['content'], $conn['numbers'], $message['language']['name']);
+        }
+
+        $this->messageRecipientService->update($message['id'], ['status' => 'Sent']);
+        $message['sent'] = true;
+        return $message;
+    }
+
     private function clusterPhoneNumbersRegardingSenderConnections(array $senderConnections, array $phoneNumbers) {
         if (empty($phoneNumbers) || empty($senderConnections)) {
             return [];
@@ -702,7 +814,7 @@ class MessageService implements MessageServiceContract
 
         $adjustedSenderConnections['connections'] = array_map(fn ($conn) => [
             ...$conn,
-            'numbers' => $this->getConnectionPhoneNumbers($conn['smsc']['country']['code'], $conn['smsc']['operator']['code'], $phoneNumbers)
+            'numbers' => $conn['smsc']['default'] ? $this->getConnectionPhoneNumbers($conn['smsc']['country']['code'], $conn['smsc']['operator']['code'], $phoneNumbers) : []
         ], $senderConnections);
 
         $adjustedSenderConnections['valid_numbers'] = array_unique(array_merge(...array_map(fn ($conn) => $conn['numbers'], $adjustedSenderConnections['connections'])));

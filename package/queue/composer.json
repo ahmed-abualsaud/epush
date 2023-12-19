@@ -1,0 +1,26 @@
+{
+    "name": "epush/queue",
+    "description": "E-push service that handle all queue management routines",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Epush\\Queue\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ahmed Mohamed Abu Al-Saud",
+            "email": "ahmed.m.abualsaud@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Epush\\Queue\\Infra\\Provider\\QueueServiceProvider"
+            ]
+        }
+    }
+}

@@ -1160,6 +1160,21 @@ class RolePermissionSeeder extends Seeder
             'permission_id' => 229,
         ]);
 
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 230,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 231,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 232,
+        ]);
+
 
 
         // admin permissions =================================================================================================================================
@@ -2104,6 +2119,21 @@ class RolePermissionSeeder extends Seeder
             'permission_id' => 229,
         ]);
 
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 230,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 231,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 232,
+        ]);
+
 
         // client permissions =================================================================================================================================
 
@@ -3045,6 +3075,21 @@ class RolePermissionSeeder extends Seeder
         RolePermission::create([
             'role_id' => 3,
             'permission_id' => 229,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 230,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 231,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 232,
         ]);
     }
 }

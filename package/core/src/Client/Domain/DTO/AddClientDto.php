@@ -20,7 +20,7 @@ class AddClientDto implements DtoContract
             'religion' => 'required|string',
             'address' => 'required|string',
             'enabled' => 'boolean',
-            'company_name' => 'required|unique:clients|string',
+            'company_name' => 'required|unique:clients,company_name,NULL,id,deleted_at,NULL|string',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
             'notes' => 'string',
             'sales_id' => 'required|exists:sales,id',
