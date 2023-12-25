@@ -38,11 +38,15 @@ class DomainProvider extends ServiceProvider
         });
 
         $this->app->bind(AddMessageDto::class, function () {
-            return new AddMessageDto($this->app->make('request')->all());
+            $inputs = $this->app->make('request')->all();
+            $inputs['sender_ip'] = $this->app->make('request')->ip();
+            return new AddMessageDto($inputs);
         });
 
         $this->app->bind(BulkAddMessageDto::class, function () {
-            return new BulkAddMessageDto($this->app->make('request')->all());
+            $inputs = $this->app->make('request')->all();
+            $inputs['sender_ip'] = $this->app->make('request')->ip();
+            return new BulkAddMessageDto($inputs);
         });
 
         $this->app->bind(UpdateMessageDto::class, function () {

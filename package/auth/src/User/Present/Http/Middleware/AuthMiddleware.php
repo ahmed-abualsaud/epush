@@ -21,6 +21,14 @@ class AuthMiddleware
         $method = $request->method();
         $response = $next($request);
 
+        if (stringContains($path, "control/timestamp") && $method === 'GET') {
+            return jsonResponse(app(InterprocessCommunicationEngineContract::class)->broadcast("cache:get", "control_timestamp")[0]);
+        }
+
+        if (stringContains($path, "control/timestamp") && $method === 'POST') {
+            return jsonResponse(app(InterprocessCommunicationEngineContract::class)->broadcast("cache:put", "control_timestamp", $request->input('control_timestamp'))[0]);
+        }
+
         if (in_array($method, ['GET', 'POST']) && stringContains($path, "queue")) {
 
             $access_token = $request->header('Authorization');

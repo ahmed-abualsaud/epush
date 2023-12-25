@@ -26,6 +26,7 @@ return new class extends Migration
             $table->integer('number_of_recipients');
             $table->timestamp('scheduled_at')->useCurrent()->nullable();
             $table->boolean('sent')->default(false);
+            $table->ipAddress('sender_ip');
             $table->timestamps();
         });
     }

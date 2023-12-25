@@ -105,6 +105,7 @@ class MessageRepository implements MessageRepositoryContract
                     'scheduled_at' => array_key_exists('scheduled_at', $messages)? $messages['scheduled_at'] : date("Y-m-d H:i:s"),
                     'number_of_segments' => $messages['number_of_segments'],
                     'number_of_recipients' => $messages['number_of_recipients'],
+                    'sender_ip' => $messages['sender_ip'],
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s")
                 ];

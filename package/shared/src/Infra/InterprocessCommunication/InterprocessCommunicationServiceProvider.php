@@ -48,6 +48,7 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\UpdateUserMicropro
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\DeleteUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AddToCacheMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\PutToCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSettingsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetAuthUserMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetFromCacheMicroprocess;
@@ -300,6 +301,8 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
             $engine->attach(new SendNotificationMicroprocess(app(NotificationServiceContract::class)), "notification:send");
             $engine->attach(new GetHandlerByEndpointMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handler-by-endpoint");
             $engine->attach(new GetAllHandlersResponseAttributesMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handlers:get-all-handlers-response-attributes");
+            $engine->attach(new PutToCacheMicroprocess(app(CacheServiceContract::class)), "cache:put");
+            $engine->attach(new GetFromCacheMicroprocess(app(CacheServiceContract::class)), "cache:get");
             $engine->attach(new PutManyToCacheMicroprocess(app(CacheServiceContract::class)), "cache:put-many");
 
             return $engine;

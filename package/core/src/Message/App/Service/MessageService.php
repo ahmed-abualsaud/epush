@@ -298,7 +298,8 @@ class MessageService implements MessageServiceContract
                 'scheduled_at' => array_key_exists('scheduled_at', $messages)? $messages['scheduled_at'] : date("Y-m-d H:i:s"),
                 'sent' => $approved,
                 'number_of_segments' => count($message['segments']),
-                'number_of_recipients' => 1
+                'number_of_recipients' => 1,
+                'sender_ip' => $messages['sender_ip']
             ]);
 
             $this->messageSegmentService->add($insertedMessage['id'], $message['segments']);
