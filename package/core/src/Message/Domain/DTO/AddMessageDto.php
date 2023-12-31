@@ -50,6 +50,7 @@ class AddMessageDto implements DtoContract
 
             'user_id',
             'sender_id',
+            'sender_ip',
             'order_id',
             'message_language_id',
             'content',

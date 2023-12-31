@@ -17,9 +17,10 @@ class UserSeeder extends Seeder
         User::create([
             'first_name' => 'Ahmed',
             'last_name' => 'Mohamed',
-            'username' => 'epush-super-admin@epushagency.com',
+            'username' => config('auth.super_admin_username'),
             'email' => 'admin@gmail.com',
             'phone' => '01126999840',
+            'address' => 'Alexandria',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'avatar' => 'https://mdbcdn.b-cdn.net/img/new/avatars/1.webp',
         ]);

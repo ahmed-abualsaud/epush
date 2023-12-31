@@ -116,4 +116,6 @@ return [
 
     'password_timeout' => 10800,
 
+    'super_admin_username' => env('SUPER_ADMIN_USERNAME', 'super-admin@epushagency.com')
+
 ];

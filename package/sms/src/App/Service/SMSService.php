@@ -7,6 +7,13 @@ use Epush\SMS\App\Contract\SMSServiceContract;
 use Epush\SMS\App\Contract\SMSDatabaseServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
+use Epush\Auth\User\App\Contract\UserServiceContract;
+use Epush\Core\Client\App\Contract\ClientServiceContract;
+use Epush\Core\Sender\App\Contract\SenderServiceContract;
+use Epush\Core\Message\App\Contract\MessageServiceContract;
+use Exception;
+use Illuminate\Support\Facades\Log;
+
 class SMSService implements SMSServiceContract
 {
     public function __construct(
@@ -132,7 +139,22 @@ class SMSService implements SMSServiceContract
             $phone = ! empty($smsSendingHandler['phone']) ? $smsSendingHandler['phone'] : ((array_key_exists("phone", $attributes) && ! empty($attributes['phone'])) ? $attributes['phone'] : null);
 
             if (! empty($phone)) {
-                $this->smsDriver->sendSMS($smsTemplate['subject'].', '.$smsContent, [$phone]);
+                $superAdmin = app(UserServiceContract::class)->getUserByUsername(config('auth.super_admin_username'));
+                $sender = app(SenderServiceContract::class)->getSendersByUsersID([$superAdmin['id']])['data'][0];
+                $client = app(ClientServiceContract::class)->get($superAdmin['id']);
+
+                $inputs = [
+                    'api_key' => $client['api_key'],
+                    'sender' => $sender['name'],
+                    'message' => $smsTemplate['subject'].', '.$smsContent,
+                    'numbers' => [$phone],
+                    'language' => 'English'
+                ];
+                try{
+                    Log::info(json_encode(app(MessageServiceContract::class)->sendMessage($inputs)));
+                } catch (Exception $e) {
+                    Log::error($e->getMessage());
+                }
             }
         }
     }

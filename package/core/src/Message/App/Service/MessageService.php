@@ -168,6 +168,8 @@ class MessageService implements MessageServiceContract
             foreach ($adjustedSenderConnections['connections'] as $conn) {
                 $this->messageDriver->sendMessage($sender['name'], $conn['smsc']['smsc']['value'], $message['content'], $conn['numbers'], $language['name']);
             }
+        } else {
+            $this->notifyMessageApproval();
         }
 
         $message = $this->messageDatabaseService->addMessage($message);
@@ -276,6 +278,10 @@ class MessageService implements MessageServiceContract
                 'user_id' => $messageGroupRecipient['user_id']
             ], $messageGroupRecipient['recipients']);
             array_push($recipients, ...$msgrcp);
+        }
+
+        if (! $approved) {
+            $this->notifyMessageApproval();
         }
 
         foreach ($messages['content']['messages'] as $message) {
@@ -565,6 +571,8 @@ class MessageService implements MessageServiceContract
             foreach ($adjustedSenderConnections['connections'] as $conn) {
                 $this->messageDriver->sendMessage($sender['name'], $conn['smsc']['smsc']['value'], $inputs['message'], $conn['numbers'], $language['name']);
             }
+        } else {
+            $this->notifyMessageApproval();
         }
 
         $message = $this->messageDatabaseService->addMessage([
@@ -738,6 +746,8 @@ class MessageService implements MessageServiceContract
             foreach ($adjustedSenderConnections['connections'] as $conn) {
                 $this->messageDriver->sendMessage($sender['name'], $conn['smsc']['smsc']['value'], $inputs['message'], $conn['numbers'], $language['name']);
             }
+        } else {
+            $this->notifyMessageApproval();
         }
 
         $message = $this->messageDatabaseService->addMessage([
@@ -896,5 +906,18 @@ class MessageService implements MessageServiceContract
         }
 
         return $total;
+    }
+
+    private function notifyMessageApproval(): void
+    {
+        $mails = explode(",", config('message.message_approvement_mails'));
+        $subject = config('message.message_approvement_subject');
+        $content = config('message.message_approvement_content');
+
+        if (! empty($mails)) {
+            foreach ($mails as $mail) {
+                $this->communicationEngine->broadcast("mail:send-to", $mail, $subject, $content);
+            }
+        }
     }
 }

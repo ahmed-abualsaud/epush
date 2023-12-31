@@ -15,12 +15,21 @@ class MessageLanguageSeeder extends Seeder
             'name' => 'Arabic',
             'max_characters_length' => '70',
             'split_characters_length' => '67',
+            'characters' => 'ضصثقفغعهخحجدشسيبلاتنمكطئءؤرﻻىةوزظذ؟.,آﻵ{}ْ~":/،ـأﻷ[]ٍِ><؛×÷`إﻹًٌَُّ\…1234567890-=+_()*&^%$#@! qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM[];\',./{}:"<>?\|`1234567890-=~!@#$%^&*()_+°©®™€£¥§¶'
         ]);
 
         MessageLanguage::create([
             'name' => 'English',
             'max_characters_length' => '160',
             'split_characters_length' => '153',
+            'characters' => 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM[];\',./{}:"<>?\|`1234567890-=~!@#$%^&*()_+°©®™€£¥§¶'
+        ]);
+
+        MessageLanguage::create([
+            'name' => 'French',
+            'max_characters_length' => '100',
+            'split_characters_length' => '95',
+            'characters' => 'aeiouyàâæäçéèêëîïôœöùûüÿbcdfghjklmnpqrstvwxyzçæœAEIOUYÀÂÆÄÇÉÈÊËÎÏÔŒÖÙÛÜŸBCDFGHJKLMNPQRSTVWXYZÇÆŒ1234567890.,;:!?\'"()[]{}-_/\|@#$%^&*+=<>~¨´°©®™€£¥§¶`'
         ]);
     }
 }

@@ -24,7 +24,7 @@ class MessageFilterSeeder extends Seeder
         ]);
 
         MessageFilter::create([
-            'name' => 'WE',
+            'name' => 'WE Cash',
         ]);
     }
 }

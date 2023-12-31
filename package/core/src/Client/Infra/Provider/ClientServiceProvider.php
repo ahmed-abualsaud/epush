@@ -15,6 +15,8 @@ class ClientServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../Config/client.php', 'client');
+
         if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             
             $config = $this->app->make('config');

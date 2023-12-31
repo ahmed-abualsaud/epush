@@ -2,9 +2,13 @@
 
 namespace Epush\Core\Sender\App\Service;
 
+use Exception;
+use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\Core\Client\App\Contract\ClientServiceContract;
 use Epush\Core\Sender\App\Contract\SenderServiceContract;
 use Epush\Core\Sender\App\Contract\SenderDatabaseServiceContract;
+use Epush\Core\Client\App\Contract\ClientDatabaseServiceContract;
+use Epush\Expense\Order\App\Contract\OrderDatabaseServiceContract;
 
 class SenderService implements SenderServiceContract
 {
@@ -86,5 +90,39 @@ class SenderService implements SenderServiceContract
         $clients = $this->clientService->getClients($usersID);
         $senders['data'] = tableWith($senders['data'], $clients, "user_id", "user_id", "client");
         return $senders;
+    }
+
+    public function initSystemSender(): void
+    {
+        $senderName = config('sms.kannel_default_sender_name');
+        $superAdmin = app(UserServiceContract::class)->getUserByUsername(config('auth.super_admin_username'));
+
+        if (empty($superAdmin)) {
+            throw new Exception("Super Admin Account Not Found");
+        }
+
+        $this->senderDatabaseService->addSender([
+            'user_id' => $superAdmin['id'],
+            'name' => $senderName,
+            'approved' => true
+        ]);
+
+        app(ClientDatabaseServiceContract::class)->addClient([
+            'user_id' => $superAdmin['id'],
+            'sales_id' => config('client.default_sales_id'),
+            'business_field_id' => config('client.default_business_field_id'),
+            'company_name' => config('client.default_company_name'),
+            'api_key' => config('client.default_api_key'),
+            'use_api_key' => true,
+            'balance' => config('client.default_balance'),
+            'religion' => 'Muslim'
+        ]);
+
+        app(OrderDatabaseServiceContract::class)->addOrder([
+            'credit' => 0,
+            'user_id' => $superAdmin['id'],
+            'pricelist_id' => config('client.default_price_list_id'),
+            'payment_method_id' => config('client.default_payment_method_id'),
+        ]);
     }
 }

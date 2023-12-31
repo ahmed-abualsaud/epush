@@ -200,6 +200,7 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
                 $engine->attach(new GetClientLatestOrderMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-latest-order");
                 $engine->attach(new SearchClientColumnMicroprocess(app(ClientServiceContract::class)), "core:client:search-column");
                 $engine->attach(new GetClientsMicroprocess(app(ClientServiceContract::class)), "core:client:get-clients");
+                $engine->attach(new SendToMailMicroprocess(app(MailServiceContract::class)), "mail:send-to");
 
 
                 return $engine;

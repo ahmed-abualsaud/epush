@@ -21,4 +21,6 @@ interface SenderServiceContract
     public function getSendersByUsersID(array $usersID, int $take = 10): array;
 
     public function searchColumn(string $column, string $value, int $take = 10): array;
+
+    public function initSystemSender(): void;
 }

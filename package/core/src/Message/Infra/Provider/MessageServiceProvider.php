@@ -16,6 +16,7 @@ class MessageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../Config/kannel.php', 'kannel');
+        $this->mergeConfigFrom(__DIR__.'/../Config/message.php', 'message');
 
         if (! ($this->app instanceof CachesConfiguration && $this->app->configurationIsCached())) {
             
