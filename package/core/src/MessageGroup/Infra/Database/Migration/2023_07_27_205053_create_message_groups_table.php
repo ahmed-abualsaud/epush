@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('message_groups', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

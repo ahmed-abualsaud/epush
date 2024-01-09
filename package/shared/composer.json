@@ -16,7 +16,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "dittertp/gibberish-aes-php": "^4.0"
+        "dittertp/gibberish-aes-php": "^4.0",
+        "spatie/laravel-route-attributes": "^1.18"
     },
     "extra": {
         "laravel": {

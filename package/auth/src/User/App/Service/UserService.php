@@ -129,4 +129,31 @@ class UserService implements UserServiceContract
     {
         return $this->userDatabaseService->searchUserColumn($column, $value, $take, $usersID);
     }
+
+    public function verifyAccount(string $email, $otp): array
+    {
+        $result = $this->credentialsService->validateOtp($email, $otp);
+
+        return [
+            'success' => $result['status'],
+            'message' => $result['message']
+        ];
+    }
+
+    public function forgetPassword(string $email): array
+    {
+        $otp = $this->credentialsService->generateOtp($email);
+        if ($otp['status']) {
+            $this->communicationEngine->broadcast("mail:send-to", $email, "Email Verification", "Your verification code is: " . $otp['token']);
+            return [
+                'success' => true,
+                'message' => "OTP token sent successfully, please check your email inbox"
+            ];
+        }
+
+        return [
+            'success' => false,
+            'message' => "Failed to generate OTP token"
+        ];
+    }
 }

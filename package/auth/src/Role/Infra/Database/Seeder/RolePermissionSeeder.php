@@ -1175,6 +1175,26 @@ class RolePermissionSeeder extends Seeder
             'permission_id' => 232,
         ]);
 
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 233,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 234,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 235,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 236,
+        ]);
+
 
 
         // admin permissions =================================================================================================================================
@@ -2134,6 +2154,25 @@ class RolePermissionSeeder extends Seeder
             'permission_id' => 232,
         ]);
 
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 233,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 234,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 235,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 236,
+        ]);
 
         // client permissions =================================================================================================================================
 
@@ -3090,6 +3129,26 @@ class RolePermissionSeeder extends Seeder
         RolePermission::create([
             'role_id' => 3,
             'permission_id' => 232,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 233,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 234,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 235,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 236,
         ]);
     }
 }

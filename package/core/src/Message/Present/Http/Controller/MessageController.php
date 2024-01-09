@@ -14,6 +14,7 @@ use Epush\Core\Message\Domain\DTO\ListMessagesDto;
 use Epush\Core\Message\Domain\DTO\SearchMessageDto;
 use Epush\Core\Message\Domain\DTO\UpdateMessageDto;
 use Epush\Core\Message\Domain\DTO\BulkAddMessageDto;
+use Epush\Core\Message\Domain\DTO\GetMessageRecipientsDto;
 
 use Epush\Core\Message\Domain\UseCase\GetMessageUseCase;
 use Epush\Core\Message\Domain\UseCase\AddMessageUseCase;
@@ -22,6 +23,7 @@ use Epush\Core\Message\Domain\UseCase\DeleteMessageUseCase;
 use Epush\Core\Message\Domain\UseCase\SearchMessageUseCase;
 use Epush\Core\Message\Domain\UseCase\UpdateMessageUseCase;
 use Epush\Core\Message\Domain\UseCase\BulkAddMessageUseCase;
+use Epush\Core\Message\Domain\UseCase\GetMessageRecipientsUseCase;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -69,5 +71,11 @@ class MessageController
     public function searchMessageColumn(SearchMessageDto $searchMessageDto, SearchMessageUseCase $searchMessageUseCase): Response
     {
         return jsonResponse($searchMessageUseCase->execute($searchMessageDto));
+    }
+
+    #[Get('{message_id}/recipients')]
+    public function getMessageRecipients(GetMessageRecipientsDto $getMessageRecipientsDto, GetMessageRecipientsUseCase $getMessageRecipientsUseCase): Response
+    {
+        return jsonResponse($getMessageRecipientsUseCase->execute($getMessageRecipientsDto));
     }
 }

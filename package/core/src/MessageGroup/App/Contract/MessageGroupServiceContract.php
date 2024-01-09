@@ -18,4 +18,5 @@ interface MessageGroupServiceContract
 
     public function getMessageGroupsByUsersID(array $usersID, int $take): array;
 
+    public function getMessageGroupRecipients(string $messageGroupID, int $take = 10): array;
 }

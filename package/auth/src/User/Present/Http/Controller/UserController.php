@@ -16,7 +16,9 @@ use Epush\Auth\User\Domain\DTO\SignupDto;
 use Epush\Auth\User\Domain\DTO\ListUsersDto;
 use Epush\Auth\User\Domain\DTO\UpdateUserDto;
 use Epush\Auth\User\Domain\DTO\SearchUserDto;
+use Epush\Auth\User\Domain\DTO\VerifyAccountDto;
 use Epush\Auth\User\Domain\DTO\ResetPasswordDto;
+use Epush\Auth\User\Domain\DTO\ForgetPasswordDto;
 use Epush\Auth\User\Domain\DTO\AssignUserRolesDto;
 use Epush\Auth\User\Domain\DTO\GeneratePasswordDto;
 use Epush\Auth\User\Domain\DTO\UnassignUserRolesDto;
@@ -32,7 +34,9 @@ use Epush\Auth\User\Domain\UseCase\UpdateUserUseCase;
 use Epush\Auth\User\Domain\UseCase\DeleteUserUseCase;
 use Epush\Auth\User\Domain\UseCase\SearchUserUseCase;
 use Epush\Auth\User\Domain\UseCase\GetUserRolesUseCase;
+use Epush\Auth\User\Domain\UseCase\VerifyAccountUseCase;
 use Epush\Auth\User\Domain\UseCase\ResetPasswordUseCase;
+use Epush\Auth\User\Domain\UseCase\ForgetPasswordUseCase;
 use Epush\Auth\User\Domain\UseCase\AssignUserRolesUseCase;
 use Epush\Auth\User\Domain\UseCase\GeneratePasswordUseCase;
 use Epush\Auth\User\Domain\UseCase\UnassignUserRolesUseCase;
@@ -61,6 +65,18 @@ class UserController
     public function signout(SignoutUseCase $signoutUseCase): Response
     {
         return jsonResponse($signoutUseCase->execute());
+    }
+
+    #[Post('verify-account')]
+    public function verifyAccount(VerifyAccountDto $verifyAccountDto, VerifyAccountUseCase $verifyAccountUseCase): Response
+    {
+        return jsonResponse($verifyAccountUseCase->execute($verifyAccountDto));
+    }
+
+    #[Post('forget-password')]
+    public function forgetPassword(ForgetPasswordDto $forgetPasswordDto, ForgetPasswordUseCase $forgetPasswordUseCase): Response
+    {
+        return jsonResponse($forgetPasswordUseCase->execute($forgetPasswordDto));
     }
 
     #[Post('reset-password')]

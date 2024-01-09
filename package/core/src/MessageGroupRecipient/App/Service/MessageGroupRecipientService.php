@@ -49,4 +49,14 @@ class MessageGroupRecipientService implements MessageGroupRecipientServiceContra
     {
         return $this->messageGroupRecipientDatabaseService->searchMessageGroupRecipientColumn($column, $value, $take);
     }
+
+    public function getMessageRecipients(string $messageID, int $take = 10): array
+    {
+        return $this->messageGroupRecipientDatabaseService->getMessageRecipients($messageID, $take);
+    }
+
+    public function getMessageGroupRecipients(string $messageGroupID, int $take = 10): array
+    {
+        return $this->messageGroupRecipientDatabaseService->getMessageGroupRecipients($messageGroupID, $take);
+    }
 }

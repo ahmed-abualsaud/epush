@@ -18,7 +18,7 @@ class SendMessageDto implements DtoContract
             'language' => 'required|string|exists:message_languages,name',
             'scheduled_at' => 'string',
             'notes' => 'string',
-            'group_name' => 'string',
+            'group_name' => 'string|unique:message_groups,name',
         ];
     }
 

@@ -16,7 +16,6 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "spatie/laravel-route-attributes": "^1.18"
     },
     "extra": {
         "laravel": {

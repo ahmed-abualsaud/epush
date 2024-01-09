@@ -27,6 +27,7 @@ return new class extends Migration
             $table->timestamp('scheduled_at')->useCurrent()->nullable();
             $table->boolean('sent')->default(false);
             $table->ipAddress('sender_ip');
+            $table->string('message_type');
             $table->timestamps();
         });
     }

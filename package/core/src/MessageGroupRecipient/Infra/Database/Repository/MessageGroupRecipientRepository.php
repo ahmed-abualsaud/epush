@@ -32,6 +32,27 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
             return empty($messageGroupRecipient) ? [] : $messageGroupRecipient->toArray();
         });
     }
+
+    public function getMessageRecipients(string $messageID, int $take): array
+    {
+        return DB::transaction(function () use ($messageID, $take) {
+
+            return $this->messageGroupRecipient
+            ->join('message_recipients', 'message_recipients.message_group_recipient_id', 'message_group_recipients.id')
+            ->where('message_id', $messageID)
+            ->paginate($take)->toArray();
+        });
+    }
+
+    public function getMessageGroupRecipients(string $messageGroupID, int $take): array
+    {
+        return DB::transaction(function () use ($messageGroupID, $take) {
+
+            return $this->messageGroupRecipient
+            ->where('message_group_id', $messageGroupID)
+            ->paginate($take)->toArray();
+        });
+    }
     
     public function insert(string $groupID, array $messageGroupRecipients): array
     {

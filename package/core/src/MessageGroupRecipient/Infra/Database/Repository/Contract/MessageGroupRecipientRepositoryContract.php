@@ -17,4 +17,9 @@ interface MessageGroupRecipientRepositoryContract
     public function deleteGroupRecipients(string $groupID): bool;
 
     public function searchColumn(string $column, string $value, int $take = 10): array;
+
+    public function getMessageRecipients(string $messageID, int $take): array;
+
+    public function getMessageGroupRecipients(string $messageGroupID, int $take): array;
+
 }

@@ -2,6 +2,7 @@
 
 namespace Epush\Auth\User\Infra\Credentials;
 
+use Ichtrojan\Otp\Otp;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,16 @@ class CredentialsDriver implements CredentialsDriverContract
     public function hashPassword(string $password): string
     {
         return Hash::make($password);
+    }
+
+    public function validateOtp(string $identifier, string $token): array
+    {
+        return (array) (new Otp)->validate($identifier, $token);
+    }
+
+    public function generateOtp(string $identifier): array
+    {
+        return (array) (new Otp)->generate($identifier, 'numeric', 4, 15);
     }
 
     public function generatePassword(): string

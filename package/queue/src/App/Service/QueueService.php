@@ -40,7 +40,7 @@ class QueueService implements QueueServiceContract
     {
         $queueCommand = 'php ' . base_path() . '/artisan queue:work --queue=' . $queue;
         $output = explode("\n", shell_exec('ps aux | grep "' . $queueCommand . '"'));
-        $queueProcess = arrayFind($output, fn ($out) => stringContains($out, $queueCommand) && ! stringContains($out, "grep"));
+        $queueProcess = array_filter($output, fn ($out) => stringContains($out, $queueCommand) && ! stringContains($out, "grep"));
 
         if ($enabled) 
         {
@@ -49,6 +49,13 @@ class QueueService implements QueueServiceContract
             }
 
             shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+            if (strtolower($queue) === "database") {
+                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+            }
             return "Queue ". $queue . " started successfully";
         }
         else 
@@ -56,8 +63,12 @@ class QueueService implements QueueServiceContract
             if (empty($queueProcess)) {
                 return "Queue ". $queue . " is already stopped";
             }
+
+            $queueProccessID = "";
+            foreach ($queueProcess as $qp) {
+                $queueProccessID .= preg_split('/\s+/', $qp)[1]." ";
+            }
     
-            $queueProccessID = preg_split('/\s+/', $queueProcess)[1];
             $output = shell_exec("kill -9 ".$queueProccessID);
     
             if (empty($output)) {

@@ -47,4 +47,14 @@ class MessageGroupRecipientDatabaseService implements MessageGroupRecipientDatab
     {
         return $this->messageGroupRecipientDatabaseDriver->messageGroupRecipientRepository()->searchColumn($column, $value, $take);
     }
+
+    public function getMessageRecipients(string $messageID, int $take = 10): array
+    {
+        return $this->messageGroupRecipientDatabaseDriver->messageGroupRecipientRepository()->getMessageRecipients($messageID, $take);
+    }
+
+    public function getMessageGroupRecipients(string $messageGroupID, int $take = 10): array
+    {
+        return $this->messageGroupRecipientDatabaseDriver->messageGroupRecipientRepository()->getMessageGroupRecipients($messageGroupID, $take);
+    }
 }

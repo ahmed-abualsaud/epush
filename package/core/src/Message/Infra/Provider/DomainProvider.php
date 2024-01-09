@@ -13,6 +13,7 @@ use Epush\Core\Message\Domain\DTO\UpdateMessageDto;
 use Epush\Core\Message\Domain\DTO\BulkAddMessageDto;
 use Epush\Core\Message\Domain\DTO\OldApiSendBulkDto;
 use Epush\Core\Message\Domain\DTO\OldApiCheckBalanceDto;
+use Epush\Core\Message\Domain\DTO\GetMessageRecipientsDto;
 
 class DomainProvider extends ServiceProvider
 {
@@ -59,6 +60,12 @@ class DomainProvider extends ServiceProvider
 
         $this->app->bind(SearchMessageDto::class, function () {
             return new SearchMessageDto($this->app->make('request')->all());
+        });
+
+        $this->app->bind(GetMessageRecipientsDto::class, function () {
+            $inputs = $this->app->make('request')->all();
+            $inputs['message_id'] = $this->app->make('request')->route('message_id');
+            return new GetMessageRecipientsDto($inputs);
         });
 
         $this->app->bind(SendMessageDto::class, function () {

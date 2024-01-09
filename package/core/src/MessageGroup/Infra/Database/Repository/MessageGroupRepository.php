@@ -19,7 +19,9 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->messageGroup->with(["recipients"])->paginate($take)->toArray();
+            return $this->messageGroup
+            // ->with(["recipients"])
+            ->paginate($take)->toArray();
 
         });
     }
@@ -28,7 +30,9 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
     {
         return DB::transaction(function () use ($messageGroupID) {
 
-            $messageGroup =  $this->messageGroup->with(["recipients"])->where('id', $messageGroupID)->first();
+            $messageGroup =  $this->messageGroup
+            // ->with(["recipients"])
+            ->where('id', $messageGroupID)->first();
             return empty($messageGroup) ? [] : $messageGroup->toArray();
         });
     }
@@ -37,7 +41,9 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
     {
         return DB::transaction(function () use ($userID) {
 
-            return $this->messageGroup->with(["recipients"])->where('user_id', $userID)->get()->toArray();
+            return $this->messageGroup
+            // ->with(["recipients"])
+            ->where('user_id', $userID)->get()->toArray();
         });
     }
 
@@ -80,7 +86,8 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
     {
         return DB::transaction(function () use ($column, $value, $take) {
 
-            return $this->messageGroup->with(["recipients"])
+            return $this->messageGroup
+                // ->with(["recipients"])
                 ->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
                 ->paginate($take)->toArray();
         });

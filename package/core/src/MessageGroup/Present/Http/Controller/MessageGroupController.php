@@ -13,6 +13,7 @@ use Epush\Core\MessageGroup\Domain\DTO\AddMessageGroupDto;
 use Epush\Core\MessageGroup\Domain\DTO\ListMessageGroupsDto;
 use Epush\Core\MessageGroup\Domain\DTO\SearchMessageGroupDto;
 use Epush\Core\MessageGroup\Domain\DTO\UpdateMessageGroupDto;
+use Epush\Core\MessageGroup\Domain\DTO\GetMessageGroupRecipientsDto;
 
 use Epush\Core\MessageGroup\Domain\UseCase\GetMessageGroupUseCase;
 use Epush\Core\MessageGroup\Domain\UseCase\AddMessageGroupUseCase;
@@ -20,6 +21,7 @@ use Epush\Core\MessageGroup\Domain\UseCase\ListMessageGroupsUseCase;
 use Epush\Core\MessageGroup\Domain\UseCase\DeleteMessageGroupUseCase;
 use Epush\Core\MessageGroup\Domain\UseCase\SearchMessageGroupUseCase;
 use Epush\Core\MessageGroup\Domain\UseCase\UpdateMessageGroupUseCase;
+use Epush\Core\MessageGroup\Domain\UseCase\GetMessageGroupRecipientsUseCase;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -61,5 +63,11 @@ class MessageGroupController
     public function searchMessageGroupColumn(SearchMessageGroupDto $searchMessageGroupDto, SearchMessageGroupUseCase $searchMessageGroupUseCase): Response
     {
         return jsonResponse($searchMessageGroupUseCase->execute($searchMessageGroupDto));
+    }
+
+    #[Get('{message_group_id}/recipients')]
+    public function grtMessageGroupRecipients(GetMessageGroupRecipientsDto $getMessageGroupRecipientsDto, GetMessageGroupRecipientsUseCase $getMessageGroupRecipientsUseCase): Response
+    {
+        return jsonResponse($getMessageGroupRecipientsUseCase->execute($getMessageGroupRecipientsDto));
     }
 }

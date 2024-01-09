@@ -3,6 +3,7 @@
 namespace Epush\Core\Message\Infra\Driver;
 
 use Epush\Core\Message\Infra\Job\SendMessageJob;
+use Epush\Core\Message\Infra\Job\InsertMessageJob;
 
 class MessageDriver implements MessageDriverContract
 {
@@ -65,4 +66,13 @@ class MessageDriver implements MessageDriverContract
             }
         }
     }
+
+    public function insertMessage(array $message, array $messageGroupRecipients): void
+    {
+        dispatch( new InsertMessageJob(
+            $message,
+            $messageGroupRecipients,
+        ));
+    }
+    
 }

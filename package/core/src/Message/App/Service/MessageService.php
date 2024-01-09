@@ -2,15 +2,14 @@
 
 namespace Epush\Core\Message\App\Service;
 
-use DateTime;
-use InvalidArgumentException;
 use Epush\Shared\Infra\Utils\Settings;
 use Epush\Shared\Infra\Utils\WalletActions;
 
 use Epush\Core\Sender\App\Contract\SenderServiceContract;
 use Epush\Core\Message\App\Contract\MessageServiceContract;
-use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
 use Epush\Core\Message\Infra\Driver\MessageDriverContract;
+use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
+
 use Epush\Core\MessageFilter\App\Contract\MessageFilterServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageSegment\App\Contract\MessageSegmentServiceContract;
@@ -18,6 +17,7 @@ use Epush\Core\MessageLanguage\App\Contract\MessageLanguageServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
 use Epush\Core\SenderConnection\App\Contract\SenderConnectionServiceContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
+
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class MessageService implements MessageServiceContract
@@ -67,6 +67,11 @@ class MessageService implements MessageServiceContract
         $message = tableWith($message, $senders, "sender_id");
 
         return $message[0];
+    }
+
+    public function getMessageRecipients(string $messageID, int $take = 10): array
+    {
+        return $this->messageGroupRecipientService->getMessageRecipients($messageID, $take);
     }
 
     public function getMessagesByUsersID(array $usersID, int $take = 10): array
@@ -147,6 +152,7 @@ class MessageService implements MessageServiceContract
         $totalCost = (float) number_format($message['single_message_cost'] * $message['number_of_segments'] * $message['number_of_recipients'], 2);
         $message['total_cost'] = $totalCost;
 
+
         $this->communicationEngine->broadcast(
             "core:client:update-client-wallet", 
             $userID, 
@@ -172,16 +178,11 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
+        $message['message_type'] = $this->isTheAuthenticatedUserAdmin() ? 'Admin' : 'Client';
         $message = $this->messageDatabaseService->addMessage($message);
         $this->messageSegmentService->add($message['id'], $segments);
 
-        foreach ($messageGroupRecipients as $messageGroupRecipient) {
-            $msgrcp = $this->messageGroupService->add([
-                'name' => $messageGroupRecipient['name'],
-                'user_id' => $messageGroupRecipient['user_id']
-            ], $messageGroupRecipient['recipients']);
-            $this->messageRecipientService->add($message['id'], array_column($msgrcp, 'id'), 'Sent');
-        }
+        $this->messageDriver->insertMessage($message, $messageGroupRecipients);
 
         return $this->get($message['id']);
     }
@@ -305,7 +306,8 @@ class MessageService implements MessageServiceContract
                 'sent' => $approved,
                 'number_of_segments' => count($message['segments']),
                 'number_of_recipients' => 1,
-                'sender_ip' => $messages['sender_ip']
+                'sender_ip' => $messages['sender_ip'],
+                'message_type' => $this->isTheAuthenticatedUserAdmin() ? 'Admin' : 'Client',
             ]);
 
             $this->messageSegmentService->add($insertedMessage['id'], $message['segments']);
@@ -588,7 +590,9 @@ class MessageService implements MessageServiceContract
             'scheduled_at' => array_key_exists('scheduled_at', $inputs)? $inputs['scheduled_at'] : date("Y-m-d H:i:s"),
             'sent' => $approved,
             'number_of_segments' => $numberOfSegments,
-            'number_of_recipients' => $numberOfRecipients
+            'number_of_recipients' => $numberOfRecipients,
+            'sender_ip' => $inputs['ip_address'],
+            'message_type' => 'API',
         ]);
 
         $this->messageSegmentService->add($message['id'], $segments);
@@ -763,7 +767,9 @@ class MessageService implements MessageServiceContract
             'scheduled_at' => array_key_exists('scheduled_at', $inputs)? $inputs['scheduled_at'] : date("Y-m-d H:i:s"),
             'sent' => $approved,
             'number_of_segments' => $numberOfSegments,
-            'number_of_recipients' => $numberOfRecipients
+            'number_of_recipients' => $numberOfRecipients,
+            'sender_ip' => $inputs['ip_address'],
+            'message_type' => 'API',
         ]);
 
         $messageSegments = $this->messageSegmentService->add($message['id'], $segments);
@@ -804,7 +810,7 @@ class MessageService implements MessageServiceContract
     private function updateAndSendMessage(array $message): array
     {
         $sender = $this->senderService->get($message['sender_id']);
-        $numbers = array_map(fn($recip) => $recip['number'], $message['recipients']);
+        $numbers = array_map(fn($recip) => $recip['message_group_recipient']['number'], $message['recipients']);
         $senderConnections = $this->senderConnectionService->getSenderConnections($message['sender_id']);
         $adjustedSenderConnections = $this->clusterPhoneNumbersRegardingSenderConnections($senderConnections, $numbers);
 
@@ -818,22 +824,59 @@ class MessageService implements MessageServiceContract
         return $message;
     }
 
-    private function clusterPhoneNumbersRegardingSenderConnections(array $senderConnections, array $phoneNumbers) {
+    private function clusterPhoneNumbersRegardingSenderConnections(array $senderConnections, array $phoneNumbers)
+    {
         if (empty($phoneNumbers) || empty($senderConnections)) {
             return [];
         }
-
-        $adjustedSenderConnections['connections'] = array_map(fn ($conn) => [
-            ...$conn,
-            'numbers' => $conn['smsc']['default'] ? $this->getConnectionPhoneNumbers($conn['smsc']['country']['code'], $conn['smsc']['operator']['code'], $phoneNumbers) : []
-        ], $senderConnections);
-
-        $adjustedSenderConnections['valid_numbers'] = array_unique(array_merge(...array_map(fn ($conn) => $conn['numbers'], $adjustedSenderConnections['connections'])));
-        $adjustedSenderConnections['invalid_numbers'] = array_values(array_filter($phoneNumbers, function ($number) use ($adjustedSenderConnections) {
-            return ! in_array($number, array_map(fn ($num) => substr($num, - strlen($number)), $adjustedSenderConnections['valid_numbers']));
-        }));
+    
+        $adjustedSenderConnections = ['connections' => []];
+    
+        foreach ($senderConnections as $conn) {
+            $numbers = [];
+    
+            if ($conn['smsc']['default']) {
+                $numbers = $this->getConnectionPhoneNumbers(
+                    $conn['smsc']['country']['code'],
+                    $conn['smsc']['operator']['code'],
+                    $phoneNumbers
+                );
+            }
+    
+            $adjustedSenderConnections['connections'][] = array_merge($conn, ['numbers' => $numbers]);
+        }
+    
+        $adjustedSenderConnections['valid_numbers'] = array_unique(
+            array_merge(...array_column($adjustedSenderConnections['connections'], 'numbers'))
+        );
+    
+        $validNumbers = array_flip($adjustedSenderConnections['valid_numbers']);
+    
+        $adjustedSenderConnections['invalid_numbers'] = array_values(
+            array_filter($phoneNumbers, function ($number) use ($validNumbers) {
+                return !isset($validNumbers[$number]);
+            })
+        );
+    
         return $adjustedSenderConnections;
     }
+
+    // private function clusterPhoneNumbersRegardingSenderConnections(array $senderConnections, array $phoneNumbers) {
+    //     if (empty($phoneNumbers) || empty($senderConnections)) {
+    //         return [];
+    //     }
+
+    //     $adjustedSenderConnections['connections'] = array_map(fn ($conn) => [
+    //         ...$conn,
+    //         'numbers' => $conn['smsc']['default'] ? $this->getConnectionPhoneNumbers($conn['smsc']['country']['code'], $conn['smsc']['operator']['code'], $phoneNumbers) : []
+    //     ], $senderConnections);
+
+    //     $adjustedSenderConnections['valid_numbers'] = array_unique(array_merge(...array_map(fn ($conn) => $conn['numbers'], $adjustedSenderConnections['connections'])));
+    //     $adjustedSenderConnections['invalid_numbers'] = array_values(array_filter($phoneNumbers, function ($number) use ($adjustedSenderConnections) {
+    //         return ! in_array($number, array_map(fn ($num) => substr($num, - strlen($number)), $adjustedSenderConnections['valid_numbers']));
+    //     }));
+    //     return $adjustedSenderConnections;
+    // }
 
     private function getConnectionPhoneNumbers(string $countryCode, string $operatorCode, array $phoneNumbers) {
         if (empty($countryCode) || empty($operatorCode) || empty($phoneNumbers)) {
@@ -858,6 +901,35 @@ class MessageService implements MessageServiceContract
             return stringStartsWith($number, $countryCode.$operatorCode);
         }));
     }
+    
+    // private function getConnectionPhoneNumbers(string $countryCode, string $operatorCode, array $phoneNumbers)
+    // {
+    //     if (empty($countryCode) || empty($operatorCode) || empty($phoneNumbers)) {
+    //         return [];
+    //     }
+    
+    //     $defaultCountryCode = $this->communicationEngine->broadcast("settings:get", Settings::DEFAULT_COUNTRY_CODE->value)[0]['value'];
+    
+    //     $adjustedPhoneNumbers = [];
+    
+    //     foreach ($phoneNumbers as $number) {
+    //         if ($defaultCountryCode === $countryCode) {
+    //             if (strpos($number, $operatorCode) === 0) {
+    //                 $adjustedPhoneNumbers[] = $countryCode . $number;
+    //             } elseif (strpos($number, substr($countryCode, -1) . $operatorCode) === 0) {
+    //                 $adjustedPhoneNumbers[] = substr($countryCode, 0, -1) . $number;
+    //             }
+    //         } else {
+    //             $adjustedPhoneNumbers[] = $number;
+    //         }
+    //     }
+    
+    //     return array_values(
+    //         array_filter($adjustedPhoneNumbers, function ($number) use ($countryCode, $operatorCode) {
+    //             return strpos($number, $countryCode . $operatorCode) === 0;
+    //         })
+    //     );
+    // }
 
     private function getMessageSegments(string $message, array $language): array
     {
@@ -867,7 +939,7 @@ class MessageService implements MessageServiceContract
 
         if (strlen($message) <= $language['max_characters_length']) {
             return [
-                    [
+                [
                     'number' => 1,
                     'content' => $message
                 ]
@@ -919,5 +991,15 @@ class MessageService implements MessageServiceContract
                 $this->communicationEngine->broadcast("mail:send-to", $mail, $subject, $content);
             }
         }
+    }
+
+    private function isTheAuthenticatedUserAdmin(): bool
+    {
+        $user = $this->communicationEngine->broadcast("auth:user:get-auth-user")[0];
+        if (config('auth.super_admin_username') === $user['username']) {
+            return true;
+        }
+        $client = $this->communicationEngine->broadcast("core:client:get-client", $user['id'])[0];
+        return empty($client);
     }
 }

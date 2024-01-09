@@ -17,4 +17,9 @@ interface MessageGroupRecipientDatabaseServiceContract
     public function paginateMessageGroupRecipients(int $take): array;
 
     public function searchMessageGroupRecipientColumn(string $column, string $value, int $take = 10): array;
+
+    public function getMessageRecipients(string $messageID, int $take): array;
+
+    public function getMessageGroupRecipients(string $messageGroupID, int $take): array;
+
 }

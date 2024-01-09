@@ -76,4 +76,9 @@ class MessageGroupService implements MessageGroupServiceContract
     {
         return $this->messageGroupDatabaseService->getMessageGroupsByUsersID($usersID, $take);
     }
+
+    public function getMessageGroupRecipients(string $messageGroupID, int $take = 10): array
+    {
+        return $this->messageGroupRecipientService->getMessageGroupRecipients($messageGroupID, $take);
+    }
 }

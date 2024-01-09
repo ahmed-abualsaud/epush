@@ -23,7 +23,7 @@ class MessageRepository implements MessageRepositoryContract
             return $this->message->with([
                 'segments',
                 'language', 
-                'recipients' => ['messageGroupRecipient']
+                // 'recipients' => ['messageGroupRecipient']
             ])->paginate($take)->toArray();
 
         });
@@ -36,7 +36,7 @@ class MessageRepository implements MessageRepositoryContract
             $message =  $this->message->with([
                 'segments',
                 'language', 
-                'recipients' => ['messageGroupRecipient']
+                // 'recipients' => ['messageGroupRecipient']
             ])->where('id', $messageID)->first();
             return empty($message) ? [] : $message->toArray();
         });
@@ -106,6 +106,7 @@ class MessageRepository implements MessageRepositoryContract
                     'number_of_segments' => $messages['number_of_segments'],
                     'number_of_recipients' => $messages['number_of_recipients'],
                     'sender_ip' => $messages['sender_ip'],
+                    'message_type' => $messages['message_type'],
                     'created_at' => date("Y-m-d H:i:s"),
                     'updated_at' => date("Y-m-d H:i:s")
                 ];
@@ -148,7 +149,7 @@ class MessageRepository implements MessageRepositoryContract
             $message = $this->message->with([
                 'segments',
                 'language', 
-                'recipients' => ['messageGroupRecipient']
+                // 'recipients' => ['messageGroupRecipient']
             ]);
 
             $message = match ($column) 
@@ -170,9 +171,10 @@ class MessageRepository implements MessageRepositoryContract
     {
         return DB::transaction(function () {
 
-            return $this->message->with([
-                'recipients' => ['messageGroupRecipient']
-            ])
+            return $this->message
+            // ->with([
+            //     'recipients' => ['messageGroupRecipient']
+            // ])
             ->where('sent', false)
             ->where('approved', true)
             ->where('scheduled_at', '<', Carbon::now())

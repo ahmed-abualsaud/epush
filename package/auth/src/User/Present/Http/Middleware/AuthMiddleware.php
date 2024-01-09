@@ -68,7 +68,9 @@ class AuthMiddleware
         if ($method === 'POST' && in_array($path, [
                 'api/auth/user/signin', 
                 'api/auth/user/signup', 
+                'api/auth/user/verify-account',
                 'api/auth/user/reset-password',
+                'api/auth/user/forget-password',
             ])) {
 
             app(InterprocessCommunicationEngineContract::class)->broadcast("sms:send", $handler, $request, $response)[0];
@@ -118,9 +120,12 @@ class AuthMiddleware
             return failureJSONResponse('You don\'t have access to the requested feature '.$method.'|'.$path, 403);
         }
 
-        app(InterprocessCommunicationEngineContract::class)->broadcast("sms:send", $handler, $request, $response)[0];
-        app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $handler, $request, $response)[0];
-        app(InterprocessCommunicationEngineContract::class)->broadcast("notification:send", $handler, $request, $response)[0];
+        if (! in_array($handler['name'], ["sendMessage", "sendBulkGet", "sendBulkPost", "bulkAddMessage", "addMessage"])) {
+            app(InterprocessCommunicationEngineContract::class)->broadcast("sms:send", $handler, $request, $response)[0];
+            app(InterprocessCommunicationEngineContract::class)->broadcast("mail:send", $handler, $request, $response)[0];
+            app(InterprocessCommunicationEngineContract::class)->broadcast("notification:send", $handler, $request, $response)[0];
+        }
+
         return $response;
     }
 }

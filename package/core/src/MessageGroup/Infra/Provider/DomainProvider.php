@@ -4,6 +4,7 @@ namespace Epush\Core\MessageGroup\Infra\Provider;
 
 use Epush\Core\MessageGroup\Domain\DTO\MessageGroupDto;
 use Epush\Core\MessageGroup\Domain\DTO\AddMessageGroupDto;
+use Epush\Core\MessageGroup\Domain\DTO\GetMessageGroupRecipientsDto;
 use Epush\Core\MessageGroup\Domain\DTO\ListMessageGroupsDto;
 use Epush\Core\MessageGroup\Domain\DTO\SearchMessageGroupDto;
 use Epush\Core\MessageGroup\Domain\DTO\UpdateMessageGroupDto;
@@ -47,6 +48,12 @@ class DomainProvider extends ServiceProvider
 
         $this->app->bind(SearchMessageGroupDto::class, function () {
             return new SearchMessageGroupDto($this->app->make('request')->all());
+        });
+
+        $this->app->bind(GetMessageGroupRecipientsDto::class, function () {
+            $inputs = $this->app->make('request')->all();
+            $inputs['message_group_id'] = $this->app->make('request')->route('message_group_id');
+            return new GetMessageGroupRecipientsDto($inputs);
         });
     }
 }

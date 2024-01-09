@@ -6,6 +6,10 @@ interface CredentialsServiceContract
 {
     public function generatePassword(string $userID): string;
 
+    public function validateOtp(string $identifier, string $token): array;
+
+    public function generateOtp(string $identifier): array;
+
     public function resetPassword(string $userEmail, string $password): void;
 
     public function signin(string $username, string $password): array;

@@ -23,6 +23,16 @@ class CredentialsService implements CredentialsServiceContract
         return $password;
     }
 
+    public function validateOtp(string $identifier, string $token): array
+    {
+        return $this->credentialsDriver->validateOtp($identifier, $token);
+    }
+
+    public function generateOtp(string $identifier): array
+    {
+        return $this->credentialsDriver->generateOtp($identifier);
+    }
+
     public function resetPassword(string $userEmail, string $newPassword): void
     {
         $hashedPassword = $this->credentialsDriver->hashPassword($newPassword);

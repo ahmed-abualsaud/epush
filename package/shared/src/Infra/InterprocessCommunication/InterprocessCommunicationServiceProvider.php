@@ -110,6 +110,7 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
 
                 $engine->attach(new StoreFileMicroprocess(app(FileServiceContract::class)), "file:store");
                 $engine->attach(new DeleteFileMicroprocess(app(FileServiceContract::class)), "file:delete");
+                $engine->attach(new SendToMailMicroprocess(app(MailServiceContract::class)), "mail:send-to");
                 $engine->attach(new GetSystemHandlersMicroprocess(app(OrchiDatabaseServiceContract::class)), "orchi:handler:get-handlers-by-id");
 
                 return $engine;

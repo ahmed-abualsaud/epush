@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "tymon/jwt-auth": "^2.0",
-        "spatie/laravel-route-attributes": "^1.18"
+        "ichtrojan/laravel-otp": "^2.0"
     },
     "license": "MIT",
     "autoload": {

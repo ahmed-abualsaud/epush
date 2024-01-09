@@ -50,12 +50,28 @@ class HandlerSeeder extends Seeder
         // 5
         Handler::create([
             'handle_group_id' => 1,
+            'name' => 'forgetPassword',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/auth/user/forget-password',
+            'description' => 'forget password function',
+            'enabled' => true,
+        ]);
+        // 6
+        Handler::create([
+            'handle_group_id' => 1,
             'name' => 'generatePassword',
             'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/auth/user/generate-password',
             'description' => 'generate password function',
             'enabled' => true,
         ]);
-        // 6
+        // 7
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'verifyAccount',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/auth/user/verify-account',
+            'description' => 'verify user account function',
+            'enabled' => true,
+        ]);
+        // 8
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'listUsers',
@@ -63,7 +79,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get all users',
             'enabled' => true,
         ]);
-        // 7
+        // 9
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'getUser',
@@ -71,7 +87,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific user',
             'enabled' => true,
         ]);
-        // 8
+        // 10
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'updateUser',
@@ -79,7 +95,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update user data',
             'enabled' => true,
         ]);
-        // 9
+        // 11
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'deleteUser',
@@ -87,7 +103,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific user',
             'enabled' => true,
         ]);
-        // 10
+        // 12
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'getUserRoles',
@@ -95,7 +111,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get the roles for a specific user',
             'enabled' => true,
         ]);
-        // 11
+        // 13
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'assignUserRoles',
@@ -103,7 +119,7 @@ class HandlerSeeder extends Seeder
             'description' => 'assign a group of roles to a specific user',
             'enabled' => true,
         ]);
-        // 12
+        // 14
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'unassignUserRoles',
@@ -111,7 +127,7 @@ class HandlerSeeder extends Seeder
             'description' => 'unassign a group of roles to a specific user',
             'enabled' => true,
         ]);
-        // 13
+        // 15
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'getUserPermissions',
@@ -119,7 +135,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get permissions for a specific user',
             'enabled' => true,
         ]);
-        // 14
+        // 16
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'getAllUserPermissions',
@@ -127,7 +143,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get all permissions (roles permissions + standalone permissions) assigned to a specific user',
             'enabled' => true,
         ]);
-        // 15
+        // 17
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'assignUserPermissions',
@@ -135,7 +151,7 @@ class HandlerSeeder extends Seeder
             'description' => 'assign a group of permissions to a specific user',
             'enabled' => true,
         ]);
-        // 16
+        // 18
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'unassignUserPermissions',
@@ -143,7 +159,7 @@ class HandlerSeeder extends Seeder
             'description' => 'unassign a group of permissions to a specific user',
             'enabled' => true,
         ]);
-        // 17
+        // 19
         Handler::create([
             'handle_group_id' => 1,
             'name' => 'searchUserColumn',
@@ -153,7 +169,7 @@ class HandlerSeeder extends Seeder
         ]);
 
         // Role Controller Handlers =================================================================================================================
-        // 18
+        // 20
         Handler::create([
             'handle_group_id' => 2,
             'name' => 'listRoles',
@@ -161,7 +177,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get all roles',
             'enabled' => true,
         ]);
-        // 19
+        // 21
         Handler::create([
             'handle_group_id' => 2,
             'name' => 'addRole',
@@ -169,7 +185,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new role',
             'enabled' => true,
         ]);
-        // 20
+        // 21
         Handler::create([
             'handle_group_id' => 2,
             'name' => 'updateRole',
@@ -177,7 +193,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific role',
             'enabled' => true,
         ]);
-        // 21
+        // 23
         Handler::create([
             'handle_group_id' => 2,
             'name' => 'deleteRole',
@@ -185,7 +201,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific role',
             'enabled' => true,
         ]);
-        // 22
+        // 24
         Handler::create([
             'handle_group_id' => 2,
             'name' => 'getRolePermissions',
@@ -193,7 +209,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get permissions for a specific role',
             'enabled' => true,
         ]);
-        // 23
+        // 25
         Handler::create([
             'handle_group_id' => 2,
             'name' => 'assignRolePermissions',
@@ -201,7 +217,7 @@ class HandlerSeeder extends Seeder
             'description' => 'assign a group of permissions to a specific role',
             'enabled' => true,
         ]);
-        // 24
+        // 26
         Handler::create([
             'handle_group_id' => 2,
             'name' => 'unassignRolePermissions',
@@ -212,7 +228,7 @@ class HandlerSeeder extends Seeder
 
 
         // Permission Controller Handlers =================================================================================================================
-        // 25
+        // 27
         Handler::create([
             'handle_group_id' => 3,
             'name' => 'listPermissions',
@@ -220,7 +236,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get all permissions',
             'enabled' => true,
         ]);
-        // 26
+        // 28
         Handler::create([
             'handle_group_id' => 3,
             'name' => 'updatePermission',
@@ -228,7 +244,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific permission',
             'enabled' => true,
         ]);
-        // 27
+        // 29
         Handler::create([
             'handle_group_id' => 3,
             'name' => 'deletePermission',
@@ -239,7 +255,7 @@ class HandlerSeeder extends Seeder
 
 
         // AppService Controller Handlers =================================================================================================================
-        // 28
+        // 30
         Handler::create([
             'handle_group_id' => 4,
             'name' => 'listAppServices',
@@ -247,7 +263,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list app services function',
             'enabled' => true,
         ]);
-        // 29
+        // 31
         Handler::create([
             'handle_group_id' => 4,
             'name' => 'getAppServiceContexts',
@@ -255,7 +271,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get app service contexts function',
             'enabled' => true,
         ]);
-        // 30
+        // 32
         Handler::create([
             'handle_group_id' => 4,
             'name' => 'updateAppService',
@@ -266,7 +282,7 @@ class HandlerSeeder extends Seeder
 
 
         // Context Controller Handlers =================================================================================================================
-        // 31
+        // 33
         Handler::create([
             'handle_group_id' => 5,
             'name' => 'getContextHandleGroups',
@@ -274,7 +290,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get context handle groups function',
             'enabled' => true,
         ]);
-        // 32
+        // 34
         Handler::create([
             'handle_group_id' => 5,
             'name' => 'updateContext',
@@ -285,7 +301,7 @@ class HandlerSeeder extends Seeder
 
 
         // HandleGroup Controller Handlers =================================================================================================================
-        // 33
+        // 35
         Handler::create([
             'handle_group_id' => 6,
             'name' => 'getHandleGroupHandlers',
@@ -293,7 +309,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get handle group handles function',
             'enabled' => true,
         ]);
-        // 34
+        // 36
         Handler::create([
             'handle_group_id' => 6,
             'name' => 'updateHandleGroup',
@@ -304,7 +320,7 @@ class HandlerSeeder extends Seeder
 
         
         // Handler Controller Handlers =================================================================================================================
-        // 35
+        // 37
         Handler::create([
             'handle_group_id' => 7,
             'name' => 'listHandlers',
@@ -312,7 +328,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get all application handlers',
             'enabled' => true,
         ]);
-        // 36
+        // 38
         Handler::create([
             'handle_group_id' => 7,
             'name' => 'updateHandler',
@@ -320,7 +336,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update handler function',
             'enabled' => true,
         ]);
-        // 37
+        // 39
         Handler::create([
             'handle_group_id' => 7,
             'name' => 'searchHandlerColumn',
@@ -331,7 +347,7 @@ class HandlerSeeder extends Seeder
 
 
         // File Controller Handlers =================================================================================================================
-        // 38
+        // 40
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'getFile',
@@ -339,7 +355,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific file',
             'enabled' => true,
         ]);
-        // 39
+        // 41
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'addFile',
@@ -347,7 +363,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new file',
             'enabled' => true,
         ]);
-        // 40
+        // 42
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'listFiles',
@@ -355,7 +371,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all files',
             'enabled' => true,
         ]);
-        // 41
+        // 43
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'deleteFile',
@@ -363,7 +379,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific file',
             'enabled' => true,
         ]);
-        // 42
+        // 44
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'updateFile',
@@ -371,7 +387,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific file',
             'enabled' => true,
         ]);
-        // 43
+        // 45
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'searchFileColumn',
@@ -379,7 +395,7 @@ class HandlerSeeder extends Seeder
             'description' => 'find a specific value for a column of the files table',
             'enabled' => true,
         ]);
-        // 44
+        // 46
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'exportPDF',
@@ -387,7 +403,7 @@ class HandlerSeeder extends Seeder
             'description' => 'export pdf file function',
             'enabled' => true,
         ]);
-        // 45
+        // 47
         Handler::create([
             'handle_group_id' => 8,
             'name' => 'exportExcel',
@@ -398,7 +414,7 @@ class HandlerSeeder extends Seeder
 
 
         // Folder Controller Handlers =================================================================================================================
-        // 46
+        // 48
         Handler::create([
             'handle_group_id' => 9,
             'name' => 'getFolder',
@@ -406,7 +422,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific folder',
             'enabled' => true,
         ]);
-        // 47
+        // 49
         Handler::create([
             'handle_group_id' => 9,
             'name' => 'addFolder',
@@ -414,7 +430,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new folder',
             'enabled' => true,
         ]);
-        // 48
+        // 50
         Handler::create([
             'handle_group_id' => 9,
             'name' => 'listFolders',
@@ -422,7 +438,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all folders',
             'enabled' => true,
         ]);
-        // 49
+        // 51
         Handler::create([
             'handle_group_id' => 9,
             'name' => 'deleteFolder',
@@ -430,7 +446,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific folder',
             'enabled' => true,
         ]);
-        // 50
+        // 52
         Handler::create([
             'handle_group_id' => 9,
             'name' => 'updateFolder',
@@ -438,7 +454,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific folder',
             'enabled' => true,
         ]);
-        // 51
+        // 53
         Handler::create([
             'handle_group_id' => 9,
             'name' => 'searchFolderColumn',
@@ -449,7 +465,7 @@ class HandlerSeeder extends Seeder
 
         
         // Admin Controller Handlers =================================================================================================================
-        // 52
+        // 54
         Handler::create([
             'handle_group_id' => 10,
             'name' => 'getAdmin',
@@ -457,7 +473,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific admin',
             'enabled' => true,
         ]);
-        // 53
+        // 55
         Handler::create([
             'handle_group_id' => 10,
             'name' => 'addAdmin',
@@ -465,7 +481,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new admin',
             'enabled' => true,
         ]);
-        // 54
+        // 56
         Handler::create([
             'handle_group_id' => 10,
             'name' => 'listAdmins',
@@ -473,7 +489,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all admins',
             'enabled' => true,
         ]);
-        // 55
+        // 57
         Handler::create([
             'handle_group_id' => 10,
             'name' => 'deleteAdmin',
@@ -481,7 +497,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific admin',
             'enabled' => true,
         ]);
-        // 56
+        // 58
         Handler::create([
             'handle_group_id' => 10,
             'name' => 'updateAdmin',
@@ -489,7 +505,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific admin',
             'enabled' => true,
         ]);
-        // 57
+        // 59
         Handler::create([
             'handle_group_id' => 10,
             'name' => 'searchAdminColumn',
@@ -500,7 +516,7 @@ class HandlerSeeder extends Seeder
 
         
         // Client Controller Handlers =================================================================================================================
-        // 58
+        // 60
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'getClient',
@@ -508,7 +524,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific client',
             'enabled' => true,
         ]);
-        // 59
+        // 61
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'addClient',
@@ -516,7 +532,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new client',
             'enabled' => true,
         ]);
-        // 60
+        // 62
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'listClients',
@@ -524,7 +540,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all clients',
             'enabled' => true,
         ]);
-        // 61
+        // 63
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'deleteClient',
@@ -532,7 +548,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific client',
             'enabled' => true,
         ]);
-        // 62
+        // 64
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'updateClient',
@@ -540,7 +556,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific client',
             'enabled' => true,
         ]);
-        // 63
+        // 65
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'searchClientColumn',
@@ -548,7 +564,7 @@ class HandlerSeeder extends Seeder
             'description' => 'find a specific value for a column of the clients table',
             'enabled' => true,
         ]);
-        // 64
+        // 66
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'getClientSenders',
@@ -556,7 +572,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get client senders',
             'enabled' => true,
         ]);
-        // 65
+        // 67
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'getClientMessages',
@@ -564,7 +580,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific client\'s messages',
             'enabled' => true,
         ]);
-        // 66
+        // 68
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'getClientMessageGroups',
@@ -572,7 +588,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific client\'s message groups',
             'enabled' => true,
         ]);
-        // 67
+        // 69
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'getClientOrders',
@@ -580,7 +596,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific client\'s orders',
             'enabled' => true,
         ]);
-        // 68
+        // 70
         Handler::create([
             'handle_group_id' => 11,
             'name' => 'getClientLatestOrder',
@@ -591,7 +607,7 @@ class HandlerSeeder extends Seeder
 
 
         // Pricelist Controller Handlers =================================================================================================================
-        // 69
+        // 70
         Handler::create([
             'handle_group_id' => 12,
             'name' => 'listPricelists',
@@ -599,7 +615,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all pricelists',
             'enabled' => true,
         ]);
-        // 70
+        // 72
         Handler::create([
             'handle_group_id' => 12,
             'name' => 'addPricelist',
@@ -607,7 +623,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new pricelist',
             'enabled' => true,
         ]);
-        // 71
+        // 73
         Handler::create([
             'handle_group_id' => 12,
             'name' => 'getPricelist',
@@ -615,7 +631,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific pricelist',
             'enabled' => true,
         ]);
-        // 72
+        // 74
         Handler::create([
             'handle_group_id' => 12,
             'name' => 'updatePricelist',
@@ -623,7 +639,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific pricelist',
             'enabled' => true,
         ]);
-        // 73
+        // 75
         Handler::create([
             'handle_group_id' => 12,
             'name' => 'deletePricelist',
@@ -634,7 +650,7 @@ class HandlerSeeder extends Seeder
 
 
         // BusinessField Controller Handlers =================================================================================================================
-        // 74
+        // 76
         Handler::create([
             'handle_group_id' => 13,
             'name' => 'listBusinessFields',
@@ -642,7 +658,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all business fields',
             'enabled' => true,
         ]);
-        // 75
+        // 77
         Handler::create([
             'handle_group_id' => 13,
             'name' => 'addBusinessField',
@@ -650,7 +666,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new business field',
             'enabled' => true,
         ]);
-        // 76
+        // 78
         Handler::create([
             'handle_group_id' => 13,
             'name' => 'getBusinessField',
@@ -658,7 +674,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific business field',
             'enabled' => true,
         ]);
-        // 77
+        // 79
         Handler::create([
             'handle_group_id' => 13,
             'name' => 'updateBusinessField',
@@ -666,7 +682,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific business field',
             'enabled' => true,
         ]);
-        // 78
+        // 80
         Handler::create([
             'handle_group_id' => 13,
             'name' => 'deleteBusinessField',
@@ -677,7 +693,7 @@ class HandlerSeeder extends Seeder
 
 
         // Sales Controller Handlers =================================================================================================================
-        // 79
+        // 81
         Handler::create([
             'handle_group_id' => 14,
             'name' => 'getSales',
@@ -685,7 +701,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific sales',
             'enabled' => true,
         ]);
-        // 80
+        // 82
         Handler::create([
             'handle_group_id' => 14,
             'name' => 'addSales',
@@ -693,7 +709,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new sales',
             'enabled' => true,
         ]);
-        // 81
+        // 83
         Handler::create([
             'handle_group_id' => 14,
             'name' => 'listSales',
@@ -701,7 +717,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all sales',
             'enabled' => true,
         ]);
-        // 82
+        // 84
         Handler::create([
             'handle_group_id' => 14,
             'name' => 'deleteSales',
@@ -709,7 +725,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific sales',
             'enabled' => true,
         ]);
-        // 83
+        // 85
         Handler::create([
             'handle_group_id' => 14,
             'name' => 'updateSales',
@@ -720,7 +736,7 @@ class HandlerSeeder extends Seeder
 
 
         // Country Controller Handlers =================================================================================================================
-        // 84
+        // 86
         Handler::create([
             'handle_group_id' => 15,
             'name' => 'getCountry',
@@ -728,7 +744,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific country',
             'enabled' => true,
         ]);
-        // 85
+        // 87
         Handler::create([
             'handle_group_id' => 15,
             'name' => 'addCountry',
@@ -736,7 +752,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new country',
             'enabled' => true,
         ]);
-        // 86
+        // 88
         Handler::create([
             'handle_group_id' => 15,
             'name' => 'listCountries',
@@ -744,7 +760,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all countries',
             'enabled' => true,
         ]);
-        // 87
+        // 89
         Handler::create([
             'handle_group_id' => 15,
             'name' => 'deleteCountry',
@@ -752,7 +768,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific country',
             'enabled' => true,
         ]);
-        // 88
+        // 90
         Handler::create([
             'handle_group_id' => 15,
             'name' => 'updateCountry',
@@ -760,7 +776,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific country',
             'enabled' => true,
         ]);
-        // 89
+        // 91
         Handler::create([
             'handle_group_id' => 15,
             'name' => 'searchCountryColumn',
@@ -771,7 +787,7 @@ class HandlerSeeder extends Seeder
 
 
         // SMSC Controller Handlers =================================================================================================================
-        // 90
+        // 92
         Handler::create([
             'handle_group_id' => 16,
             'name' => 'getSMSC',
@@ -779,7 +795,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific smsc',
             'enabled' => true,
         ]);
-        // 91
+        // 93
         Handler::create([
             'handle_group_id' => 16,
             'name' => 'addSMSC',
@@ -787,7 +803,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new smsc',
             'enabled' => true,
         ]);
-        // 92
+        // 94
         Handler::create([
             'handle_group_id' => 16,
             'name' => 'listSMSCs',
@@ -795,7 +811,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all smscs',
             'enabled' => true,
         ]);
-        // 93
+        // 95
         Handler::create([
             'handle_group_id' => 16,
             'name' => 'deleteSMSC',
@@ -803,7 +819,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific smsc',
             'enabled' => true,
         ]);
-        // 94
+        // 96
         Handler::create([
             'handle_group_id' => 16,
             'name' => 'updateSMSC',
@@ -811,7 +827,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific smsc',
             'enabled' => true,
         ]);
-        // 95
+        // 97
         Handler::create([
             'handle_group_id' => 16,
             'name' => 'searchSMSCColumn',
@@ -822,7 +838,7 @@ class HandlerSeeder extends Seeder
 
 
         // Operator Controller Handlers =================================================================================================================
-        // 96
+        // 98
         Handler::create([
             'handle_group_id' => 17,
             'name' => 'getOperator',
@@ -830,7 +846,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific operator',
             'enabled' => true,
         ]);
-        // 97
+        // 99
         Handler::create([
             'handle_group_id' => 17,
             'name' => 'addOperator',
@@ -838,7 +854,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new operator',
             'enabled' => true,
         ]);
-        // 98
+        // 100
         Handler::create([
             'handle_group_id' => 17,
             'name' => 'listOperators',
@@ -846,7 +862,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all operators',
             'enabled' => true,
         ]);
-        // 99
+        // 101
         Handler::create([
             'handle_group_id' => 17,
             'name' => 'deleteOperator',
@@ -854,7 +870,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific operator',
             'enabled' => true,
         ]);
-        // 100
+        // 102
         Handler::create([
             'handle_group_id' => 17,
             'name' => 'updateOperator',
@@ -862,7 +878,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific operator',
             'enabled' => true,
         ]);
-        // 101
+        // 103
         Handler::create([
             'handle_group_id' => 17,
             'name' => 'searchOperatorColumn',
@@ -873,7 +889,7 @@ class HandlerSeeder extends Seeder
 
 
         // SMSC Binding Controller Handlers =================================================================================================================
-        // 102
+        // 104
         Handler::create([
             'handle_group_id' => 18,
             'name' => 'getSMSCBinding',
@@ -881,7 +897,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific smsc binding',
             'enabled' => true,
         ]);
-        // 103
+        // 105
         Handler::create([
             'handle_group_id' => 18,
             'name' => 'addSMSCBinding',
@@ -889,7 +905,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new smsc binding',
             'enabled' => true,
         ]);
-        // 104
+        // 106
         Handler::create([
             'handle_group_id' => 18,
             'name' => 'listSMSCBindings',
@@ -897,7 +913,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all smsc bindings',
             'enabled' => true,
         ]);
-        // 105
+        // 107
         Handler::create([
             'handle_group_id' => 18,
             'name' => 'deleteSMSCBinding',
@@ -905,7 +921,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific smsc binding',
             'enabled' => true,
         ]);
-        // 106
+        // 108
         Handler::create([
             'handle_group_id' => 18,
             'name' => 'updateSMSCBinding',
@@ -913,7 +929,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific smsc binding',
             'enabled' => true,
         ]);
-        // 107
+        // 109
         Handler::create([
             'handle_group_id' => 18,
             'name' => 'searchSMSCBindingColumn',
@@ -924,7 +940,7 @@ class HandlerSeeder extends Seeder
 
 
         // Sender Controller Handlers =================================================================================================================
-        // 108
+        // 110
         Handler::create([
             'handle_group_id' => 19,
             'name' => 'getSender',
@@ -932,7 +948,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific sender',
             'enabled' => true,
         ]);
-        // 109
+        // 111
         Handler::create([
             'handle_group_id' => 19,
             'name' => 'addSender',
@@ -940,7 +956,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new sender',
             'enabled' => true,
         ]);
-        // 110
+        // 112
         Handler::create([
             'handle_group_id' => 19,
             'name' => 'listSenders',
@@ -948,7 +964,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all senders',
             'enabled' => true,
         ]);
-        // 111
+        // 113
         Handler::create([
             'handle_group_id' => 19,
             'name' => 'deleteSender',
@@ -956,7 +972,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific sender',
             'enabled' => true,
         ]);
-        // 112
+        // 114
         Handler::create([
             'handle_group_id' => 19,
             'name' => 'updateSender',
@@ -964,7 +980,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific sender',
             'enabled' => true,
         ]);
-        // 113
+        // 115
         Handler::create([
             'handle_group_id' => 19,
             'name' => 'searchSenderColumn',
@@ -975,7 +991,7 @@ class HandlerSeeder extends Seeder
 
 
         // Sender Connection Controller Handlers =================================================================================================================
-        // 114
+        // 116
         Handler::create([
             'handle_group_id' => 20,
             'name' => 'getSenderConnection',
@@ -983,7 +999,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific sender connection',
             'enabled' => true,
         ]);
-        // 115
+        // 117
         Handler::create([
             'handle_group_id' => 20,
             'name' => 'addSenderConnection',
@@ -991,7 +1007,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new sender connection',
             'enabled' => true,
         ]);
-        // 116
+        // 118
         Handler::create([
             'handle_group_id' => 20,
             'name' => 'listSendersConnections',
@@ -999,7 +1015,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all senders connections',
             'enabled' => true,
         ]);
-        // 117
+        // 119
         Handler::create([
             'handle_group_id' => 20,
             'name' => 'getSenderConnections',
@@ -1007,7 +1023,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get sender connections',
             'enabled' => true,
         ]);
-        // 118
+        // 120
         Handler::create([
             'handle_group_id' => 20,
             'name' => 'deleteSenderConnection',
@@ -1015,7 +1031,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific sender connection',
             'enabled' => true,
         ]);
-        // 119
+        // 121
         Handler::create([
             'handle_group_id' => 20,
             'name' => 'updateSenderConnection',
@@ -1023,7 +1039,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific sender connection',
             'enabled' => true,
         ]);
-        // 120
+        // 122
         Handler::create([
             'handle_group_id' => 20,
             'name' => 'searchSenderConnectionColumn',
@@ -1034,7 +1050,7 @@ class HandlerSeeder extends Seeder
 
 
         // Message Controller Handlers =================================================================================================================
-        // 121
+        // 123
         Handler::create([
             'handle_group_id' => 21,
             'name' => 'listMessages',
@@ -1042,7 +1058,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all messages',
             'enabled' => true,
         ]);
-        // 122
+        // 124
         Handler::create([
             'handle_group_id' => 21,
             'name' => 'addMessage',
@@ -1050,7 +1066,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new message',
             'enabled' => true,
         ]);
-        // 123
+        // 125
         Handler::create([
             'handle_group_id' => 21,
             'name' => 'bulkAddMessage',
@@ -1058,7 +1074,7 @@ class HandlerSeeder extends Seeder
             'description' => 'bulk add new message',
             'enabled' => true,
         ]);
-        // 124
+        // 126
         Handler::create([
             'handle_group_id' => 21,
             'name' => 'getMessage',
@@ -1066,7 +1082,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific message',
             'enabled' => true,
         ]);
-        // 125
+        // 127
         Handler::create([
             'handle_group_id' => 21,
             'name' => 'updateMessage',
@@ -1074,7 +1090,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific message',
             'enabled' => true,
         ]);
-        // 126
+        // 128
         Handler::create([
             'handle_group_id' => 21,
             'name' => 'deleteMessage',
@@ -1082,7 +1098,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific message',
             'enabled' => true,
         ]);
-        // 127
+        // 129
         Handler::create([
             'handle_group_id' => 21,
             'name' => 'searchMessageColumn',
@@ -1090,10 +1106,18 @@ class HandlerSeeder extends Seeder
             'description' => 'find a specific value for a column of the messages table',
             'enabled' => true,
         ]);
+        // 130
+        Handler::create([
+            'handle_group_id' => 21,
+            'name' => 'getMessageRecipients',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/message/{message_id}/recipients',
+            'description' => 'get all recipients of a specific message',
+            'enabled' => true,
+        ]);
 
 
         // Message Language Controller Handlers =================================================================================================================
-        // 128
+        // 131
         Handler::create([
             'handle_group_id' => 22,
             'name' => 'listMessageLanguages',
@@ -1101,7 +1125,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all message languages',
             'enabled' => true,
         ]);
-        // 129
+        // 132
         Handler::create([
             'handle_group_id' => 22,
             'name' => 'addMessageLanguage',
@@ -1109,7 +1133,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new message language',
             'enabled' => true,
         ]);
-        // 130
+        // 133
         Handler::create([
             'handle_group_id' => 22,
             'name' => 'getMessageLanguage',
@@ -1117,7 +1141,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific message language',
             'enabled' => true,
         ]);
-        // 131
+        // 134
         Handler::create([
             'handle_group_id' => 22,
             'name' => 'updateMessageLanguage',
@@ -1125,7 +1149,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific message language',
             'enabled' => true,
         ]);
-        // 132
+        // 135
         Handler::create([
             'handle_group_id' => 22,
             'name' => 'deleteMessageLanguage',
@@ -1133,7 +1157,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific message language',
             'enabled' => true,
         ]);
-        // 133
+        // 136
         Handler::create([
             'handle_group_id' => 22,
             'name' => 'searchMessageLanguageColumn',
@@ -1144,7 +1168,7 @@ class HandlerSeeder extends Seeder
 
 
         // Message Segment Controller Handlers =================================================================================================================
-        // 134
+        // 137
         Handler::create([
             'handle_group_id' => 23,
             'name' => 'listMessageSegments',
@@ -1152,7 +1176,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all message segments',
             'enabled' => true,
         ]);
-        // 135
+        // 138
         Handler::create([
             'handle_group_id' => 23,
             'name' => 'addMessageSegment',
@@ -1160,7 +1184,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new message segment',
             'enabled' => true,
         ]);
-        // 136
+        // 139
         Handler::create([
             'handle_group_id' => 23,
             'name' => 'getMessageSegment',
@@ -1168,7 +1192,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific message segment',
             'enabled' => true,
         ]);
-        // 137
+        // 140
         Handler::create([
             'handle_group_id' => 23,
             'name' => 'updateMessageSegment',
@@ -1176,7 +1200,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific message segment',
             'enabled' => true,
         ]);
-        // 138
+        // 141
         Handler::create([
             'handle_group_id' => 23,
             'name' => 'deleteMessageSegment',
@@ -1184,7 +1208,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific message segment',
             'enabled' => true,
         ]);
-        // 139
+        // 142
         Handler::create([
             'handle_group_id' => 23,
             'name' => 'searchMessageSegmentColumn',
@@ -1196,7 +1220,7 @@ class HandlerSeeder extends Seeder
 
 
         // Message Recipient Controller Handlers =================================================================================================================
-        // 140
+        // 143
         Handler::create([
             'handle_group_id' => 24,
             'name' => 'listMessageRecipients',
@@ -1204,7 +1228,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all message recipients',
             'enabled' => true,
         ]);
-        // 141
+        // 144
         Handler::create([
             'handle_group_id' => 24,
             'name' => 'addMessageRecipient',
@@ -1212,7 +1236,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new message recipient',
             'enabled' => true,
         ]);
-        // 142
+        // 145
         Handler::create([
             'handle_group_id' => 24,
             'name' => 'getMessageRecipient',
@@ -1220,7 +1244,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific message recipient',
             'enabled' => true,
         ]);
-        // 143
+        // 146
         Handler::create([
             'handle_group_id' => 24,
             'name' => 'updateMessageRecipient',
@@ -1228,7 +1252,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific message recipient',
             'enabled' => true,
         ]);
-        // 144
+        // 147
         Handler::create([
             'handle_group_id' => 24,
             'name' => 'deleteMessageRecipient',
@@ -1236,7 +1260,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific message recipient',
             'enabled' => true,
         ]);
-        // 145
+        // 148
         Handler::create([
             'handle_group_id' => 24,
             'name' => 'searchMessageRecipientColumn',
@@ -1247,7 +1271,7 @@ class HandlerSeeder extends Seeder
 
 
         // Message Group Controller Handlers =================================================================================================================
-        // 146
+        // 149
         Handler::create([
             'handle_group_id' => 25,
             'name' => 'listMessageGroups',
@@ -1255,7 +1279,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all message groups',
             'enabled' => true,
         ]);
-        // 147
+        // 150
         Handler::create([
             'handle_group_id' => 25,
             'name' => 'addMessageGroup',
@@ -1263,7 +1287,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new message group',
             'enabled' => true,
         ]);
-        // 148
+        // 151
         Handler::create([
             'handle_group_id' => 25,
             'name' => 'getMessageGroup',
@@ -1271,7 +1295,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific message group',
             'enabled' => true,
         ]);
-        // 149
+        // 152
         Handler::create([
             'handle_group_id' => 25,
             'name' => 'updateMessageGroup',
@@ -1279,7 +1303,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific message group',
             'enabled' => true,
         ]);
-        // 150
+        // 153
         Handler::create([
             'handle_group_id' => 25,
             'name' => 'deleteMessageGroup',
@@ -1287,7 +1311,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific message group',
             'enabled' => true,
         ]);
-        // 151
+        // 154
         Handler::create([
             'handle_group_id' => 25,
             'name' => 'searchMessageGroupColumn',
@@ -1295,10 +1319,18 @@ class HandlerSeeder extends Seeder
             'description' => 'find a specific value for a column of the message groups table',
             'enabled' => true,
         ]);
+        // 155
+        Handler::create([
+            'handle_group_id' => 25,
+            'name' => 'getMessageGroupRecipients',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/message-group/{message_group_id}/recipients',
+            'description' => 'get all recipients of a specific message group',
+            'enabled' => true,
+        ]);
 
 
         // Message Group Recipient Controller Handlers =================================================================================================================
-        // 152
+        // 156
         Handler::create([
             'handle_group_id' => 26,
             'name' => 'listMessageGroupRecipients',
@@ -1306,7 +1338,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all message group recipients',
             'enabled' => true,
         ]);
-        // 153
+        // 157
         Handler::create([
             'handle_group_id' => 26,
             'name' => 'addMessageGroupRecipient',
@@ -1314,7 +1346,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new message group recipient',
             'enabled' => true,
         ]);
-        // 154
+        // 158
         Handler::create([
             'handle_group_id' => 26,
             'name' => 'getMessageGroupRecipient',
@@ -1322,7 +1354,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific message group recipient',
             'enabled' => true,
         ]);
-        // 155
+        // 159
         Handler::create([
             'handle_group_id' => 26,
             'name' => 'updateMessageGroupRecipient',
@@ -1330,7 +1362,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific message group recipient',
             'enabled' => true,
         ]);
-        // 156
+        // 160
         Handler::create([
             'handle_group_id' => 26,
             'name' => 'deleteMessageGroupRecipient',
@@ -1338,7 +1370,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific message group recipient',
             'enabled' => true,
         ]);
-        // 157
+        // 161
         Handler::create([
             'handle_group_id' => 26,
             'name' => 'searchMessageGroupRecipientColumn',
@@ -1349,7 +1381,7 @@ class HandlerSeeder extends Seeder
 
 
         // Message Filter Controller Handlers =================================================================================================================
-        // 158
+        // 162
         Handler::create([
             'handle_group_id' => 27,
             'name' => 'listMessageFilters',
@@ -1357,7 +1389,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all message filters',
             'enabled' => true,
         ]);
-        // 159
+        // 163
         Handler::create([
             'handle_group_id' => 27,
             'name' => 'addMessageFilter',
@@ -1365,7 +1397,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new message filter',
             'enabled' => true,
         ]);
-        // 160
+        // 164
         Handler::create([
             'handle_group_id' => 27,
             'name' => 'getMessageFilter',
@@ -1373,7 +1405,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific message filter',
             'enabled' => true,
         ]);
-        // 161
+        // 165
         Handler::create([
             'handle_group_id' => 27,
             'name' => 'updateMessageFilter',
@@ -1381,7 +1413,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific message filter',
             'enabled' => true,
         ]);
-        // 162
+        // 166
         Handler::create([
             'handle_group_id' => 27,
             'name' => 'deleteMessageFilter',
@@ -1389,7 +1421,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific message filter',
             'enabled' => true,
         ]);
-        // 163
+        // 167
         Handler::create([
             'handle_group_id' => 27,
             'name' => 'searchMessageFilterColumn',
@@ -1400,7 +1432,7 @@ class HandlerSeeder extends Seeder
 
 
         // PaymentMethod Controller Handlers =================================================================================================================
-        // 164
+        // 168
         Handler::create([
             'handle_group_id' => 28,
             'name' => 'listPaymentMethods',
@@ -1408,7 +1440,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all payment methods',
             'enabled' => true,
         ]);
-        // 165
+        // 169
         Handler::create([
             'handle_group_id' => 28,
             'name' => 'addPaymentMethod',
@@ -1416,7 +1448,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new payment method',
             'enabled' => true,
         ]);
-        // 166
+        // 170
         Handler::create([
             'handle_group_id' => 28,
             'name' => 'getPaymentMethod',
@@ -1424,7 +1456,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific payment method',
             'enabled' => true,
         ]);
-        // 167
+        // 171
         Handler::create([
             'handle_group_id' => 28,
             'name' => 'updatePaymentMethod',
@@ -1432,7 +1464,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific payment method',
             'enabled' => true,
         ]);
-        // 168
+        // 172
         Handler::create([
             'handle_group_id' => 28,
             'name' => 'deletePaymentMethod',
@@ -1443,7 +1475,7 @@ class HandlerSeeder extends Seeder
 
 
         // Order Controller Handlers =================================================================================================================
-        // 169
+        // 173
         Handler::create([
             'handle_group_id' => 29,
             'name' => 'listOrders',
@@ -1451,7 +1483,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all orders',
             'enabled' => true,
         ]);
-        // 170
+        // 174
         Handler::create([
             'handle_group_id' => 29,
             'name' => 'addOrder',
@@ -1459,7 +1491,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new order',
             'enabled' => true,
         ]);
-        // 171
+        // 175
         Handler::create([
             'handle_group_id' => 29,
             'name' => 'getOrder',
@@ -1467,7 +1499,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific order',
             'enabled' => true,
         ]);
-        // 172
+        // 176
         Handler::create([
             'handle_group_id' => 29,
             'name' => 'updateOrder',
@@ -1475,7 +1507,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific order',
             'enabled' => true,
         ]);
-        // 173
+        // 177
         Handler::create([
             'handle_group_id' => 29,
             'name' => 'searchOrderColumn',
@@ -1486,7 +1518,7 @@ class HandlerSeeder extends Seeder
 
 
         // MailTemplateController Handlers =================================================================================================================
-        // 174
+        // 178
         Handler::create([
             'handle_group_id' => 30,
             'name' => 'listMailTemplates',
@@ -1494,7 +1526,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all mail templates',
             'enabled' => true,
         ]);
-        // 175
+        // 179
         Handler::create([
             'handle_group_id' => 30,
             'name' => 'addMailTemplate',
@@ -1502,7 +1534,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new mail template',
             'enabled' => true,
         ]);
-        // 176
+        // 180
         Handler::create([
             'handle_group_id' => 30,
             'name' => 'getMailTemplate',
@@ -1510,7 +1542,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific mail template',
             'enabled' => true,
         ]);
-        // 177
+        // 181
         Handler::create([
             'handle_group_id' => 30,
             'name' => 'updateMailTemplate',
@@ -1518,7 +1550,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific mail template',
             'enabled' => true,
         ]);
-        // 178
+        // 182
         Handler::create([
             'handle_group_id' => 30,
             'name' => 'deleteMailTemplate',
@@ -1529,7 +1561,7 @@ class HandlerSeeder extends Seeder
 
 
         // MailSendingHandlerController Handlers =================================================================================================================
-        // 179
+        // 183
         Handler::create([
             'handle_group_id' => 31,
             'name' => 'listMailSendingHandlers',
@@ -1537,7 +1569,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all mail sending handlers',
             'enabled' => true,
         ]);
-        // 180
+        // 184
         Handler::create([
             'handle_group_id' => 31,
             'name' => 'addMailSendingHandler',
@@ -1545,7 +1577,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new mail sending handler',
             'enabled' => true,
         ]);
-        // 181
+        // 185
         Handler::create([
             'handle_group_id' => 31,
             'name' => 'getMailSendingHandler',
@@ -1553,7 +1585,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific mail sending handler',
             'enabled' => true,
         ]);
-        // 182
+        // 186
         Handler::create([
             'handle_group_id' => 31,
             'name' => 'updateMailSendingHandler',
@@ -1561,7 +1593,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific mail sending handler',
             'enabled' => true,
         ]);
-        // 183
+        // 187
         Handler::create([
             'handle_group_id' => 31,
             'name' => 'deleteMailSendingHandler',
@@ -1569,7 +1601,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific mail sending handler',
             'enabled' => true,
         ]);
-        // 184
+        // 188
         Handler::create([
             'handle_group_id' => 31,
             'name' => 'searchMailSendingHandlerColumn',
@@ -1580,7 +1612,7 @@ class HandlerSeeder extends Seeder
 
 
         // SMSTemplateController Handlers =================================================================================================================
-        // 185
+        // 189
         Handler::create([
             'handle_group_id' => 32,
             'name' => 'listSMSTemplates',
@@ -1588,7 +1620,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all sms templates',
             'enabled' => true,
         ]);
-        // 186
+        // 190
         Handler::create([
             'handle_group_id' => 32,
             'name' => 'addSMSTemplate',
@@ -1596,7 +1628,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new sms template',
             'enabled' => true,
         ]);
-        // 187
+        // 191
         Handler::create([
             'handle_group_id' => 32,
             'name' => 'getSMSTemplate',
@@ -1604,7 +1636,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific sms template',
             'enabled' => true,
         ]);
-        // 188
+        // 192
         Handler::create([
             'handle_group_id' => 32,
             'name' => 'updateSMSTemplate',
@@ -1612,7 +1644,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific sms template',
             'enabled' => true,
         ]);
-        // 189
+        // 193
         Handler::create([
             'handle_group_id' => 32,
             'name' => 'deleteSMSTemplate',
@@ -1623,7 +1655,7 @@ class HandlerSeeder extends Seeder
 
 
         // SMSSendingHandlerController Handlers =================================================================================================================
-        // 190
+        // 194
         Handler::create([
             'handle_group_id' => 33,
             'name' => 'listSMSSendingHandlers',
@@ -1631,7 +1663,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all sms sending handlers',
             'enabled' => true,
         ]);
-        // 191
+        // 195
         Handler::create([
             'handle_group_id' => 33,
             'name' => 'addSMSSendingHandler',
@@ -1639,7 +1671,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new sms sending handler',
             'enabled' => true,
         ]);
-        // 192
+        // 196
         Handler::create([
             'handle_group_id' => 33,
             'name' => 'getSMSSendingHandler',
@@ -1647,7 +1679,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific sms sending handler',
             'enabled' => true,
         ]);
-        // 193
+        // 197
         Handler::create([
             'handle_group_id' => 33,
             'name' => 'updateSMSSendingHandler',
@@ -1655,7 +1687,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific sms sending handler',
             'enabled' => true,
         ]);
-        // 194
+        // 198
         Handler::create([
             'handle_group_id' => 33,
             'name' => 'deleteSMSSendingHandler',
@@ -1663,7 +1695,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific sms sending handler',
             'enabled' => true,
         ]);
-        // 195
+        // 199
         Handler::create([
             'handle_group_id' => 33,
             'name' => 'searchSMSSendingHandlerColumn',
@@ -1674,7 +1706,7 @@ class HandlerSeeder extends Seeder
 
 
         // NotificationTemplateController Handlers =================================================================================================================
-        // 196
+        // 200
         Handler::create([
             'handle_group_id' => 34,
             'name' => 'listNotificationTemplates',
@@ -1682,7 +1714,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all notification templates',
             'enabled' => true,
         ]);
-        // 197
+        // 201
         Handler::create([
             'handle_group_id' => 34,
             'name' => 'addNotificationTemplate',
@@ -1690,7 +1722,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new notification template',
             'enabled' => true,
         ]);
-        // 198
+        // 202
         Handler::create([
             'handle_group_id' => 34,
             'name' => 'getNotificationTemplate',
@@ -1698,7 +1730,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific notification template',
             'enabled' => true,
         ]);
-        // 199
+        // 203
         Handler::create([
             'handle_group_id' => 34,
             'name' => 'updateNotificationTemplate',
@@ -1706,7 +1738,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific notification template',
             'enabled' => true,
         ]);
-        // 200
+        // 204
         Handler::create([
             'handle_group_id' => 34,
             'name' => 'deleteNotificationTemplate',
@@ -1717,7 +1749,7 @@ class HandlerSeeder extends Seeder
 
 
         // NotificationSendingHandlerController Handlers =================================================================================================================
-        // 201
+        // 205
         Handler::create([
             'handle_group_id' => 35,
             'name' => 'listNotificationSendingHandlers',
@@ -1725,7 +1757,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all notification sending handlers',
             'enabled' => true,
         ]);
-        // 202
+        // 206
         Handler::create([
             'handle_group_id' => 35,
             'name' => 'addNotificationSendingHandler',
@@ -1733,7 +1765,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new notification sending handler',
             'enabled' => true,
         ]);
-        // 203
+        // 207
         Handler::create([
             'handle_group_id' => 35,
             'name' => 'getNotificationSendingHandler',
@@ -1741,7 +1773,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific notification sending handler',
             'enabled' => true,
         ]);
-        // 204
+        // 208
         Handler::create([
             'handle_group_id' => 35,
             'name' => 'updateNotificationSendingHandler',
@@ -1749,7 +1781,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific notification sending handler',
             'enabled' => true,
         ]);
-        // 205
+        // 209
         Handler::create([
             'handle_group_id' => 35,
             'name' => 'deleteNotificationSendingHandler',
@@ -1757,7 +1789,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific notification sending handler',
             'enabled' => true,
         ]);
-        // 206
+        // 210
         Handler::create([
             'handle_group_id' => 35,
             'name' => 'searchNotificationSendingHandlerColumn',
@@ -1768,7 +1800,7 @@ class HandlerSeeder extends Seeder
 
 
         // UserNotificationController Handlers =================================================================================================================
-        // 207
+        // 211
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'listUserNotifications',
@@ -1776,7 +1808,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all user notifications',
             'enabled' => true,
         ]);
-        // 208
+        // 212
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'addUserNotification',
@@ -1784,7 +1816,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new user notification',
             'enabled' => true,
         ]);
-        // 209
+        // 213
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'getUserNotification',
@@ -1792,7 +1824,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific user notification',
             'enabled' => true,
         ]);
-        // 210
+        // 214
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'getUserNotifications',
@@ -1800,7 +1832,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get notifications of a specific user',
             'enabled' => true,
         ]);
-        // 211
+        // 215
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'getUserUnreadNotifications',
@@ -1808,7 +1840,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get unread notifications of a specific user',
             'enabled' => true,
         ]);
-        // 212
+        // 216
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'updateUserNotification',
@@ -1816,7 +1848,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific user notification',
             'enabled' => true,
         ]);
-        // 213
+        // 217
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'updateUserNotifications',
@@ -1824,7 +1856,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update notifications of a specific user',
             'enabled' => true,
         ]);
-        // 214
+        // 218
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'deleteUserNotification',
@@ -1832,7 +1864,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific user notification',
             'enabled' => true,
         ]);
-        // 215
+        // 219
         Handler::create([
             'handle_group_id' => 36,
             'name' => 'searchUserNotificationColumn',
@@ -1843,7 +1875,7 @@ class HandlerSeeder extends Seeder
 
 
         // Settings Controller Handlers =================================================================================================================
-        // 216
+        // 220
         Handler::create([
             'handle_group_id' => 37,
             'name' => 'listSettings',
@@ -1851,7 +1883,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all settings',
             'enabled' => true,
         ]);
-        // 217
+        // 221
         Handler::create([
             'handle_group_id' => 37,
             'name' => 'addSettings',
@@ -1859,7 +1891,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new settings',
             'enabled' => true,
         ]);
-        // 218
+        // 222
         Handler::create([
             'handle_group_id' => 37,
             'name' => 'getSettings',
@@ -1867,14 +1899,15 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific settings',
             'enabled' => true,
         ]);
-        // 219
+        // 223
         Handler::create([
             'handle_group_id' => 37,
             'name' => 'updateSettings',
             'endpoint' => 'PUT|'.env('APP_FULL_URL').'/api/settings/{settings_id}',
             'description' => 'update a specific settings',
             'enabled' => true,
-        ]);        // 220
+        ]);
+        // 224
         Handler::create([
             'handle_group_id' => 37,
             'name' => 'deleteSettings',
@@ -1882,7 +1915,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific settings',
             'enabled' => true,
         ]);
-        // 221
+        // 225
         Handler::create([
             'handle_group_id' => 37,
             'name' => 'searchSettingsColumn',
@@ -1893,7 +1926,7 @@ class HandlerSeeder extends Seeder
 
 
         // Search Controller Handlers =================================================================================================================
-        // 222
+        // 226
         Handler::create([
             'handle_group_id' => 38,
             'name' => 'search',
@@ -1904,7 +1937,7 @@ class HandlerSeeder extends Seeder
 
 
         // Ticket Controller Handlers =================================================================================================================
-        // 223
+        // 227
         Handler::create([
             'handle_group_id' => 39,
             'name' => 'getTicket',
@@ -1912,7 +1945,7 @@ class HandlerSeeder extends Seeder
             'description' => 'get a specific ticket',
             'enabled' => true,
         ]);
-        // 224
+        // 228
         Handler::create([
             'handle_group_id' => 39,
             'name' => 'addTicket',
@@ -1920,7 +1953,7 @@ class HandlerSeeder extends Seeder
             'description' => 'add new ticket',
             'enabled' => true,
         ]);
-        // 225
+        // 229
         Handler::create([
             'handle_group_id' => 39,
             'name' => 'listTickets',
@@ -1928,7 +1961,7 @@ class HandlerSeeder extends Seeder
             'description' => 'list all tickets',
             'enabled' => true,
         ]);
-        // 226
+        // 230
         Handler::create([
             'handle_group_id' => 39,
             'name' => 'deleteTicket',
@@ -1936,7 +1969,7 @@ class HandlerSeeder extends Seeder
             'description' => 'delete a specific ticket',
             'enabled' => true,
         ]);
-        // 227
+        // 231
         Handler::create([
             'handle_group_id' => 39,
             'name' => 'updateTicket',
@@ -1944,7 +1977,7 @@ class HandlerSeeder extends Seeder
             'description' => 'update a specific ticket',
             'enabled' => true,
         ]);
-        // 228
+        // 232
         Handler::create([
             'handle_group_id' => 39,
             'name' => 'searchTicketColumn',
@@ -1955,7 +1988,7 @@ class HandlerSeeder extends Seeder
 
 
         // Message API Controller Handlers =================================================================================================================
-        // 229
+        // 233
         Handler::create([
             'handle_group_id' => 40,
             'name' => 'sendMessage',
@@ -1963,7 +1996,7 @@ class HandlerSeeder extends Seeder
             'description' => 'use service api to send message',
             'enabled' => true,
         ]);
-        // 230
+        // 234
         Handler::create([
             'handle_group_id' => 40,
             'name' => 'sendBulkGet',
@@ -1971,7 +2004,7 @@ class HandlerSeeder extends Seeder
             'description' => 'use old service api to send message using get request',
             'enabled' => true,
         ]);
-        // 231
+        // 235
         Handler::create([
             'handle_group_id' => 40,
             'name' => 'sendBulkPost',
@@ -1979,7 +2012,7 @@ class HandlerSeeder extends Seeder
             'description' => 'use old service api to send message using post request',
             'enabled' => true,
         ]);
-        // 232
+        // 236
         Handler::create([
             'handle_group_id' => 40,
             'name' => 'checkBalance',

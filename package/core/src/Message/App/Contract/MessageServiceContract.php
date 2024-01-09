@@ -8,6 +8,8 @@ interface MessageServiceContract
 
     public function get(string $messageID): array;
 
+    public function getMessageRecipients(string $messageID, int $take = 10): array;
+
     public function getMessagesByUsersID(array $usersID, int $take = 10): array;
 
     public function getMessagesBySendersID(array $sendersID, int $take = 10): array;
