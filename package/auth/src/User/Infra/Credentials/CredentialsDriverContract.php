@@ -6,6 +6,8 @@ interface CredentialsDriverContract
 {
     public function hashPassword(string $password): string;
 
+    public function checkPassword(string $password, string $hashedPassword): bool;
+
     public function validateOtp(string $identifier, string $token): array;
 
     public function generateOtp(string $identifier): array;
@@ -17,6 +19,8 @@ interface CredentialsDriverContract
     public function getAuthenticatedUser(): array;
 
     public function decodeToken(string $token): array;
+
+    public function getRefreshToken(): string;
 
     public function signout(): void;
 }

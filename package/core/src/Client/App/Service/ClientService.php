@@ -34,6 +34,7 @@ class ClientService implements ClientServiceContract
         $result =  array_replace_recursive($user, $client);
         $result['id'] = $userID;
         $result['client_id'] = $client['id'] ?? null;
+        $result['stats'] = $this->communicationEngine->broadcast("core:message:get-client-messages-stats", $userID)[0];
         return $result;
     }
 
@@ -109,6 +110,11 @@ class ClientService implements ClientServiceContract
     public function getClientLatestOrder(string $userID): array
     {
         return $this->communicationEngine->broadcast("expense:order:get-client-latest-order", $userID)[0];
+    }
+
+    public function getClientIPWhitelist(string $userID): array
+    {
+        return $this->communicationEngine->broadcast("core:ipwhitelist:get-client-ipwhitelist", $userID)[0];
     }
 
     public function addClientWebsites(string $clientID, array $websites): array

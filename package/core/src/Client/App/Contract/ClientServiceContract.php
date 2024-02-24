@@ -30,6 +30,8 @@ interface ClientServiceContract
 
     public function getClientLatestOrder(string $userID): array;
 
+    public function getClientIPWhitelist(string $userID): array;
+
     public function addClientWebsites(string $clientID, array $websites): array;
 
     public function searchColumn(string $column, string $value, bool $searchClient = true, int $take = 10): array;

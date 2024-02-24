@@ -14,7 +14,7 @@ class AddMessageGroupRecipientDto implements DtoContract
             'message_group_id' =>'required|exists:message_groups,id',
             'recipients' => 'required|array',
             'recipients.*.number'=> 'required|string',
-            'recipients.*.attributes'=> 'json',
+            'recipients.*.attributes'=> 'json|nullable',
         ];
     }
 

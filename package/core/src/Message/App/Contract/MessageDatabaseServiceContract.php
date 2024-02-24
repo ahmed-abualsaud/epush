@@ -27,4 +27,6 @@ interface MessageDatabaseServiceContract
     public function searchMessageColumn(string $column, string $value, int $take = 10): array;
 
     public function getReadyToSendScheduledMessages(): array;
+
+    public function getClientMessagesStats(string $userID): array;
 }

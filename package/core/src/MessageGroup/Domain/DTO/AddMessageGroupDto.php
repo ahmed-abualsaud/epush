@@ -13,6 +13,7 @@ class AddMessageGroupDto implements DtoContract
         return [
             'name' => 'required|string|unique:message_groups,name',
             'user_id' => 'required|exists:users,id',
+            'number_of_recipients' => 'integer',
             'recipients' => 'array',
             'recipients.*.number'=> 'string',
             'recipients.*.attributes'=> 'json',
@@ -29,7 +30,9 @@ class AddMessageGroupDto implements DtoContract
         return subAssociativeArray([
 
             'name',
-            'user_id'
+            'user_id',
+            'saved',
+            'number_of_recipients'
 
         ], $this->data);
     }

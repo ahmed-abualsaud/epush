@@ -11,12 +11,15 @@ class SigninDto implements DtoContract
     public static function rules(): array
     {
         return [
-            'username' => 'required|string|exists:users'
+            'username' => 'required|string|exists:users',
+            'password' => 'required|string',
+            'remember_me' => 'boolean'
         ];
     }
 
     public function toArray(): array
     {
+        ! empty($this->data['remember_me']) && $this->data['remember_me'] = $this->data['remember_me'] == 'true';
         return $this->data;
     }
 
@@ -28,5 +31,11 @@ class SigninDto implements DtoContract
     public function getPassword(): string
     {
         return $this->data['password']?? '';
+    }
+
+    public function getRememberMe(): string
+    {
+        ! empty($this->data['remember_me']) && $this->data['remember_me'] = $this->data['remember_me'] == 'true';
+        return $this->data['remember_me'] ?? false;
     }
 }

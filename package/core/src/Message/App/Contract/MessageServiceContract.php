@@ -30,5 +30,7 @@ interface MessageServiceContract
 
     public function oldApiCheckBalance(array $inputs): mixed;
 
-    public function sendMessage(array $message): array;
+    public function sendMessage(array $message): mixed;
+
+    public function getClientMessagesStats(string $userID): array;
 }

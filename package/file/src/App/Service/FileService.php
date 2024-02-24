@@ -65,7 +65,7 @@ class FileService implements FileServiceContract
     public function add(array $file): array
     {
         $folder = $this->folderService->get($file['folder_id']);
-        $inputs = subAssociativeArray(['user_id', 'folder_id'], $file);
+        $inputs = subAssociativeArray(['user_id', 'folder_id', 'type'], $file);
         $inputs['url'] = $this->localStore('file', $folder['name']);
         return $this->fileDatabaseService->addFile($inputs);
     }

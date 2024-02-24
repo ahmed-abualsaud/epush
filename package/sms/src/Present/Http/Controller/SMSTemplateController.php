@@ -10,6 +10,7 @@ use Spatie\RouteAttributes\Attributes\Prefix;
 
 use Epush\SMS\Domain\DTO\SMSTemplateDto;
 use Epush\SMS\Domain\DTO\AddSMSTemplateDto;
+use Epush\SMS\Domain\DTO\ListSMSTemplatesDto;
 use Epush\SMS\Domain\DTO\UpdateSMSTemplateDto;
 
 use Epush\SMS\Domain\UseCase\AddSMSTemplateUseCase;
@@ -25,9 +26,9 @@ use Symfony\Component\HttpFoundation\Response;
 class SMSTemplateController
 {
     #[Get('template')]
-    public function listSMSTemplates(ListSMSTemplatesUseCase $listSMSTemplatesUseCase): Response
+    public function listSMSTemplates(ListSMSTemplatesDto $listSMSTemplatesDto, ListSMSTemplatesUseCase $listSMSTemplatesUseCase): Response
     {
-        return jsonResponse($listSMSTemplatesUseCase->execute());
+        return jsonResponse($listSMSTemplatesUseCase->execute($listSMSTemplatesDto));
     }
 
     #[Post('template')]

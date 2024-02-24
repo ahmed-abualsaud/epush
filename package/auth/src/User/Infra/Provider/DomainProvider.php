@@ -11,6 +11,7 @@ use Epush\Auth\User\Domain\DTO\SearchUserDto;
 use Epush\Auth\User\Domain\DTO\ResetPasswordDto;
 use Epush\Auth\User\Domain\DTO\VerifyAccountDto;
 use Epush\Auth\User\Domain\DTO\ForgetPasswordDto;
+use Epush\Auth\User\Domain\DTO\ChangePasswordDto;
 use Epush\Auth\User\Domain\DTO\AssignUserRolesDto;
 use Epush\Auth\User\Domain\DTO\GeneratePasswordDto;
 use Epush\Auth\User\Domain\DTO\UnassignUserRolesDto;
@@ -52,6 +53,10 @@ class DomainProvider extends ServiceProvider
 
         $this->app->bind(ResetPasswordDto::class, function () {
             return new ResetPasswordDto($this->app->make('request')->all());
+        });
+
+        $this->app->bind(ChangePasswordDto::class, function () {
+            return new ChangePasswordDto($this->app->make('request')->all());
         });
 
         $this->app->bind(ForgetPasswordDto::class, function () {

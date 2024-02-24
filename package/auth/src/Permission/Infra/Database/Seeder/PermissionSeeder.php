@@ -1548,6 +1548,55 @@ class PermissionSeeder extends Seeder
             'description' => 'use old service api to check client balance',
             'handler_id' => '236'
         ]);
+
+
+
+
+        Permission::create([
+            'name' => 'change-password',
+            'description' => 'change user password',
+            'handler_id' => '237'
+        ]);
+
+    
+
+
+
+        Permission::create([
+            'name' => 'get-ipwhitelist',
+            'description' => 'get a specific ipwhitelist',
+            'handler_id' => '238'
+        ]);
+
+        Permission::create([
+            'name' => 'add-ipwhitelist',
+            'description' => 'add new ipwhitelist',
+            'handler_id' => '239'
+        ]);
+
+        Permission::create([
+            'name' => 'list-ipwhitelists',
+            'description' => 'list all ipwhitelists',
+            'handler_id' => '240'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-ipwhitelist',
+            'description' => 'delete a specific ipwhitelist',
+            'handler_id' => '241'
+        ]);
+
+        Permission::create([
+            'name' => 'update-ipwhitelist',
+            'description' => 'update a specific ipwhitelist',
+            'handler_id' => '242'
+        ]);
+
+        Permission::create([
+            'name' => 'get-client-ipwhitelist',
+            'description' => 'get client ip whitelist',
+            'handler_id' => '243'
+        ]);
     }
 }
 

@@ -15,12 +15,15 @@ class SMSTemplateRepository implements SMSTemplateRepositoryContract
         
     ) {}
 
-    public function all(): array
+    public function all(string|null $userID): array
     {
-        return DB::transaction(function () {
+        return DB::transaction(function () use ($userID) {
 
-            return $this->template->all()->toArray();
+            if (empty($userID)) {
+                return $this->template->all()->toArray();
+            }
 
+            return $this->template->where('user_id', $userID)->get()->toArray();
         });
     }
 

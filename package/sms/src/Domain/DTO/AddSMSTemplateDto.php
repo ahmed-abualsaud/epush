@@ -13,7 +13,8 @@ class AddSMSTemplateDto implements DtoContract
         return [
             'name' => 'required|string|unique:sms_templates',
             'subject' => 'string|nullable',
-            'template' => 'required|string'
+            'template' => 'required|string',
+            'user_id' => 'exists:users,id|nullable'
         ];
     }
 

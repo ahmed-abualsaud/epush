@@ -4,6 +4,7 @@ namespace Epush\Auth\User\Infra\Credentials;
 
 use Ichtrojan\Otp\Otp;
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,6 +13,11 @@ class CredentialsDriver implements CredentialsDriverContract
     public function hashPassword(string $password): string
     {
         return Hash::make($password);
+    }
+
+    public function checkPassword(string $password, string $hashedPassword): bool
+    {
+        return Hash::check($password, $hashedPassword);
     }
 
     public function validateOtp(string $identifier, string $token): array
@@ -47,6 +53,11 @@ class CredentialsDriver implements CredentialsDriverContract
     public function decodeToken(string $token): array
     {
         return app('tymon.jwt.provider.jwt')->decode($token);
+    }
+
+    public function getRefreshToken(): string
+    {
+        return JWTAuth::fromUser(Auth::user());
     }
 
     public function signout(): void

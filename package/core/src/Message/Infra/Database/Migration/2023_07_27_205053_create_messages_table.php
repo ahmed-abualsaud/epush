@@ -17,17 +17,20 @@ return new class extends Migration
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('message_language_id');
-            $table->text('content');
+            $table->text('content')->nullable();
+            $table->unsignedBigInteger('length')->default(0);
             $table->text('notes')->nullable();
             $table->boolean('approved')->default(false);
-            $table->unsignedDecimal('single_message_cost');
-            $table->unsignedDecimal('total_cost');
-            $table->integer('number_of_segments');
-            $table->integer('number_of_recipients');
+            $table->unsignedDecimal('single_message_cost')->nullable();
+            $table->unsignedDecimal('total_cost')->nullable();
+            $table->integer('number_of_segments')->nullable();
+            $table->integer('number_of_recipients')->nullable();
             $table->timestamp('scheduled_at')->useCurrent()->nullable();
             $table->boolean('sent')->default(false);
-            $table->ipAddress('sender_ip');
-            $table->string('message_type');
+            $table->boolean('draft')->default(false);
+            $table->ipAddress('sender_ip')->nullable();
+            $table->string('message_type')->nullable();
+            $table->string('send_type')->default('Custom Messages');
             $table->timestamps();
         });
     }

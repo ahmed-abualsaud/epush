@@ -19,6 +19,7 @@ class AddTicketDto implements DtoContract
             'company_name' => 'required|string|exists:clients,company_name',
             'sender_name' => 'required|string|exists:senders,name',
             'content' => 'required|string',
+            'subject' => 'required|string',
             'status' => 'string|in:Initiated,Processing,Completed,Closed',
             'notes' => 'string|nullable'
         ];

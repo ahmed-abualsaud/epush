@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 function stringContains($haystack, $needles, $ignoreCase = false): bool
@@ -77,8 +78,13 @@ function toUTCDateTimeString($dateTimeString)
     if (empty($timezone)) {
         // $ip = '41.34.81.130';
         $ip = app('request')->ip();
-        $response = Http::get("http://ip-api.com/json/{$ip}")->json();
-        $timezone = $response['status'] === 'success' ? $response['timezone'] : 'UTC';
+        try {
+            $response = Http::get("http://ip-api.com/json/{$ip}")->json();
+            $timezone = $response['status'] === 'success' ? $response['timezone'] : 'UTC';
+        } catch (\Exception $e) {
+            $timezone = 'UTC';
+            Log::info("Resolve ip error: " . $e->getMessage());
+        }
     }
 
     $date = new DateTime($dateTimeString, new DateTimeZone($timezone));

@@ -24,7 +24,7 @@ class MessageRepository implements MessageRepositoryContract
                 'segments',
                 'language', 
                 // 'recipients' => ['messageGroupRecipient']
-            ])->paginate($take)->toArray();
+            ])->latest()->paginate($take)->toArray();
 
         });
     }
@@ -46,7 +46,12 @@ class MessageRepository implements MessageRepositoryContract
     {
         return DB::transaction(function () use ($userID) {
 
-            return $this->message->where('user_id', $userID)->get()->toArray();
+            return $this->message->with([
+                'segments',
+                'language',
+                'sender',
+                // 'recipients' => ['messageGroupRecipient']
+            ])->where('user_id', $userID)->latest()->get()->toArray();
 
         });
     }
@@ -179,6 +184,21 @@ class MessageRepository implements MessageRepositoryContract
             ->where('approved', true)
             ->where('scheduled_at', '<', Carbon::now())
             ->get()
+            ->toArray();
+
+        });
+    }
+
+    public function getClientMessagesStats(string $userID): array
+    {
+        return DB::transaction(function () use ($userID) {
+
+            return $this->message
+            ->selectRaw('COUNT(*) as number_of_messages')
+            ->selectRaw('SUM(total_cost) as total_cost')
+            ->selectRaw('SUM(number_of_recipients) as number_of_recipients')
+            ->where('user_id', $userID)
+            ->first()
             ->toArray();
 
         });

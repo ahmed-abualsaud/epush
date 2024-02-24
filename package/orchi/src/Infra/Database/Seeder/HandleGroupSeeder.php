@@ -374,6 +374,15 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
+        // 41
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'IPWhitelistController',
+            'description' => 'Controller holds all ip whitelist endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
     }
 }
 

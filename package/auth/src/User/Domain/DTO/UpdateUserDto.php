@@ -25,7 +25,7 @@ class UpdateUserDto implements DtoContract
             'religion' => 'string',
             'enabled' => 'boolean',
             'notes' => 'string',
-            'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
+            'avatar' => 'nullable|max:8000',
         ];
     }
 

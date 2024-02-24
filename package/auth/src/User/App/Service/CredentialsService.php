@@ -39,15 +39,28 @@ class CredentialsService implements CredentialsServiceContract
         $this->userDatabaseService->updateUserByEmail($userEmail, ['password' => $hashedPassword]);
     }
 
+    public function changePassword(string $userID, string $oldPassword, string $newPassword): array
+    {
+        $newHashedPassword = $this->credentialsDriver->hashPassword($newPassword);
+        $user = $this->userDatabaseService->getUser($userID);
+        if (! $this->credentialsDriver->checkPassword($oldPassword, $user['password'])) {
+            throwHttpException(400, "Your current password is invalid");
+        }
+        return $this->userDatabaseService->updateUserByID($userID, ['password' => $newHashedPassword]);
+    }
+
     public function signin(string $username, string $password): array
     {
         $token = $this->credentialsDriver->attemptOrFail($username, $password);
+        $refresh_token = $this->credentialsDriver->getRefreshToken();
         $user = $this->credentialsDriver->getAuthenticateduser();
         $roles = $this->userDatabaseService->getUserRoles($user['id']);
-        return [ 
-            'user' => $user, 
-            'roles' => $roles, 
-            'token' => $token 
+
+        return [
+            'user' => $user,
+            'roles' => $roles,
+            'token' => $token,
+            'refresh_token' => $refresh_token
         ];
     }
 

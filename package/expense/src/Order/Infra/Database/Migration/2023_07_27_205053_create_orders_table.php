@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedDecimal('credit', 14, 2);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pricelist_id');
             $table->unsignedBigInteger('payment_method_id');
+            $table->unsignedDecimal('credit', 14, 2);
+            $table->string('status')->default('Pending'); //Pending, Paid
             $table->timestamp('collection_date');
             $table->timestamps();
         });

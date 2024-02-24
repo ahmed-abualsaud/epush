@@ -71,7 +71,7 @@ class OrderRepository implements OrderRepositoryContract
     {
         return DB::transaction(function () use ($userID) {
 
-            $latestOrder =  $this->order->where('user_id', $userID)->latest()->first();
+            $latestOrder =  $this->order->where('user_id', $userID)->where('status', 'Paid')->latest()->first();
             return empty($latestOrder)? [] : $latestOrder->toArray();
         });
     }

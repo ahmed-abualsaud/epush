@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('folder_id');
+            $table->string('type');
             $table->text('url');
             $table->timestamps();
         });

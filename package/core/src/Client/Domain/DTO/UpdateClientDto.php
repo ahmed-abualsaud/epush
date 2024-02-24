@@ -65,7 +65,8 @@ class UpdateClientDto implements DtoContract
             'api_key',
             'use_api_key',
             'ip_address',
-            'use_ip_address'
+            'use_ip_address',
+            'address',
 
         ], $this->data);
     }

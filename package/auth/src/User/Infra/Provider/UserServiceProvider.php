@@ -7,13 +7,16 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Foundation\CachesConfiguration;
 
 use Epush\Auth\User\Present\Http\Middleware\AuthMiddleware;
+use Epush\Auth\User\Present\Http\Middleware\RefreshTokenMiddleware;
 
 class UserServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        app(Kernel::class)->pushMiddleware(RefreshTokenMiddleware::class);
         app(Kernel::class)->pushMiddleware(AuthMiddleware::class);
         app(Kernel::class)->prependToMiddlewarePriority(AuthMiddleware::class);
+        app(Kernel::class)->prependToMiddlewarePriority(RefreshTokenMiddleware::class);
     }
 
     public function register()

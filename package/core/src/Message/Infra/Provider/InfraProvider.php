@@ -6,9 +6,8 @@ use Epush\Core\Message\Infra\Driver\MessageDriver;
 use Epush\Core\Message\Infra\Driver\MessageDriverContract;
 
 use Epush\Core\Message\Infra\Database\Driver\MessageDatabaseDriver;
-use Epush\Core\Message\Infra\Database\Driver\MessageDatabaseDriverContract;
-
 use Epush\Core\Message\Infra\Database\Repository\MessageRepository;
+use Epush\Core\Message\Infra\Database\Driver\MessageDatabaseDriverContract;
 use Epush\Core\Message\Infra\Database\Repository\Contract\MessageRepositoryContract;
 
 use Illuminate\Support\ServiceProvider;

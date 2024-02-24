@@ -11,6 +11,7 @@ use Epush\Core\Country\Infra\Provider\CountryServiceProvider;
 use Epush\Core\Message\Infra\Provider\MessageServiceProvider;
 use Epush\Core\Operator\Infra\Provider\OperatorServiceProvider;
 use Epush\Core\Pricelist\Infra\Provider\PricelistServiceProvider;
+use Epush\Core\IPWhitelist\Infra\Provider\IPWhitelistServiceProvider;
 use Epush\Core\SMSCBinding\Infra\Provider\SMSCBindingServiceProvider;
 use Epush\Core\MessageGroup\Infra\Provider\MessageGroupServiceProvider;
 use Epush\Core\BusinessField\Infra\Provider\BusinessFieldServiceProvider;
@@ -41,6 +42,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->register(MessageServiceProvider::class);
         $this->app->register(OperatorServiceProvider::class);
         $this->app->register(PricelistServiceProvider::class);
+        $this->app->register(IPWhitelistServiceProvider::class);
         $this->app->register(SMSCBindingServiceProvider::class);
         $this->app->register(MessageGroupServiceProvider::class);
         $this->app->register(BusinessFieldServiceProvider::class);

@@ -32,6 +32,7 @@ use Epush\Notification\App\Contract\NotificationServiceContract;
 use Epush\Core\Sender\App\Contract\SenderDatabaseServiceContract;
 use Epush\Expense\Order\App\Contract\OrderDatabaseServiceContract;
 use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
+use Epush\Core\IPWhitelist\App\Contract\IPWhitelistServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupDatabaseServiceContract;
 
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchMicroprocess;
@@ -76,8 +77,10 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientsBySalesI
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchHandlerColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetHandlerByEndpointMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientLatestOrderMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientIPWhitelistMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\SearchPricelistColumnMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMessageGroupsMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetClientMessagesStatsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetAllHandlersResponseAttributesMicroprocess;
 
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
@@ -153,6 +156,8 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
                 $engine->attach(new GetClientOrdersMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-orders");
                 $engine->attach(new GetClientSendersMicroprocess(app(SenderDatabaseServiceContract::class)), "core:sender:get-client-senders");
                 $engine->attach(new GetClientMessagesMicroprocess(app(MessageDatabaseServiceContract::class)), "core:message:get-client-messages");
+                $engine->attach(new GetClientIPWhitelistMicroprocess(app(IPWhitelistServiceContract::class)), "core:ipwhitelist:get-client-ipwhitelist");
+                $engine->attach(new GetClientMessagesStatsMicroprocess(app(MessageDatabaseServiceContract::class)), "core:message:get-client-messages-stats");
                 $engine->attach(new GetClientMessageGroupsMicroprocess(app(MessageGroupDatabaseServiceContract::class)), "core:message-group:get-client-message-groups");
                 $engine->attach(new GetClientLatestOrderMicroprocess(app(OrderDatabaseServiceContract::class)), "expense:order:get-client-latest-order");
                 $engine->attach(new GeneratePasswordMicroprocess(app(CredentialsServiceContract::class)), "auth:credentials:generate-password");

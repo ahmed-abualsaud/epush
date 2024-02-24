@@ -19,6 +19,7 @@ use Epush\Auth\User\Domain\DTO\SearchUserDto;
 use Epush\Auth\User\Domain\DTO\VerifyAccountDto;
 use Epush\Auth\User\Domain\DTO\ResetPasswordDto;
 use Epush\Auth\User\Domain\DTO\ForgetPasswordDto;
+use Epush\Auth\User\Domain\DTO\ChangePasswordDto;
 use Epush\Auth\User\Domain\DTO\AssignUserRolesDto;
 use Epush\Auth\User\Domain\DTO\GeneratePasswordDto;
 use Epush\Auth\User\Domain\DTO\UnassignUserRolesDto;
@@ -36,6 +37,7 @@ use Epush\Auth\User\Domain\UseCase\SearchUserUseCase;
 use Epush\Auth\User\Domain\UseCase\GetUserRolesUseCase;
 use Epush\Auth\User\Domain\UseCase\VerifyAccountUseCase;
 use Epush\Auth\User\Domain\UseCase\ResetPasswordUseCase;
+use Epush\Auth\User\Domain\UseCase\ChangePasswordUseCase;
 use Epush\Auth\User\Domain\UseCase\ForgetPasswordUseCase;
 use Epush\Auth\User\Domain\UseCase\AssignUserRolesUseCase;
 use Epush\Auth\User\Domain\UseCase\GeneratePasswordUseCase;
@@ -52,7 +54,10 @@ class UserController
     #[Post('signin')]
     public function signin(SigninDto $signinDto, SigninUseCase $signinUseCase): Response
     {
-        return jsonResponse($signinUseCase->execute($signinDto));
+        $result = $signinUseCase->execute($signinDto);
+        return $signinDto->getRememberMe() ? 
+        jsonResponse($result, 200, true, 'refresh_token', config('jwt.refresh_ttl')) : 
+        jsonResponse($result);
     }
 
     #[Post('signup')]
@@ -64,7 +69,7 @@ class UserController
     #[Post('signout')]
     public function signout(SignoutUseCase $signoutUseCase): Response
     {
-        return jsonResponse($signoutUseCase->execute());
+        return jsonResponse($signoutUseCase->execute(), 200, false, 'refresh_token');
     }
 
     #[Post('verify-account')]
@@ -83,6 +88,12 @@ class UserController
     public function resetPassword(ResetPasswordDto $resetPasswordDto, ResetPasswordUseCase $resetPasswordUseCase): Response
     {
         return jsonResponse($resetPasswordUseCase->execute($resetPasswordDto));
+    }
+
+    #[Post('change-password')]
+    public function changePassword(ChangePasswordDto $changePasswordDto, ChangePasswordUseCase $changePasswordUseCase): Response
+    {
+        return jsonResponse($changePasswordUseCase->execute($changePasswordDto));
     }
 
     #[Post('generate-password')]

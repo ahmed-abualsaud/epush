@@ -13,7 +13,8 @@ class AddFileDto implements DtoContract
         return [
             'user_id' => 'required|exists:users,id',
             'folder_id' => 'required|exists:folders,id',
-            'file' => 'file|max:4096',
+            'file' => 'mimes:jpeg,jpg,png,gif,pdf|max:8000',
+            'type' => 'string|nullable'
         ];
     }
 

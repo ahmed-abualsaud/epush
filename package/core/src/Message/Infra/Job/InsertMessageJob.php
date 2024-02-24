@@ -7,6 +7,7 @@ use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
 
 use Exception;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -41,12 +42,14 @@ class InsertMessageJob implements ShouldQueue
     
     public function handle() : void
     {
+        $status = array_key_exists('scheduled_at', $this->message) && Carbon::parse($this->message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : 'Sent';
+
         foreach ($this->messageGroupRecipients as $messageGroupRecipient) {
             $msgrcp = app(MessageGroupServiceContract::class)->add([
                 'name' => $messageGroupRecipient['name'],
                 'user_id' => $messageGroupRecipient['user_id']
             ], $messageGroupRecipient['recipients']);
-            app(MessageRecipientServiceContract::class)->add($this->message['id'], array_column($msgrcp, 'id'), 'Sent');
+            app(MessageRecipientServiceContract::class)->add($this->message['id'], array_column($msgrcp, 'id'), $status);
         }
     }
 

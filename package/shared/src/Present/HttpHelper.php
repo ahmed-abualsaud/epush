@@ -15,18 +15,18 @@ function getResponseData($response)
     return $response;
 }
 
-function jsonResponse($data, $status = 200)
+function jsonResponse($data, $status = 200, $addCookie = true, $cookieName = null, $cookieTTL = 0)
 {
     if (! isException($data)) {
-        return successJSONResponse($data, $status);
+        return successJSONResponse($data, $status, $addCookie, $cookieName, $cookieTTL);
     }
 
     return failureJSONResponse($data['error'], $data['status']);
 }
 
-function successJSONResponse($data, $status = 200)
+function successJSONResponse($data, $status = 200, $addCookie = true, $cookieName = null, $cookieTTL = 0)
 {
-    return response()->json(
+    $response = response()->json(
         [
             'success' => true,
             'status' => $status,
@@ -35,6 +35,12 @@ function successJSONResponse($data, $status = 200)
         ], 
         $status
     );
+
+    if ($cookieName) {
+        return $addCookie ? $response->cookie(cookie($cookieName, $data[$cookieName], $cookieTTL)) : $response->cookie(cookie()->forget($cookieName));
+    }
+
+    return $response;
 }
 
 function failureJSONResponse($error, $status = 500)

@@ -1195,7 +1195,40 @@ class RolePermissionSeeder extends Seeder
             'permission_id' => 236,
         ]);
 
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 237,
+        ]);
 
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 238,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 239,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 240,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 241,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 242,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 1,
+            'permission_id' => 243,
+        ]);
 
         // admin permissions =================================================================================================================================
 
@@ -1966,6 +1999,26 @@ class RolePermissionSeeder extends Seeder
 
         RolePermission::create([
             'role_id' => 2,
+            'permission_id' => 168,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 189,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 192,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 193,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
             'permission_id' => 195,
         ]);
 
@@ -2172,6 +2225,41 @@ class RolePermissionSeeder extends Seeder
         RolePermission::create([
             'role_id' => 2,
             'permission_id' => 236,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 237,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 238,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 239,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 240,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 241,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 242,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 243,
         ]);
 
         // client permissions =================================================================================================================================
@@ -2943,6 +3031,26 @@ class RolePermissionSeeder extends Seeder
 
         RolePermission::create([
             'role_id' => 3,
+            'permission_id' => 168,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 189,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
+            'permission_id' => 192,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 193,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
             'permission_id' => 195,
         ]);
 
@@ -3149,6 +3257,41 @@ class RolePermissionSeeder extends Seeder
         RolePermission::create([
             'role_id' => 3,
             'permission_id' => 236,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 237,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 238,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 239,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 240,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 241,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 242,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 243,
         ]);
     }
 }

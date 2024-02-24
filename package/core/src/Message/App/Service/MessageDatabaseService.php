@@ -72,4 +72,9 @@ class MessageDatabaseService implements MessageDatabaseServiceContract
     {
         return $this->messageDatabaseDriver->messageRepository()->getReadyToSendScheduledMessages();
     }
+
+    public function getClientMessagesStats(string $userID): array
+    {
+        return $this->messageDatabaseDriver->messageRepository()->getClientMessagesStats($userID);
+    }
 }

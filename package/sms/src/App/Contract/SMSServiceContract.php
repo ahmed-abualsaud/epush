@@ -4,7 +4,7 @@ namespace Epush\SMS\App\Contract;
 
 interface SMSServiceContract
 {
-    public function listSMSTemplates(): array;
+    public function listSMSTemplates(string|null $userID): array;
 
     public function getSMSTemplate(string $templateID): array;
 

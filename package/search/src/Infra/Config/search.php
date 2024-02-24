@@ -296,6 +296,8 @@ return [
             "user_id"               => "messages.user_id",
             "content"               => "messages.content",
             "notes"                 => "messages.notes",
+            "sent"                  => "messages.sent",
+            "length"                => "messages.length",
             "approved"              => "messages.approved",
             "total_cost"            => "messages.total_cost",
             "single_message_cost"   => "messages.single_message_cost",
@@ -303,6 +305,7 @@ return [
             "number_of_recipients"  => "messages.number_of_recipients",
             "scheduled_at"          => "messages.scheduled_at",
             "created_at"            => "messages.created_at",
+            "updated_at"            => "messages.updated_at",
             "language"              => "message_languages.name",
             "company_name"          => "clients.company_name",
             "sender_name"           => "senders.name",
@@ -319,6 +322,7 @@ return [
             "messages.number_of_recipients as number_of_recipients",
             "messages.scheduled_at as scheduled_at",
             "messages.created_at as created_at",
+            "messages.updated_at as updated_at",
             "clients.company_name as company_name",
             "senders.name as sender_name",
             "message_languages.name as language"
@@ -352,9 +356,9 @@ return [
         "withs" => [
             "language",
             "segments",
-            "recipients" => [
-                'messageGroupRecipient'
-            ]
+            // "recipients" => [
+            //     'messageGroupRecipient'
+            // ]
         ]
     ],
     [
@@ -362,6 +366,7 @@ return [
         "columns" => [
             "group_name"        => "message_groups.name",
             "user_id"           => "message_groups.user_id",
+            "status"            => "message_groups.status",
             "updated_at"        => "message_groups.updated_at",
             "created_at"        => "message_groups.created_at",
         ],
@@ -370,9 +375,9 @@ return [
             "message_groups.name as group_name",
             "message_groups.created_at as created_at",
         ],
-        "withs" => [
-            "recipients"
-        ]
+        // "withs" => [
+        //     "recipients"
+        // ]
     ],
     [
         "model" => Epush\Core\MessageGroupRecipient\Infra\Database\Model\MessageGroupRecipient::class,
@@ -563,14 +568,18 @@ return [
         "model" => Epush\File\Infra\Database\Model\File::class,
         "columns" => [
             "url"               => "files.url",
+            "type"              => "files.type",
+            "file_type"         => "files.type",
             "user_id"           => "files.user_id",
             "folder_id"         => "files.folder_id",
             "created_at"        => "files.created_at",
+            "updated_at"        => "files.updated_at",
             "folder_name"       => "folders.name",
             "company_name"      => "clients.company_name",
         ],
         "select_as" => [
             "files.id as id",
+            "files.updated_at as updated_at",
             "folders.name as folder_name"
         ],
         "joins" => [
@@ -596,4 +605,11 @@ return [
             "created_at"        => "folders.created_at",
         ]
     ],
+    [
+        "model" => Epush\SMS\Infra\Database\Model\SMSTemplate::class,
+        "columns" => [
+            "subject"           => "sms_templates.subject",
+            "template"          => "sms_templates.template"
+        ]
+    ]
 ];

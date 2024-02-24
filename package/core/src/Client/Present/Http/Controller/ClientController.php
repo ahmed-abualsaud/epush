@@ -18,6 +18,7 @@ use Epush\Core\Client\Domain\UseCase\GetClientUseCase;
 use Epush\Core\Client\Domain\UseCase\AddClientUseCase;
 use Epush\Core\Client\Domain\UseCase\ListClientsUseCase;
 use Epush\Core\Client\Domain\UseCase\DeleteClientUseCase;
+use Epush\Core\Client\Domain\UseCase\GetClientIPWhitelistUseCase;
 use Epush\Core\Client\Domain\UseCase\SearchClientUseCase;
 use Epush\Core\Client\Domain\UseCase\UpdateClientUseCase;
 use Epush\Core\Client\Domain\UseCase\GetClientOrdersUseCase;
@@ -90,6 +91,12 @@ class ClientController
     public function getClientLatestOrder(ClientDto $clientDto, GetClientLatestOrderUseCase $getClientLatestOrderUseCase): Response
     {
         return jsonResponse($getClientLatestOrderUseCase->execute($clientDto));
+    }
+
+    #[Get('{user_id}/ipwhitelist')]
+    public function getClientIPWhitelist(ClientDto $clientDto, GetClientIPWhitelistUseCase $getClientIPWhitelistUseCase): Response
+    {
+        return jsonResponse($getClientIPWhitelistUseCase->execute($clientDto));
     }
 
     #[Post('/search')]

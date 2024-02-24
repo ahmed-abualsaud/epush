@@ -2,16 +2,19 @@
 
 namespace Epush\Core\Message\App\Service;
 
+use Illuminate\Support\Carbon;
+
 use Epush\Shared\Infra\Utils\Settings;
 use Epush\Shared\Infra\Utils\WalletActions;
 
 use Epush\Core\Sender\App\Contract\SenderServiceContract;
-use Epush\Core\Message\App\Contract\MessageServiceContract;
 use Epush\Core\Message\Infra\Driver\MessageDriverContract;
+use Epush\Core\Message\App\Contract\MessageServiceContract;
+use Epush\Core\IPWhitelist\App\Contract\IPWhitelistServiceContract;
 use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
 
-use Epush\Core\MessageFilter\App\Contract\MessageFilterServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
+use Epush\Core\MessageFilter\App\Contract\MessageFilterServiceContract;
 use Epush\Core\MessageSegment\App\Contract\MessageSegmentServiceContract;
 use Epush\Core\MessageLanguage\App\Contract\MessageLanguageServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
@@ -26,6 +29,7 @@ class MessageService implements MessageServiceContract
 
         private SenderServiceContract $senderService,
         private MessageDriverContract $messageDriver,
+        private IPWhitelistServiceContract $ipWhitelistService,
         private MessageGroupServiceContract $messageGroupService,
         private MessageFilterServiceContract $messageFilterService,
         private MessageSegmentServiceContract $messageSegmentService,
@@ -235,9 +239,9 @@ class MessageService implements MessageServiceContract
                 return exceptionObject(400, "The word: ".$result[0]['text_word']." Is matching the censored word: ".$result[0]['blacklisted_word']." Therefore, we recommend changing it");
             }
 
-            if (! empty(array_diff(str_split($message['content']), str_split($language['characters']." \b\t\r\n")))) {
-                return exceptionObject(400, "Invalid message langauage");
-            }
+            // if (! empty(array_diff(str_split($message['content']), str_split($language['characters']." \b\t\r\n")))) {
+            //     return exceptionObject(400, "Invalid message langauage");
+            // }
         }
 
         $maxNumOfSegments = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MAXIMUM_NUMBER_OF_MESSAGES_SEGMENTS->value)[0]);
@@ -276,7 +280,8 @@ class MessageService implements MessageServiceContract
         foreach ($messageGroupRecipients as $messageGroupRecipient) {
             $msgrcp = $this->messageGroupService->add([
                 'name' => $messageGroupRecipient['name'],
-                'user_id' => $messageGroupRecipient['user_id']
+                'user_id' => $messageGroupRecipient['user_id'],
+                'number_of_recipients' => count($messageGroupRecipient['recipients'])
             ], $messageGroupRecipient['recipients']);
             array_push($recipients, ...$msgrcp);
         }
@@ -299,6 +304,7 @@ class MessageService implements MessageServiceContract
                 'message_language_id' => $messages['message_language_id'],
                 'approved' => $approved,
                 'content' => $message['content'],
+                'length' => strlen($message['content']),
                 'notes' => array_key_exists('notes', $messages)? $messages['notes'] : null,
                 'single_message_cost' => $messages['single_message_cost'],
                 'total_cost' => $messages['single_message_cost'] * count($message['segments']),
@@ -307,14 +313,17 @@ class MessageService implements MessageServiceContract
                 'number_of_segments' => count($message['segments']),
                 'number_of_recipients' => 1,
                 'sender_ip' => $messages['sender_ip'],
+                'send_type' => $messages['send_type'],
+                'draft' => $messages['draft'] ?? false,
                 'message_type' => $this->isTheAuthenticatedUserAdmin() ? 'Admin' : 'Client',
             ]);
 
             $this->messageSegmentService->add($insertedMessage['id'], $message['segments']);
 
+            $status = array_key_exists('scheduled_at', $messages) && Carbon::parse($messages['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : 'Sent';
             $this->messageRecipientService->add($insertedMessage['id'], [arrayFind($recipients, function ($recipient) use ($message) {
                 return $recipient['number'] === $message['title'];
-            })['id']], 'Sent');
+            })['id']], $status);
         }
 
         return $messages;    
@@ -329,11 +338,13 @@ class MessageService implements MessageServiceContract
         if (array_key_exists('approved', $message) && $message['approved']) {
 
             $msg = $this->get($messageID);
+            $msg['recipients'] = $this->getMessageRecipients($msg['id'], 1000000)['data'];
             $msg = $this->updateAndSendMessage($msg);
         }
 
         if (array_key_exists('scheduled_at', $message)) {
             $msg = $this->get($messageID);
+            $msg['recipients'] = $this->getMessageRecipients($msg['id'], 1000000)['data'];
             $now = strtotime(date('Y-m-d H:i:s'));
             $scheduledTime = strtotime($message['scheduled_at']);
 
@@ -478,8 +489,11 @@ class MessageService implements MessageServiceContract
             return "Invalid api key";
         }
 
+        $allowedIPAddresses = $this->ipWhitelistService->getUserAllowedWhitelist($client['user_id']);
         if ((array_key_exists('use_ip_address', $client) && $client['use_ip_address']) &&
-            (! array_key_exists('ip_address', $client) || ! in_array($inputs['ip_address'], explode("-", $client['ip_address'])))) {
+            // (! array_key_exists('ip_address', $client) || ! in_array($inputs['ip_address'], explode("-", $client['ip_address'])))) 
+            (empty($allowedIPAddresses) || empty(arrayFind($allowedIPAddresses, fn ($ip) => $ip['ip_address'] == $inputs['ip_address']))))
+        {
             return "Invalid IP Address";
         }
 
@@ -599,7 +613,8 @@ class MessageService implements MessageServiceContract
 
         $messageGroup = $this->messageGroupService->add([
             'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : $sender['name'].'-group',
-            'user_id' => $user['id']
+            'user_id' => $user['id'],
+            'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
         ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']));
 
         $this->messageRecipientService->add($message['id'], array_column($messageGroup, 'id'), 'Sent');
@@ -645,8 +660,11 @@ class MessageService implements MessageServiceContract
             return "Invalid api key";
         }
 
+        $allowedIPAddresses = $this->ipWhitelistService->getUserAllowedWhitelist($client['user_id']);
         if ((array_key_exists('use_ip_address', $client) && $client['use_ip_address']) &&
-            (! array_key_exists('ip_address', $client) || ! in_array($inputs['ip_address'], explode("-", $client['ip_address'])))) {
+            // (! array_key_exists('ip_address', $client) || ! in_array($inputs['ip_address'], explode("-", $client['ip_address'])))) 
+            (empty($allowedIPAddresses) || empty(arrayFind($allowedIPAddresses, fn ($ip) => $ip['ip_address'] == $inputs['ip_address']))))
+        {
             return "Invalid IP Address";
         }
 
@@ -659,7 +677,7 @@ class MessageService implements MessageServiceContract
 
 
 
-    public function sendMessage(array $inputs): array
+    public function sendMessage(array $inputs): mixed
     {
         $user = $this->communicationEngine->broadcast("auth:user:get-auth-user")[0];
         $client = $this->communicationEngine->broadcast("core:client:get-client", $user['id'])[0];
@@ -668,9 +686,12 @@ class MessageService implements MessageServiceContract
             return exceptionObject(400, "You don't have permission to use API service");
         }
 
+        $allowedIPAddresses = $this->ipWhitelistService->getUserAllowedWhitelist($client['user_id']);
         if ((array_key_exists('use_ip_address', $client) && $client['use_ip_address']) &&
-            (! array_key_exists('ip_address', $client) || ! in_array($inputs['ip_address'], explode("-", $client['ip_address'])))) {
-                return exceptionObject(400, "Invalid IP Address");
+            // (! array_key_exists('ip_address', $client) || ! in_array($inputs['ip_address'], explode("-", $client['ip_address'])))) 
+            (empty($allowedIPAddresses) || empty(arrayFind($allowedIPAddresses, fn ($ip) => $ip['ip_address'] == $inputs['ip_address']))))
+        {
+            return "Invalid IP Address";
         }
 
         $senders = $this->senderService->getClientSenders($user['id']);
@@ -776,7 +797,8 @@ class MessageService implements MessageServiceContract
 
         $messageGroup = $this->messageGroupService->add([
             'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : $sender['name'].'-group',
-            'user_id' => $user['id']
+            'user_id' => $user['id'],
+            'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
         ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']));
 
         $messageResipients = $this->messageRecipientService->add($message['id'], array_column($messageGroup, 'id'), 'Sent');
@@ -807,10 +829,18 @@ class MessageService implements MessageServiceContract
 
 
 
+    public function getClientMessagesStats(string $userID): array
+    {
+        return $this->messageDatabaseService->getClientMessagesStats($userID);
+    }
+
+
+
+
     private function updateAndSendMessage(array $message): array
     {
         $sender = $this->senderService->get($message['sender_id']);
-        $numbers = array_map(fn($recip) => $recip['message_group_recipient']['number'], $message['recipients']);
+        $numbers = array_map(fn($recip) => $recip['number'], $message['recipients']);
         $senderConnections = $this->senderConnectionService->getSenderConnections($message['sender_id']);
         $adjustedSenderConnections = $this->clusterPhoneNumbersRegardingSenderConnections($senderConnections, $numbers);
 
@@ -861,23 +891,6 @@ class MessageService implements MessageServiceContract
         return $adjustedSenderConnections;
     }
 
-    // private function clusterPhoneNumbersRegardingSenderConnections(array $senderConnections, array $phoneNumbers) {
-    //     if (empty($phoneNumbers) || empty($senderConnections)) {
-    //         return [];
-    //     }
-
-    //     $adjustedSenderConnections['connections'] = array_map(fn ($conn) => [
-    //         ...$conn,
-    //         'numbers' => $conn['smsc']['default'] ? $this->getConnectionPhoneNumbers($conn['smsc']['country']['code'], $conn['smsc']['operator']['code'], $phoneNumbers) : []
-    //     ], $senderConnections);
-
-    //     $adjustedSenderConnections['valid_numbers'] = array_unique(array_merge(...array_map(fn ($conn) => $conn['numbers'], $adjustedSenderConnections['connections'])));
-    //     $adjustedSenderConnections['invalid_numbers'] = array_values(array_filter($phoneNumbers, function ($number) use ($adjustedSenderConnections) {
-    //         return ! in_array($number, array_map(fn ($num) => substr($num, - strlen($number)), $adjustedSenderConnections['valid_numbers']));
-    //     }));
-    //     return $adjustedSenderConnections;
-    // }
-
     private function getConnectionPhoneNumbers(string $countryCode, string $operatorCode, array $phoneNumbers) {
         if (empty($countryCode) || empty($operatorCode) || empty($phoneNumbers)) {
             return [];
@@ -901,35 +914,6 @@ class MessageService implements MessageServiceContract
             return stringStartsWith($number, $countryCode.$operatorCode);
         }));
     }
-    
-    // private function getConnectionPhoneNumbers(string $countryCode, string $operatorCode, array $phoneNumbers)
-    // {
-    //     if (empty($countryCode) || empty($operatorCode) || empty($phoneNumbers)) {
-    //         return [];
-    //     }
-    
-    //     $defaultCountryCode = $this->communicationEngine->broadcast("settings:get", Settings::DEFAULT_COUNTRY_CODE->value)[0]['value'];
-    
-    //     $adjustedPhoneNumbers = [];
-    
-    //     foreach ($phoneNumbers as $number) {
-    //         if ($defaultCountryCode === $countryCode) {
-    //             if (strpos($number, $operatorCode) === 0) {
-    //                 $adjustedPhoneNumbers[] = $countryCode . $number;
-    //             } elseif (strpos($number, substr($countryCode, -1) . $operatorCode) === 0) {
-    //                 $adjustedPhoneNumbers[] = substr($countryCode, 0, -1) . $number;
-    //             }
-    //         } else {
-    //             $adjustedPhoneNumbers[] = $number;
-    //         }
-    //     }
-    
-    //     return array_values(
-    //         array_filter($adjustedPhoneNumbers, function ($number) use ($countryCode, $operatorCode) {
-    //             return strpos($number, $countryCode . $operatorCode) === 0;
-    //         })
-    //     );
-    // }
 
     private function getMessageSegments(string $message, array $language): array
     {

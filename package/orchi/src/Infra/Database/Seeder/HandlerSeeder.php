@@ -2020,6 +2020,64 @@ class HandlerSeeder extends Seeder
             'description' => 'use old service api to check client balance',
             'enabled' => true,
         ]);
+        // 237
+        Handler::create([
+            'handle_group_id' => 1,
+            'name' => 'changePassword',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/auth/user/change-password',
+            'description' => 'change password function',
+            'enabled' => true,
+        ]);
+
+        // IPWhitelist Controller Handlers =================================================================================================================
+        // 238
+        Handler::create([
+            'handle_group_id' => 41,
+            'name' => 'getIPWhitelist',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/ipwhitelist/{ipwhitelist_id}',
+            'description' => 'get a specific ipwhitelist',
+            'enabled' => true,
+        ]);
+        // 239
+        Handler::create([
+            'handle_group_id' => 41,
+            'name' => 'addIPWhitelist',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/ipwhitelist',
+            'description' => 'add new ipwhitelist',
+            'enabled' => true,
+        ]);
+        // 240
+        Handler::create([
+            'handle_group_id' => 41,
+            'name' => 'listIPWhitelists',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/ipwhitelist',
+            'description' => 'list all ipwhitelists',
+            'enabled' => true,
+        ]);
+        // 241
+        Handler::create([
+            'handle_group_id' => 41,
+            'name' => 'deleteIPWhitelist',
+            'endpoint' => 'DELETE|'.env('APP_FULL_URL').'/api/ipwhitelist/{ipwhitelist_id}',
+            'description' => 'delete a specific ipwhitelist',
+            'enabled' => true,
+        ]);
+        // 242
+        Handler::create([
+            'handle_group_id' => 41,
+            'name' => 'updateIPWhitelist',
+            'endpoint' => 'PUT|'.env('APP_FULL_URL').'/api/ipwhitelist/{ipwhitelist_id}',
+            'description' => 'update a specific ipwhitelist',
+            'enabled' => true,
+        ]);
+        // 243
+        Handler::create([
+            'handle_group_id' => 11,
+            'name' => 'getClientIPWhitelist',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/client/{user_id}/ipwhitelist',
+            'description' => 'get client ip whitelist',
+            'enabled' => true,
+        ]);
     }
 }
 

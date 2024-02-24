@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('company_name');
             $table->string('sender_name');
             $table->string('status')->default('Initiated');
+            $table->string('subject');
             $table->text('content');
             $table->text('notes')->nullable();
             $table->timestamps();

@@ -32,6 +32,7 @@ class UpdateMessageDto implements DtoContract
             'segments' => 'array',
             'segments.*.number' => 'integer',
             'segments.*.content' => 'string',
+            'send_type' => 'string'
         ];
     }
 

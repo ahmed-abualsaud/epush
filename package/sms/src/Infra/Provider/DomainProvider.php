@@ -6,6 +6,7 @@ use Epush\SMS\Domain\DTO\SMSTemplateDto;
 use Epush\SMS\Domain\DTO\AddSMSTemplateDto;
 use Epush\SMS\Domain\DTO\UpdateSMSTemplateDto;
 
+use Epush\SMS\Domain\DTO\ListSMSTemplatesDto;
 use Epush\SMS\Domain\DTO\SMSSendingHandlerDto;
 use Epush\SMS\Domain\DTO\AddSMSSendingHandlerDto;
 use Epush\SMS\Domain\DTO\ListSMSSendingHandlersDto;
@@ -51,6 +52,10 @@ class DomainProvider extends ServiceProvider
 
         $this->app->bind(ListSMSSendingHandlersDto::class, function () {
             return new ListSMSSendingHandlersDto($this->app->make('request')->all());
+        });
+
+        $this->app->bind(ListSMSTemplatesDto::class, function () {
+            return new ListSMSTemplatesDto($this->app->make('request')->all());
         });
 
         $this->app->bind(AddSMSSendingHandlerDto::class, function () {

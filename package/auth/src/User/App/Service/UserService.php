@@ -48,6 +48,9 @@ class UserService implements UserServiceContract
     public function update(string $userID ,array $data): array
     {
         $updatedUser = $this->userDatabaseService->updateUserByID($userID, $data);
+        if (array_key_exists("avatar", $data) && (empty($data['avatar']) || $data['avatar'] == "null")) {
+            return $this->userDatabaseService->updateUserByID($userID, ['avatar' => null]);
+        }
         array_key_exists("avatar", $data) && $data['avatar'] && $avatar = $this->communicationEngine->broadcast('file:store', 'avatar', 'avatars', $updatedUser['username'].'-avatar')[0];
         ! empty($avatar) && $updatedUser = $this->userDatabaseService->updateUserByID($userID, ['avatar' => $avatar]);
         return $updatedUser;
@@ -67,6 +70,11 @@ class UserService implements UserServiceContract
         return $user;
     }
 
+    public function signin(string $username, string $password): array
+    {
+        $this->checkUserEnabledOrFail($username);
+        return $this->credentialsService->signin($username, $password);
+    }
 
     public function delete(string $userID): bool
     {

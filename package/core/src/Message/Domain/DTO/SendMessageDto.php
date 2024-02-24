@@ -19,6 +19,7 @@ class SendMessageDto implements DtoContract
             'scheduled_at' => 'string',
             'notes' => 'string',
             'group_name' => 'string|unique:message_groups,name',
+            'send_type' => 'string'
         ];
     }
 
@@ -37,7 +38,8 @@ class SendMessageDto implements DtoContract
             'ip_address',
             'scheduled_at',
             'notes',
-            'group_name'
+            'group_name',
+            'send_type'
 
         ], $this->data);
     }

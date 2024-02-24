@@ -24,9 +24,9 @@ class SMSService implements SMSServiceContract
 
     ) {}
 
-    public function listSMSTemplates(): array
+    public function listSMSTemplates(string|null $userID): array
     {
-        return $this->smsDatabaseService->listSMSTemplates();
+        return $this->smsDatabaseService->listSMSTemplates($userID);
     }
 
     public function getSMSTemplate(string $templateID): array

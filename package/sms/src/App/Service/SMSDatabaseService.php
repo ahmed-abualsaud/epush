@@ -13,9 +13,9 @@ class SMSDatabaseService implements SMSDatabaseServiceContract
 
     ) {}
 
-    public function listSMSTemplates(): array
+    public function listSMSTemplates(string|null $userID): array
     {
-        return $this->smsDatabaseDriver->smsTemplateRepository()->all();
+        return $this->smsDatabaseDriver->smsTemplateRepository()->all($userID);
     }
 
     public function getSMSTemplate(string $templateID): array

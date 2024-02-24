@@ -18,7 +18,7 @@ class UpdateMessageGroupRecipientDto implements DtoContract
         return [
             'message_group_id' =>'required|exists:message_groups,id',
             'number'=> 'string',
-            'attributes'=> 'json',
+            'attributes'=> 'json|nullable',
         ];
     }
 

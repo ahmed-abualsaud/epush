@@ -56,18 +56,20 @@ class SenderRepository implements SenderRepositoryContract
     {
         return DB::transaction(function () use ($sender) {
 
-            $input = [
-                'user_id' => $sender["user_id"], 
-                'name' => $sender["name"],
-                'approved' => $sender["approved"],
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s"),
-            ];
+            // $input = [
+            //     'user_id' => $sender["user_id"], 
+            //     'name' => $sender["name"],
+            //     'approved' => $sender["approved"],
+            //     'created_at' => date("Y-m-d H:i:s"),
+            //     'updated_at' => date("Y-m-d H:i:s"),
+            // ];
 
-            return $this->sender->updateOrCreate([
-                'user_id' => $sender["user_id"], 
-                'name' => $sender["name"]
-            ], $input)->toArray();
+            // return $this->sender->updateOrCreate([
+            //     'user_id' => $sender["user_id"], 
+            //     'name' => $sender["name"]
+            // ], $input)->toArray();
+
+            return $this->sender->create($sender)->toArray();
 
         });
     }

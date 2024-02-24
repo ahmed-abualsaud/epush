@@ -4,7 +4,7 @@ namespace Epush\SMS\Infra\Database\Repository\Contract;
 
 interface SMSTemplateRepositoryContract
 {
-    public function all(): array;
+    public function all(string|null $userID): array;
 
     public function get(string $templateID): array;
 
