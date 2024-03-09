@@ -2,6 +2,7 @@
 
 namespace Epush\Core\Message\Infra\Job;
 
+use Epush\Queue\App\Contract\QueueServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
 
@@ -34,7 +35,7 @@ class InsertMessageJob implements ShouldQueue
     public function __construct(
         private array $message,
         private array $messageGroupRecipients,
-    ) {    
+    ) {
         $this->onQueue("database");
         $this->onConnection('database');
         $this->afterCommit();
@@ -42,7 +43,7 @@ class InsertMessageJob implements ShouldQueue
     
     public function handle() : void
     {
-        $status = array_key_exists('scheduled_at', $this->message) && Carbon::parse($this->message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : 'Sent';
+        $status = array_key_exists('scheduled_at', $this->message) && Carbon::parse($this->message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : (array_key_exists('approved', $this->message) ? 'Sent' : 'Pending');
 
         foreach ($this->messageGroupRecipients as $messageGroupRecipient) {
             $msgrcp = app(MessageGroupServiceContract::class)->add([
@@ -51,6 +52,8 @@ class InsertMessageJob implements ShouldQueue
             ], $messageGroupRecipient['recipients']);
             app(MessageRecipientServiceContract::class)->add($this->message['id'], array_column($msgrcp, 'id'), $status);
         }
+
+        app(QueueServiceContract::class)->enableDisableQueue(true, "database");
     }
 
     public function failed(Exception $exception): void

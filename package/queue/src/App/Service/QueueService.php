@@ -48,12 +48,13 @@ class QueueService implements QueueServiceContract
                 return "Queue ". $queue . " is already started";
             }
 
-            shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
             if (strtolower($queue) === "database") {
-                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
-                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
-                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
-                shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+                if (count($queueProcess) < 3) {
+                    for ($i=0; $i < (3 - count($queueProcess)); $i++) { 
+                        shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
+                    }
+                }
+            } else {
                 shell_exec("php " . base_path() . "/artisan queue:work --queue=" . $queue . " > /dev/null 2>&1 &disown");
             }
             return "Queue ". $queue . " started successfully";

@@ -21,7 +21,7 @@ class AddMessageDto implements DtoContract
             'group_recipients' => 'array',
             'group_recipients.*.name' => 'string',
             'group_recipients.*.user_id' => 'exists:users,id',
-            'group_recipients.*.recipients' => 'array',
+            // 'group_recipients.*.recipients' => 'array',
             // 'group_recipients.*.recipients.*.number' => 'string',
             // 'group_recipients.*.recipients.*.attributes' => 'string|nullable',
             'segments' => 'array',

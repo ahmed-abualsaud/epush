@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name')->unique();
+            $table->string('saved')->default(false);
             $table->unsignedBigInteger('number_of_recipients')->default(0);
             $table->timestamps();
         });

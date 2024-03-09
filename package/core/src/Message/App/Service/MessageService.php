@@ -153,9 +153,8 @@ class MessageService implements MessageServiceContract
         }
 
         $message['single_message_cost'] = $lastOrder['pricelist']['price'];
-        $totalCost = (float) number_format($message['single_message_cost'] * $message['number_of_segments'] * $message['number_of_recipients'], 2);
+        $totalCost = (float) number_format($message['single_message_cost'] * $message['number_of_segments'] * $message['number_of_recipients'], 2, '.', '');
         $message['total_cost'] = $totalCost;
-
 
         $this->communicationEngine->broadcast(
             "core:client:update-client-wallet", 
@@ -170,7 +169,7 @@ class MessageService implements MessageServiceContract
         if ($numberOfRecipients < $messageApprovmentLimit) {
             $approved = true;
             $message['approved'] = $approved;
-            $message['sent'] = $approved;
+            $message['sent'] = ! $approved || (array_key_exists('scheduled_at', $message) && Carbon::parse($message['scheduled_at'])->gte(Carbon::now())) ? false : true;
         }
 
         if ($approved) {
@@ -185,6 +184,16 @@ class MessageService implements MessageServiceContract
         $message['message_type'] = $this->isTheAuthenticatedUserAdmin() ? 'Admin' : 'Client';
         $message = $this->messageDatabaseService->addMessage($message);
         $this->messageSegmentService->add($message['id'], $segments);
+
+        // $status = array_key_exists('scheduled_at', $message) && Carbon::parse($message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : 'Sent';
+
+        // foreach ($messageGroupRecipients as $messageGroupRecipient) {
+        //     $msgrcp = $this->messageGroupService->add([
+        //         'name' => $messageGroupRecipient['name'],
+        //         'user_id' => $messageGroupRecipient['user_id']
+        //     ], $messageGroupRecipient['recipients']);
+        //     $this->messageRecipientService->add($message['id'], array_column($msgrcp, 'id'), $status);
+        // }
 
         $this->messageDriver->insertMessage($message, $messageGroupRecipients);
 
@@ -260,14 +269,6 @@ class MessageService implements MessageServiceContract
         }
 
         $messages['single_message_cost'] = $lastOrder['pricelist']['price'];
-        $totalCost = $messages['single_message_cost'] * count($segments);
-
-        $this->communicationEngine->broadcast(
-            "core:client:update-client-wallet", 
-            $userID, 
-            $totalCost, 
-            WalletActions::DEDUCT->value
-        );
 
         $approved = false;
         $messageApprovmentLimit = castSettings($this->communicationEngine->broadcast("settings:get", Settings::MESSAGE_APPROVEMENT_LIMIT->value)[0]);
@@ -290,6 +291,8 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
+        $status = array_key_exists('scheduled_at', $messages) && Carbon::parse($messages['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
+
         foreach ($messages['content']['messages'] as $message) {
             if ($approved) {
                 // send the message
@@ -304,12 +307,12 @@ class MessageService implements MessageServiceContract
                 'message_language_id' => $messages['message_language_id'],
                 'approved' => $approved,
                 'content' => $message['content'],
-                'length' => strlen($message['content']),
+                'length' => mb_strlen($message['content'], 'UTF-8'),
                 'notes' => array_key_exists('notes', $messages)? $messages['notes'] : null,
                 'single_message_cost' => $messages['single_message_cost'],
                 'total_cost' => $messages['single_message_cost'] * count($message['segments']),
                 'scheduled_at' => array_key_exists('scheduled_at', $messages)? $messages['scheduled_at'] : date("Y-m-d H:i:s"),
-                'sent' => $approved,
+                'sent' => ($status == 'Sent'),
                 'number_of_segments' => count($message['segments']),
                 'number_of_recipients' => 1,
                 'sender_ip' => $messages['sender_ip'],
@@ -320,10 +323,18 @@ class MessageService implements MessageServiceContract
 
             $this->messageSegmentService->add($insertedMessage['id'], $message['segments']);
 
-            $status = array_key_exists('scheduled_at', $messages) && Carbon::parse($messages['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : 'Sent';
             $this->messageRecipientService->add($insertedMessage['id'], [arrayFind($recipients, function ($recipient) use ($message) {
                 return $recipient['number'] === $message['title'];
             })['id']], $status);
+
+            $totalCost =(float) number_format($messages['single_message_cost'] * count($message['segments']), 2, '.', '');
+
+            $this->communicationEngine->broadcast(
+                "core:client:update-client-wallet", 
+                $userID, 
+                $totalCost, 
+                WalletActions::DEDUCT->value
+            );
         }
 
         return $messages;    
@@ -563,7 +574,7 @@ class MessageService implements MessageServiceContract
 
         $messageCost = $lastOrder['pricelist']['price'];
         $numberOfRecipients = count($adjustedSenderConnections['valid_numbers']);
-        $totalCost = (float) number_format($messageCost * $numberOfSegments * $numberOfRecipients, 2);
+        $totalCost = (float) number_format($messageCost * $numberOfSegments * $numberOfRecipients, 2, '.', '');
 
         if (! array_key_exists('balance', $client) || $client['balance'] < $totalCost) {
             return "Not enough balance";
@@ -591,6 +602,8 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
+        $status = array_key_exists('scheduled_at', $inputs) && Carbon::parse($inputs['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
+
         $message = $this->messageDatabaseService->addMessage([
             'user_id' => $user['id'],
             'sender_id' => $sender['id'],
@@ -598,11 +611,12 @@ class MessageService implements MessageServiceContract
             'message_language_id' => $language['id'],
             'approved' => $approved,
             'content' => $inputs['message'],
+            'length' => mb_strlen($inputs['message'], 'UTF-8'),
             'notes' => array_key_exists('notes', $inputs)? $inputs['notes'] : null,
             'single_message_cost' => $messageCost,
             'total_cost' => $totalCost,
             'scheduled_at' => array_key_exists('scheduled_at', $inputs)? $inputs['scheduled_at'] : date("Y-m-d H:i:s"),
-            'sent' => $approved,
+            'sent' => ($status == 'Sent'),
             'number_of_segments' => $numberOfSegments,
             'number_of_recipients' => $numberOfRecipients,
             'sender_ip' => $inputs['ip_address'],
@@ -621,8 +635,8 @@ class MessageService implements MessageServiceContract
 
         return [
             'new_msg_id' => $message['id'],
-            'transaction_price' => $totalCost,
-            'net_balance' => $client['balance'],
+            'transaction_price' => (float) number_format($totalCost, 2, '.', ''),
+            'net_balance' => (float) number_format($client['balance'], 2, '.', ''),
         ];
     }
 
@@ -669,7 +683,7 @@ class MessageService implements MessageServiceContract
         }
 
         return [
-            'balance' => $client['balance']
+            'balance' => (float) number_format($client['balance'], 2, '.', '')
         ];
     }
 
@@ -751,7 +765,7 @@ class MessageService implements MessageServiceContract
 
         $messageCost = $lastOrder['pricelist']['price'];
         $numberOfRecipients = count($adjustedSenderConnections['valid_numbers']);
-        $totalCost = (float) number_format($messageCost * $numberOfSegments * $numberOfRecipients, 2);
+        $totalCost = (float) number_format($messageCost * $numberOfSegments * $numberOfRecipients, 2, '.', '');
 
         $this->communicationEngine->broadcast(
             "core:client:update-client-wallet", 
@@ -775,6 +789,8 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
+        $status = array_key_exists('scheduled_at', $inputs) && Carbon::parse($inputs['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
+
         $message = $this->messageDatabaseService->addMessage([
             'user_id' => $user['id'],
             'sender_id' => $sender['id'],
@@ -782,11 +798,12 @@ class MessageService implements MessageServiceContract
             'message_language_id' => $language['id'],
             'approved' => $approved,
             'content' => $inputs['message'],
+            'length' => mb_strlen($inputs['message'], 'UTF-8'),
             'notes' => array_key_exists('notes', $inputs)? $inputs['notes'] : null,
             'single_message_cost' => $messageCost,
             'total_cost' => $totalCost,
             'scheduled_at' => array_key_exists('scheduled_at', $inputs)? $inputs['scheduled_at'] : date("Y-m-d H:i:s"),
-            'sent' => $approved,
+            'sent' => ($status == 'Sent'),
             'number_of_segments' => $numberOfSegments,
             'number_of_recipients' => $numberOfRecipients,
             'sender_ip' => $inputs['ip_address'],
@@ -861,7 +878,8 @@ class MessageService implements MessageServiceContract
         }
     
         $adjustedSenderConnections = ['connections' => []];
-    
+        $defaultCountryCode = $this->communicationEngine->broadcast("settings:get", Settings::DEFAULT_COUNTRY_CODE->value)[0]['value'];
+
         foreach ($senderConnections as $conn) {
             $numbers = [];
     
@@ -869,7 +887,8 @@ class MessageService implements MessageServiceContract
                 $numbers = $this->getConnectionPhoneNumbers(
                     $conn['smsc']['country']['code'],
                     $conn['smsc']['operator']['code'],
-                    $phoneNumbers
+                    $phoneNumbers,
+                    $defaultCountryCode
                 );
             }
     
@@ -891,12 +910,11 @@ class MessageService implements MessageServiceContract
         return $adjustedSenderConnections;
     }
 
-    private function getConnectionPhoneNumbers(string $countryCode, string $operatorCode, array $phoneNumbers) {
+    private function getConnectionPhoneNumbers(string $countryCode, string $operatorCode, array $phoneNumbers, $defaultCountryCode) {
         if (empty($countryCode) || empty($operatorCode) || empty($phoneNumbers)) {
             return [];
         }
 
-        $defaultCountryCode = $this->communicationEngine->broadcast("settings:get", Settings::DEFAULT_COUNTRY_CODE->value)[0]['value'];
         $adjustedPhoneNumbers = array_map(function ($number) use ($countryCode, $operatorCode, $defaultCountryCode){
             if ($defaultCountryCode === $countryCode) {
                 if(stringStartsWith($number, $operatorCode)) {

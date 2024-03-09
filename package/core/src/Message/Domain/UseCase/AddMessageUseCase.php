@@ -17,7 +17,7 @@ class AddMessageUseCase
 
     public function execute(AddMessageDto $addMessageDto): array
     {
-        $this->validationService->validate($addMessageDto->toArray(), AddMessageDto::rules());
+        // $this->validationService->validate($addMessageDto->toArray(), AddMessageDto::rules());
         return $this->messageService->add(
             $addMessageDto->getUserID(),
             $addMessageDto->getMessage(), 

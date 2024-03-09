@@ -47,12 +47,12 @@ class Message extends Model
         return $this->belongsTo(Sender::class, 'sender_id');
     }
 
-    protected function length(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) => $attributes['length'],
-            set: fn (mixed $value, array $attributes) => strlen($attributes['content']),
-        );
-    }
-    
+    // protected function length(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn (mixed $value, array $attributes) => $attributes['length'],
+    //         set: fn (mixed $value, array $attributes) => strlen($attributes['content']),
+    //     );
+    // }
+
 }

@@ -1999,6 +1999,11 @@ class RolePermissionSeeder extends Seeder
 
         RolePermission::create([
             'role_id' => 2,
+            'permission_id' => 162,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 2,
             'permission_id' => 168,
         ]);
 
@@ -3027,6 +3032,11 @@ class RolePermissionSeeder extends Seeder
         RolePermission::create([
             'role_id' => 3,
             'permission_id' => 161,
+        ]);
+
+        RolePermission::create([
+            'role_id' => 3,
+            'permission_id' => 162,
         ]);
 
         RolePermission::create([

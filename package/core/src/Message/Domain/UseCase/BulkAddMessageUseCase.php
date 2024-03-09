@@ -17,7 +17,7 @@ class BulkAddMessageUseCase
 
     public function execute(BulkAddMessageDto $bulkAddMessageDto): array
     {
-        $this->validationService->validate($bulkAddMessageDto->toArray(), BulkAddMessageDto::rules());
+        // $this->validationService->validate($bulkAddMessageDto->toArray(), BulkAddMessageDto::rules());
         return $this->messageService->bulkAdd(
             $bulkAddMessageDto->getUserID(),
             $bulkAddMessageDto->getMessage(), 

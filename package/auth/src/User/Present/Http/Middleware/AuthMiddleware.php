@@ -21,6 +21,10 @@ class AuthMiddleware
         $method = $request->method();
         $response = $next($request);
 
+        if (stringContains($path, "storage")) {
+            return $response;
+        }
+
         if (stringContains($path, "control/timestamp") && $method === 'GET') {
             return jsonResponse(app(InterprocessCommunicationEngineContract::class)->broadcast("cache:get", "control_timestamp")[0]);
         }
