@@ -2,6 +2,7 @@
 
 namespace Epush\Core\Message\App\Service;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 
 use Epush\Shared\Infra\Utils\Settings;
@@ -351,6 +352,12 @@ class MessageService implements MessageServiceContract
             $msg = $this->get($messageID);
             $msg['recipients'] = $this->getMessageRecipients($msg['id'], 1000000)['data'];
             $msg = $this->updateAndSendMessage($msg);
+
+            $now = strtotime(date('Y-m-d H:i:s'));
+            $scheduledTime = strtotime($msg['scheduled_at']);
+            if (empty($msg['scheduled_at']) || $scheduledTime <= $now) {
+                $message['sent'] = true;
+            }
         }
 
         if (array_key_exists('scheduled_at', $message)) {
@@ -542,9 +549,10 @@ class MessageService implements MessageServiceContract
         }
 
         $languageName = "english";
-        foreach (str_split($inputs['message']) as $chr) {
-            $ascii_code = ord($chr);
-            if ($ascii_code >= 1548 and $ascii_code <= 1746) {
+        $characters = mb_str_split($inputs['message']);
+        foreach ($characters as $chr) {
+            $ascii_code = mb_ord($chr, 'UTF-8');
+            if ($ascii_code >= 1548 && $ascii_code <= 1746) {
                 $languageName = "arabic";
                 break;
             }
@@ -626,7 +634,7 @@ class MessageService implements MessageServiceContract
         $this->messageSegmentService->add($message['id'], $segments);
 
         $messageGroup = $this->messageGroupService->add([
-            'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : $sender['name'].'-group',
+            'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : Str::random(8).'-api-group',
             'user_id' => $user['id'],
             'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
         ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']));

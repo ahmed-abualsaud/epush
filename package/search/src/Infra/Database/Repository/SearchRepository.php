@@ -8,12 +8,12 @@ use Epush\Search\Infra\Database\Repository\Contract\SearchRepositoryContract;
 
 class SearchRepository implements SearchRepositoryContract
 {
-    public function search(string $criteria, string $model, array $selectAs = null, array $joins = null, array $withs = null, int $perPage = 10, int $currentPage = 1): array
+    public function search(string $criteria, string $model, array $selectAs = null, array $joins = null, array $withs = null, array $orderBy = null, int $perPage = 10, int $currentPage = 1): array
     {
-        return DB::transaction(function () use ($criteria, $model, $selectAs, $joins, $withs, $perPage, $currentPage) {
+        return DB::transaction(function () use ($criteria, $model, $selectAs, $joins, $withs, $orderBy, $perPage, $currentPage) {
             $columns = ['*'];
 
-            if (!empty($selectAs)) {
+            if (! empty($selectAs)) {
                 $columns = array_merge($columns, $selectAs);
             }
 
@@ -31,6 +31,12 @@ class SearchRepository implements SearchRepositoryContract
 
             if (! empty($criteria)) {
                 $model = $model->whereRaw($criteria);
+            }
+
+            if (! empty($orderBy)) {
+                foreach ($orderBy as $column => $ordering) {
+                    $model = $model->orderBy($column, $ordering);
+                }
             }
 
             if (! empty($perPage) && $perPage > 0) {

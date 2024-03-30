@@ -5,6 +5,7 @@ namespace Epush\Core;
 use Epush\Core\SMSC\Infra\Provider\SMSCServiceProvider;
 use Epush\Core\Sales\Infra\Provider\SalesServiceProvider;
 use Epush\Core\Admin\Infra\Provider\AdminServiceProvider;
+use Epush\Core\Banner\Infra\Provider\BannerServiceProvider;
 use Epush\Core\Client\Infra\Provider\ClientServiceProvider;
 use Epush\Core\Sender\Infra\Provider\SenderServiceProvider;
 use Epush\Core\Country\Infra\Provider\CountryServiceProvider;
@@ -38,6 +39,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->register(AdminServiceProvider::class);
         $this->app->register(ClientServiceProvider::class);
         $this->app->register(SenderServiceProvider::class);
+        $this->app->register(BannerServiceProvider::class);
         $this->app->register(CountryServiceProvider::class);
         $this->app->register(MessageServiceProvider::class);
         $this->app->register(OperatorServiceProvider::class);

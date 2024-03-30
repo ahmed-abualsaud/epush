@@ -22,11 +22,12 @@ class SearchService implements SearchServiceContract
         $metadata = $this->getCriteriaParametersMetadata($entity);
         $criteria = $this->prepareCriteria($criteria, $metadata);
         return $this->searchDatabaseService->search(
-            $criteria, 
-            $metadata['model'], 
-            $metadata['select_as'] ?? null, 
-            $metadata['joins'] ?? null, 
-            $metadata['withs'] ?? null, 
+            $criteria,
+            $metadata['model'],
+            $metadata['select_as'] ?? null,
+            $metadata['joins'] ?? null,
+            $metadata['withs'] ?? null,
+            $metadata['OrderBy'] ?? null,
             $take, 
             $page
         );

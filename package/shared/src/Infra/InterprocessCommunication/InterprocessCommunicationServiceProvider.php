@@ -9,6 +9,7 @@ use Epush\Mail\App\Service\MailService;
 use Epush\Ticket\App\Service\TicketService;
 use Epush\Auth\User\App\Service\UserService;
 use Epush\Core\Admin\App\Service\AdminService;
+use Epush\Core\Banner\App\Service\BannerService;
 use Epush\Core\Client\App\Service\ClientService;
 use Epush\Expense\Order\App\Service\OrderService;
 use Epush\Core\Message\App\Service\MessageService;
@@ -297,6 +298,19 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
                 return $engine;
             });
 
+
+        $this->app
+            ->when(BannerService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new StoreFileMicroprocess(app(FileServiceContract::class)), "file:store");
+                $engine->attach(new DeleteFileMicroprocess(app(FileServiceContract::class)), "file:delete");
+
+                return $engine;
+            });
 
         $this->app->bind(InterprocessCommunicationEngineContract::class, function () {
 

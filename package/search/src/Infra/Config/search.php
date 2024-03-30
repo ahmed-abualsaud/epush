@@ -359,6 +359,9 @@ return [
             // "recipients" => [
             //     'messageGroupRecipient'
             // ]
+        ],
+        "OrderBy" => [
+            "messages.created_at" => "DESC",
         ]
     ],
     [
