@@ -396,6 +396,14 @@ class MessageService implements MessageServiceContract
 
     public function delete(string $messageID): bool
     {
+        $msg = $this->get($messageID);
+        $this->communicationEngine->broadcast(
+            "core:client:update-client-wallet", 
+            $msg['user_id'], 
+            $msg['total_cost'], 
+            WalletActions::REFUND->value
+        );
+
         return $this->messageDatabaseService->deleteMessage($messageID) && 
                 $this->messageSegmentService->delete($messageID) &&
                 $this->messageRecipientService->delete($messageID);
@@ -891,14 +899,14 @@ class MessageService implements MessageServiceContract
         foreach ($senderConnections as $conn) {
             $numbers = [];
     
-            if ($conn['smsc']['default']) {
+            // if ($conn['smsc']['default']) {
                 $numbers = $this->getConnectionPhoneNumbers(
                     $conn['smsc']['country']['code'],
                     $conn['smsc']['operator']['code'],
                     $phoneNumbers,
                     $defaultCountryCode
                 );
-            }
+            // }
     
             $adjustedSenderConnections['connections'][] = array_merge($conn, ['numbers' => $numbers]);
         }

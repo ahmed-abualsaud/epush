@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('balance', 20, 2, true)->default(0);
             $table->boolean('use_api_key')->default(false);
             $table->text('api_key')->nullable();
-            $table->boolean('use_ip_address')->default(true);
+            $table->boolean('use_ip_address')->default(false);
             $table->text('ip_address')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();

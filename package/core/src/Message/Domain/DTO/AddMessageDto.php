@@ -62,7 +62,8 @@ class AddMessageDto implements DtoContract
             'number_of_segments',
             'number_of_recipients',
             'send_type',
-            'length'
+            'length',
+            'draft'
 
         ], $this->data);
     }

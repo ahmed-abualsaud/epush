@@ -66,7 +66,8 @@ class BulkAddMessageDto implements DtoContract
             'scheduled_at',
             'number_of_segments',
             'number_of_recipients',
-            'send_type'
+            'send_type',
+            'draft'
 
         ], $this->data);
     }

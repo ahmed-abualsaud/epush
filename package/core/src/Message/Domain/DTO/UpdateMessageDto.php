@@ -32,12 +32,14 @@ class UpdateMessageDto implements DtoContract
             'segments' => 'array',
             'segments.*.number' => 'integer',
             'segments.*.content' => 'string',
-            'send_type' => 'string'
+            'send_type' => 'string',
+            'draft' => 'boolean'
         ];
     }
 
     public function toArray(): array
     {
+        ! empty($this->data['draft']) && $this->data['draft'] = $this->data['draft'] == 'true';
         ! empty($this->data['scheduled_at']) && $this->data['scheduled_at'] = toUTCDateTimeString($this->data['scheduled_at']);
 
         return $this->data;
