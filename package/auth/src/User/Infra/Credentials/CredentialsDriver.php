@@ -7,9 +7,16 @@ use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Epush\Auth\User\App\Contract\BlockedIPDatabaseServiceContract;
 
 class CredentialsDriver implements CredentialsDriverContract
 {
+    public function __construct(
+
+        private BlockedIPDatabaseServiceContract $blockedIPDatabaseService
+
+    ) {}
+
     public function hashPassword(string $password): string
     {
         return Hash::make($password);
@@ -37,9 +44,17 @@ class CredentialsDriver implements CredentialsDriverContract
 
     public function attemptOrFail(string $username, string $password): string
     {
+        $blockedIP = $this->blockedIPDatabaseService->getBlockedIP(request()->ip());
+
+        if (! empty($blockedIP) && $blockedIP['tries'] >= 5) {
+            throwHttpException(401, 'Maximum number of login tries reached');
+        }
+
         if (! $token = Auth::attempt(['username' => $username, 'password' => $password])) {
+            $this->blockedIPDatabaseService->addBlockedIP(['ip' => request()->ip()]);
             throwHttpException(401, 'Invalid username or password');
         }
+        $this->blockedIPDatabaseService->addBlockedIP(['ip' => request()->ip(), 'tries' => 0]);
         return $token;
     }
 

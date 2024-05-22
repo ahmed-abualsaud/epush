@@ -13,7 +13,8 @@ class SigninDto implements DtoContract
         return [
             'username' => 'required|string|exists:users',
             'password' => 'required|string',
-            'remember_me' => 'boolean'
+            'remember_me' => 'boolean',
+            'recaptcha_token' => 'required|string'
         ];
     }
 
@@ -37,5 +38,10 @@ class SigninDto implements DtoContract
     {
         ! empty($this->data['remember_me']) && $this->data['remember_me'] = $this->data['remember_me'] == 'true';
         return $this->data['remember_me'] ?? false;
+    }
+
+    public function getRecaptchaToken(): string
+    {
+        return $this->data['recaptcha_token']?? '';
     }
 }

@@ -12,7 +12,7 @@ interface UserServiceContract
 
     public function update(string $userID ,array $data): array;
 
-    public function signin(string $username, string $password): array;
+    public function signin(string $username, string $password, bool $rememberMe = false, string $recaptchaToken = ''): array;
 
     public function signup(array $data, string $roleName = null): array;
 

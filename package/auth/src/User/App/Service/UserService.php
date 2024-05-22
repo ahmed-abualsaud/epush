@@ -6,7 +6,7 @@ use Epush\Auth\Role\App\Contract\RoleServiceContract;
 use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
 use Epush\Auth\User\App\Contract\UserDatabaseServiceContract;
-
+use Epush\Auth\User\Infra\Recaptcha\RecaptchaDriverContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class UserService implements UserServiceContract
@@ -15,6 +15,7 @@ class UserService implements UserServiceContract
 
         
         private RoleServiceContract $roleService,
+        private RecaptchaDriverContract $recaptchaDriver,
         private CredentialsServiceContract $credentialsService,
         private UserDatabaseServiceContract $userDatabaseService,
         private InterprocessCommunicationEngineContract $communicationEngine
@@ -70,9 +71,10 @@ class UserService implements UserServiceContract
         return $user;
     }
 
-    public function signin(string $username, string $password): array
+    public function signin(string $username, string $password, bool $rememberMe = false, string $recaptchaToken = ''): array
     {
         $this->checkUserEnabledOrFail($username);
+        $this->recaptchaDriver->validatTokenOrFail($recaptchaToken);
         return $this->credentialsService->signin($username, $password);
     }
 

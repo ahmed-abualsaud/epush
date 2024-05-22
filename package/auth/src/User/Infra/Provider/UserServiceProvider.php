@@ -33,6 +33,11 @@ class UserServiceProvider extends ServiceProvider
                 'auth', 
                 require __DIR__.'/../Config/auth.php'
             );
+
+            $config->set(
+                'recaptcha', 
+                require __DIR__.'/../Config/recaptcha.php'
+            );
         }
 
         $this->app->register(DomainProvider::class);

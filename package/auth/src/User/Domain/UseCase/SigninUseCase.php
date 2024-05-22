@@ -21,7 +21,8 @@ class SigninUseCase
         return $this->userService->signin(
             $signinDto->getUsername(),
             $signinDto->getPassword(),
-            $signinDto->getRememberMe()
+            $signinDto->getRememberMe(),
+            $signinDto->getRecaptchaToken(),
         );
     }
 }
