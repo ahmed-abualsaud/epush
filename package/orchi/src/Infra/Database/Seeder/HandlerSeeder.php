@@ -2078,6 +2078,56 @@ class HandlerSeeder extends Seeder
             'description' => 'get client ip whitelist',
             'enabled' => true,
         ]);
+
+        // Partner Controller Handlers =================================================================================================================
+        // 244
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'getPartner',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/partner/{user_id}',
+            'description' => 'get a specific partner',
+            'enabled' => true,
+        ]);
+        // 245
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'addPartner',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/partner',
+            'description' => 'add new partner',
+            'enabled' => true,
+        ]);
+        // 246
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'listPartners',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/partner',
+            'description' => 'list all partners',
+            'enabled' => true,
+        ]);
+        // 247
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'deletePartner',
+            'endpoint' => 'DELETE|'.env('APP_FULL_URL').'/api/partner/{user_id}',
+            'description' => 'delete a specific partner',
+            'enabled' => true,
+        ]);
+        // 248
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'updatePartner',
+            'endpoint' => 'PUT|'.env('APP_FULL_URL').'/api/partner/{user_id}',
+            'description' => 'update a specific partner',
+            'enabled' => true,
+        ]);
+        // 249
+        Handler::create([
+            'handle_group_id' => 10,
+            'name' => 'searchPartnerColumn',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/partner/search',
+            'description' => 'find a specific value for a column of the partners table',
+            'enabled' => true,
+        ]);
     }
 }
 

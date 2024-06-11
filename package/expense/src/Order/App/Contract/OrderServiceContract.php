@@ -4,7 +4,7 @@ namespace Epush\Expense\Order\App\Contract;
 
 interface OrderServiceContract
 {
-    public function list(int $take): array;
+    public function list(int $take, int $partnerID = null): array;
 
     public function get(string $orderID): array;
 
@@ -24,5 +24,5 @@ interface OrderServiceContract
 
     public function getOrdersByPaymentMethodsID(array $paymentMethodsID, int $take = 10): array;
 
-    public function searchColumn(string $column, string $value, int $take = 10): array;
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array;
 }

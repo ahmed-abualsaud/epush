@@ -19,11 +19,14 @@ class ClientRepository implements ClientRepositoryContract
         
     ) {}
 
-    public function all(int $take): array
+    public function all(int $take, int $partnerID = null): array
     {
-        return DB::transaction(function () use ($take) {
+        return DB::transaction(function () use ($take, $partnerID) {
 
-            $client = $this->client->with(['websites', 'sales', 'businessField']);
+            $client = $this->client->with(['websites', 'sales', 'businessField', 'partner']);
+            if (! empty($partnerID)) {
+                $client = $client->where('partner_id', $partnerID);
+            }
             $client = $take >= 1000000000000 ? $client->paginate($take, ['*'], 'page', 1) : $client->paginate($take);
             return $client->toArray();
 
@@ -101,11 +104,15 @@ class ClientRepository implements ClientRepositoryContract
         }); 
     }
 
-    public function getClients(array $usersID): array
+    public function getClients(array $usersID, int $partnerID = null): array
     {
-        return DB::transaction(function () use ($usersID) {
+        return DB::transaction(function () use ($usersID, $partnerID) {
 
-            return $this->client->with(['websites', 'sales', 'businessfield'])->whereIn('user_id', $usersID)->get()->toArray();
+            $clients = $this->client->with(['websites', 'sales', 'businessfield']);
+            if (! empty($partnerID)) {
+                $clients = $clients->where('partner_id', $partnerID);
+            }
+            return $clients->whereIn('user_id', $usersID)->get()->toArray();
 
         }); 
     }
@@ -165,11 +172,14 @@ class ClientRepository implements ClientRepositoryContract
         });
     }
 
-    public function searchColumn(string $column, string $value, int $take = 10): array
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array
     {
-        return DB::transaction(function () use ($column, $value, $take) {
+        return DB::transaction(function () use ($column, $value, $take, $partnerID) {
 
             $client = $this->client->with(['websites', 'sales', 'businessfield']);
+            if (! empty($partnerID)) {
+                $client = $client->where('partner_id', $partnerID);
+            }
             if (in_array($column, ["website", 'websites'])) {
                 $client = $client->whereHas('websites', function ($query) use ($value) {
                     $query->whereRaw("LOWER(url) LIKE ?", ['%' . strtolower($value) . '%']);

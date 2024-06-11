@@ -21,7 +21,8 @@ class SearchMessageGroupUseCase
         return $this->messageGroupService->searchColumn(
             $searchMessageGroupDto->getSearchColumn(),
             $searchMessageGroupDto->getSearchValue(),
-            $searchMessageGroupDto->getPageSize()
+            $searchMessageGroupDto->getPageSize(),
+            $searchMessageGroupDto->getPartnerID()
         );
     }
 }

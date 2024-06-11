@@ -18,6 +18,6 @@ class ListMessagesUseCase
     public function execute(ListMessagesDto $listMessagesDto): array
     {
         $this->validationService->validate($listMessagesDto->toArray(), ListMessagesDto::rules());
-        return $this->messageService->list($listMessagesDto->getPageSize());
+        return $this->messageService->list($listMessagesDto->getPageSize(), $listMessagesDto->getPartnerID());
     }
 }

@@ -68,7 +68,7 @@ class SendMessageJob implements ShouldQueue
             }
     
             if (! empty($this->encoding)) {
-                $attributes['encoding'] = $this->encoding;
+                $attributes['coding'] = $this->encoding;
             }
     
             $response = Http::withOptions(['verify' => false])->get($this->server, $attributes);

@@ -10,6 +10,7 @@ use Epush\Core\Client\Infra\Provider\ClientServiceProvider;
 use Epush\Core\Sender\Infra\Provider\SenderServiceProvider;
 use Epush\Core\Country\Infra\Provider\CountryServiceProvider;
 use Epush\Core\Message\Infra\Provider\MessageServiceProvider;
+use Epush\Core\Partner\Infra\Provider\PartnerServiceProvider;
 use Epush\Core\Operator\Infra\Provider\OperatorServiceProvider;
 use Epush\Core\Pricelist\Infra\Provider\PricelistServiceProvider;
 use Epush\Core\IPWhitelist\Infra\Provider\IPWhitelistServiceProvider;
@@ -22,7 +23,6 @@ use Epush\Core\MessageLanguage\Infra\Provider\MessageLanguageServiceProvider;
 use Epush\Core\MessageRecipient\Infra\Provider\MessageRecipientServiceProvider;
 use Epush\Core\SenderConnection\Infra\Provider\SenderConnectionServiceProvider;
 use Epush\Core\MessageGroupRecipient\Infra\Provider\MessageGroupRecipientServiceProvider;
-
 use Illuminate\Support\ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
@@ -41,6 +41,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->register(SenderServiceProvider::class);
         $this->app->register(BannerServiceProvider::class);
         $this->app->register(CountryServiceProvider::class);
+        $this->app->register(PartnerServiceProvider::class);
         $this->app->register(MessageServiceProvider::class);
         $this->app->register(OperatorServiceProvider::class);
         $this->app->register(PricelistServiceProvider::class);

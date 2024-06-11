@@ -5,19 +5,36 @@ namespace Epush\Core\MessageGroupRecipient\App\Service;
 
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientDatabaseServiceContract;
+use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class MessageGroupRecipientService implements MessageGroupRecipientServiceContract
 {
     public function __construct(
+
+        private InterprocessCommunicationEngineContract $communicationEngine,
 
         private MessageGroupRecipientDatabaseServiceContract $messageGroupRecipientDatabaseService
 
     ) {}
 
 
-    public function list(int $take): array
+    public function list(int $take, int $partnerID = null): array
     {
-        return $this->messageGroupRecipientDatabaseService->paginateMessageGroupRecipients($take);
+        $groupRecipients = $this->messageGroupRecipientDatabaseService->paginateMessageGroupRecipients($take);
+
+        if (! empty($partnerID)) {
+            $clients = $this->communicationEngine->broadcast("core:client:list-clients", 1000000000000000, $partnerID)[0];
+
+            $usersIDs = array_map(function ($client) {
+                return $client['user_id'];
+            }, $clients['data']);
+
+            $groupRecipients['data'] = array_values(array_filter($groupRecipients['data'], function ($recipient) use ($usersIDs) {
+                return ! empty($recipient['message_group']['user_id']) && in_array($recipient['message_group']['user_id'], $usersIDs);
+            }));
+        }
+
+        return $groupRecipients;
     }
 
     public function get(string $messageGroupRecipientID): array
@@ -45,9 +62,23 @@ class MessageGroupRecipientService implements MessageGroupRecipientServiceContra
         return $this->messageGroupRecipientDatabaseService->deleteMessageGroupRecipients($groupID);
     }
 
-    public function searchColumn(string $column, string $value, int $take = 10): array
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array
     {
-        return $this->messageGroupRecipientDatabaseService->searchMessageGroupRecipientColumn($column, $value, $take);
+        $groupRecipients = $this->messageGroupRecipientDatabaseService->searchMessageGroupRecipientColumn($column, $value, $take);
+
+        if (! empty($partnerID)) {
+            $clients = $this->communicationEngine->broadcast("core:client:list-clients", 1000000000000000, $partnerID)[0];
+
+            $usersIDs = array_map(function ($client) {
+                return $client['user_id'];
+            }, $clients['data']);
+
+            $groupRecipients['data'] = array_values(array_filter($groupRecipients['data'], function ($recipient) use ($usersIDs) {
+                return ! empty($recipient['message_group']['user_id']) && in_array($recipient['message_group']['user_id'], $usersIDs);
+            }));
+        }
+
+        return $groupRecipients;
     }
 
     public function getMessageRecipients(string $messageID, int $take = 10): array

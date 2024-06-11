@@ -17,6 +17,7 @@ class GetClientsMicroprocess implements MicroprocessContract
     public function listen(InterprocessCommunicationEngineContract $engine, string $event = null, mixed ...$data): mixed
     {
         [$usersID] = $data;
-        return $this->clientService->getClients($usersID);
+        $partnerID = count($data) > 1 ? $data[1] : null;
+        return $this->clientService->getClients($usersID, $partnerID);
     }
 }

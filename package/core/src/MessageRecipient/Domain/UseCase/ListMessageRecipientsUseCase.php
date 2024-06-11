@@ -18,6 +18,6 @@ class ListMessageRecipientsUseCase
     public function execute(ListMessageRecipientsDto $listMessageRecipientsDto): array
     {
         $this->validationService->validate($listMessageRecipientsDto->toArray(), ListMessageRecipientsDto::rules());
-        return $this->messageRecipientService->list($listMessageRecipientsDto->getPageSize());
+        return $this->messageRecipientService->list($listMessageRecipientsDto->getPageSize(), $listMessageRecipientsDto->getPartnerID());
     }
 }

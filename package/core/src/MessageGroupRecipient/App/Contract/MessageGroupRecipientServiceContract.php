@@ -4,7 +4,7 @@ namespace Epush\Core\MessageGroupRecipient\App\Contract;
 
 interface MessageGroupRecipientServiceContract
 {
-    public function list(int $take): array;
+    public function list(int $take, int $partnerID = null): array;
 
     public function get(string $messageGroupRecipientID): array;
 
@@ -16,7 +16,7 @@ interface MessageGroupRecipientServiceContract
 
     public function deleteMessageGroupRecipients(string $groupID): bool;
 
-    public function searchColumn(string $column, string $value, int $take = 10): array;
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array;
 
     public function getMessageRecipients(string $messageID, int $take): array;
 

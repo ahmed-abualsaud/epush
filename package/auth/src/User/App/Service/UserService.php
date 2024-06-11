@@ -135,7 +135,7 @@ class UserService implements UserServiceContract
         return $this->userDatabaseService->checkUserEnabledOrFail($userName);
     }
 
-    public function searchColumn(string $column, string $value, int $take = 10, array $usersID = null): array
+    public function searchColumn(string $column, string $value, int $take = 10, array $usersID = null, int $partnerID = null): array
     {
         return $this->userDatabaseService->searchUserColumn($column, $value, $take, $usersID);
     }

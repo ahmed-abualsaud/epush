@@ -18,9 +18,9 @@ class ClientService implements ClientServiceContract
     ) {}
 
 
-    public function list(int $take): array
+    public function list(int $take, int $partnerID = null): array
     {
-        $clients = $this->clientDatabaseService->paginateClients($take);
+        $clients = $this->clientDatabaseService->paginateClients($take, $partnerID);
         $usersID = array_column($clients['data'], 'user_id');
         $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
         $clients['data'] = tableWith($clients['data'], $users, "user_id");
@@ -77,9 +77,9 @@ class ClientService implements ClientServiceContract
         return $this->clientDatabaseService->deleteClient($userID) && $this->communicationEngine->broadcast("auth:user:delete-user", $userID)[0];
     }
 
-    public function getClients(array $usersID): array
+    public function getClients(array $usersID, int $partnerID = null): array
     {
-        return $this->clientDatabaseService->getClients($usersID);
+        return $this->clientDatabaseService->getClients($usersID, $partnerID);
     }
 
     public function getClientsBySalesID(array $salesID): array
@@ -122,18 +122,18 @@ class ClientService implements ClientServiceContract
         return $this->clientDatabaseService->addClientWebsites($clientID, $websites);
     }
 
-    public function searchColumn(string $column, string $value, bool $searchClient = true, int $take = 10): array
+    public function searchColumn(string $column, string $value, bool $searchClient = true, int $take = 10, int $partnerID = null): array
     {
         if ($searchClient) {
-            $clients = $this->clientDatabaseService->searchClientColumn($column, $value, $take);
+            $clients = $this->clientDatabaseService->searchClientColumn($column, $value, $take, $partnerID);
             $usersID = array_column($clients['data'], 'user_id');
             $users = $this->communicationEngine->broadcast("auth:user:get-users", $usersID)[0];
             $clients['data'] = tableWith($clients['data'], $users, "user_id");
             return $clients;
         } else {
-            $clients = $this->clientDatabaseService->paginateClients(1000000000000);
+            $clients = $this->clientDatabaseService->paginateClients(1000000000000, $partnerID);
             $usersID = array_column($clients['data'], 'user_id');
-            $users = $this->communicationEngine->broadcast("auth:user:search-column", $column, $value, $take, $usersID)[0];
+            $users = $this->communicationEngine->broadcast("auth:user:search-column", $column, $value, $take, $usersID, $partnerID)[0];
             $usersID = array_column($users['data'], 'id');
             $clients = $this->clientDatabaseService->getClients($usersID);
             $users['data'] = tableWith($clients, $users['data'], "user_id");

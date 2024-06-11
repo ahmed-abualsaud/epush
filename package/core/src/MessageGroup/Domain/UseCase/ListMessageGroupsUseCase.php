@@ -18,6 +18,6 @@ class ListMessageGroupsUseCase
     public function execute(ListMessageGroupsDto $listMessageGroupsDto): array
     {
         $this->validationService->validate($listMessageGroupsDto->toArray(), ListMessageGroupsDto::rules());
-        return $this->messageGroupService->list($listMessageGroupsDto->getPageSize());
+        return $this->messageGroupService->list($listMessageGroupsDto->getPageSize(), $listMessageGroupsDto->getPartnerID());
     }
 }

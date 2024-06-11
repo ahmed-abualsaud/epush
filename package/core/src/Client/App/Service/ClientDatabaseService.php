@@ -18,14 +18,14 @@ class ClientDatabaseService implements ClientDatabaseServiceContract
         return $this->clientDatabaseDriver->clientRepository()->get($userID);
     }
 
-    public function getClients(array $usersID): array
+    public function getClients(array $usersID, int $partnerID = null): array
     {
-        return $this->clientDatabaseDriver->clientRepository()->getClients($usersID);
+        return $this->clientDatabaseDriver->clientRepository()->getClients($usersID, $partnerID);
     }
 
-    public function paginateClients(int $take): array
+    public function paginateClients(int $take, int $partnerID = null): array
     {
-        return $this->clientDatabaseDriver->clientRepository()->all($take);
+        return $this->clientDatabaseDriver->clientRepository()->all($take, $partnerID);
     }
 
     public function addClient(array $client): array
@@ -63,8 +63,8 @@ class ClientDatabaseService implements ClientDatabaseServiceContract
         return $this->clientDatabaseDriver->clientRepository()->updateClientWebsites($clientID, $newWebsites, $sync);
     }
 
-    public function searchClientColumn(string $column, string $value, int $take = 10): array
+    public function searchClientColumn(string $column, string $value, int $take = 10, int $partnerID = null): array
     {
-        return $this->clientDatabaseDriver->clientRepository()->searchColumn($column, $value, $take);
+        return $this->clientDatabaseDriver->clientRepository()->searchColumn($column, $value, $take, $partnerID);
     }
 }

@@ -21,7 +21,8 @@ class SearchMessageGroupRecipientUseCase
         return $this->messageGroupRecipientService->searchColumn(
             $searchMessageGroupRecipientDto->getSearchColumn(),
             $searchMessageGroupRecipientDto->getSearchValue(),
-            $searchMessageGroupRecipientDto->getPageSize()
+            $searchMessageGroupRecipientDto->getPageSize(),
+            $searchMessageGroupRecipientDto->getPartnerID()
         );
     }
 }

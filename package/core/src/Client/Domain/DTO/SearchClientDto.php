@@ -15,6 +15,8 @@ class SearchClientDto implements DtoContract
             'page' => 'integer',
             'column' => 'required',
             'value' => 'required',
+            'partner_id' => 'exists:users,id'
+
         ];
     }
 
@@ -26,6 +28,11 @@ class SearchClientDto implements DtoContract
     public function getSearchColumn(): string
     {
         return $this->data['column'];
+    }
+
+    public function getPartnerID(): string
+    {
+        return (int) ($this->data['partner_id'] ?? null);
     }
 
     public function getSearchValue(): string

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('partner_id')->nullable();
             $table->unsignedBigInteger('sales_id');
             $table->unsignedBigInteger('business_field_id');
             $table->string('company_name')->unique();

@@ -44,9 +44,9 @@ class MessageService implements MessageServiceContract
     ) {}
 
 
-    public function list(int $take): array
+    public function list(int $take, int $partnerID = null): array
     {
-        $messages = $this->messageDatabaseService->paginateMessages($take);
+        $messages = $this->messageDatabaseService->paginateMessages($take, $partnerID);
 
         $ordersID = array_unique(array_column($messages['data'], 'order_id'));
         $orders = $this->communicationEngine->broadcast("expense:order:get-orders-by-id", $ordersID, 1000000000000)[0];
@@ -409,12 +409,12 @@ class MessageService implements MessageServiceContract
                 $this->messageRecipientService->delete($messageID);
     }
 
-    public function searchColumn(string $column, string $value, int $take = 10): array
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array
     {
         switch ($column) {
             case "company":
             case "company_name":
-                $clients = $this->communicationEngine->broadcast("core:client:search-column", "company_name", $value, true, 1000000000000)[0];
+                $clients = $this->communicationEngine->broadcast("core:client:search-column", "company_name", $value, true, 1000000000000, $partnerID)[0];
                 $usersID = array_unique(array_column($clients['data'], 'user_id'));
                 $messages = $this->getMessagesByUsersID($usersID, $take);
                 $messages['data'] = tableWith($messages['data'], $clients['data'], 'user_id', 'user_id', 'client');
@@ -434,7 +434,7 @@ class MessageService implements MessageServiceContract
                 $messages = $this->getMessagesBySendersID($sendersID, $take);
                 $messages['data'] = tableWith($messages['data'], $senders['data'], 'sender_id');
                 $usersID = array_unique(array_column($messages['data'], 'user_id'));
-                $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+                $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID, $partnerID)[0];
                 $messages['data'] = tableWith($messages['data'], $clients, 'user_id', 'user_id', 'client');
                 $ordersID = array_unique(array_column($messages['data'], 'order_id'));
                 $orders = $this->communicationEngine->broadcast("expense:order:get-orders-by-id", $ordersID, 1000000000000)[0];
@@ -450,7 +450,7 @@ class MessageService implements MessageServiceContract
                 $messages = $this->getMessagesByOrdersID($ordersID, $take);
                 $messages['data'] = tableWith($messages['data'], $orders['data'], 'order_id');
                 $usersID = array_unique(array_column($messages['data'], 'user_id'));
-                $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+                $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID, $partnerID)[0];
                 $messages['data'] = tableWith($messages['data'], $clients, 'user_id', 'user_id', 'client');
                 $sendersID = array_unique(array_column($messages['data'], 'sender_id'));
                 $senders = $this->senderService->getSendersByID($sendersID);
@@ -464,7 +464,7 @@ class MessageService implements MessageServiceContract
                 $senders = $this->senderService->getSendersByID($sendersID);
                 $messages['data'] = tableWith($messages['data'], $senders, "sender_id");
                 $usersID = array_unique(array_column($messages['data'], 'user_id'));
-                $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+                $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID, $partnerID)[0];
                 $messages['data'] = tableWith($messages['data'], $clients, 'user_id', 'user_id', 'client');
                 $ordersID = array_unique(array_column($messages['data'], 'order_id'));
                 $orders = $this->communicationEngine->broadcast("expense:order:get-orders-by-id", $ordersID, 1000000000000)[0];

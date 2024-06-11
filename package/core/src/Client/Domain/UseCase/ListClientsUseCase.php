@@ -18,6 +18,6 @@ class ListClientsUseCase
     public function execute(ListClientsDto $listClientsDto): array
     {
         $this->validationService->validate($listClientsDto->toArray(), ListClientsDto::rules());
-        return $this->clientService->list($listClientsDto->getPageSize());
+        return $this->clientService->list($listClientsDto->getPageSize(), $listClientsDto->getPartnerID());
     }
 }

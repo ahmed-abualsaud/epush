@@ -4,7 +4,7 @@ namespace Epush\Core\Client\App\Contract;
 
 interface ClientServiceContract
 {
-    public function list(int $take): array;
+    public function list(int $take, int $partnerID = null): array;
 
     public function get(string $userID): array;
 
@@ -16,7 +16,7 @@ interface ClientServiceContract
 
     public function delete(string $userID): bool;
 
-    public function getClients(array $usersID): array;
+    public function getClients(array $usersID, int $partnerID = null): array;
 
     public function getClientsBySalesID(array $salesID): array;
 
@@ -34,5 +34,5 @@ interface ClientServiceContract
 
     public function addClientWebsites(string $clientID, array $websites): array;
 
-    public function searchColumn(string $column, string $value, bool $searchClient = true, int $take = 10): array;
+    public function searchColumn(string $column, string $value, bool $searchClient = true, int $take = 10, int $partnerID = null): array;
 }

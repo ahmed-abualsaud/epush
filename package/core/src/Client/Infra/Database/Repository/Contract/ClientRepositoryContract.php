@@ -4,7 +4,7 @@ namespace Epush\Core\Client\Infra\Database\Repository\Contract;
 
 interface ClientRepositoryContract
 {
-    public function all(int $take): array;
+    public function all(int $take, int $partnerID = null): array;
 
     public function get(string $userID): array;
 
@@ -16,7 +16,7 @@ interface ClientRepositoryContract
 
     public function delete(string $id): bool;
 
-    public function getClients(array $usersID): array;
+    public function getClients(array $usersID, int $partnerID = null): array;
 
     public function getClientsBySalesID(array $salesID): array;
 
@@ -24,5 +24,5 @@ interface ClientRepositoryContract
 
     public function updateClientWebsites(string $clientID, array $newWebsites, bool $sync = false): array;
 
-    public function searchColumn(string $column, string $value, int $take = 10): array;
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array;
 }

@@ -16,7 +16,7 @@ class SearchUserColumnMicroprocess implements MicroprocessContract
 
     public function listen(InterprocessCommunicationEngineContract $engine, string $event = null, mixed ...$data): mixed
     {
-        [$column, $value, $take, $usersID] = $data;
-        return $this->userService->searchColumn($column, $value, $take, $usersID);
+        [$column, $value, $take, $usersID, $partnerID] = $data;
+        return $this->userService->searchColumn($column, $value, $take, $usersID, $partnerID);
     }
 }

@@ -9,12 +9,17 @@ use Epush\Mail\App\Service\MailService;
 use Epush\Ticket\App\Service\TicketService;
 use Epush\Auth\User\App\Service\UserService;
 use Epush\Core\Admin\App\Service\AdminService;
+
 use Epush\Core\Banner\App\Service\BannerService;
 use Epush\Core\Client\App\Service\ClientService;
 use Epush\Expense\Order\App\Service\OrderService;
+use Epush\Core\Partner\App\Service\PartnerService;
 use Epush\Core\Message\App\Service\MessageService;
 use Epush\Notification\App\Service\NotificationService;
 use Epush\Core\MessageGroup\App\Service\MessageGroupService;
+use Epush\Core\MessageSegment\App\Service\MessageSegmentService;
+use Epush\Core\MessageRecipient\App\Service\MessageRecipientService;
+use Epush\Core\MessageGroupRecipient\App\Service\MessageGroupRecipientService;
 
 use Epush\SMS\App\Contract\SMSServiceContract;
 use Epush\Mail\App\Contract\MailServiceContract;
@@ -53,6 +58,7 @@ use Epush\Shared\Infra\InterprocessCommunication\Microprocess\AddToCacheMicropro
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\PutToCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetSettingsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetAuthUserMicroprocess;
+use Epush\Shared\Infra\InterprocessCommunication\Microprocess\ListClientsMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetFromCacheMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetPricelistMicroprocess;
 use Epush\Shared\Infra\InterprocessCommunication\Microprocess\GetOrdersByIDMicroprocess;
@@ -139,6 +145,26 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
 
                 return $engine;
             });
+
+
+            $this->app
+                ->when(PartnerService::class)
+                ->needs(InterprocessCommunicationEngineContract::class)
+                ->give(function () {
+
+                    $engine = new InterprocessCommunicationEngine();
+
+                    $engine->attach(new GetUserMicroprocess(app(UserServiceContract::class)), "auth:user:get-user");
+                    $engine->attach(new AddUserMicroprocess(app(UserServiceContract::class)), "auth:user:add-user");
+                    $engine->attach(new GetUsersMicroprocess(app(UserServiceContract::class)), "auth:user:get-users");
+                    $engine->attach(new UpdateUserMicroprocess(app(UserServiceContract::class)), "auth:user:update-user");
+                    $engine->attach(new DeleteUserMicroprocess(app(UserServiceContract::class)), "auth:user:delete-user");
+                    $engine->attach(new SearchUserColumnMicroprocess(app(UserServiceContract::class)), "auth:user:search-column");
+                    $engine->attach(new GeneratePasswordMicroprocess(app(CredentialsServiceContract::class)), "auth:credentials:generate-password");
+                    $engine->attach(new SendMailMicroprocess(app(MailServiceContract::class)), "mail:send");
+
+                    return $engine;
+                });
 
 
         $this->app
@@ -308,6 +334,42 @@ class InterprocessCommunicationServiceProvider extends ServiceProvider
 
                 $engine->attach(new StoreFileMicroprocess(app(FileServiceContract::class)), "file:store");
                 $engine->attach(new DeleteFileMicroprocess(app(FileServiceContract::class)), "file:delete");
+
+                return $engine;
+            });
+
+        $this->app
+            ->when(MessageGroupRecipientService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new ListClientsMicroprocess(app(ClientServiceContract::class)), "core:client:list-clients");
+
+                return $engine;
+            });
+
+        $this->app
+            ->when(MessageRecipientService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new ListClientsMicroprocess(app(ClientServiceContract::class)), "core:client:list-clients");
+
+                return $engine;
+            });
+
+        $this->app
+            ->when(MessageSegmentService::class)
+            ->needs(InterprocessCommunicationEngineContract::class)
+            ->give(function () {
+
+                $engine = new InterprocessCommunicationEngine();
+
+                $engine->attach(new ListClientsMicroprocess(app(ClientServiceContract::class)), "core:client:list-clients");
 
                 return $engine;
             });

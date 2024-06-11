@@ -1597,6 +1597,45 @@ class PermissionSeeder extends Seeder
             'description' => 'get client ip whitelist',
             'handler_id' => '243'
         ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-partner',
+            'description' => 'get a specific partner',
+            'handler_id' => '244'
+        ]);
+
+        Permission::create([
+            'name' => 'add-partner',
+            'description' => 'add new partner',
+            'handler_id' => '245'
+        ]);
+
+        Permission::create([
+            'name' => 'list-partners',
+            'description' => 'list all partners',
+            'handler_id' => '246'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-partner',
+            'description' => 'delete a specific partner',
+            'handler_id' => '247'
+        ]);
+
+        Permission::create([
+            'name' => 'update-partner',
+            'description' => 'update a specific partner',
+            'handler_id' => '248'
+        ]);
+
+        Permission::create([
+            'name' => 'search-partner-column',
+            'description' => 'find a specific value for a column of the partners table',
+            'handler_id' => '249'
+        ]);
     }
 }
 

@@ -24,6 +24,7 @@ class AddClientDto implements DtoContract
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
             'notes' => 'string',
             'sales_id' => 'required|exists:sales,id',
+            'partner_id' => 'exists:users,id',
             'business_field_id' => 'required|exists:business_fields,id'
         ];
     }
@@ -43,6 +44,7 @@ class AddClientDto implements DtoContract
             'notes',
             'websites',
             'sales_id',
+            'partner_id',
             'business_field_id'
 
         ], $this->data);

@@ -36,6 +36,8 @@ class UpdateClientDto implements DtoContract
             'use_api_key' => 'boolean',
             'ip_address' => 'string',
             'use_ip_address' => 'boolean',
+            'partner_id' => 'exists:users,id'
+
         ];
     }
 
@@ -67,6 +69,7 @@ class UpdateClientDto implements DtoContract
             'ip_address',
             'use_ip_address',
             'address',
+            'partner_id'
 
         ], $this->data);
     }

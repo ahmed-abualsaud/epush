@@ -21,14 +21,20 @@ class OrderService implements OrderServiceContract
     ) {}
 
 
-    public function list(int $take): array
+    public function list(int $take, int $partnerID = null): array
     {
         $orders = $this->orderDatabaseService->paginateOrders($take);
 
         $usersID = array_unique(array_column($orders['data'], 'user_id'));
-        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID, $partnerID)[0];
 
         $orders['data'] = tableWith($orders['data'], $clients, "user_id", "user_id", "client");
+
+        if (! empty($partnerID)) {
+            $orders['data'] = array_values(array_filter($orders['data'], function ($order) {
+                return ! empty($order['client']);
+            }));
+        }
 
         $pricelistsID = array_unique(array_column($orders['data'], 'pricelist_id'));
         $pricelists = $this->communicationEngine->broadcast("core:pricelist:get-pricelists", $pricelistsID)[0];
@@ -124,7 +130,7 @@ class OrderService implements OrderServiceContract
         return $this->orderDatabaseService->getOrdersByPaymentMethodsID($paymentMethodsID, $take);
     }
 
-    public function searchColumn(string $column, string $value, int $take = 10): array
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array
     {   
         switch ($column) {
             case "sales":
@@ -162,8 +168,14 @@ class OrderService implements OrderServiceContract
         }
 
         $usersID = array_unique(array_column($orders['data'], 'user_id'));
-        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID)[0];
+        $clients = $this->communicationEngine->broadcast("core:client:get-clients", $usersID, $partnerID)[0];
         $orders['data'] = tableWith($orders['data'], $clients, "user_id", "user_id", "client");
+
+        if (! empty($partnerID)) {
+            $orders['data'] = array_values(array_filter($orders['data'], function ($order) {
+                return ! empty($order['client']);
+            }));
+        }
 
         $pricelistsID = array_unique(array_column($orders['data'], 'pricelist_id'));
         $pricelists = $this->communicationEngine->broadcast("core:pricelist:get-pricelists", $pricelistsID)[0];

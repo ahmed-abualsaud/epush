@@ -18,6 +18,6 @@ class ListOrdersUseCase
     public function execute(ListOrdersDto $listOrdersDto): array
     {
         $this->validationService->validate($listOrdersDto->toArray(), ListOrdersDto::rules());
-        return $this->orderService->list($listOrdersDto->getPageSize());
+        return $this->orderService->list($listOrdersDto->getPageSize(), $listOrdersDto->getPartnerID());
     }
 }

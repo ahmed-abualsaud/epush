@@ -19,11 +19,16 @@ class MessageGroupService implements MessageGroupServiceContract
     ) {}
 
 
-    public function list(int $take): array
+    public function list(int $take, int $partnerID = null): array
     {
         $groups = $this->messageGroupDatabaseService->paginateMessageGroups($take);
-        $clients = $this->communicationEngine->broadcast("core:client:get-clients", array_column($groups["data"], "user_id"))[0];
+        $clients = $this->communicationEngine->broadcast("core:client:get-clients", array_column($groups["data"], "user_id"), $partnerID)[0];
         $groups["data"] = tableWith($groups['data'], $clients, "user_id", "user_id", "client");
+        if (! empty($partnerID)) {
+            $groups['data'] = array_filter($groups['data'], function ($group) {
+                return ! empty($group['client']);
+            });
+        }
         return $groups;
     }
 
@@ -52,22 +57,30 @@ class MessageGroupService implements MessageGroupServiceContract
         return $groupDeleted && $recipientsDeleted;
     }
 
-    public function searchColumn(string $column, string $value, int $take = 10): array
+    public function searchColumn(string $column, string $value, int $take = 10, int $partnerID = null): array
     {
         switch ($column) {
             case "company":
             case "company_name":
-                $clients = $this->communicationEngine->broadcast("core:client:search-column", "company_name", $value, true, 1000000000000)[0];
+                $clients = $this->communicationEngine->broadcast("core:client:search-column", "company_name", $value, true, 1000000000000, $partnerID)[0];
                 $usersID = array_unique(array_column($clients['data'], 'user_id'));
                 $groups = $this->getMessageGroupsByUsersID($usersID, $take);
                 $groups['data'] = tableWith($groups['data'], $clients['data'], 'user_id', 'user_id', 'client');
+                if (! empty($partnerID)) {
+                    $groups['data'] = array_filter($groups['data'], function ($group) {
+                        return ! empty($group['client']);
+                    });
+                }
                 return $groups;
                 break;
 
             default: 
                 $groups = $this->messageGroupDatabaseService->searchMessageGroupColumn($column, $value, $take);
-                $clients = $this->communicationEngine->broadcast("core:client:get-clients", array_column($groups["data"], "user_id"))[0];
+                $clients = $this->communicationEngine->broadcast("core:client:get-clients", array_column($groups["data"], "user_id"), $partnerID)[0];
                 $groups["data"] = tableWith($groups['data'], $clients, "user_id", "user_id", "client");
+                $groups['data'] = array_filter($groups['data'], function ($group) {
+                    return ! empty($group['client']);
+                });
                 return $groups;
         }
     }

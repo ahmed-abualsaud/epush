@@ -36,7 +36,7 @@ interface UserServiceContract
 
     public function unassignUserPermissions(string $userID, array $permissionsID): bool;
 
-    public function searchColumn(string $column, string $value, int $take = 10, array $usersID = null): array;
+    public function searchColumn(string $column, string $value, int $take = 10, array $usersID = null, int $partnerID = null): array;
 
     public function forgetPassword(string $email): array;
 

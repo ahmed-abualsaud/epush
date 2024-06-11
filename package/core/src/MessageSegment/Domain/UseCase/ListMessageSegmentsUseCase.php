@@ -18,6 +18,6 @@ class ListMessageSegmentsUseCase
     public function execute(ListMessageSegmentsDto $listMessageSegmentsDto): array
     {
         $this->validationService->validate($listMessageSegmentsDto->toArray(), ListMessageSegmentsDto::rules());
-        return $this->messageSegmentService->list($listMessageSegmentsDto->getPageSize());
+        return $this->messageSegmentService->list($listMessageSegmentsDto->getPageSize(), $listMessageSegmentsDto->getPartnerID());
     }
 }

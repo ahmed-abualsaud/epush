@@ -66,6 +66,7 @@ return [
             "company_name"      => "clients.company_name",
             "notes"             => "clients.notes",
             "balance"           => "clients.balance",
+            "partner_id"        => "clients.partner_id",
             "sales"             => "sales.name",
             "business_field"    => "business_fields.name",
         ],
@@ -308,6 +309,7 @@ return [
             "updated_at"            => "messages.updated_at",
             "language"              => "message_languages.name",
             "company_name"          => "clients.company_name",
+            "partner_id"            => "clients.partner_id",
             "sender_name"           => "senders.name",
 
         ],
@@ -506,6 +508,7 @@ return [
             "created_at"        => "orders.created_at",
             "sales_name"        => "sales.name",
             "company_name"      => "clients.company_name",
+            "partner_id"        => "clients.partner_id",
             "payment_method"    => "payment_methods.name",
             "pricelist"         => "pricelists.name",
         ],

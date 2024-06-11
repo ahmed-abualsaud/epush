@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Epush\Auth\User\Infra\Database\Model\User;
 use Epush\Core\Sales\Infra\Database\Model\Sales;
 use Epush\Core\BusinessField\Infra\Database\Model\BusinessField;
 
@@ -40,5 +41,10 @@ class Client extends Model
     public function businessField(): BelongsTo
     {
         return $this->belongsTo(BusinessField::class, 'business_field_id');
+    }
+
+    public function partner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'partner_id');
     }
 }

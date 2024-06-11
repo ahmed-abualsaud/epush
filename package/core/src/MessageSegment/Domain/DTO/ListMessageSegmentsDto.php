@@ -12,7 +12,8 @@ class ListMessageSegmentsDto implements DtoContract
     {
         return [
             'take' => 'integer',
-            'page' => 'integer'
+            'page' => 'integer',
+            'partner_id' => 'exists:users,id',
         ];
     }
 
@@ -24,5 +25,10 @@ class ListMessageSegmentsDto implements DtoContract
     public function getPageSize(): string
     {
         return (int) ($this->data['take'] ?? 0);
+    }
+
+    public function getPartnerID(): string
+    {
+        return (int) ($this->data['partner_id'] ?? null);
     }
 }

@@ -22,7 +22,8 @@ class SearchClientUseCase
             $searchClientDto->getSearchColumn(),
             $searchClientDto->getSearchValue(),
             $searchClientDto->searchClient(),
-            $searchClientDto->getPageSize()
+            $searchClientDto->getPageSize(),
+            $searchClientDto->getPartnerID()
         );
     }
 }

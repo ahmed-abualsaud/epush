@@ -21,7 +21,8 @@ class SearchMessageUseCase
         return $this->messageService->searchColumn(
             $searchMessageDto->getSearchColumn(),
             $searchMessageDto->getSearchValue(),
-            $searchMessageDto->getPageSize()
+            $searchMessageDto->getPageSize(),
+            $searchMessageDto->getPartnerID()
         );
     }
 }

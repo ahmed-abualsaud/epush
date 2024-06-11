@@ -6,7 +6,7 @@ interface ClientDatabaseServiceContract
 {
     public function getClient(string $userID): array;
 
-    public function getClients(array $usersID): array;
+    public function getClients(array $usersID, int $partnerID = null): array;
 
     public function addClient(array $client): array;
 
@@ -16,7 +16,7 @@ interface ClientDatabaseServiceContract
 
     public function updateClientWallet(string $userID, float $cost, string $action): array;
 
-    public function paginateClients(int $take): array;
+    public function paginateClients(int $take, int $partnerID = null): array;
 
     public function getClientsBySalesID(array $salesID): array;
 
@@ -24,5 +24,5 @@ interface ClientDatabaseServiceContract
 
     public function updateClientWebsites(string $clientID, array $newWebsites, bool $sync = false): array;
 
-    public function searchClientColumn(string $column, string $value, int $take = 10): array;
+    public function searchClientColumn(string $column, string $value, int $take = 10, int $partnerID = null): array;
 }

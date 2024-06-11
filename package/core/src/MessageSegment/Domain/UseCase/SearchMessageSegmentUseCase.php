@@ -21,7 +21,8 @@ class SearchMessageSegmentUseCase
         return $this->messageSegmentService->searchColumn(
             $searchMessageSegmentDto->getSearchColumn(),
             $searchMessageSegmentDto->getSearchValue(),
-            $searchMessageSegmentDto->getPageSize()
+            $searchMessageSegmentDto->getPageSize(),
+            $searchMessageSegmentDto->getPartnerID()
         );
     }
 }

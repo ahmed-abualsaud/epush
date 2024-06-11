@@ -21,7 +21,8 @@ class SearchOrderUseCase
         return $this->orderService->searchColumn(
             $searchOrderDto->getSearchColumn(),
             $searchOrderDto->getSearchValue(),
-            $searchOrderDto->getPageSize()
+            $searchOrderDto->getPageSize(),
+            $searchOrderDto->getPartnerID()
         );
     }
 }
