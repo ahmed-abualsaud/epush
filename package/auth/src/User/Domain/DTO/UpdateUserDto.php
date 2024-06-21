@@ -19,7 +19,7 @@ class UpdateUserDto implements DtoContract
             'first_name' => 'string',
             'last_name' => 'string',
             'username' => 'unique:users,username,'.self::$userID.',id,deleted_at,NULL|string',
-            'password' => 'string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'password' => 'string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/|confirmed',
             'email' => 'unique:users,email,'.self::$userID.',id,deleted_at,NULL|email',
             'phone' => 'unique:users,phone,'.self::$userID.',id,deleted_at,NULL|string|regex:/^\d{3}-?\d{3}-?\d{5}$/',
             'religion' => 'string',

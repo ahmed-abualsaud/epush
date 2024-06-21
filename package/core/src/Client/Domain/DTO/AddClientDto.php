@@ -14,7 +14,7 @@ class AddClientDto implements DtoContract
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'username' => 'required|unique:users,username,NULL,id,deleted_at,NULL|string',
-            'password' => 'string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'password' => 'string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/|confirmed',
             'email' => 'required|unique:users,email,NULL,id,deleted_at,NULL|email',
             'phone' => 'required|unique:users,phone,NULL,id,deleted_at,NULL|string|regex:/^\d{10,16}$/',
             'religion' => 'required|string',

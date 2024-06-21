@@ -13,7 +13,7 @@ class ChangePasswordDto implements DtoContract
         return [
             'user_id' => 'required|exists:users,id',
             'old_password' => 'required|string',
-            'new_password' => 'required|string|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
+            'new_password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/|confirmed',
         ];
     }
 
