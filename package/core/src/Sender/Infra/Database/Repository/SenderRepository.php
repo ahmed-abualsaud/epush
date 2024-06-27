@@ -19,7 +19,7 @@ class SenderRepository implements SenderRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->sender->paginate($take)->toArray();
+            return $this->sender->latest()->paginate($take)->toArray();
 
         });
     }
@@ -38,7 +38,7 @@ class SenderRepository implements SenderRepositoryContract
     {
         return DB::transaction(function () use ($userID) {
 
-            return $this->sender->where('user_id', $userID)->get()->toArray();
+            return $this->sender->latest()->where('user_id', $userID)->get()->toArray();
 
         });
     }
@@ -47,7 +47,7 @@ class SenderRepository implements SenderRepositoryContract
     {
         return DB::transaction(function () use ($sendersID) {
 
-            return $this->sender->whereIn('id', $sendersID)->get()->toArray();
+            return $this->sender->latest()->whereIn('id', $sendersID)->get()->toArray();
 
         });
     }
@@ -103,7 +103,7 @@ class SenderRepository implements SenderRepositoryContract
         return DB::transaction(function () use ($usersID, $take) {
 
             $sender = $this->sender->whereIn('user_id', $usersID);
-            $sender = $take >= 1000000000000 ? $sender->paginate($take, ['*'], 'page', 1) : $sender->paginate($take);
+            $sender = $take >= 1000000000000 ? $sender->latest()->paginate($take, ['*'], 'page', 1) : $sender->latest()->paginate($take);
             return $sender->toArray();
 
         });
@@ -121,7 +121,7 @@ class SenderRepository implements SenderRepositoryContract
                 $senders = $senders->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'");
             }
 
-            $senders = $take >= 1000000000000 ? $senders->paginate($take, ['*'], 'page', 1) : $senders->paginate($take);
+            $senders = $take >= 1000000000000 ? $senders->latest()->paginate($take, ['*'], 'page', 1) : $senders->latest()->paginate($take);
             return $senders->toArray();
         });
     }

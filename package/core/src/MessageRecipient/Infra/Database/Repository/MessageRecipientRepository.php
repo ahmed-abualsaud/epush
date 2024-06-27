@@ -22,7 +22,7 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
             return $this->messageRecipient->with([
                 'message',
                 'messageGroupRecipient' => ['messageGroup']
-            ])->paginate($take)->toArray();
+            ])->latest()->paginate($take)->toArray();
 
         });
     }
@@ -117,7 +117,7 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
                 default => $messageRecipient->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
             };
 
-            return $messageRecipient->paginate($take)->toArray();
+            return $messageRecipient->latest()->paginate($take)->toArray();
         });
     }
 }

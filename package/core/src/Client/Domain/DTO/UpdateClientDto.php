@@ -78,7 +78,7 @@ class UpdateClientDto implements DtoContract
     {
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
         ! empty($this->data['sync_websites']) && $this->data['sync_websites'] = $this->data['sync_websites'] == 'true';
-        ! empty($this->data['username']) && $this->data['username'] = $this->data['username'] . (stringContains($this->data['username'], '@epushagency.com') ? '' : '@epushagency.com');
+        ! empty($this->data['username']) && $this->data['username'] = $this->data['username'] . (stringContains($this->data['username'], '@epushagency') ? '' : '@epushagency');
 
         return subAssociativeArray([
 

@@ -19,7 +19,7 @@ class MessageSegmentRepository implements MessageSegmentRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->messageSegment->with(['message'])->paginate($take)->toArray();
+            return $this->messageSegment->with(['message'])->latest()->paginate($take)->toArray();
 
         });
     }
@@ -72,7 +72,7 @@ class MessageSegmentRepository implements MessageSegmentRepositoryContract
                 default => $messageSegment->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
             };
 
-            return $messageSegment->paginate($take)->toArray();
+            return $messageSegment->latest()->paginate($take)->toArray();
         });
     }
 }

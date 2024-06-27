@@ -54,7 +54,7 @@ class AddClientDto implements DtoContract
     {
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
         $this->data['password'] = $this->data['password'] ?? '';
-        $this->data['username'] = $this->data['username'] . (stringContains($this->data['username'], '@epushagency.com') ? '' : '@epushagency.com');
+        $this->data['username'] = $this->data['username'] . (stringContains($this->data['username'], '@epushagency') ? '' : '@epushagency');
 
         return subAssociativeArray([
 

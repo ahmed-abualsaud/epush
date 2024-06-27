@@ -102,6 +102,9 @@ return [
             "name"              => "pricelists.name",
             "price"             => "pricelists.price",
             "created_at"        => "pricelists.created_at"
+        ],
+        "OrderBy" => [
+            "pricelists.created_at" => "DESC",
         ]
     ],
     [
@@ -109,6 +112,9 @@ return [
         "columns" => [
             "name"              => "sales.name",
             "created_at"        => "sales.created_at"
+        ],
+        "OrderBy" => [
+            "sales.created_at" => "DESC",
         ]
     ],
     [
@@ -116,6 +122,9 @@ return [
         "columns" => [
             "name"              => "business_fields.name",
             "created_at"        => "business_fields.created_at"
+        ],
+        "OrderBy" => [
+            "business_fields.created_at" => "DESC",
         ]
     ],
     [
@@ -132,6 +141,9 @@ return [
             "name"              => "operators.name",
             "code"              => "operators.code",
             "created_at"        => "operators.created_at"
+        ],
+        "OrderBy" => [
+            "operators.created_at" => "DESC",
         ]
     ],
     [
@@ -189,6 +201,9 @@ return [
             'country',
             'operator',
             'smsc'
+        ],
+        "OrderBy" => [
+            "smsc_bindings.created_at" => "DESC",
         ]
     ],
     [
@@ -210,6 +225,9 @@ return [
                 "source" => "senders.user_id",
                 "destination" => "clients.user_id",
             ]
+        ],
+        "OrderBy" => [
+            "senders.created_at" => "DESC",
         ]
     ],
     [
@@ -289,6 +307,9 @@ return [
                 'operator',
                 'smsc'
             ]
+        ],
+        "OrderBy" => [
+            "senders_connections.created_at" => "DESC",
         ]
     ],
     [
@@ -382,7 +403,10 @@ return [
         ],
         // "withs" => [
         //     "recipients"
-        // ]
+        // ],
+        "OrderBy" => [
+            "message_groups.created_at" => "DESC",
+        ]
     ],
     [
         "model" => Epush\Core\MessageGroupRecipient\Infra\Database\Model\MessageGroupRecipient::class,
@@ -410,6 +434,9 @@ return [
         ],
         "withs" => [
             "messageGroup"
+        ],
+        "OrderBy" => [
+            "message_group_recipients.created_at" => "DESC",
         ]
     ],
     [
@@ -437,6 +464,9 @@ return [
         ],
         "withs" => [
             "message"
+        ],
+        "OrderBy" => [
+            "message_segments.created_at" => "DESC",
         ]
     ],
     [
@@ -490,6 +520,9 @@ return [
         "withs" => [
             "message",
             "messageGroupRecipient"
+        ],
+        "OrderBy" => [
+            "message_recipients.created_at" => "DESC",
         ]
     ],
     [
@@ -502,7 +535,7 @@ return [
     [
         "model" => Epush\Expense\Order\Infra\Database\Model\Order::class,
         "columns" => [
-            "user_id"            => "orders.user_id",
+            "user_id"           => "orders.user_id",
             "credit"            => "orders.credit",
             "collection_date"   => "orders.collection_date",
             "created_at"        => "orders.created_at",
@@ -543,6 +576,9 @@ return [
                 "destination" => "payment_methods.id",
             ]
         ],
+        "OrderBy" => [
+            "orders.created_at" => "DESC",
+        ]
     ],
     [
         "model" => Epush\Settings\Infra\Database\Model\Settings::class,
@@ -568,6 +604,9 @@ return [
             "notes"             => "tickets.notes",
             "current_status"    => "tickets.status",
             "created_at"        => "tickets.created_at",
+        ],
+        "OrderBy" => [
+            "tickets.created_at" => "DESC",
         ]
     ],
     [
@@ -601,6 +640,9 @@ return [
                 "source" => "files.user_id",
                 "destination" => "clients.user_id",
             ]
+        ],
+        "OrderBy" => [
+            "files.updated_at" => "DESC",
         ]
     ],
     [
@@ -609,6 +651,9 @@ return [
             "name"              => "folders.name",
             "description"       => "folders.description",
             "created_at"        => "folders.created_at",
+        ],
+        "OrderBy" => [
+            "folders.created_at" => "DESC",
         ]
     ],
     [
@@ -616,6 +661,9 @@ return [
         "columns" => [
             "subject"           => "sms_templates.subject",
             "template"          => "sms_templates.template"
+        ],
+        "OrderBy" => [
+            "sms_templates.created_at" => "DESC",
         ]
     ]
 ];

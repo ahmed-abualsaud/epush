@@ -19,7 +19,7 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->messageGroupRecipient->with(["messageGroup"])->paginate($take)->toArray();
+            return $this->messageGroupRecipient->with(["messageGroup"])->latest()->paginate($take)->toArray();
 
         });
     }
@@ -40,7 +40,7 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
             return $this->messageGroupRecipient
             ->join('message_recipients', 'message_recipients.message_group_recipient_id', 'message_group_recipients.id')
             ->where('message_id', $messageID)
-            ->paginate($take)->toArray();
+            ->orderBy('message_recipients.created_at', 'desc')->paginate($take)->toArray();
         });
     }
 
@@ -50,7 +50,7 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
 
             return $this->messageGroupRecipient
             ->where('message_group_id', $messageGroupID)
-            ->paginate($take)->toArray();
+            ->latest()->paginate($take)->toArray();
         });
     }
     
@@ -140,7 +140,7 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
 
                 default => $messageGroupRecipient->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
             };
-            return $messageGroupRecipient->paginate($take)->toArray();
+            return $messageGroupRecipient->latest()->paginate($take)->toArray();
         });
     }
 }

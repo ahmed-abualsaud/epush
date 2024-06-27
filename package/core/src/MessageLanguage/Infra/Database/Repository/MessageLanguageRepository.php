@@ -19,7 +19,7 @@ class MessageLanguageRepository implements MessageLanguageRepositoryContract
     {
         return DB::transaction(function () use ($take) {
 
-            return $this->messageLanguage->paginate($take)->toArray();
+            return $this->messageLanguage->latest()->paginate($take)->toArray();
 
         });
     }
@@ -80,7 +80,7 @@ class MessageLanguageRepository implements MessageLanguageRepositoryContract
 
             return $this->messageLanguage
                 ->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
-                ->paginate($take)->toArray();
+                ->latest()->paginate($take)->toArray();
         });
     }
 }

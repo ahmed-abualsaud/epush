@@ -47,7 +47,7 @@ class UpdatePartnerDto implements DtoContract
     public function getUser(): array
     {
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
-        ! empty($this->data['username']) && $this->data['username'] = $this->data['username'] . (stringContains($this->data['username'], '@epushagency.com') ? '' : '@epushagency.com');
+        ! empty($this->data['username']) && $this->data['username'] = $this->data['username'] . (stringContains($this->data['username'], '@epushagency') ? '' : '@epushagency');
 
         return subAssociativeArray([
 

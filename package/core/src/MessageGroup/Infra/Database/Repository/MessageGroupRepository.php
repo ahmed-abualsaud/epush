@@ -21,7 +21,7 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
 
             return $this->messageGroup
             // ->with(["recipients"])
-            ->paginate($take)->toArray();
+            ->latest()->paginate($take)->toArray();
 
         });
     }
@@ -43,7 +43,7 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
 
             return $this->messageGroup
             // ->with(["recipients"])
-            ->where('user_id', $userID)->get()->toArray();
+            ->where('user_id', $userID)->latest()->get()->toArray();
         });
     }
 
@@ -89,7 +89,7 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
             return $this->messageGroup
                 // ->with(["recipients"])
                 ->whereRaw("LOWER($column) LIKE '%" . strtolower($value) . "%'")
-                ->paginate($take)->toArray();
+                ->latest()->paginate($take)->toArray();
         });
     }
 
@@ -98,7 +98,7 @@ class MessageGroupRepository implements MessageGroupRepositoryContract
         return DB::transaction(function () use ($usersID, $take) {
 
             $messageGroup = $this->messageGroup->whereIn('user_id', $usersID);
-            $messageGroup = $take >= 1000000000000 ? $messageGroup->paginate($take, ['*'], 'page', 1) : $messageGroup->paginate($take);
+            $messageGroup = $take >= 1000000000000 ? $messageGroup->latest()->paginate($take, ['*'], 'page', 1) : $messageGroup->paginate($take);
             return $messageGroup->toArray();
 
         });
