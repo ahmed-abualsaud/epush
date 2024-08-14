@@ -10,6 +10,10 @@ class MessageGroup extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'operators' => 'json'
+    ];
+
     public function recipients(): HasMany
     {
         return $this->hasMany(MessageGroupRecipient::class, 'message_group_id');

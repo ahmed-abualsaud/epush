@@ -2082,7 +2082,7 @@ class HandlerSeeder extends Seeder
         // Partner Controller Handlers =================================================================================================================
         // 244
         Handler::create([
-            'handle_group_id' => 10,
+            'handle_group_id' => 42,
             'name' => 'getPartner',
             'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/partner/{user_id}',
             'description' => 'get a specific partner',
@@ -2090,7 +2090,7 @@ class HandlerSeeder extends Seeder
         ]);
         // 245
         Handler::create([
-            'handle_group_id' => 10,
+            'handle_group_id' => 42,
             'name' => 'addPartner',
             'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/partner',
             'description' => 'add new partner',
@@ -2098,7 +2098,7 @@ class HandlerSeeder extends Seeder
         ]);
         // 246
         Handler::create([
-            'handle_group_id' => 10,
+            'handle_group_id' => 42,
             'name' => 'listPartners',
             'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/partner',
             'description' => 'list all partners',
@@ -2106,7 +2106,7 @@ class HandlerSeeder extends Seeder
         ]);
         // 247
         Handler::create([
-            'handle_group_id' => 10,
+            'handle_group_id' => 42,
             'name' => 'deletePartner',
             'endpoint' => 'DELETE|'.env('APP_FULL_URL').'/api/partner/{user_id}',
             'description' => 'delete a specific partner',
@@ -2114,7 +2114,7 @@ class HandlerSeeder extends Seeder
         ]);
         // 248
         Handler::create([
-            'handle_group_id' => 10,
+            'handle_group_id' => 42,
             'name' => 'updatePartner',
             'endpoint' => 'PUT|'.env('APP_FULL_URL').'/api/partner/{user_id}',
             'description' => 'update a specific partner',
@@ -2122,10 +2122,60 @@ class HandlerSeeder extends Seeder
         ]);
         // 249
         Handler::create([
-            'handle_group_id' => 10,
+            'handle_group_id' => 42,
             'name' => 'searchPartnerColumn',
             'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/partner/search',
             'description' => 'find a specific value for a column of the partners table',
+            'enabled' => true,
+        ]);
+
+        // Message Report Controller Handlers =================================================================================================================
+        // 250
+        Handler::create([
+            'handle_group_id' => 43,
+            'name' => 'getMessageReport',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/message-report/{message_id}',
+            'description' => 'get a specific message report',
+            'enabled' => true,
+        ]);
+        // 251
+        Handler::create([
+            'handle_group_id' => 43,
+            'name' => 'addMessageReport',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/message-report',
+            'description' => 'add new message report',
+            'enabled' => true,
+        ]);
+        // 252
+        Handler::create([
+            'handle_group_id' => 43,
+            'name' => 'listMessageReports',
+            'endpoint' => 'GET|'.env('APP_FULL_URL').'/api/message-report',
+            'description' => 'list all message reports',
+            'enabled' => true,
+        ]);
+        // 253
+        Handler::create([
+            'handle_group_id' => 43,
+            'name' => 'deleteMessageReport',
+            'endpoint' => 'DELETE|'.env('APP_FULL_URL').'/api/message-report/{message_id}',
+            'description' => 'delete a specific message report',
+            'enabled' => true,
+        ]);
+        // 254
+        Handler::create([
+            'handle_group_id' => 43,
+            'name' => 'updateMessageReport',
+            'endpoint' => 'PUT|'.env('APP_FULL_URL').'/api/message-report/{message_id}',
+            'description' => 'update a specific message report',
+            'enabled' => true,
+        ]);
+        // 255
+        Handler::create([
+            'handle_group_id' => 43,
+            'name' => 'searchMessageReportColumn',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/message-report/search',
+            'description' => 'find a specific value for a column of the message reports table',
             'enabled' => true,
         ]);
     }

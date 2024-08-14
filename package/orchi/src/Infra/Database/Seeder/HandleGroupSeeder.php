@@ -383,6 +383,24 @@ class HandleGroupSeeder extends Seeder
             'num_of_handlers' => 1,
             'num_of_enabled_handlers' => 1
         ]);
+        // 42
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'PartnerController',
+            'description' => 'Controller holds all partner endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
+        // 43
+        HandleGroup::create([
+            'context_id' => 4,
+            'name' => 'MessageReportController',
+            'description' => 'Controller holds all message report endpoints',
+            'enabled' => true,
+            'num_of_handlers' => 1,
+            'num_of_enabled_handlers' => 1
+        ]);
     }
 }
 

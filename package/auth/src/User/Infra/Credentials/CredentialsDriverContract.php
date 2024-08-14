@@ -14,7 +14,7 @@ interface CredentialsDriverContract
 
     public function generatePassword(): string;
 
-    public function attemptOrFail(string $username, string $password): string;
+    public function attemptOrFail(string $username, string $password, bool $rememberMe = false): string;
 
     public function getAuthenticatedUser(): array;
 

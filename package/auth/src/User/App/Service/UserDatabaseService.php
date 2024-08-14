@@ -13,9 +13,9 @@ class UserDatabaseService implements UserDatabaseServiceContract
 
     ) {}
 
-    public function getUser(string $userID): array
+    public function getUser(string $userID, bool $withHiddens = false): array
     {
-        return $this->userDatabaseDriver->userRepository()->get($userID);
+        return $this->userDatabaseDriver->userRepository()->get($userID, $withHiddens);
     }
 
     public function getUsers(array $usersID): array

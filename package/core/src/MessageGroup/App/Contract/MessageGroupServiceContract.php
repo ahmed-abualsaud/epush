@@ -10,6 +10,8 @@ interface MessageGroupServiceContract
 
     public function add(array $messageGroup, array $messageGroupRecipients): array;
 
+    public function addNow(array $messageGroup, array $messageGroupRecipients): array;
+
     public function update(string $messageGroupID, array $messageGroup): array;
 
     public function delete(string $messageGroupID): bool;

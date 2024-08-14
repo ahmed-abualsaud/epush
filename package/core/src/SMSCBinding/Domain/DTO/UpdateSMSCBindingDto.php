@@ -20,6 +20,7 @@ class UpdateSMSCBindingDto implements DtoContract
             'operator_id' => 'string|exists:operators,id',
             'smsc_id' => 'string|exists:smscs,id',
             'default' => 'boolean',
+            'length' => 'integer'
         ];
     }
 

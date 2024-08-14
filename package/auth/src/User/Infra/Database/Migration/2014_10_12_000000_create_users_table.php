@@ -24,7 +24,8 @@ return new class extends Migration
             $table->text('avatar')->nullable();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
+            $table->integer('login_try')->default(0);
+            $table->string('remember_token', 500)->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -49,12 +49,16 @@ class CredentialsService implements CredentialsServiceContract
         return $this->userDatabaseService->updateUserByID($userID, ['password' => $newHashedPassword]);
     }
 
-    public function signin(string $username, string $password): array
+    public function signin(string $username, string $password, bool $rememberMe = false): array
     {
-        $token = $this->credentialsDriver->attemptOrFail($username, $password);
+        $token = $this->credentialsDriver->attemptOrFail($username, $password, $rememberMe);
         $refresh_token = $this->credentialsDriver->getRefreshToken();
         $user = $this->credentialsDriver->getAuthenticateduser();
         $roles = $this->userDatabaseService->getUserRoles($user['id']);
+
+        if ($rememberMe) {
+            $this->userDatabaseService->updateUserByID($user['id'], ['remember_token' => $refresh_token]);
+        }
 
         return [
             'user' => $user,
@@ -66,7 +70,13 @@ class CredentialsService implements CredentialsServiceContract
 
     public function decodeToken(string $token): array
     {
-        return $this->credentialsDriver->decodeToken($token);
+        $payload = $this->credentialsDriver->decodeToken($token);
+        $payload['rmb'] = false;
+        $user = $this->userDatabaseService->getUser($payload['sub'], true);
+        if (! empty($user) && ! empty($user['remember_token'])) {
+            $payload['rmb'] = true;
+        }
+        return $payload;
     }
 
     public function getAuthenticateduser(): array

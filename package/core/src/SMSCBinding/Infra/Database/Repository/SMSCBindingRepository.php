@@ -48,6 +48,7 @@ class SMSCBindingRepository implements SMSCBindingRepositoryContract
                 'operator_id' => $smscBinding["operator_id"],
                 'smsc_id' => $smscBinding["smsc_id"],
                 'default' => $smscBinding["default"],
+                'length' => empty($smscBinding["length"])? 8 : $smscBinding["length"],
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ];

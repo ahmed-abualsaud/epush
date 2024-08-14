@@ -18,9 +18,15 @@ class UpdateMessageGroupDto implements DtoContract
         return [
             'name' => 'unique:message_groups,name,'.self::$messageGroupID.'|string',
             'user_id' => 'exists:users,id',
+            'valid' => 'numeric',
+            'unknown' => 'numeric',
+            'inactive' => 'numeric',
+            'doublication' => 'numeric',
+            'operators' => 'array',
+            'first_n' => 'string',
             'recipients' => 'array',
-            'recipients.*.number'=> 'string',
-            'recipients.*.attributes'=> 'json',
+            // 'recipients.*.number'=> 'string',
+            // 'recipients.*.attributes'=> 'json',
         ];
     }
 

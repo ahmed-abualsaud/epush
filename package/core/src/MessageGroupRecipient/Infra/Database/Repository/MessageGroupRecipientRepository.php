@@ -88,7 +88,9 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
                 $uniqueBy = ['message_group_id', 'number'];
                 $this->messageGroupRecipient->upsert($upsertData, $uniqueBy, $update);
             }
-            return $this->messageGroupRecipient->with(['messageGroup'])->where('message_group_id', $groupID)->get()->toArray();
+
+            return [];
+            // return $this->messageGroupRecipient->with(['messageGroup'])->where('message_group_id', $groupID)->get()->toArray();
         });
     }
 

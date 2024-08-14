@@ -5,6 +5,7 @@ namespace Epush\Core\MessageGroup\App\Service;
 
 use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupDatabaseServiceContract;
+use Epush\Core\MessageGroup\Infra\Driver\MessageGroupDriverContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
@@ -12,6 +13,7 @@ class MessageGroupService implements MessageGroupServiceContract
 {
     public function __construct(
 
+        private MessageGroupDriverContract $messageGroupDriver,
         private InterprocessCommunicationEngineContract $communicationEngine,
         private MessageGroupDatabaseServiceContract $messageGroupDatabaseService,
         private MessageGroupRecipientServiceContract $messageGroupRecipientService
@@ -40,6 +42,13 @@ class MessageGroupService implements MessageGroupServiceContract
     }
 
     public function add(array $messageGroup, array $messageGroupRecipients): array
+    {
+        $group = $this->messageGroupDatabaseService->addMessageGroup($messageGroup);
+        $this->messageGroupDriver->insertRecipients($group['id'], $messageGroupRecipients);
+        return $group;
+    }
+
+    public function addNow(array $messageGroup, array $messageGroupRecipients): array
     {
         $group = $this->messageGroupDatabaseService->addMessageGroup($messageGroup);
         return $this->messageGroupRecipientService->add($group['id'], $messageGroupRecipients);

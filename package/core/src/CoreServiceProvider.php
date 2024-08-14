@@ -18,11 +18,13 @@ use Epush\Core\SMSCBinding\Infra\Provider\SMSCBindingServiceProvider;
 use Epush\Core\MessageGroup\Infra\Provider\MessageGroupServiceProvider;
 use Epush\Core\BusinessField\Infra\Provider\BusinessFieldServiceProvider;
 use Epush\Core\MessageFilter\Infra\Provider\MessageFilterServiceProvider;
+use Epush\Core\MessageReport\Infra\Provider\MessageReportServiceProvider;
 use Epush\Core\MessageSegment\Infra\Provider\MessageSegmentServiceProvider;
 use Epush\Core\MessageLanguage\Infra\Provider\MessageLanguageServiceProvider;
 use Epush\Core\MessageRecipient\Infra\Provider\MessageRecipientServiceProvider;
 use Epush\Core\SenderConnection\Infra\Provider\SenderConnectionServiceProvider;
 use Epush\Core\MessageGroupRecipient\Infra\Provider\MessageGroupRecipientServiceProvider;
+
 use Illuminate\Support\ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
@@ -48,12 +50,13 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->register(IPWhitelistServiceProvider::class);
         $this->app->register(SMSCBindingServiceProvider::class);
         $this->app->register(MessageGroupServiceProvider::class);
+        $this->app->register(MessageReportServiceProvider::class);
         $this->app->register(BusinessFieldServiceProvider::class);
         $this->app->register(MessageFilterServiceProvider::class);
         $this->app->register(MessageSegmentServiceProvider::class);
         $this->app->register(MessageLanguageServiceProvider::class);
         $this->app->register(MessageRecipientServiceProvider::class);
         $this->app->register(SenderConnectionServiceProvider::class);
-        $this->app->register(MessageGroupRecipientServiceProvider::class);
+        $this->app->register(MessageGroupRecipientServiceProvider::class);        
     }
 }

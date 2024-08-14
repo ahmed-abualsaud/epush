@@ -2,6 +2,9 @@
 
 namespace Epush\Core\MessageGroup\Infra\Provider;
 
+use Epush\Core\MessageGroup\Infra\Driver\MessageGroupDriver;
+use Epush\Core\MessageGroup\Infra\Driver\MessageGroupDriverContract;
+
 use Epush\Core\MessageGroup\Infra\Database\Driver\MessageGroupDatabaseDriver;
 use Epush\Core\MessageGroup\Infra\Database\Driver\MessageGroupDatabaseDriverContract;
 
@@ -32,5 +35,8 @@ class InfraProvider extends ServiceProvider
         $this->app->bind(MessageGroupRepositoryContract::class, MessageGroupRepository::class);
 
         $this->app->bind(MessageGroupDatabaseDriverContract::class, MessageGroupDatabaseDriver::class);
+
+        $this->app->bind(MessageGroupDriverContract::class, MessageGroupDriver::class);
+
     }
 }

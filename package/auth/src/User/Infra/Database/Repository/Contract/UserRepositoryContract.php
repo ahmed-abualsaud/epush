@@ -4,7 +4,7 @@ namespace Epush\Auth\User\Infra\Database\Repository\Contract;
 
 interface UserRepositoryContract
 {
-    public function get(string $userID): array;
+    public function get(string $userID, bool $withHiddens = false): array;
 
     public function all(int $take): array;
 

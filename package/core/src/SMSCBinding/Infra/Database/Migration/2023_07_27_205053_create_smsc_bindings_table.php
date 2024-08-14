@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('operator_id');
             $table->unsignedBigInteger('smsc_id');
             $table->boolean('default')->default(false);
+            $table->integer('length')->default(8);
             $table->timestamps();
         });
     }

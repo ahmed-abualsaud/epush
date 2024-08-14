@@ -30,7 +30,7 @@ return new class extends Migration
             $table->boolean('draft')->default(false);
             $table->ipAddress('sender_ip')->nullable();
             $table->string('message_type')->nullable();
-            $table->string('send_type')->default('Custom Messages');
+            $table->string('send_type')->default('Bulk Message');
             $table->timestamps();
         });
     }

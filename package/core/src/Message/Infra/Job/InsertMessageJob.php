@@ -46,7 +46,7 @@ class InsertMessageJob implements ShouldQueue
         $status = array_key_exists('scheduled_at', $this->message) && Carbon::parse($this->message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : (array_key_exists('approved', $this->message) ? 'Sent' : 'Pending');
 
         foreach ($this->messageGroupRecipients as $messageGroupRecipient) {
-            $msgrcp = app(MessageGroupServiceContract::class)->add([
+            $msgrcp = app(MessageGroupServiceContract::class)->addNow([
                 'name' => $messageGroupRecipient['name'],
                 'user_id' => $messageGroupRecipient['user_id']
             ], $messageGroupRecipient['recipients']);

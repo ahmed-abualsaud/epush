@@ -48,7 +48,7 @@ class AuthMiddleware
                 return failureJSONResponse('Invalid access token', 401);
             }
 
-            if ($payload['exp'] < time()) {
+            if ($payload['exp'] < time() && ! $payload['rmb']) {
                 return failureJSONResponse('Access token expired', 401);
             }
 
@@ -96,7 +96,7 @@ class AuthMiddleware
             return failureJSONResponse('Invalid access token', 401);
         }
 
-        if ($payload['exp'] < time()) {
+        if ($payload['exp'] < time() && ! $payload['rmb']) {
             return failureJSONResponse('Access token expired', 401);
         }
 

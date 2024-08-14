@@ -1636,6 +1636,45 @@ class PermissionSeeder extends Seeder
             'description' => 'find a specific value for a column of the partners table',
             'handler_id' => '249'
         ]);
+
+
+
+
+        Permission::create([
+            'name' => 'get-message-report',
+            'description' => 'get a specific message report',
+            'handler_id' => '250'
+        ]);
+
+        Permission::create([
+            'name' => 'add-message-report',
+            'description' => 'add new message report',
+            'handler_id' => '251'
+        ]);
+
+        Permission::create([
+            'name' => 'list-message-reports',
+            'description' => 'list all message reports',
+            'handler_id' => '252'
+        ]);
+
+        Permission::create([
+            'name' => 'delete-message-report',
+            'description' => 'delete a specific message report',
+            'handler_id' => '253'
+        ]);
+
+        Permission::create([
+            'name' => 'update-message-report',
+            'description' => 'update a specific message report',
+            'handler_id' => '254'
+        ]);
+
+        Permission::create([
+            'name' => 'search-message-report-column',
+            'description' => 'find a specific value for a column of the message reports table',
+            'handler_id' => '255'
+        ]);
     }
 }
 

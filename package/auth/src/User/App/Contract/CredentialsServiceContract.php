@@ -14,7 +14,7 @@ interface CredentialsServiceContract
 
     public function changePassword(string $userID, string $oldPassword, string $newPassword): array;
 
-    public function signin(string $username, string $password): array;
+    public function signin(string $username, string $password, bool $rememberMe = false): array;
 
     public function decodeToken(string $token): array;
 

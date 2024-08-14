@@ -4,7 +4,7 @@ namespace Epush\Auth\User\App\Contract;
 
 interface UserDatabaseServiceContract
 {
-    public function getUser(string $userID): array;
+    public function getUser(string $userID, bool $withHiddens = false): array;
 
     public function addUser(array $data): array;
 

@@ -75,7 +75,7 @@ class UserService implements UserServiceContract
     {
         $this->checkUserEnabledOrFail($username);
         $this->recaptchaDriver->validatTokenOrFail($recaptchaToken);
-        return $this->credentialsService->signin($username, $password);
+        return $this->credentialsService->signin($username, $password, $rememberMe);
     }
 
     public function delete(string $userID): bool

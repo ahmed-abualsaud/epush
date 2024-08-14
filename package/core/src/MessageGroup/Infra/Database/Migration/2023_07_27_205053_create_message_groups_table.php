@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('saved')->default(false);
             $table->unsignedBigInteger('number_of_recipients')->default(0);
+            $table->unsignedBigInteger('valid')->default(0);
+            $table->unsignedBigInteger('unknown')->default(0);
+            $table->unsignedBigInteger('inactive')->default(0);
+            $table->unsignedBigInteger('doublication')->default(0);
+            $table->json('operators')->nullable();
+            $table->string('first_n')->nullable();
             $table->timestamps();
         });
     }

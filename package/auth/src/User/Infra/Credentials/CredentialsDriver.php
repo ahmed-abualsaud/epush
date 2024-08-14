@@ -42,7 +42,7 @@ class CredentialsDriver implements CredentialsDriverContract
         return Str::password(12, true, true, true, false);
     }
 
-    public function attemptOrFail(string $username, string $password): string
+    public function attemptOrFail(string $username, string $password, bool $rememberMe = false): string
     {
         $blockedIP = $this->blockedIPDatabaseService->getBlockedIP(request()->ip());
 
@@ -50,10 +50,17 @@ class CredentialsDriver implements CredentialsDriverContract
             throwHttpException(401, 'Maximum number of login tries reached');
         }
 
-        if (! $token = Auth::attempt(['username' => $username, 'password' => $password])) {
+        if ($rememberMe) {
+            $token = Auth::attempt(['username' => $username, 'password' => $password], true);
+        } else {
+            $token = Auth::attempt(['username' => $username, 'password' => $password]);
+        }
+
+        if (! $token) {
             $this->blockedIPDatabaseService->addBlockedIP(['ip' => request()->ip()]);
             throwHttpException(401, 'Invalid username or password');
         }
+
         $this->blockedIPDatabaseService->addBlockedIP(['ip' => request()->ip(), 'tries' => 0]);
         return $token;
     }

@@ -19,11 +19,15 @@ class UserRepository implements UserRepositoryContract
 
     ) {}
 
-    public function get(string $userID): array
+    public function get(string $userID, bool $withHiddens = false): array
     {
-        return DB::transaction(function () use ($userID) {
+        return DB::transaction(function () use ($userID, $withHiddens) {
 
-            return $this->user->where('id', $userID)->firstOrFail()->toArray();
+            $user = $this->user->where('id', $userID)->firstOrFail();
+            $withHiddens && $user->makeVisible('password') && $user->makeVisible('remember_token');
+            $userData = $user->toArray();
+            $withHiddens && $user->makeHidden('password') && $user->makeVisible('remember_token');
+            return $userData;
 
         });
     }
