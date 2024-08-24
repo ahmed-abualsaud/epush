@@ -1,21 +1,20 @@
 <?php
 
-namespace Epush\Core\Message\Infra\Job;
+namespace Epush\Core\MessageGroup\Infra\Job;
 
 use Epush\Queue\App\Contract\QueueServiceContract;
-use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
+use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
 
 use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class InsertMessageJob implements ShouldQueue
+class InsertMessageRecipientsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -33,8 +32,10 @@ class InsertMessageJob implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        private array $message,
-        private array $messageGroupRecipients,
+        private string $groupID,
+        private string $messageID,
+        private string $status
+
     ) {
         $this->onQueue("database");
         $this->onConnection('database');
@@ -43,14 +44,10 @@ class InsertMessageJob implements ShouldQueue
     
     public function handle() : void
     {
-        $status = array_key_exists('scheduled_at', $this->message) && Carbon::parse($this->message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : (array_key_exists('approved', $this->message) ? 'Sent' : 'Pending');
-
-        foreach ($this->messageGroupRecipients as $messageGroupRecipient) {
-            $msgrcp = app(MessageGroupServiceContract::class)->addAndGetRecipients([
-                'name' => $messageGroupRecipient['name'],
-                'user_id' => $messageGroupRecipient['user_id']
-            ], $messageGroupRecipient['recipients']);
-            app(MessageRecipientServiceContract::class)->add($this->message['id'], array_column($msgrcp, 'id'), $status);
+        $recipients = app(MessageGroupRecipientServiceContract::class)->getMessageGroupRecipients($this->groupID, 10000000000);
+        if (! empty($recipients['data']) && count($recipients['data']) > 0) {
+            $messageGroupRecipientIDs = array_column($recipients['data'], 'id');
+            app(MessageRecipientServiceContract::class)->add($this->messageID, $messageGroupRecipientIDs, $this->status);
         }
 
         app(QueueServiceContract::class)->enableDisableQueue(true, "database");

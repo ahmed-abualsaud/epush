@@ -15,7 +15,7 @@ class AddMessageGroupRecipientUseCase
 
     ) {}
 
-    public function execute(AddMessageGroupRecipientDto $addMessageGroupRecipientDto): array
+    public function execute(AddMessageGroupRecipientDto $addMessageGroupRecipientDto): int
     {
         $this->validationService->validate($addMessageGroupRecipientDto->toArray(), AddMessageGroupRecipientDto::rules());
         return $this->messageGroupRecipientService->add($addMessageGroupRecipientDto->getGroupID(), $addMessageGroupRecipientDto->getGroupRecipients());

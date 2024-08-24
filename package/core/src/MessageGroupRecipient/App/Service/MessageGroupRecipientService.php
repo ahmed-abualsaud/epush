@@ -2,7 +2,7 @@
 
 namespace Epush\Core\MessageGroupRecipient\App\Service;
 
-
+use Epush\Core\MessageGroup\App\Contract\MessageGroupDatabaseServiceContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientDatabaseServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
@@ -10,6 +10,8 @@ use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicat
 class MessageGroupRecipientService implements MessageGroupRecipientServiceContract
 {
     public function __construct(
+
+        private MessageGroupDatabaseServiceContract $messageGroupService,
 
         private InterprocessCommunicationEngineContract $communicationEngine,
 
@@ -42,9 +44,18 @@ class MessageGroupRecipientService implements MessageGroupRecipientServiceContra
         return $this->messageGroupRecipientDatabaseService->getMessageGroupRecipient($messageGroupRecipientID);
     }
 
-    public function add(string $groupID, array $messageGroupRecipients): array
+    public function add(string $groupID, array $messageGroupRecipients): int
     {
-        return $this->messageGroupRecipientDatabaseService->addMessageGroupRecipients($groupID, $messageGroupRecipients);
+        $count = $this->messageGroupRecipientDatabaseService->addMessageGroupRecipients($groupID, $messageGroupRecipients);
+        $this->messageGroupService->updateMessageGroup($groupID, ['number_of_recipients' => $count]);
+        return $count;
+    }
+
+    public function addAndGetRecipients(string $groupID, array $messageGroupRecipients): array
+    {
+        $recipients = $this->messageGroupRecipientDatabaseService->addMessageGroupAndGetRecipients($groupID, $messageGroupRecipients);
+        $this->messageGroupService->updateMessageGroup($groupID, ['number_of_recipients' => count($recipients)]);
+        return $recipients;
     }
 
     public function update(string $messageGroupRecipientID, array $messageGroupRecipient): array

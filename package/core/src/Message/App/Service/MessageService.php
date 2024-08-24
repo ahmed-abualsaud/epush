@@ -21,7 +21,7 @@ use Epush\Core\MessageLanguage\App\Contract\MessageLanguageServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
 use Epush\Core\SenderConnection\App\Contract\SenderConnectionServiceContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
-
+use Epush\Core\MessageReport\App\Contract\MessageReportServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 
 class MessageService implements MessageServiceContract
@@ -33,6 +33,7 @@ class MessageService implements MessageServiceContract
         private IPWhitelistServiceContract $ipWhitelistService,
         private MessageGroupServiceContract $messageGroupService,
         private MessageFilterServiceContract $messageFilterService,
+        private MessageReportServiceContract $messageReportService,
         private MessageSegmentServiceContract $messageSegmentService,
         private MessageLanguageServiceContract $messageLanguageService,
         private MessageDatabaseServiceContract $messageDatabaseService,
@@ -186,16 +187,6 @@ class MessageService implements MessageServiceContract
         $message = $this->messageDatabaseService->addMessage($message);
         $this->messageSegmentService->add($message['id'], $segments);
 
-        // $status = array_key_exists('scheduled_at', $message) && Carbon::parse($message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' : 'Sent';
-
-        // foreach ($messageGroupRecipients as $messageGroupRecipient) {
-        //     $msgrcp = $this->messageGroupService->add([
-        //         'name' => $messageGroupRecipient['name'],
-        //         'user_id' => $messageGroupRecipient['user_id']
-        //     ], $messageGroupRecipient['recipients']);
-        //     $this->messageRecipientService->add($message['id'], array_column($msgrcp, 'id'), $status);
-        // }
-
         $this->messageDriver->insertMessage($message, $messageGroupRecipients);
 
         return $this->get($message['id']);
@@ -280,7 +271,7 @@ class MessageService implements MessageServiceContract
 
         $recipients = [];
         foreach ($messageGroupRecipients as $messageGroupRecipient) {
-            $msgrcp = $this->messageGroupService->add([
+            $msgrcp = $this->messageGroupService->addAndGetRecipients([
                 'name' => $messageGroupRecipient['name'],
                 'user_id' => $messageGroupRecipient['user_id'],
                 'number_of_recipients' => count($messageGroupRecipient['recipients'])
@@ -292,12 +283,13 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
+        $insertedMessagesIDs = [];
         $status = array_key_exists('scheduled_at', $messages) && Carbon::parse($messages['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
 
         foreach ($messages['content']['messages'] as $message) {
+            $connection = arrayFind($adjustedSenderConnections['connections'], fn ($conn) => in_array($message['title'], $conn['numbers']));
             if ($approved) {
                 // send the message
-                $connection = arrayFind($adjustedSenderConnections['connections'], fn ($conn) => in_array($message['title'], $conn['numbers']));
                 $this->messageDriver->sendMessage($sender['name'], $connection['smsc']['smsc']['value'], $message['content'], [$message['title']], $language['name']);
             }
 
@@ -323,6 +315,18 @@ class MessageService implements MessageServiceContract
             ]);
 
             $this->messageSegmentService->add($insertedMessage['id'], $message['segments']);
+            $this->messageReportService->add([
+                'message_id' => $insertedMessage['id'],
+                'valid' => 1,
+                'unknown' => 0 ,
+                'inactive' => 0 ,
+                'doublication' => 0,
+                'operators' => [
+                    'operator' => $connection['smsc']['operator']['name'],
+                    'active' => $connection['approved'],
+                    'count' => 1
+                ]
+            ]);
 
             $this->messageRecipientService->add($insertedMessage['id'], [arrayFind($recipients, function ($recipient) use ($message) {
                 return $recipient['number'] === $message['title'];
@@ -641,13 +645,12 @@ class MessageService implements MessageServiceContract
 
         $this->messageSegmentService->add($message['id'], $segments);
 
-        $messageGroup = $this->messageGroupService->add([
+        $this->messageGroupService->add([
             'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : Str::random(8).'-api-group',
             'user_id' => $user['id'],
             'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
-        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']));
+        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], 'Sent');
 
-        $this->messageRecipientService->add($message['id'], array_column($messageGroup, 'id'), 'Sent');
 
         return [
             'new_msg_id' => $message['id'],
@@ -832,9 +835,7 @@ class MessageService implements MessageServiceContract
             'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : $sender['name'].'-group',
             'user_id' => $user['id'],
             'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
-        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']));
-
-        $messageResipients = $this->messageRecipientService->add($message['id'], array_column($messageGroup, 'id'), 'Sent');
+        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], 'Sent');
 
         return [
             'message' => $message,
@@ -847,15 +848,15 @@ class MessageService implements MessageServiceContract
                 'created_at' => $sgm['created_at'],
                 'updated_at' => $sgm['updated_at'],
             ], $messageSegments),
-            'recipients' => array_map(fn ($rcp) => [
-                'id' => $rcp['id'],
-                'message_id' => $rcp['message_id'],
-                'status' => $rcp['status'],
-                'number' => $rcp['message_group_recipient']['number'],
-                'attributes' => $rcp['message_group_recipient']['attributes'],
-                'created_at' => $rcp['created_at'],
-                'updated_at' => $rcp['updated_at'],
-            ], $messageResipients),
+            // 'recipients' => array_map(fn ($rcp) => [
+            //     'id' => $rcp['id'],
+            //     'message_id' => $rcp['message_id'],
+            //     'status' => $rcp['status'],
+            //     'number' => $rcp['message_group_recipient']['number'],
+            //     'attributes' => $rcp['message_group_recipient']['attributes'],
+            //     'created_at' => $rcp['created_at'],
+            //     'updated_at' => $rcp['updated_at'],
+            // ], $messageResipients),
         ];
     }
 

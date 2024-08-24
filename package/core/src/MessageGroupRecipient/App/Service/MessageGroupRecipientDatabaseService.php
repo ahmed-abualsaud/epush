@@ -23,9 +23,14 @@ class MessageGroupRecipientDatabaseService implements MessageGroupRecipientDatab
         return $this->messageGroupRecipientDatabaseDriver->messageGroupRecipientRepository()->all($take);
     }
 
-    public function addMessageGroupRecipients(string $groupID, array $messageGroupRecipients): array
+    public function addMessageGroupRecipients(string $groupID, array $messageGroupRecipients): int
     {
         return $this->messageGroupRecipientDatabaseDriver->messageGroupRecipientRepository()->insert($groupID, $messageGroupRecipients);
+    }
+
+    public function addMessageGroupAndGetRecipients(string $groupID, array $messageGroupRecipients): array
+    {
+        return $this->messageGroupRecipientDatabaseDriver->messageGroupRecipientRepository()->insertAndFetch($groupID, $messageGroupRecipients);
     }
 
     public function updateMessageGroupRecipient(string $messageGroupRecipientID, array $messageGroupRecipient): array

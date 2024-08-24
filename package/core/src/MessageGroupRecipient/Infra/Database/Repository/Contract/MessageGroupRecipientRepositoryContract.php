@@ -8,7 +8,9 @@ interface MessageGroupRecipientRepositoryContract
 
     public function get(string $messageGroupRecipientID): array;
 
-    public function insert(string $groupID, array $messageGroupRecipients): array;
+    public function insert(string $groupID, array $messageGroupRecipients): int;
+
+    public function insertAndFetch(string $groupID, array $messageGroupRecipients): array;
 
     public function update(string $messageGroupRecipientID, array $messageGroupRecipient): array;
 

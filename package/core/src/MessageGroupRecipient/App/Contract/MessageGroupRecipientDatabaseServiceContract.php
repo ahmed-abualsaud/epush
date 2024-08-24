@@ -6,7 +6,9 @@ interface MessageGroupRecipientDatabaseServiceContract
 {
     public function getMessageGroupRecipient(string $messageGroupRecipientID): array;
 
-    public function addMessageGroupRecipients(string $groupID, array $messageGroupRecipients): array;
+    public function addMessageGroupRecipients(string $groupID, array $messageGroupRecipients): int;
+
+    public function addMessageGroupAndGetRecipients(string $groupID, array $messageGroupRecipients): array;
 
     public function deleteMessageGroupRecipient(string $messageGroupRecipientID): bool;
 

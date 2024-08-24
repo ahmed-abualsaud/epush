@@ -41,17 +41,25 @@ class MessageGroupService implements MessageGroupServiceContract
         return tableWith([$group], [$client], "user_id", "user_id", "client")[0];
     }
 
-    public function add(array $messageGroup, array $messageGroupRecipients): array
+    public function add(array $messageGroup, array $messageGroupRecipients, string $messageID = null, string $status = null): array
     {
         $group = $this->messageGroupDatabaseService->addMessageGroup($messageGroup);
-        $this->messageGroupDriver->insertRecipients($group['id'], $messageGroupRecipients);
+        $this->messageGroupDriver->insertRecipients($group['id'], $messageGroupRecipients, $messageID, $status);
         return $group;
+    }
+
+    public function addAndGetRecipients(array $messageGroup, array $messageGroupRecipients): array
+    {
+        $group = $this->messageGroupDatabaseService->addMessageGroup($messageGroup);
+        return $this->messageGroupRecipientService->addAndGetRecipients($group['id'], $messageGroupRecipients);
     }
 
     public function addNow(array $messageGroup, array $messageGroupRecipients): array
     {
         $group = $this->messageGroupDatabaseService->addMessageGroup($messageGroup);
-        return $this->messageGroupRecipientService->add($group['id'], $messageGroupRecipients);
+        $count = $this->messageGroupRecipientService->add($group['id'], $messageGroupRecipients);
+        $this->update($group['id'], ['number_of_recipients' => $count]);
+        return $group;
     }
 
     public function update(string $messageGroupID, array $messageGroup): array

@@ -54,34 +54,25 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
         });
     }
     
-    public function insert(string $groupID, array $messageGroupRecipients): array
+    public function insert(string $groupID, array $messageGroupRecipients): int
     {
         return DB::transaction(function () use ($groupID, $messageGroupRecipients) {
 
-            // foreach ($messageGroupRecipients as $messageGroupRecipient) {
-
-            //     $this->messageGroupRecipient->updateOrCreate([
-            //         'message_group_id' => $groupID,
-            //         'number' => $messageGroupRecipient['number'],
-            //     ], [
-            //         'message_group_id' => $groupID,
-            //         'number' => $messageGroupRecipient['number'],
-            //         'attributes' => array_key_exists('attributes', $messageGroupRecipient) ? $messageGroupRecipient['attributes'] : null
-            //     ]);
-            // }
-
-            $batchSize = 5000;
+            $batchSize = 4000;
             $chunks = array_chunk($messageGroupRecipients, $batchSize);
+            $existedNumbers = $this->messageGroupRecipient->where('message_group_id', $groupID)->whereIn('number', array_column($messageGroupRecipients, 'number'))->get()->pluck('number')->toArray();
 
             $upsertData = [];
             foreach ($chunks as $chunk) {
                 $upsertData = [];
                 foreach ($chunk as $messageGroupRecipient) {
-                    $upsertData[] = [
-                        'message_group_id' => $groupID,
-                        'number' => $messageGroupRecipient['number'],
-                        'attributes' => array_key_exists('attributes', $messageGroupRecipient) ? $messageGroupRecipient['attributes'] : null
-                    ];
+                    if (! in_array($messageGroupRecipient['number'], $existedNumbers)) {
+                        $upsertData[] = [
+                            'message_group_id' => $groupID,
+                            'number' => $messageGroupRecipient['number'],
+                            'attributes' => array_key_exists('attributes', $messageGroupRecipient) ? $messageGroupRecipient['attributes'] : null
+                        ];
+                    }
                 }
 
                 $update = ['attributes'];
@@ -89,8 +80,37 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
                 $this->messageGroupRecipient->upsert($upsertData, $uniqueBy, $update);
             }
 
-            return [];
-            // return $this->messageGroupRecipient->with(['messageGroup'])->where('message_group_id', $groupID)->get()->toArray();
+            return $this->messageGroupRecipient->where('message_group_id', $groupID)->count();
+        });
+    }
+
+    public function insertAndFetch(string $groupID, array $messageGroupRecipients): array
+    {
+        return DB::transaction(function () use ($groupID, $messageGroupRecipients) {
+
+            $batchSize = 4000;
+            $chunks = array_chunk($messageGroupRecipients, $batchSize);
+            $existedNumbers = $this->messageGroupRecipient->where('message_group_id', $groupID)->whereIn('number', array_column($messageGroupRecipients, 'number'))->get()->pluck('number')->toArray();
+
+            $upsertData = [];
+            foreach ($chunks as $chunk) {
+                $upsertData = [];
+                foreach ($chunk as $messageGroupRecipient) {
+                    if (! in_array($messageGroupRecipient['number'], $existedNumbers)) {
+                        $upsertData[] = [
+                            'message_group_id' => $groupID,
+                            'number' => $messageGroupRecipient['number'],
+                            'attributes' => array_key_exists('attributes', $messageGroupRecipient) ? $messageGroupRecipient['attributes'] : null
+                        ];
+                    }
+                }
+
+                $update = ['attributes'];
+                $uniqueBy = ['message_group_id', 'number'];
+                $this->messageGroupRecipient->upsert($upsertData, $uniqueBy, $update);
+            }
+
+            return $this->messageGroupRecipient->where('message_group_id', $groupID)->get()->toArray();
         });
     }
 

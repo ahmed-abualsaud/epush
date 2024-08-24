@@ -3,6 +3,7 @@
 namespace Epush\Core\MessageGroup\Infra\Job;
 
 use Epush\Queue\App\Contract\QueueServiceContract;
+use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
 
 use Exception;
@@ -42,8 +43,8 @@ class InsertMessageGroupJob implements ShouldQueue
     
     public function handle() : void
     {
-        app(MessageGroupRecipientServiceContract::class)->add($this->groupID, $this->recipients);
-
+        $count = app(MessageGroupRecipientServiceContract::class)->add($this->groupID, $this->recipients);
+        app(MessageGroupServiceContract::class)->update($this->groupID, ['number_of_recipients' => $count]);
         app(QueueServiceContract::class)->enableDisableQueue(true, "database");
     }
 
