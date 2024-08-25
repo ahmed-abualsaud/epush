@@ -2,6 +2,8 @@
 
 namespace Epush\Auth\User\Infra\Credentials;
 
+use Exception;
+
 use Ichtrojan\Otp\Otp;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -70,9 +72,14 @@ class CredentialsDriver implements CredentialsDriverContract
 
     public function getAuthenticatedUser(): array 
     {
-        $token = request()->header('Authorization');
-        $payload = $this->decodeToken(substr($token, 7));
-        $user = $this->userServiceContract->getUser($payload['sub'], true);
+
+        try {
+            $token = request()->header('Authorization');
+            $payload = $this->decodeToken(substr($token, 7));
+            $user = $this->userServiceContract->getUser($payload['sub'], true);
+        } catch(Exception $e) {
+            $user = Auth::user();
+        }
 
         return $user === null ? [] : json_decode(json_encode($user), true);
     }
