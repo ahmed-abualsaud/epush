@@ -8,10 +8,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Epush\Auth\User\App\Contract\BlockedIPDatabaseServiceContract;
+use Epush\Auth\User\App\Contract\UserDatabaseServiceContract;
 
 class CredentialsDriver implements CredentialsDriverContract
 {
     public function __construct(
+
+        private UserDatabaseServiceContract $userServiceContract,
 
         private BlockedIPDatabaseServiceContract $blockedIPDatabaseService
 
@@ -67,7 +70,9 @@ class CredentialsDriver implements CredentialsDriverContract
 
     public function getAuthenticatedUser(): array 
     {
-        $user = Auth::user();
+        $token = request()->header('Authorization');
+        $payload = $this->decodeToken(substr($token, 7));
+        $user = $this->userServiceContract->getUser($payload['sub'], true);
 
         return $user === null ? [] : json_decode(json_encode($user), true);
     }
