@@ -71,6 +71,7 @@ class OrderService implements OrderServiceContract
     public function add(string $action, array $order): array
     {
         $action =  in_array(strtolower($action), ["add", "refund"]) ? WalletActions::REFUND : WalletActions::DEDUCT;
+        $order['deduct'] = ($action->value == "deduct");
         $this->communicationEngine->broadcast("core:client:update-client-wallet", $order["user_id"], $order["credit"], $action->value);
         $order = $this->orderDatabaseService->addOrder($order);
         $client = $this->communicationEngine->broadcast("core:client:get-client", $order['user_id'])[0];

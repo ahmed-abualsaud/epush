@@ -8,6 +8,7 @@ use Epush\Auth\User\App\Contract\CredentialsServiceContract;
 use Epush\Auth\User\App\Contract\UserDatabaseServiceContract;
 use Epush\Auth\User\Infra\Recaptcha\RecaptchaDriverContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
+use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceContract
 {
@@ -45,7 +46,6 @@ class UserService implements UserServiceContract
         return $this->userDatabaseService->getUserByUsername($username);
     }
 
-
     public function update(string $userID ,array $data): array
     {
         $updatedUser = $this->userDatabaseService->updateUserByID($userID, $data);
@@ -59,7 +59,7 @@ class UserService implements UserServiceContract
 
 
     public function signup(array $data, string $roleName = null): array
-    {   
+    {
         $avatar = $this->communicationEngine->broadcast('file:store', 'avatar', 'avatars', $data['username'].'-avatar')[0];
         $avatar && $data['avatar'] = $avatar;
 
@@ -74,7 +74,9 @@ class UserService implements UserServiceContract
     public function signin(string $username, string $password, bool $rememberMe = false, string $recaptchaToken = ''): array
     {
         $this->checkUserEnabledOrFail($username);
-        $this->recaptchaDriver->validatTokenOrFail($recaptchaToken);
+        if ($this->isUserSighted($username)) {
+            $this->recaptchaDriver->validatTokenOrFail($recaptchaToken);
+        }
         return $this->credentialsService->signin($username, $password, $rememberMe);
     }
 
@@ -165,5 +167,11 @@ class UserService implements UserServiceContract
             'success' => false,
             'message' => "Failed to generate OTP token"
         ];
+    }
+
+    private function isUserSighted(string $username)
+    {
+        $user = $this->getUserByUsername($username);
+        return empty($user['blind']) ? true : !$user['blind'];
     }
 }

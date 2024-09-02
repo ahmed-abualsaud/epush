@@ -20,6 +20,7 @@ class AddClientDto implements DtoContract
             'religion' => 'required|string',
             'address' => 'required|string',
             'enabled' => 'boolean',
+            'blind' => 'boolean',
             'company_name' => 'required|unique:clients,company_name,NULL,id,deleted_at,NULL|string',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
             'notes' => 'string',
@@ -31,6 +32,7 @@ class AddClientDto implements DtoContract
 
     public function toArray(): array
     {
+        ! empty($this->data['blind']) && $this->data['blind'] = $this->data['blind'] == 'true';
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
         return $this->data;
     }
@@ -52,6 +54,7 @@ class AddClientDto implements DtoContract
 
     public function getUser(): array
     {
+        ! empty($this->data['blind']) && $this->data['blind'] = $this->data['blind'] == 'true';
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
         $this->data['password'] = $this->data['password'] ?? '';
         $this->data['username'] = $this->data['username'] . (stringContains($this->data['username'], '@epushagency') ? '' : '@epushagency');
@@ -66,6 +69,7 @@ class AddClientDto implements DtoContract
             'phone',
             'address',
             'enabled',
+            'blind',
             'avatar',
 
         ], $this->data);

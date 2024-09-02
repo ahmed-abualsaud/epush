@@ -16,12 +16,14 @@ class AddOrderDto implements DtoContract
             'user_id' => 'required|exists:clients,user_id',
             'pricelist_id' => 'required|exists:pricelists,id',
             'payment_method_id' => 'required|exists:payment_methods,id',
-            'collection_date' => 'date'
+            'collection_date' => 'date',
+            'deduct' => 'boolean'
         ];
     }
 
     public function toArray(): array
     {
+        ! empty($this->data['deduct']) && $this->data['deduct'] = $this->data['deduct'] == 'true';
         return $this->data;
     }
 
@@ -32,12 +34,15 @@ class AddOrderDto implements DtoContract
 
     public function getOrder(): array
     {
+        ! empty($this->data['deduct']) && $this->data['deduct'] = $this->data['deduct'] == 'true';
+
         return subAssociativeArray([
 
             'credit',
             'user_id',
             'pricelist_id',
-            'payment_method_id'
+            'payment_method_id',
+            'deduct'
 
         ], $this->data);
     }

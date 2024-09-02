@@ -14,7 +14,7 @@ class SigninDto implements DtoContract
             'username' => 'required|string|exists:users',
             'password' => 'required|string',
             'remember_me' => 'boolean',
-            'recaptcha_token' => 'required|string'
+            'recaptcha_token' => 'string|nullable'
         ];
     }
 

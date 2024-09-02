@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pricelist_id');
             $table->unsignedBigInteger('payment_method_id');
+            $table->boolean('deduct')->default(false);
             $table->unsignedDecimal('credit', 14, 2);
             $table->string('status')->default('Pending'); //Pending, Paid
             $table->timestamp('collection_date');

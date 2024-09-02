@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('address');
             $table->boolean('enabled')->default(true);
+            $table->boolean('blind')->default(false);
             $table->text('avatar')->nullable();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();

@@ -19,6 +19,7 @@ class SignupDto implements DtoContract
             'phone' => 'required|unique:users,phone,NULL,id,deleted_at,NULL|string|regex:/^\d{10,16}$/',
             'address' => 'required|string',
             'enabled' => 'boolean',
+            'blind' => 'boolean',
             'avatar' => 'image|mimes:jpeg,jpg,png|max:1024',
             'role' => 'exists:roles,name',
         ];
@@ -26,12 +27,14 @@ class SignupDto implements DtoContract
 
     public function toArray(): array
     {
+        ! empty($this->data['blind']) && $this->data['blind'] = $this->data['blind'] == 'true';
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
         return $this->data;
     }
 
     public function toTableArray(): array
     {
+        ! empty($this->data['blind']) && $this->data['blind'] = $this->data['blind'] == 'true';
         ! empty($this->data['enabled']) && $this->data['enabled'] = $this->data['enabled'] == 'true';
 
         return subAssociativeArray([
@@ -44,6 +47,7 @@ class SignupDto implements DtoContract
             'phone',
             'address',
             'enabled',
+            'blind',
             'avatar',
 
         ], $this->data);

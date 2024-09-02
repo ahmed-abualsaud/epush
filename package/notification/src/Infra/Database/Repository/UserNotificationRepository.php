@@ -19,7 +19,7 @@ class UserNotificationRepository implements UserNotificationRepositoryContract
     {
         return DB::transaction(function () {
 
-            return $this->userNotification->all()->toArray();
+            return $this->userNotification->latest()->all()->toArray();
 
         });
     }
@@ -38,7 +38,7 @@ class UserNotificationRepository implements UserNotificationRepositoryContract
     {
         return DB::transaction(function () use ($userID) {
 
-            return $this->userNotification->where('user_id', $userID)->get()->toArray();
+            return $this->userNotification->where('user_id', $userID)->latest()->get()->toArray();
 
         });
     }
@@ -47,7 +47,7 @@ class UserNotificationRepository implements UserNotificationRepositoryContract
     {
         return DB::transaction(function () use ($userID) {
 
-            return $this->userNotification->where('user_id', $userID)->where('read', false)->get()->toArray();
+            return $this->userNotification->where('user_id', $userID)->where('read', false)->latest()->get()->toArray();
 
         });
     }
