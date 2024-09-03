@@ -44,10 +44,10 @@ class MessageGroupRecipientService implements MessageGroupRecipientServiceContra
         return $this->messageGroupRecipientDatabaseService->getMessageGroupRecipient($messageGroupRecipientID);
     }
 
-    public function add(string $groupID, array $messageGroupRecipients): int
+    public function add(string $groupID, array $messageGroupRecipients): array
     {
         $count = $this->messageGroupRecipientDatabaseService->addMessageGroupRecipients($groupID, $messageGroupRecipients);
-        $this->messageGroupService->updateMessageGroup($groupID, ['number_of_recipients' => $count]);
+        $this->messageGroupService->updateMessageGroup($groupID, ['number_of_recipients' => $count['count']]);
         return $count;
     }
 

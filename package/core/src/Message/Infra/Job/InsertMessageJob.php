@@ -3,6 +3,8 @@
 namespace Epush\Core\Message\Infra\Job;
 
 use Epush\Queue\App\Contract\QueueServiceContract;
+
+use Epush\Core\Message\App\Contract\MessageServiceContract;
 use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
 
@@ -53,6 +55,7 @@ class InsertMessageJob implements ShouldQueue
             app(MessageRecipientServiceContract::class)->add($this->message['id'], array_column($msgrcp, 'id'), $status);
         }
 
+        app(MessageServiceContract::class)->update($this->message['id'], ['sent' => true]);
         app(QueueServiceContract::class)->enableDisableQueue(true, "database");
     }
 

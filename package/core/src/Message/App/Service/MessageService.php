@@ -171,7 +171,8 @@ class MessageService implements MessageServiceContract
         if ($numberOfRecipients < $messageApprovmentLimit) {
             $approved = true;
             $message['approved'] = $approved;
-            $message['sent'] = ! $approved || (array_key_exists('scheduled_at', $message) && Carbon::parse($message['scheduled_at'])->gte(Carbon::now())) ? false : true;
+            $message['sent'] = false;
+            // $message['sent'] = ! $approved || (array_key_exists('scheduled_at', $message) && Carbon::parse($message['scheduled_at'])->gte(Carbon::now())) ? false : true;
         }
 
         if ($approved) {
@@ -283,7 +284,6 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
-        $insertedMessagesIDs = [];
         $status = array_key_exists('scheduled_at', $messages) && Carbon::parse($messages['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
 
         foreach ($messages['content']['messages'] as $message) {
@@ -622,7 +622,7 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
-        $status = array_key_exists('scheduled_at', $inputs) && Carbon::parse($inputs['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
+        // $status = array_key_exists('scheduled_at', $inputs) && Carbon::parse($inputs['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
 
         $message = $this->messageDatabaseService->addMessage([
             'user_id' => $user['id'],
@@ -636,7 +636,7 @@ class MessageService implements MessageServiceContract
             'single_message_cost' => $messageCost,
             'total_cost' => $totalCost,
             'scheduled_at' => array_key_exists('scheduled_at', $inputs)? $inputs['scheduled_at'] : date("Y-m-d H:i:s"),
-            'sent' => ($status == 'Sent'),
+            'sent' => false,
             'number_of_segments' => $numberOfSegments,
             'number_of_recipients' => $numberOfRecipients,
             'sender_ip' => $inputs['ip_address'],
@@ -822,7 +822,7 @@ class MessageService implements MessageServiceContract
             'single_message_cost' => $messageCost,
             'total_cost' => $totalCost,
             'scheduled_at' => array_key_exists('scheduled_at', $inputs)? $inputs['scheduled_at'] : date("Y-m-d H:i:s"),
-            'sent' => ($status == 'Sent'),
+            'sent' => false,
             'number_of_segments' => $numberOfSegments,
             'number_of_recipients' => $numberOfRecipients,
             'sender_ip' => $inputs['ip_address'],

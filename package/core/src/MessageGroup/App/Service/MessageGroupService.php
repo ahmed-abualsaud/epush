@@ -58,7 +58,7 @@ class MessageGroupService implements MessageGroupServiceContract
     {
         $group = $this->messageGroupDatabaseService->addMessageGroup($messageGroup);
         $count = $this->messageGroupRecipientService->add($group['id'], $messageGroupRecipients);
-        $this->update($group['id'], ['number_of_recipients' => $count]);
+        $this->update($group['id'], ['number_of_recipients' => $count['count']]);
         return $group;
     }
 

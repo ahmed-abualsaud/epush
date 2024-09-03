@@ -54,13 +54,14 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
         });
     }
     
-    public function insert(string $groupID, array $messageGroupRecipients): int
+    public function insert(string $groupID, array $messageGroupRecipients): array
     {
         return DB::transaction(function () use ($groupID, $messageGroupRecipients) {
 
             $batchSize = 4000;
             $chunks = array_chunk($messageGroupRecipients, $batchSize);
-            $existedNumbers = $this->messageGroupRecipient->where('message_group_id', $groupID)->whereIn('number', array_column($messageGroupRecipients, 'number'))->get()->pluck('number')->toArray();
+            $numbers = array_column($messageGroupRecipients, 'number');
+            $existedNumbers = $this->messageGroupRecipient->where('message_group_id', $groupID)->whereIn('number', $numbers)->get()->pluck('number')->toArray();
 
             $upsertData = [];
             foreach ($chunks as $chunk) {
@@ -80,7 +81,10 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
                 $this->messageGroupRecipient->upsert($upsertData, $uniqueBy, $update);
             }
 
-            return $this->messageGroupRecipient->where('message_group_id', $groupID)->count();
+            return [
+                'count' => $this->messageGroupRecipient->where('message_group_id', $groupID)->count(),
+                'added_count' => count(array_unique(array_diff($numbers, $existedNumbers)))
+            ];
         });
     }
 

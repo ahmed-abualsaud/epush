@@ -8,7 +8,7 @@ interface MessageGroupRecipientServiceContract
 
     public function get(string $messageGroupRecipientID): array;
 
-    public function add(string $groupID, array $messageGroupRecipients): int;
+    public function add(string $groupID, array $messageGroupRecipients): array;
 
     public function addAndGetRecipients(string $groupID, array $messageGroupRecipients): array;
 
