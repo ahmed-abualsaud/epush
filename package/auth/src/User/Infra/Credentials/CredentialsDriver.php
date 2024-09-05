@@ -70,13 +70,15 @@ class CredentialsDriver implements CredentialsDriverContract
         return $token;
     }
 
-    public function getAuthenticatedUser(): array 
+    public function getAuthenticatedUser(bool $signin = false): array 
     {
-
+        $user = Auth::user();
         try {
-            $token = request()->header('Authorization');
-            $payload = $this->decodeToken(substr($token, 7));
-            $user = $this->userServiceContract->getUser($payload['sub'], true);
+            if (! $signin) {
+                $token = request()->header('Authorization');
+                $payload = $this->decodeToken(substr($token, 7));
+                $user = $this->userServiceContract->getUser($payload['sub'], true);
+            }
         } catch(Exception $e) {
             $user = Auth::user();
         }

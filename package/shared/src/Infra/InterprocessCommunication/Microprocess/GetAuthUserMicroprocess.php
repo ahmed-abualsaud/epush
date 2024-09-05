@@ -16,6 +16,7 @@ class GetAuthUserMicroprocess implements MicroprocessContract
 
     public function listen(InterprocessCommunicationEngineContract $engine, string $event = null, mixed ...$data): mixed
     {
-        return $this->credentialsService->getAuthenticateduser();
+        $isSignin = count($data) > 0 ? $data[1] : false;
+        return $this->credentialsService->getAuthenticateduser($isSignin);
     }
 }

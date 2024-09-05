@@ -53,7 +53,7 @@ class CredentialsService implements CredentialsServiceContract
     {
         $token = $this->credentialsDriver->attemptOrFail($username, $password, $rememberMe);
         $refresh_token = $this->credentialsDriver->getRefreshToken();
-        $user = $this->credentialsDriver->getAuthenticateduser();
+        $user = $this->credentialsDriver->getAuthenticateduser(true);
         $roles = $this->userDatabaseService->getUserRoles($user['id']);
 
         if ($rememberMe) {
@@ -79,9 +79,9 @@ class CredentialsService implements CredentialsServiceContract
         return $payload;
     }
 
-    public function getAuthenticateduser(): array
+    public function getAuthenticateduser(bool $signin = false): array
     {
-        return $this->credentialsDriver->getAuthenticateduser();
+        return $this->credentialsDriver->getAuthenticateduser($signin);
     }
 
     public function signout(): bool
