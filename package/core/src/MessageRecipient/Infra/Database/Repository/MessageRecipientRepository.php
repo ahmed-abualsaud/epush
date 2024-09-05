@@ -31,17 +31,6 @@ class MessageRecipientRepository implements MessageRecipientRepositoryContract
     {
         return DB::transaction(function () use ($messageID, $messageGroupRecipientIDs, $status) {
 
-            // foreach ($messageGroupRecipientIDs as $messageGroupRecipientID) {
-            //     $this->messageRecipient->updateOrCreate([
-            //         'message_id' => $messageID,
-            //         'message_group_recipient_id' => $messageGroupRecipientID,
-            //     ], [
-            //         'message_id' => $messageID,
-            //         'message_group_recipient_id' => $messageGroupRecipientID,
-            //         'status' => $status
-            //     ]);
-            // }
-
             $batchSize = 5000;
             $chunks = array_chunk($messageGroupRecipientIDs, $batchSize);
 

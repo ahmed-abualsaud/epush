@@ -58,10 +58,10 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
     {
         return DB::transaction(function () use ($groupID, $messageGroupRecipients) {
 
-            $batchSize = 4000;
+            $batchSize = 5000;
             $chunks = array_chunk($messageGroupRecipients, $batchSize);
             $numbers = array_column($messageGroupRecipients, 'number');
-            $existedNumbers = $this->messageGroupRecipient->where('message_group_id', $groupID)->whereIn('number', $numbers)->get()->pluck('number')->toArray();
+            $existedNumbers = $this->getExistedNumbers($groupID, $messageGroupRecipients);
 
             $upsertData = [];
             foreach ($chunks as $chunk) {
@@ -92,9 +92,9 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
     {
         return DB::transaction(function () use ($groupID, $messageGroupRecipients) {
 
-            $batchSize = 4000;
+            $batchSize = 5000;
             $chunks = array_chunk($messageGroupRecipients, $batchSize);
-            $existedNumbers = $this->messageGroupRecipient->where('message_group_id', $groupID)->whereIn('number', array_column($messageGroupRecipients, 'number'))->get()->pluck('number')->toArray();
+            $existedNumbers = $this->getExistedNumbers($groupID, $messageGroupRecipients);
 
             $upsertData = [];
             foreach ($chunks as $chunk) {
@@ -168,5 +168,18 @@ class MessageGroupRecipientRepository implements MessageGroupRecipientRepository
             };
             return $messageGroupRecipient->latest()->paginate($take)->toArray();
         });
+    }
+
+    private function getExistedNumbers(string $groupID, array $messageGroupRecipients)
+    {
+        $batchSize = 5000;
+        $chunks = array_chunk($messageGroupRecipients, $batchSize);
+
+        $existedNumbers = [];
+        foreach ($chunks as $chunk) {
+            $existedNumbers = [...$existedNumbers, ...$this->messageGroupRecipient->where('message_group_id', $groupID)->whereIn('number', array_column($chunk, 'number'))->get()->pluck('number')->toArray()];
+        }
+
+        return $existedNumbers;
     }
 }
