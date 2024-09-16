@@ -36,7 +36,7 @@ class SendMessageJob implements ShouldQueue
         private string $senderName,
         private string $smsc,
         private string $message,
-        private string $to,
+        private array $to,
         private string $charset = "",
         private string $encoding = "",
 
@@ -59,7 +59,7 @@ class SendMessageJob implements ShouldQueue
                 'from' => $this->senderName,
                 'text' => $this->message,
                 'smsc' => $this->smsc,
-                'to' => $this->to
+                'to' => implode(" ", $this->to)
     
             ];
     

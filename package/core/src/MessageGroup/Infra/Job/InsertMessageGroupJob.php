@@ -44,7 +44,7 @@ class InsertMessageGroupJob implements ShouldQueue
     public function handle() : void
     {
         $count = app(MessageGroupRecipientServiceContract::class)->add($this->groupID, $this->recipients);
-        app(MessageGroupServiceContract::class)->update($this->groupID, ['number_of_recipients' => $count]);
+        app(MessageGroupServiceContract::class)->update($this->groupID, ['number_of_recipients' => $count['count']]);
         app(QueueServiceContract::class)->enableDisableQueue(true, "database");
     }
 

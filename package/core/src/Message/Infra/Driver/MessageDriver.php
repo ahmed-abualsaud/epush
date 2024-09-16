@@ -48,7 +48,7 @@ class MessageDriver implements MessageDriverContract
                     $senderName,
                     $smsc,
                     $message,
-                    implode(" ", $chunk),
+                    $chunk,
                     $this->charset,
                     $this->encoding
                 )) :
@@ -61,7 +61,7 @@ class MessageDriver implements MessageDriverContract
                     $senderName,
                     $smsc,
                     $message,
-                    implode(" ", $chunk)
+                    $chunk
                 ));
             }
         }

@@ -58,6 +58,8 @@ class CredentialsService implements CredentialsServiceContract
 
         if ($rememberMe) {
             $this->userDatabaseService->updateUserByID($user['id'], ['remember_token' => $refresh_token]);
+        } else {
+            $this->userDatabaseService->updateUserByID($user['id'], ['remember_token' => null]);
         }
 
         return [
