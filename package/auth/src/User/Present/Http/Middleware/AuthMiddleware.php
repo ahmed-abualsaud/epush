@@ -35,14 +35,14 @@ class AuthMiddleware
 
         if ((in_array($method, ['GET', 'POST']) && stringContains($path, "queue")) || stringContains($path, "banner")) {
 
-            $access_token = $request->header('Authorization');
+            $access_token = $request->bearerToken();
 
             if (!$access_token) {
                 return failureJSONResponse('Access token not found', 401);
             }
 
             try {
-                $payload = app(CredentialsServiceContract::class)->decodeToken(substr($access_token, 7));
+                $payload = app(CredentialsServiceContract::class)->decodeToken($access_token);
 
             } catch (Exception $e) {
                 return failureJSONResponse('Invalid access token', 401);
@@ -83,14 +83,14 @@ class AuthMiddleware
             return $response;
         }
 
-        $access_token = $request->header('Authorization');
+        $access_token = $request->bearerToken();
 
         if (!$access_token) {
             return failureJSONResponse('Access token not found', 401);
         }
 
         try {
-            $payload = app(CredentialsServiceContract::class)->decodeToken(substr($access_token, 7));
+            $payload = app(CredentialsServiceContract::class)->decodeToken($access_token);
 
         } catch (Exception $e) {
             return failureJSONResponse('Invalid access token', 401);

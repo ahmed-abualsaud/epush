@@ -29,7 +29,7 @@ class RefreshTokenMiddleware
 
         if ($request->hasCookie('refresh_token')) {
             $new_token = $this->getToken($request->cookie('refresh_token'));
-            $request->headers->set('Authorization', 'Bearer ' . $new_token);
+            // $request->headers->set('Authorization', 'Bearer ' . $new_token);
         }
 
         if (in_array($method, ['GET', 'POST']) && in_array($path, ['api/auth/user/refresh-token'])) {

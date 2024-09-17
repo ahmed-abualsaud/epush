@@ -640,6 +640,7 @@ class MessageService implements MessageServiceContract
             'number_of_segments' => $numberOfSegments,
             'number_of_recipients' => $numberOfRecipients,
             'sender_ip' => $inputs['ip_address'],
+            'send_type' => 'API',
             'message_type' => 'API',
         ]);
 
@@ -826,6 +827,7 @@ class MessageService implements MessageServiceContract
             'number_of_segments' => $numberOfSegments,
             'number_of_recipients' => $numberOfRecipients,
             'sender_ip' => $inputs['ip_address'],
+            'send_type' => 'API',
             'message_type' => 'API',
         ]);
 
@@ -839,7 +841,7 @@ class MessageService implements MessageServiceContract
 
         return [
             'message' => $message,
-            'group' => $messageGroup[0]['message_group'],
+            'group' => $messageGroup,
             'segments' => array_map(fn ($sgm) => [
                 'id' => $sgm['id'],
                 'message_id' => $sgm['message_id'],

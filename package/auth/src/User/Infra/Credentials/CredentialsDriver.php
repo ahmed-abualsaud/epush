@@ -75,8 +75,7 @@ class CredentialsDriver implements CredentialsDriverContract
         $user = Auth::user();
         try {
             if (! $signin) {
-                $token = request()->header('Authorization');
-                $payload = $this->decodeToken(substr($token, 7));
+                $payload = $this->decodeToken(request()->bearerToken());
                 $user = $this->userServiceContract->getUser($payload['sub'], true);
             }
         } catch(Exception $e) {
