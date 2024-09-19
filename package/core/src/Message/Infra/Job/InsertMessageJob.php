@@ -37,6 +37,7 @@ class InsertMessageJob implements ShouldQueue
     public function __construct(
         private array $message,
         private array $messageGroupRecipients,
+        private string $status = 'Sent'
     ) {
         $this->onQueue("database");
         $this->onConnection('database');
@@ -50,10 +51,12 @@ class InsertMessageJob implements ShouldQueue
                 'name' => $messageGroupRecipient['name'],
                 'user_id' => $messageGroupRecipient['user_id']
             ], $messageGroupRecipient['recipients']);
-            app(MessageRecipientServiceContract::class)->add($this->message['id'], array_column($msgrcp, 'id'), 'Sent');
+            app(MessageRecipientServiceContract::class)->add($this->message['id'], array_column($msgrcp, 'id'), $this->status);
         }
 
-        app(MessageServiceContract::class)->update($this->message['id'], ['sent' => true]);
+        if ($this->status == 'Sent') {
+            app(MessageServiceContract::class)->update($this->message['id'], ['sent' => true]);
+        }
         app(QueueServiceContract::class)->enableDisableQueue(true, "database");
     }
 

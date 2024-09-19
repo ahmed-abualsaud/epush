@@ -67,11 +67,12 @@ class MessageDriver implements MessageDriverContract
         }
     }
 
-    public function insertMessage(array $message, array $messageGroupRecipients): void
+    public function insertMessage(array $message, array $messageGroupRecipients, string $status = 'Sent'): void
     {
         dispatch( new InsertMessageJob(
             $message,
             $messageGroupRecipients,
+            $status 
         ));
     }
     

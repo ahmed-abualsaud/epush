@@ -171,9 +171,10 @@ class MessageService implements MessageServiceContract
         if ($numberOfRecipients < $messageApprovmentLimit) {
             $approved = true;
             $message['approved'] = $approved;
-            $message['sent'] = false;
-            // $message['sent'] = ! $approved || (array_key_exists('scheduled_at', $message) && Carbon::parse($message['scheduled_at'])->gte(Carbon::now())) ? false : true;
         }
+
+        $status = array_key_exists('scheduled_at', $message) && Carbon::parse($message['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
+        $message['sent'] = ($status == 'Sent');
 
         if ($approved) {
             // send the message
@@ -188,7 +189,7 @@ class MessageService implements MessageServiceContract
         $message = $this->messageDatabaseService->addMessage($message);
         $this->messageSegmentService->add($message['id'], $segments);
 
-        $this->messageDriver->insertMessage($message, $messageGroupRecipients);
+        $this->messageDriver->insertMessage($message, $messageGroupRecipients, $status);
 
         return $this->get($message['id']);
     }
@@ -622,7 +623,7 @@ class MessageService implements MessageServiceContract
             $this->notifyMessageApproval();
         }
 
-        // $status = array_key_exists('scheduled_at', $inputs) && Carbon::parse($inputs['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
+        $status = array_key_exists('scheduled_at', $inputs) && Carbon::parse($inputs['scheduled_at'])->gte(Carbon::now()) ? 'Scheduled' :  ($approved ? 'Sent' : 'Pending');
 
         $message = $this->messageDatabaseService->addMessage([
             'user_id' => $user['id'],
@@ -650,7 +651,7 @@ class MessageService implements MessageServiceContract
             'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : Str::random(8).'-api-group',
             'user_id' => $user['id'],
             'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
-        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], 'Sent');
+        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], $status);
 
 
         return [
@@ -837,7 +838,7 @@ class MessageService implements MessageServiceContract
             'name' => array_key_exists('group_name', $inputs)? $inputs['group_name'] : $sender['name'].'-group',
             'user_id' => $user['id'],
             'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
-        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], 'Sent');
+        ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], $status);
 
         return [
             'message' => $message,
