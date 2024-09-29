@@ -32,7 +32,7 @@ class MessageClientReportRepository implements MessageClientReportRepositoryCont
         });
     }
 
-    public function updateMessageClientReports(string $userID, int $count = 0): array
+    public function updateMessageClientReports(string $userID, int $count = 0): int
     {
         return DB::transaction(function () use ($userID, $count) {
             $messageReport = $this->messageClientReport->where('user_id', $userID)->first();

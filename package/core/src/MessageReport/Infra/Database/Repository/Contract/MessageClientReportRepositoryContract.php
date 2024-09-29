@@ -8,5 +8,5 @@ interface MessageClientReportRepositoryContract
 
     public function initMessageClientReports(string $userID): array;
 
-    public function updateMessageClientReports(string $userID, int $count = 0): array;
+    public function updateMessageClientReports(string $userID, int $count = 0): int;
 }

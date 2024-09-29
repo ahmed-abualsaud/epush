@@ -55,7 +55,7 @@ class MessageReportService implements MessageReportServiceContract
         return $this->messageReportDatabaseService->initMessageClientReports($userID);
     }
 
-    public function updateMessageClientReports(string $userID, int $count = 0): array
+    public function updateMessageClientReports(string $userID, int $count = 0): int
     {
         return $this->messageReportDatabaseService->updateMessageClientReports($userID, $count);
     }
