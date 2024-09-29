@@ -19,8 +19,8 @@ class MessageClientReportRepository implements MessageClientReportRepositoryCont
     {
         return DB::transaction(function () use ($userID) {
 
-            return $this->messageClientReport->where('user_id', $userID)->get()->toArray();
-
+            $messageReport = $this->messageClientReport->where('user_id', $userID)->first();
+            return empty($messageReport) ? [] : $messageReport->toArray();
         });
     }
 }
