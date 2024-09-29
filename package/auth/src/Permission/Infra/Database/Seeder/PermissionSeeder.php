@@ -1675,6 +1675,12 @@ class PermissionSeeder extends Seeder
             'description' => 'find a specific value for a column of the message reports table',
             'handler_id' => '255'
         ]);
+
+        Permission::create([
+            'name' => 'get-message-client-reports',
+            'description' => 'get the number of messages for a specific client grouped by month',
+            'handler_id' => '256'
+        ]);
     }
 }
 

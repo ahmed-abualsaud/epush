@@ -8,6 +8,9 @@ use Epush\Core\MessageReport\Infra\Database\Driver\MessageReportDatabaseDriverCo
 use Epush\Core\MessageReport\Infra\Database\Repository\MessageReportRepository;
 use Epush\Core\MessageReport\Infra\Database\Repository\Contract\MessageReportRepositoryContract;
 
+use Epush\Core\MessageReport\Infra\Database\Repository\MessageClientReportRepository;
+use Epush\Core\MessageReport\Infra\Database\Repository\Contract\MessageClientReportRepositoryContract;
+
 use Illuminate\Support\ServiceProvider;
 
 class InfraProvider extends ServiceProvider
@@ -30,6 +33,8 @@ class InfraProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(MessageReportRepositoryContract::class, MessageReportRepository::class);
+
+        $this->app->bind(MessageClientReportRepositoryContract::class, MessageClientReportRepository::class);
 
         $this->app->bind(MessageReportDatabaseDriverContract::class, MessageReportDatabaseDriver::class);
     }

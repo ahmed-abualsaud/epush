@@ -2178,6 +2178,15 @@ class HandlerSeeder extends Seeder
             'description' => 'find a specific value for a column of the message reports table',
             'enabled' => true,
         ]);
+
+        // 256
+        Handler::create([
+            'handle_group_id' => 43,
+            'name' => 'getMessageClientReports',
+            'endpoint' => 'POST|'.env('APP_FULL_URL').'/api/message-report/client/{user_id}',
+            'description' => 'get the number of messages for a specific client grouped by month',
+            'enabled' => true,
+        ]);
     }
 }
 

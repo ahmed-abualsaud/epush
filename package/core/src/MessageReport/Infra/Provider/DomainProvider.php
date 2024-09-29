@@ -7,6 +7,7 @@ use Epush\Core\MessageReport\Domain\DTO\AddMessageReportDto;
 use Epush\Core\MessageReport\Domain\DTO\ListMessageReportsDto;
 use Epush\Core\MessageReport\Domain\DTO\SearchMessageReportDto;
 use Epush\Core\MessageReport\Domain\DTO\UpdateMessageReportDto;
+use Epush\Core\MessageReport\Domain\DTO\GetMessageClientReportsDto;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -31,6 +32,10 @@ class DomainProvider extends ServiceProvider
     {
         $this->app->bind(MessageReportDto::class, function () {
             return new MessageReportDto(['message_id' => $this->app->make('request')->route('message_id')]);
+        });
+
+        $this->app->bind(GetMessageClientReportsDto::class, function () {
+            return new GetMessageClientReportsDto(['user_id' => $this->app->make('request')->route('user_id')]);
         });
 
         $this->app->bind(AddMessageReportDto::class, function () {

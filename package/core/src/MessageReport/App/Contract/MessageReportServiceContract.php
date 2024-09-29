@@ -15,4 +15,6 @@ interface MessageReportServiceContract
     public function delete(string $messageID): bool;
 
     public function searchColumn(string $column, string $value, int $take = 10): array;
+
+    public function getMessageClientReports(string $userID): array;
 }

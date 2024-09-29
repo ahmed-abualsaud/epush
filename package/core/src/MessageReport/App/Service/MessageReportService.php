@@ -44,4 +44,9 @@ class MessageReportService implements MessageReportServiceContract
     {
         return $this->messageReportDatabaseService->searchMessageReportColumn($column, $value, $take);
     }
+
+    public function getMessageClientReports(string $userID): array
+    {
+        return $this->messageReportDatabaseService->getMessageClientReports($userID);
+    }
 }

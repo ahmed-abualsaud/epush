@@ -13,6 +13,7 @@ use Epush\Core\MessageReport\Domain\DTO\AddMessageReportDto;
 use Epush\Core\MessageReport\Domain\DTO\ListMessageReportsDto;
 use Epush\Core\MessageReport\Domain\DTO\SearchMessageReportDto;
 use Epush\Core\MessageReport\Domain\DTO\UpdateMessageReportDto;
+use Epush\Core\MessageReport\Domain\DTO\GetMessageClientReportsDto;
 
 use Epush\Core\MessageReport\Domain\UseCase\GetMessageReportUseCase;
 use Epush\Core\MessageReport\Domain\UseCase\AddMessageReportUseCase;
@@ -20,6 +21,7 @@ use Epush\Core\MessageReport\Domain\UseCase\ListMessageReportsUseCase;
 use Epush\Core\MessageReport\Domain\UseCase\DeleteMessageReportUseCase;
 use Epush\Core\MessageReport\Domain\UseCase\SearchMessageReportUseCase;
 use Epush\Core\MessageReport\Domain\UseCase\UpdateMessageReportUseCase;
+use Epush\Core\MessageReport\Domain\UseCase\GetMessageClientReportsUseCase;
 
 use Symfony\Component\HttpFoundation\Response;
 
@@ -61,5 +63,11 @@ class MessageReportController
     public function searchMessageReportColumn(SearchMessageReportDto $searchMessageReportDto, SearchMessageReportUseCase $searchMessageReportUseCase): Response
     {
         return jsonResponse($searchMessageReportUseCase->execute($searchMessageReportDto));
+    }
+
+    #[Post('/client/{user_id}')]
+    public function getMessageClientReportsColumn(GetMessageClientReportsDto $getMessageClientReportsDto, GetMessageClientReportsUseCase $getMessageClientReportsUseCase): Response
+    {
+        return jsonResponse($getMessageClientReportsUseCase->execute($getMessageClientReportsDto));
     }
 }

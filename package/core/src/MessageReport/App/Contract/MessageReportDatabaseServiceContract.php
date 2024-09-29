@@ -15,4 +15,6 @@ interface MessageReportDatabaseServiceContract
     public function paginateMessageReports(int $take): array;
 
     public function searchMessageReportColumn(string $column, string $value, int $take = 10): array;
+
+    public function getMessageClientReports(string $userID): array;
 }
