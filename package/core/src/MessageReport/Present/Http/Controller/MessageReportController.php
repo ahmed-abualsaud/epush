@@ -65,7 +65,7 @@ class MessageReportController
         return jsonResponse($searchMessageReportUseCase->execute($searchMessageReportDto));
     }
 
-    #[Post('/client/{user_id}')]
+    #[Get('/client/{user_id}')]
     public function getMessageClientReportsColumn(GetMessageClientReportsDto $getMessageClientReportsDto, GetMessageClientReportsUseCase $getMessageClientReportsUseCase): Response
     {
         return jsonResponse($getMessageClientReportsUseCase->execute($getMessageClientReportsDto));
