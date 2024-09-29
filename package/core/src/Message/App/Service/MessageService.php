@@ -16,13 +16,15 @@ use Epush\Core\Message\App\Contract\MessageDatabaseServiceContract;
 
 use Epush\Core\MessageGroup\App\Contract\MessageGroupServiceContract;
 use Epush\Core\MessageFilter\App\Contract\MessageFilterServiceContract;
+use Epush\Core\MessageReport\App\Contract\MessageReportServiceContract;
 use Epush\Core\MessageSegment\App\Contract\MessageSegmentServiceContract;
 use Epush\Core\MessageLanguage\App\Contract\MessageLanguageServiceContract;
 use Epush\Core\MessageRecipient\App\Contract\MessageRecipientServiceContract;
 use Epush\Core\SenderConnection\App\Contract\SenderConnectionServiceContract;
 use Epush\Core\MessageGroupRecipient\App\Contract\MessageGroupRecipientServiceContract;
-use Epush\Core\MessageReport\App\Contract\MessageReportServiceContract;
+
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
+
 
 class MessageService implements MessageServiceContract
 {
@@ -190,6 +192,7 @@ class MessageService implements MessageServiceContract
         $this->messageSegmentService->add($message['id'], $segments);
 
         $this->messageDriver->insertMessage($message, $messageGroupRecipients, $status);
+        $this->messageReportService->updateMessageClientReports($userID, $numberOfRecipients);
 
         return $this->get($message['id']);
     }
@@ -342,6 +345,8 @@ class MessageService implements MessageServiceContract
                 WalletActions::DEDUCT->value
             );
         }
+        
+        $this->messageReportService->updateMessageClientReports($userID, $numberOfRecipients);
 
         return $messages;    
     }
@@ -653,6 +658,7 @@ class MessageService implements MessageServiceContract
             'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
         ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], $status);
 
+        $this->messageReportService->updateMessageClientReports($user['id'], $numberOfRecipients);
 
         return [
             'new_msg_id' => $message['id'],
@@ -839,6 +845,8 @@ class MessageService implements MessageServiceContract
             'user_id' => $user['id'],
             'number_of_recipients' => count($adjustedSenderConnections['valid_numbers'])
         ], array_map(fn ($num) => ['number' => $num], $adjustedSenderConnections['valid_numbers']), $message['id'], $status);
+
+        $this->messageReportService->updateMessageClientReports($user['id'], $numberOfRecipients);
 
         return [
             'message' => $message,

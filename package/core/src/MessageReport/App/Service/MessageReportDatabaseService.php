@@ -47,4 +47,14 @@ class MessageReportDatabaseService implements MessageReportDatabaseServiceContra
     {
         return $this->messageReportDatabaseDriver->messageClientReportRepository()->getMessageClientReports($userID);
     }
+
+    public function initMessageClientReports(string $userID): array
+    {
+        return $this->messageReportDatabaseDriver->messageClientReportRepository()->initMessageClientReports($userID);
+    }
+
+    public function updateMessageClientReports(string $userID, int $count = 0): array
+    {
+        return $this->messageReportDatabaseDriver->messageClientReportRepository()->updateMessageClientReports($userID, $count);
+    }
 }

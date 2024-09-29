@@ -17,4 +17,8 @@ interface MessageReportDatabaseServiceContract
     public function searchMessageReportColumn(string $column, string $value, int $take = 10): array;
 
     public function getMessageClientReports(string $userID): array;
+
+    public function initMessageClientReports(string $userID): array;
+
+    public function updateMessageClientReports(string $userID, int $count = 0): array;
 }

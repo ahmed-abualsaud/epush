@@ -7,6 +7,7 @@ use Epush\Auth\User\App\Contract\UserServiceContract;
 use Epush\Auth\User\App\Contract\CredentialsServiceContract;
 use Epush\Auth\User\App\Contract\UserDatabaseServiceContract;
 use Epush\Auth\User\Infra\Recaptcha\RecaptchaDriverContract;
+use Epush\Core\MessageReport\App\Contract\MessageReportServiceContract;
 use Epush\Shared\Infra\InterprocessCommunication\Contract\InterprocessCommunicationEngineContract;
 use Illuminate\Support\Facades\Log;
 
@@ -19,7 +20,8 @@ class UserService implements UserServiceContract
         private RecaptchaDriverContract $recaptchaDriver,
         private CredentialsServiceContract $credentialsService,
         private UserDatabaseServiceContract $userDatabaseService,
-        private InterprocessCommunicationEngineContract $communicationEngine
+        private MessageReportServiceContract $messageReportService,
+        private InterprocessCommunicationEngineContract $communicationEngine,
 
     ) {}
 
@@ -68,6 +70,7 @@ class UserService implements UserServiceContract
 
         ! empty($roleName) && $this->userDatabaseService->assignUserRole($user['id'], $roleName);
 
+        $this->messageReportService->initMessageClientReports($user['id']);
         return $user;
     }
 
