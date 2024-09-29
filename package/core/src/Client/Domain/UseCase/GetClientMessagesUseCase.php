@@ -18,6 +18,6 @@ class GetClientMessagesUseCase
     public function execute(ClientDto $clientDto): array
     {
         $this->validationService->validate($clientDto->toArray(), ClientDto::rules());
-        return $this->clientService->getClientMessages($clientDto->getUserID());
+        return $this->clientService->getClientMessages($clientDto->getUserID(), $clientDto->getTakeSize());
     }
 }

@@ -119,10 +119,13 @@ class SenderService implements SenderServiceContract
         ]);
 
         app(OrderDatabaseServiceContract::class)->addOrder([
-            'credit' => 0,
+            'credit' => config('client.default_balance'),
+            'status' => 'Paid',
             'user_id' => $superAdmin['id'],
             'pricelist_id' => config('client.default_price_list_id'),
             'payment_method_id' => config('client.default_payment_method_id'),
+            'deduct' => 0,
+            'collection_date' => date('Y:m:d H:i:s')
         ]);
     }
 }

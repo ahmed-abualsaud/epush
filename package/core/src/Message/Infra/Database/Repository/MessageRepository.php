@@ -42,16 +42,33 @@ class MessageRepository implements MessageRepositoryContract
         });
     }
 
-    public function getClientMessages(string $userID): array
+    public function getClientMessages(string $userID, int $take = null): array
     {
-        return DB::transaction(function () use ($userID) {
+        return DB::transaction(function () use ($userID, $take) {
 
+            if ($take != null && $take > 0) {
+                return $this->message->with([
+                    'segments',
+                    'language',
+                    'sender',
+                    // 'recipients' => ['messageGroupRecipient']
+                ])
+                ->where('user_id', $userID)
+                ->latest()
+                ->take($take)
+                ->get()
+                ->toArray();
+            }
             return $this->message->with([
                 'segments',
                 'language',
                 'sender',
                 // 'recipients' => ['messageGroupRecipient']
-            ])->where('user_id', $userID)->latest()->get()->toArray();
+            ])
+            ->where('user_id', $userID)
+            ->latest()
+            ->get()
+            ->toArray();
 
         });
     }

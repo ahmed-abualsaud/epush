@@ -97,9 +97,9 @@ class ClientService implements ClientServiceContract
         return $this->communicationEngine->broadcast("core:sender:get-client-senders", $userID)[0];
     }
 
-    public function getClientMessages(string $userID): array
+    public function getClientMessages(string $userID, int $take = null): array
     {
-        return $this->communicationEngine->broadcast("core:message:get-client-messages", $userID)[0];
+        return $this->communicationEngine->broadcast("core:message:get-client-messages", $userID, $take)[0];
     }
 
     public function getClientMessageGroups(string $userID): array

@@ -18,9 +18,9 @@ class MessageDatabaseService implements MessageDatabaseServiceContract
         return $this->messageDatabaseDriver->messageRepository()->get($messageID);
     }
 
-    public function getClientMessages(string $userID): array
+    public function getClientMessages(string $userID, int $take = null): array
     {
-        return $this->messageDatabaseDriver->messageRepository()->getClientMessages($userID);
+        return $this->messageDatabaseDriver->messageRepository()->getClientMessages($userID, $take);
     }
 
     public function getMessagesByUsersID(array $usersID, int $take = 10): array

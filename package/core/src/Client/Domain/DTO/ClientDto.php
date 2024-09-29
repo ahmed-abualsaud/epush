@@ -24,4 +24,9 @@ class ClientDto implements DtoContract
     {
         return $this->data['user_id']?? '';
     }
+
+    public function getTakeSize(): string
+    {
+        return $this->data['take']?? null;
+    }
 }

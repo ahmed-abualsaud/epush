@@ -18,6 +18,7 @@ class GetClientMessagesMicroprocess implements MicroprocessContract
     public function listen(InterprocessCommunicationEngineContract $engine, string $event = null, mixed ...$data): mixed
     {
         [$userID] = $data;
-        return $this->messageService->getClientMessages($userID);
+        $take = count($data) >= 2 ? $data[1] : null;
+        return $this->messageService->getClientMessages($userID, $take);
     }
 }

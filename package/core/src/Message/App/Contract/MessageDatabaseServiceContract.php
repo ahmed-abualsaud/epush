@@ -6,7 +6,7 @@ interface MessageDatabaseServiceContract
 {
     public function getMessage(string $messageID): array;
 
-    public function getClientMessages(string $userID): array;
+    public function getClientMessages(string $userID, int $take = null): array;
 
     public function getMessagesByUsersID(array $usersID, int $take = 10): array;
 

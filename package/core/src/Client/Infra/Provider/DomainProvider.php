@@ -30,7 +30,10 @@ class DomainProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ClientDto::class, function () {
-            return new ClientDto(['user_id' => $this->app->make('request')->route('user_id')]);
+            return new ClientDto([
+                'user_id' => $this->app->make('request')->route('user_id'),
+                'take' => $this->app->make('request')->input('take') ?? null
+            ]);
         });
 
         $this->app->bind(AddClientDto::class, function () {

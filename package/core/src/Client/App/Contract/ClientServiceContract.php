@@ -20,7 +20,7 @@ interface ClientServiceContract
 
     public function getClientsBySalesID(array $salesID): array;
 
-    public function getClientMessages(string $userID): array;
+    public function getClientMessages(string $userID, int $take = null): array;
 
     public function getClientMessageGroups(string $userID): array;
 
