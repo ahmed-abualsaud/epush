@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('message_groups', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('saved')->default(false);
             $table->unsignedBigInteger('number_of_recipients')->default(0);
             $table->unsignedBigInteger('valid')->default(0);
